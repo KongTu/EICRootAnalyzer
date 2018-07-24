@@ -87,7 +87,7 @@ void run_test(TString inFileNames, int nEvents ) {
 
          if( status > 10 ) continue;
 
-         if (index == 1 || index == 2){
+         if (index == 8 || index == 9){
 
             total4Mom_incoming += particle_4mom;
             cout << "particle index " << index << " with energy " << particle_4mom.E() << endl;
