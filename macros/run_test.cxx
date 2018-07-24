@@ -84,10 +84,15 @@ void run_test(TString inFileNames, int nEvents ) {
          if (index == 1 || index == 2){
 
             total4Mom_incoming += particle_4mom;
+            cout << "incoming parentIndex: " << particle->GetParentIndex() << endl;
+
          }
          else{
 
             total4Mom_outgoing += particle_4mom;
+
+            cout << "outgoing parentIndex: " << particle->GetParentIndex() << endl;
+
          }     
 	   
 	      ptHist.Fill(particle->GetPt());
@@ -95,10 +100,10 @@ void run_test(TString inFileNames, int nEvents ) {
 
       } // for
 
-      cout << "incoming energy = " << total4Mom_incoming.E() <<  "vs outgoing energy = " << total4Mom_outgoing.E() <<endl;
-      cout << "incoming px = " << total4Mom_incoming.Px() <<  "vs outgoing px = " << total4Mom_outgoing.Px() <<endl;
-      cout << "incoming py = " << total4Mom_incoming.Py() <<  "vs outgoing py = " << total4Mom_outgoing.Py() <<endl;
-      cout << "incoming pz = " << total4Mom_incoming.Pz() <<  "vs outgoing pz = " << total4Mom_outgoing.Pz() <<endl;
+      // cout << "incoming energy = " << total4Mom_incoming.E() <<  " vs outgoing energy = " << total4Mom_outgoing.E() <<endl;
+      // cout << "incoming px = " << total4Mom_incoming.Px() <<  " vs outgoing px = " << total4Mom_outgoing.Px() <<endl;
+      // cout << "incoming py = " << total4Mom_incoming.Py() <<  " vs outgoing py = " << total4Mom_outgoing.Py() <<endl;
+      // cout << "incoming pz = " << total4Mom_incoming.Pz() <<  " vs outgoing pz = " << total4Mom_outgoing.Pz() <<endl;
 
 
       cout << "-------------------" << endl;
