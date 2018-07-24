@@ -85,18 +85,15 @@ void run_test(TString inFileNames, int nEvents ) {
 
          TLorentzVector particle_4mom = particle->PxPyPzE();
 
-         if( status > 10 ) continue;
-
-         if (index == 8 || index == 9){
+         if (index == 1 || index == 2){
 
             total4Mom_incoming += particle_4mom;
-            cout << "particle index " << index << " with energy " << particle_4mom.E() << endl;
+            cout << "Particle index " << index << " status = " << status << " with energy " << particle_4mom.E() << endl;
          }
          else{
 
             total4Mom_outgoing += particle_4mom;
-            cout << "particle index " << index << " with energy " << particle_4mom.E() << endl;
-
+            cout << "Particle index " << index << " status = " << status << " with energy " << particle_4mom.E() << endl;
          }    
 
 	      ptHist.Fill(particle->GetPt());
