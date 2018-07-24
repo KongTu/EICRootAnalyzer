@@ -85,7 +85,7 @@ void run_test(TString inFileNames, int nEvents ) {
 
          TLorentzVector particle_4mom = particle->Get4Vector();
 
-         if( status != 1 ) continue;
+         if( status > 10 ) continue;
 
          if (index == 1 || index == 2){
 
