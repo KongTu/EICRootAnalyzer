@@ -87,7 +87,7 @@ void run_test(TString inFileNames, int nEvents ) {
          }
          else{
 
-            total4Mom_outgoing += particle_4mom
+            total4Mom_outgoing += particle_4mom;
          }     
 	   
 	      ptHist.Fill(particle->GetPt());
