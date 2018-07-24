@@ -73,21 +73,19 @@ void run_test(TString inFileNames, int nEvents ) {
 	 // Let's just select charged pions for this example:
          int pdg = particle->GetPdgCode();
          int status = particle->GetStatus();
-         double particle_pt = particle->GetPt();  
+         //double particle_pt = particle->GetPt();  
 
-         TLorentzVector particle_4mom =  particle->Get4Vector();
+         TLorentzVector particle_4mom = particle->Get4Vector();
          total4Momentum += particle_4mom;      
 	   
 	      ptHist.Fill(particle->GetPt());
          statusHist.Fill( status ); 
 
-         pTvsThat->Fill( particle_pt, t_hat );
-
       } // for
 
-      cout << "total energy " << total4Momentum.E() << endl;
-      cout << "total pT " << sqrt(total4Momentum.Px()*total4Momentum.Px() + total4Momentum.Py()*total4Momentum.Py()) << endl;
-	
+      double particle_pt = sqrt(total4Momentum.Px()*total4Momentum.Px() + total4Momentum.Py()*total4Momentum.Py());
+      pTvsThat->Fill( particle_pt, t_hat );
+      	
    } // for
 
 
