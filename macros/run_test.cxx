@@ -95,5 +95,6 @@ void run_test(TString inFileNames, int nEvents ) {
    ptHist.Write();    
    statusHist.Write();
    pTvsThat->Write();
+   Ntrk->Write();
 }
 
