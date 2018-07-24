@@ -72,6 +72,7 @@ void run_test(TString inFileNames, int nEvents ) {
       TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
       TLorentzVector total4Mom_incoming(0.,0.,0.,0.);
 
+      cout << "--------- event " << i << "------- " << endl;
       // We now know the number of particles in the event, so loop over
       // the particles:
       for(int j(0); j < nParticles; ++j ) {
@@ -94,7 +95,10 @@ void run_test(TString inFileNames, int nEvents ) {
             total4Mom_outgoing += particle_4mom;
             cout << "particle index " << index << " with energy " << particle_4mom.E() << endl;
 
-         }     
+         }    
+
+         cout << "---------------- " << endl;
+ 
 	   
 	      ptHist.Fill(particle->GetPt());
          statusHist.Fill( status ); 
