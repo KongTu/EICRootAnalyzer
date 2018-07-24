@@ -87,10 +87,13 @@ void run_test(TString inFileNames, int nEvents ) {
          if (index == 1 || index == 2){
 
             total4Mom_incoming += particle_4mom;
+            cout << "particle index " << index << " with energy " << particle_4mom.E() << endl;
          }
          else{
 
             total4Mom_outgoing += particle_4mom;
+            cout << "particle index " << index << " with energy " << particle_4mom.E() << endl;
+
          }     
 	   
 	      ptHist.Fill(particle->GetPt());
@@ -108,7 +111,6 @@ void run_test(TString inFileNames, int nEvents ) {
 
       	
    } // for
-
 
    TFile output("test.root","RECREATE");
    ptHist.Write();    
