@@ -63,6 +63,8 @@ void run_test(TString inFileNames, int nEvents ) {
       //event t_hat
       double t_hat = event->GetHardT();
       
+      TLorentzVector* total4Momentum;
+
       // We now know the number of particles in the event, so loop over
       // the particles:
       for(int j(0); j < nParticles; ++j ) {
@@ -71,7 +73,10 @@ void run_test(TString inFileNames, int nEvents ) {
 	 // Let's just select charged pions for this example:
          int pdg = particle->GetPdgCode();
          int status = particle->GetStatus();
-         double particle_pt = particle->GetPt();         
+         double particle_pt = particle->GetPt();  
+
+         TLorentzVector* particle_4mom = particle->Get4Vector();
+         total4Momentum += particle_4mom;      
 	   
 	      ptHist.Fill(particle->GetPt());
          statusHist.Fill( status ); 
@@ -79,8 +84,13 @@ void run_test(TString inFileNames, int nEvents ) {
          pTvsThat->Fill( particle_pt, t_hat );
 
       } // for
+
+      cout << "total energy " << total4Momentum.E() << endl;
+      cout << "total pT " << sqrt(total4Momentum.Px()*total4Momentum.Px() + total4Momentum.Py()*total4Momentum.Py()) << endl;
 	
    } // for
+
+
   
    TFile output("test.root","RECREATE");
    ptHist.Write();    
