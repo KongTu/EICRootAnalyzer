@@ -84,15 +84,11 @@ void run_test(TString inFileNames, int nEvents ) {
          if (index == 1 || index == 2){
 
             total4Mom_incoming += particle_4mom;
-            cout << "incoming parentIndex: " << particle->GetParentIndex() << endl;
-
          }
-         else{
+         else if (index == 4){
 
-            total4Mom_outgoing += particle_4mom;
-
-            cout << "outgoing parentIndex: " << particle->GetParentIndex() << endl;
-
+            //total4Mom_outgoing += particle_4mom;
+            total4Mom_outgoing = particle_4mom;
          }     
 	   
 	      ptHist.Fill(particle->GetPt());
