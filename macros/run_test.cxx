@@ -66,6 +66,8 @@ void run_test(TString inFileNames, int nEvents ) {
       
       TLorentzVector total4Momentum ;
 
+      cout << "-------- event " << i << "-----------" << endl;
+
       // We now know the number of particles in the event, so loop over
       // the particles:
       for(int j(0); j < nParticles; ++j ) {
@@ -74,6 +76,15 @@ void run_test(TString inFileNames, int nEvents ) {
 	 // Let's just select charged pions for this example:
          int pdg = particle->GetPdgCode();
          int status = particle->GetStatus();
+
+         if( status == 1 ) cout << "status 1 particle ID: " << pdg << endl;
+         if( status == 2 ) cout << "status 2 particle ID: " << pdg << endl;
+         if( status == 3 ) cout << "status 3 particle ID: " << pdg << endl;
+         if( status == 11 ) cout << "status 11 particle ID: " << pdg << endl;
+         if( status == 12 ) cout << "status 12 particle ID: " << pdg << endl;
+         if( status == 21 ) cout << "status 12 particle ID: " << pdg << endl;
+         if( status == 18 ) cout << "status 18 particle ID: " << pdg << endl;
+
          //double particle_pt = particle->GetPt();  
 
          TLorentzVector particle_4mom = particle->Get4Vector();
@@ -83,6 +94,9 @@ void run_test(TString inFileNames, int nEvents ) {
          statusHist.Fill( status ); 
 
       } // for
+
+      cout << "-------------------" << endl;
+
 
       double particle_pt = sqrt(total4Momentum.Px()*total4Momentum.Px() + total4Momentum.Py()*total4Momentum.Py());
       pTvsThat->Fill( particle_pt, t_hat );
