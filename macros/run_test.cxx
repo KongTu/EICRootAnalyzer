@@ -51,6 +51,7 @@ void run_test(TString inFileNames, int nEvents ) {
    TH1D ptHist("ptHist", "pT of charged pions", 500, 0.0, 10 );
    TH1D statusHist("statusHist", "status distribution  ", 50, 0, 50 );
    
+   TH1D* Ntrk = new TH1D("Ntrk",";Ntrk", 100, 0, 100);
    TH2D* pTvsThat = new TH2D("pTvsThat",";pT;t_hat", 1000,0,10,1000,-10,10);
    // Loop over events:
    for(int i(0); i < nEvents; ++i ) {
@@ -85,11 +86,11 @@ void run_test(TString inFileNames, int nEvents ) {
 
       double particle_pt = sqrt(total4Momentum.Px()*total4Momentum.Px() + total4Momentum.Py()*total4Momentum.Py());
       pTvsThat->Fill( particle_pt, t_hat );
+      Ntrk->Fill(nParticles);
       	
    } // for
 
 
-  
    TFile output("test.root","RECREATE");
    ptHist.Write();    
    statusHist.Write();
