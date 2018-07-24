@@ -85,6 +85,8 @@ void run_test(TString inFileNames, int nEvents ) {
 
          TLorentzVector particle_4mom = particle->Get4Vector();
 
+         if( status != 1 ) continue;
+
          if (index == 1 || index == 2){
 
             total4Mom_incoming += particle_4mom;
@@ -97,13 +99,13 @@ void run_test(TString inFileNames, int nEvents ) {
 
          }    
 
-         cout << "---------------- " << endl;
- 
-	   
 	      ptHist.Fill(particle->GetPt());
          statusHist.Fill( status ); 
 
       } // for
+
+      cout << "---------------- " << endl;
+
 
       double particle_pt = sqrt(total4Mom_outgoing.Px()*total4Mom_outgoing.Px() + total4Mom_outgoing.Py()*total4Mom_outgoing.Py());
       pTvsThat->Fill( particle_pt, t_hat );
