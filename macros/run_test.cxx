@@ -63,7 +63,7 @@ void run_test(TString inFileNames, int nEvents ) {
       //event t_hat
       double t_hat = event->GetHardT();
       
-      TLorentzVector* total4Momentum;
+      TLorentzVector total4Momentum ;
 
       // We now know the number of particles in the event, so loop over
       // the particles:
@@ -75,7 +75,7 @@ void run_test(TString inFileNames, int nEvents ) {
          int status = particle->GetStatus();
          double particle_pt = particle->GetPt();  
 
-         TLorentzVector* particle_4mom = (TLorentzVector*) particle->Get4Vector();
+         TLorentzVector particle_4mom =  particle->Get4Vector();
          total4Momentum += particle_4mom;      
 	   
 	      ptHist.Fill(particle->GetPt());
