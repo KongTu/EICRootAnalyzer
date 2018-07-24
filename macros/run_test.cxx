@@ -16,8 +16,8 @@ void run_test(TString inFileNames, int nEvents ) {
    // Warning in <TClass::TClass>: no dictionary for class Particle is available
    // but these can be ignored. However if you wish to work with the event
    // objects themselves, the shared library must be loaded:
-   //gSystem->Load("/afs/rhic.bnl.gov/eic/MACROS/BuildTree/BuildTree.so" ); // To use the master version
-   gSystem->Load("../lib/BuildTree.so" ); // To use your own compiled version
+   gSystem->Load("/afs/rhic.bnl.gov/eic/MACROS/BuildTree/lib/BuildTree.so" ); // To use the master version
+   //gSystem->Load("../lib/BuildTree.so" ); // To use your own compiled version
    
    // The TTrees are named EICTree.
    // Create a TChain for trees with this name.
@@ -48,12 +48,10 @@ void run_test(TString inFileNames, int nEvents ) {
    //double highestPt(-1. );
    
    // Histograms for our analysis.
-   TH1D ptHist("ptHist",
-               "pT of charged pions",
-               500, 0.0, 10 );
-   TH1D statusHist("statusHist",
-               "status distribution  ",
-               50, 0, 50 );
+   TH1D ptHist("ptHist", "pT of charged pions", 500, 0.0, 10 );
+   TH1D statusHist("statusHist", "status distribution  ", 50, 0, 50 );
+   
+   TH2D* pTvsThat = new TH2D("pTvsThat",";pT;t_hat", 1000,0,10,1000,-10,10);
    // Loop over events:
    for(int i(0); i < nEvents; ++i ) {
       
@@ -62,10 +60,9 @@ void run_test(TString inFileNames, int nEvents ) {
       
       // The event contains a vector (array) of particles.
       int nParticles = event->GetNTracks();
-      //cout << "nParticles: " << nParticles << endl;
-      //cout << "t_hat: " << event->GetHardT() << endl;
-      double total_pT = 0.0;
-
+      //event t_hat
+      double t_hat = event->GetHardT();
+      
       // We now know the number of particles in the event, so loop over
       // the particles:
       for(int j(0); j < nParticles; ++j ) {
@@ -74,11 +71,13 @@ void run_test(TString inFileNames, int nEvents ) {
 	 // Let's just select charged pions for this example:
          int pdg = particle->GetPdgCode();
          int status = particle->GetStatus();
-         //(abs(pdg) != 211 ) continue;
-         
-	 //total_pT += particle->GetPt();   
-	 ptHist.Fill(particle->GetPt());
+         double particle_pt = particle->GetPt();         
+	   
+	      ptHist.Fill(particle->GetPt());
          statusHist.Fill( status ); 
+
+         pTvsThat->Fill( particle_pt, t_hat );
+
       } // for
 	
    } // for
@@ -86,5 +85,6 @@ void run_test(TString inFileNames, int nEvents ) {
    TFile output("test.root","RECREATE");
    ptHist.Write();    
    statusHist.Write();
+   pTvsThat->Write();
 }
 
