@@ -64,7 +64,8 @@ void run_test(TString inFileNames, int nEvents ) {
       //event t_hat
       double t_hat = event->GetHardT();
       
-      TLorentzVector total4Momentum ;
+      TLorentzVector total4Mom_outgoing ;
+      TLorentzVector total4Mom_incoming;
 
       cout << "-------- event " << i << "-----------" << endl;
 
@@ -76,25 +77,29 @@ void run_test(TString inFileNames, int nEvents ) {
 	 // Let's just select charged pions for this example:
          int pdg = particle->GetPdgCode();
          int status = particle->GetStatus();
-         int index = particle->GetIndex();
-
-         if( status == 1 ) cout << "status 1 particle ID: " << pdg << " with index" << index << endl;
-         if( status == 2 ) cout << "status 2 particle ID: " << pdg << " with index" << index << endl;
-         if( status == 3 ) cout << "status 3 particle ID: " << pdg << " with index" << index << endl;
-         if( status == 11 ) cout << "status 11 particle ID: " << pdg << " with index" << index << endl;
-         if( status == 12 ) cout << "status 12 particle ID: " << pdg << " with index" << index << endl;
-         if( status == 21 ) cout << "status 12 particle ID: " << pdg << " with index" << index << endl;
-         if( status == 18 ) cout << "status 18 particle ID: " << pdg << " with index" << index << endl;
-
-         //double particle_pt = particle->GetPt();  
+         int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
 
          TLorentzVector particle_4mom = particle->Get4Vector();
-         total4Momentum += particle_4mom;      
+
+         if (index == 1 || index == 2){
+
+            total4Mom_incoming += particle_4mom;
+         }
+         else{
+
+            total4Mom_outgoing += particle_4mom
+         }     
 	   
 	      ptHist.Fill(particle->GetPt());
          statusHist.Fill( status ); 
 
       } // for
+
+      cout << "incoming energy = " << total4Mom_incoming.E() <<  << "vs outgoing energy" << total4Mom_outgoing.E() <<endl;
+      cout << "incoming px = " << total4Mom_incoming.Px() <<  << "vs outgoing px" << total4Mom_outgoing.Px() <<endl;
+      cout << "incoming py = " << total4Mom_incoming.Py() <<  << "vs outgoing py" << total4Mom_outgoing.Py() <<endl;
+      cout << "incoming pz = " << total4Mom_incoming.Pz() <<  << "vs outgoing pz" << total4Mom_outgoing.Pz() <<endl;
+
 
       cout << "-------------------" << endl;
 
