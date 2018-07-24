@@ -75,7 +75,7 @@ void run_test(TString inFileNames, int nEvents ) {
          int status = particle->GetStatus();
          double particle_pt = particle->GetPt();  
 
-         TLorentzVector* particle_4mom = particle->Get4Vector();
+         TLorentzVector* particle_4mom = (TLorentzVector*) particle->Get4Vector();
          total4Momentum += particle_4mom;      
 	   
 	      ptHist.Fill(particle->GetPt());
