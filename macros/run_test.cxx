@@ -53,6 +53,11 @@ void run_test(TString inFileNames, int nEvents ) {
    
    TH1D* Ntrk = new TH1D("Ntrk",";Ntrk", 100, 0, 100);
    TH2D* pTvsThat = new TH2D("pTvsThat",";pT;t_hat", 1000,0,10,1000,-10,10);
+   TH2D* energy_corr = new TH2D("energy_corr",";incoming;outgoing", 100,0,1000,100,0,1000);
+   TH2D* px_corr = new TH2D("px_corr",";incoming;outgoing", 100,0,1000,100,0,1000);
+   TH2D* py_corr = new TH2D("py_corr",";incoming;outgoing", 100,0,1000,100,0,1000);
+   TH2D* pz_corr = new TH2D("pz_corr",";incoming;outgoing", 100,0,1000,100,0,1000);
+
    // Loop over events:
    for(int i(0); i < nEvents; ++i ) {
       
@@ -64,10 +69,8 @@ void run_test(TString inFileNames, int nEvents ) {
       //event t_hat
       double t_hat = event->GetHardT();
       
-      TLorentzVector total4Mom_outgoing ;
-      TLorentzVector total4Mom_incoming;
-
-      cout << "-------- event " << i << "-----------" << endl;
+      TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
+      TLorentzVector total4Mom_incoming(0.,0.,0.,0.);
 
       // We now know the number of particles in the event, so loop over
       // the particles:
@@ -85,10 +88,9 @@ void run_test(TString inFileNames, int nEvents ) {
 
             total4Mom_incoming += particle_4mom;
          }
-         else if (index == 4){
+         else{
 
-            //total4Mom_outgoing += particle_4mom;
-            total4Mom_outgoing = particle_4mom;
+            total4Mom_outgoing += particle_4mom;
          }     
 	   
 	      ptHist.Fill(particle->GetPt());
@@ -96,18 +98,14 @@ void run_test(TString inFileNames, int nEvents ) {
 
       } // for
 
-      // cout << "incoming energy = " << total4Mom_incoming.E() <<  " vs outgoing energy = " << total4Mom_outgoing.E() <<endl;
-      // cout << "incoming px = " << total4Mom_incoming.Px() <<  " vs outgoing px = " << total4Mom_outgoing.Px() <<endl;
-      // cout << "incoming py = " << total4Mom_incoming.Py() <<  " vs outgoing py = " << total4Mom_outgoing.Py() <<endl;
-      // cout << "incoming pz = " << total4Mom_incoming.Pz() <<  " vs outgoing pz = " << total4Mom_outgoing.Pz() <<endl;
-
-
-      cout << "-------------------" << endl;
-
-
       double particle_pt = sqrt(total4Mom_outgoing.Px()*total4Mom_outgoing.Px() + total4Mom_outgoing.Py()*total4Mom_outgoing.Py());
       pTvsThat->Fill( particle_pt, t_hat );
       Ntrk->Fill(nParticles);
+      energy_corr->Fill( total4Mom_incoming.E(), total4Mom_outgoing.E() );
+      px_corr->Fill( total4Mom_incoming.Px(), total4Mom_outgoing.Px() );
+      py_corr->Fill( total4Mom_incoming.Py(), total4Mom_outgoing.Py() );
+      pz_corr->Fill( total4Mom_incoming.Pz(), total4Mom_outgoing.Pz() );
+
       	
    } // for
 
@@ -117,5 +115,10 @@ void run_test(TString inFileNames, int nEvents ) {
    statusHist.Write();
    pTvsThat->Write();
    Ntrk->Write();
+   energy_corr->Write();
+   px_corr->Write();
+   py_corr->Write();
+   pz_corr->Write();
+
 }
 
