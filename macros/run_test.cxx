@@ -76,14 +76,15 @@ void run_test(TString inFileNames, int nEvents ) {
 	 // Let's just select charged pions for this example:
          int pdg = particle->GetPdgCode();
          int status = particle->GetStatus();
+         int index = particle->GetIndex();
 
-         if( status == 1 ) cout << "status 1 particle ID: " << pdg << endl;
-         if( status == 2 ) cout << "status 2 particle ID: " << pdg << endl;
-         if( status == 3 ) cout << "status 3 particle ID: " << pdg << endl;
-         if( status == 11 ) cout << "status 11 particle ID: " << pdg << endl;
-         if( status == 12 ) cout << "status 12 particle ID: " << pdg << endl;
-         if( status == 21 ) cout << "status 12 particle ID: " << pdg << endl;
-         if( status == 18 ) cout << "status 18 particle ID: " << pdg << endl;
+         if( status == 1 ) cout << "status 1 particle ID: " << pdg << " with index" << index << endl;
+         if( status == 2 ) cout << "status 2 particle ID: " << pdg << " with index" << index << endl;
+         if( status == 3 ) cout << "status 3 particle ID: " << pdg << " with index" << index << endl;
+         if( status == 11 ) cout << "status 11 particle ID: " << pdg << " with index" << index << endl;
+         if( status == 12 ) cout << "status 12 particle ID: " << pdg << " with index" << index << endl;
+         if( status == 21 ) cout << "status 12 particle ID: " << pdg << " with index" << index << endl;
+         if( status == 18 ) cout << "status 18 particle ID: " << pdg << " with index" << index << endl;
 
          //double particle_pt = particle->GetPt();  
 
