@@ -83,7 +83,7 @@ void run_test(TString inFileNames, int nEvents ) {
          int status = particle->GetStatus();
          int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
 
-         TLorentzVector particle_4mom = particle->Get4Vector();
+         TLorentzVector particle_4mom = particle->PxPyPzE();
 
          if( status > 10 ) continue;
 
