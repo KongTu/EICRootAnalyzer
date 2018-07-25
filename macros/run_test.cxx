@@ -26,7 +26,7 @@ void run_test(int nEvents ) {
    
    // Add the file(s) we want to analyse to the chain.
    // We could add multiple files if we wanted.
-   tree.Add("../../EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_wrongpf.root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
+   tree->Add("../../EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_wrongpf.root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
 // tree.Add(/path/to/otherFileNames ); // etc... 
    
    // Create an object to store the current event from the tree.
@@ -41,15 +41,15 @@ void run_test(int nEvents ) {
    EventBeagle* event_beagle(NULL);
    // Now associate the contents of the branch with the buffer.
    // The events are stored in a branch named event:
-   tree.SetBranchAddress("event", &event ); // Note &event, not event.
+   tree->SetBranchAddress("event", &event ); // Note &event, not event.
    // tree.SetBranchAddress("event", &event_beagle ); // Note &event, not event.
       
-   TBranchElement* branch = (TBranchElement*) tree.GetBranch("Atarg");
-   TBranchElement* branch_pz = (TBranchElement*) tree.GetBranch("pztarg");
-   TBranchElement* branch_pzlep = (TBranchElement*) tree.GetBranch("pzlep");
-   TBranchElement* branch_pxf = (TBranchElement*) tree.GetBranch("pxf");
-   TBranchElement* branch_pyf = (TBranchElement*) tree.GetBranch("pyf");
-   TBranchElement* branch_pzf = (TBranchElement*) tree.GetBranch("pzf");
+   TBranchElement* branch = (TBranchElement*) tree->GetBranch("Atarg");
+   TBranchElement* branch_pz = (TBranchElement*) tree->GetBranch("pztarg");
+   TBranchElement* branch_pzlep = (TBranchElement*) tree->GetBranch("pzlep");
+   TBranchElement* branch_pxf = (TBranchElement*) tree->GetBranch("pxf");
+   TBranchElement* branch_pyf = (TBranchElement*) tree->GetBranch("pyf");
+   TBranchElement* branch_pzf = (TBranchElement*) tree->GetBranch("pzf");
 
    // Now we can do some analysis...
    
@@ -71,7 +71,7 @@ void run_test(int nEvents ) {
    for(int i(0); i < nEvents; ++i ) {
       
       // Read the next entry from the tree.
-      tree.GetEntry(i);
+      tree->GetEntry(i);
 
       //Deuteron
       double pztarg = branch_pz->GetValue(0,0);
