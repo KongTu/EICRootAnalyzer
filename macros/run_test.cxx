@@ -38,7 +38,7 @@ void run_test(TString inFileNames, int nEvents ) {
    // you can use EventBase and the macro will be general for any Monte Carlo.
    EventPythia* event(NULL);// = new EventPythia;
    //EventBase* event(NULL);
-   
+   EventBeAGLE* event_beagle(NULL);
    // Now associate the contents of the branch with the buffer.
    // The events are stored in a branch named event:
    tree.SetBranchAddress("event", &event ); // Note &event, not event.
@@ -61,10 +61,10 @@ void run_test(TString inFileNames, int nEvents ) {
    
    TH1D* Ntrk = new TH1D("Ntrk",";Ntrk", 100, 0, 100);
    TH2D* pTvsThat = new TH2D("pTvsThat",";pT;t_hat", 1000,0,10,1000,-10,10);
-   TH2D* energy_corr = new TH2D("energy_corr",";incoming energy;outgoing energy", 1000,0,1000,1000,0,1000);
-   TH2D* px_corr = new TH2D("px_corr",";incoming px;outgoing px", 100,0,1000,100,0,1000);
-   TH2D* py_corr = new TH2D("py_corr",";incoming py;outgoing py", 100,0,1000,100,0,1000);
-   TH2D* pz_corr = new TH2D("pz_corr",";incoming pz;outgoing pz", 1000,0,1000,1000,0,1000);
+   TH1D* energy_corr = new TH1D("energy_corr",";E_{in} - E_{out}",6000,-30,30);
+   TH1D* px_corr = new TH1D("px_corr","; px_{in} - px_{out}", 6000,-30,30);
+   TH1D* py_corr = new TH1D("py_corr","; py_{in} - py_{out}", 6000,-30,30);
+   TH1D* pz_corr = new TH1D("pz_corr","; pz_{in} - pz_{out}", 6000,-30,30);
 
    // Loop over events:
    for(int i(0); i < nEvents; ++i ) {
@@ -124,18 +124,10 @@ void run_test(TString inFileNames, int nEvents ) {
       
       pTvsThat->Fill( particle_ptF, t_hat );
       Ntrk->Fill(nParticles);
-      energy_corr->Fill( total4Mom_incoming.E(), total4Mom_outgoing.E() );
-      px_corr->Fill( total4Mom_incoming.Px(), total4Mom_outgoing.Px() );
-      py_corr->Fill( total4Mom_incoming.Py(), total4Mom_outgoing.Py() );
-      pz_corr->Fill( total4Mom_incoming.Pz(), total4Mom_outgoing.Pz() );
-      
-
-      cout << "--------- event " << i << "------- " << endl;
-
-      cout << "incoming pz " << total4Mom_incoming.Pz() << endl;
-      cout << "outgoing pz " << total4Mom_outgoing.Pz() << endl;
-
-      cout << "---------------- " << endl;
+      energy_corr->Fill( total4Mom_incoming.E() - total4Mom_outgoing.E() );
+      px_corr->Fill( total4Mom_incoming.Px() - total4Mom_outgoing.Px() );
+      py_corr->Fill( total4Mom_incoming.Py() - total4Mom_outgoing.Py() );
+      pz_corr->Fill( total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() );
 
    } // for
 
