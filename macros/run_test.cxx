@@ -26,7 +26,7 @@ void run_test(int nEvents ) {
    
    // Add the file(s) we want to analyse to the chain.
    // We could add multiple files if we wanted.
-   tree->Add("../../EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_wrongpf.root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
+   tree->Add("../../EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_fixpf.root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
 // tree.Add(/path/to/otherFileNames ); // etc... 
    
    // Create an object to store the current event from the tree.
@@ -133,7 +133,7 @@ void run_test(int nEvents ) {
 
    } // for
 
-   TFile output("wrongpf_JpsiNodecay_eD.root","RECREATE");
+   TFile output("fixpf_JpsiNodecay_eD.root","RECREATE");
    ptHist.Write();    
    statusHist.Write();
    pTvsThat->Write();
