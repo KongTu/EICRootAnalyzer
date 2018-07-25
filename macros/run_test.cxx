@@ -79,10 +79,11 @@ void run_test(TString inFileNames, int nEvents ) {
 
       //electron, neglect electron mass
       double pz_lepton = branch_pzlep->GetValue(0,0);
+      double total_lep_energy = sqrt(pz_lepton*pz_lepton);
 
 
       TLorentzVector total4Mom_deuteron(total_energy,0.,0.,pz_total);
-      TLorentzVector total4Mom_electron(pz_lepton, 0., 0., pz_lepton);
+      TLorentzVector total4Mom_electron(total_lep_energy, 0., 0., pz_lepton);
 
       // The event contains a vector (array) of particles.
       int nParticles = event->GetNTracks();
