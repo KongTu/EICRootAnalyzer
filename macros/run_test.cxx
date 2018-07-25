@@ -26,7 +26,7 @@ void run_test(int nEvents ) {
    
    // Add the file(s) we want to analyse to the chain.
    // We could add multiple files if we wanted.
-   tree->Add("../../EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_highpf_eP.root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
+   tree->Add("../../EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_wrongpf_eD.root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
 // tree.Add(/path/to/otherFileNames ); // etc... 
    
    // Create an object to store the current event from the tree.
@@ -105,6 +105,17 @@ void run_test(int nEvents ) {
          int status = particle->GetStatus();
          int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
 
+         if ( index == 3 ){
+
+            cout << "----- check if this is exchanged photon ------- " << endl;
+            cout << "pdg = " << pdg << endl;
+            TLorentzVector photon_4mom = particle->PxPyPzE();
+            cout << "gamma px = " << photon_4mom.Px() << endl;
+            cout << "gamma py = " << photon_4mom.Py() << endl;
+            cout << "gamma pz = " << photon_4mom.Pz() << endl;
+
+         }
+
          TLorentzVector particle_4mom = particle->PxPyPzE();
 
          if( status == 1 ){
@@ -133,7 +144,7 @@ void run_test(int nEvents ) {
 
    } // for
 
-   TFile output("highpf_JpsiNodecay_eP.root","RECREATE");
+   TFile output("wrongpf_JpsiNodecay_eD.root","RECREATE");
    ptHist.Write();    
    statusHist.Write();
    pTvsThat->Write();
