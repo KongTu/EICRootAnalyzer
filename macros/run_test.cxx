@@ -92,12 +92,6 @@ void run_test(TString inFileNames, int nEvents ) {
       TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
       TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
 
-      cout << "--------- event " << i << "------- " << endl;
-
-      cout << "energy " << total4Mom_incoming.E() << endl;
-      cout << "pz " << total4Mom_incoming.Pz() << endl;
-
-
       // We now know the number of particles in the event, so loop over
       // the particles:
       for(int j(0); j < nParticles; ++j ) {
@@ -119,7 +113,6 @@ void run_test(TString inFileNames, int nEvents ) {
 
       } // for
 
-      cout << "---------------- " << endl;
 
 
       double particle_pt = sqrt(total4Mom_outgoing.Px()*total4Mom_outgoing.Px() + total4Mom_outgoing.Py()*total4Mom_outgoing.Py());
@@ -129,8 +122,15 @@ void run_test(TString inFileNames, int nEvents ) {
       px_corr->Fill( total4Mom_incoming.Px(), total4Mom_outgoing.Px() );
       py_corr->Fill( total4Mom_incoming.Py(), total4Mom_outgoing.Py() );
       pz_corr->Fill( total4Mom_incoming.Pz(), total4Mom_outgoing.Pz() );
+      
 
-      	
+      cout << "--------- event " << i << "------- " << endl;
+
+      cout << "incoming pz " << total4Mom_incoming.Pz() << endl;
+      cout << "outgoing pz " << total4Mom_outgoing.Pz() << endl;
+
+      cout << "---------------- " << endl;
+
    } // for
 
    TFile output("test.root","RECREATE");
