@@ -105,10 +105,10 @@ void run_test(int nEvents ) {
          int status = particle->GetStatus();
          int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
 
-         if ( index == 3 ){
+         if ( index > 1 ){
 
             cout << "----- check if this is exchanged photon ------- " << endl;
-            cout << "pdg = " << pdg << endl;
+            cout << "status = " << status << " pdg = " << pdg << endl;
             TLorentzVector photon_4mom = particle->PxPyPzE();
             cout << "gamma px = " << photon_4mom.Px() << endl;
             cout << "gamma py = " << photon_4mom.Py() << endl;
