@@ -38,7 +38,7 @@ void run_test(TString inFileNames, int nEvents ) {
    // you can use EventBase and the macro will be general for any Monte Carlo.
    EventPythia* event(NULL);// = new EventPythia;
    //EventBase* event(NULL);
-   EventBeAGLE* event_beagle(NULL);
+   EventBeagle* event_beagle(NULL);
    // Now associate the contents of the branch with the buffer.
    // The events are stored in a branch named event:
    tree.SetBranchAddress("event", &event ); // Note &event, not event.
