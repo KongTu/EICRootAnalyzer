@@ -73,7 +73,6 @@ void run_test(TString inFileNames, int nEvents ) {
       // Read the next entry from the tree.
       tree.GetEntry(i);
 
-      cout << "test " << event_beagle->lepton();
       //Deuteron
       double pztarg = branch_pz->GetValue(0,0);
       double Atarg = branch->GetValue(0,0);
