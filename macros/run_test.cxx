@@ -42,6 +42,7 @@ void run_test(TString inFileNames, int nEvents ) {
    // Now associate the contents of the branch with the buffer.
    // The events are stored in a branch named event:
    tree.SetBranchAddress("event", &event ); // Note &event, not event.
+   tree.SetBranchAddress("event", &event_beagle ); // Note &event, not event.
       
    TBranchElement* branch = (TBranchElement*) tree.GetBranch("Atarg");
    TBranchElement* branch_pz = (TBranchElement*) tree.GetBranch("pztarg");
@@ -61,10 +62,10 @@ void run_test(TString inFileNames, int nEvents ) {
    
    TH1D* Ntrk = new TH1D("Ntrk",";Ntrk", 100, 0, 100);
    TH2D* pTvsThat = new TH2D("pTvsThat",";pT;t_hat", 1000,0,10,1000,-10,10);
-   TH1D* energy_corr = new TH1D("energy_corr",";E_{in} - E_{out}",6000,-30,30);
-   TH1D* px_corr = new TH1D("px_corr","; px_{in} - px_{out}", 6000,-30,30);
-   TH1D* py_corr = new TH1D("py_corr","; py_{in} - py_{out}", 6000,-30,30);
-   TH1D* pz_corr = new TH1D("pz_corr","; pz_{in} - pz_{out}", 6000,-30,30);
+   TH1D* energy_corr = new TH1D("energy_corr",";E_{in} - E_{out}",600,-30,30);
+   TH1D* px_corr = new TH1D("px_corr","; px_{in} - px_{out}", 600,-30,30);
+   TH1D* py_corr = new TH1D("py_corr","; py_{in} - py_{out}", 600,-30,30);
+   TH1D* pz_corr = new TH1D("pz_corr","; pz_{in} - pz_{out}", 600,-30,30);
 
    // Loop over events:
    for(int i(0); i < nEvents; ++i ) {
@@ -72,6 +73,7 @@ void run_test(TString inFileNames, int nEvents ) {
       // Read the next entry from the tree.
       tree.GetEntry(i);
 
+      cout << "test " << event_beagle->lepton();
       //Deuteron
       double pztarg = branch_pz->GetValue(0,0);
       double Atarg = branch->GetValue(0,0);
