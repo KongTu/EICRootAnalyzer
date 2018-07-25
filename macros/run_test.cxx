@@ -22,7 +22,7 @@ void run_test(int nEvents ) {
    
    // The TTrees are named EICTree.
    // Create a TChain for trees with this name.
-   TChain tree = new TChain();
+   TChain *tree = new TChain("EICTree");
    
    // Add the file(s) we want to analyse to the chain.
    // We could add multiple files if we wanted.
