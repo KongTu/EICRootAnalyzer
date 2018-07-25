@@ -45,8 +45,9 @@ void run_test(TString inFileNames, int nEvents ) {
       
    int Ztarg;
    double pztarg;
+
+   TBranchElement* branch = (TBranchElement*) tree.GetBranch("Ztarg", &Ztarg);
    
-   tree.SetBranchAddress("Ztarg", &Ztarg);
    tree.SetBranchAddress("pztarg", &pztarg);
 
 
@@ -84,7 +85,7 @@ void run_test(TString inFileNames, int nEvents ) {
 
       cout << "--------- event " << i << "------- " << endl;
 
-      cout << "Ztarg" << Ztarg << endl;
+      cout << "Ztarg" << Ztarg.GetValue(0,0) << endl;
       // We now know the number of particles in the event, so loop over
       // the particles:
       for(int j(0); j < nParticles; ++j ) {
