@@ -43,12 +43,8 @@ void run_test(TString inFileNames, int nEvents ) {
    // The events are stored in a branch named event:
    tree.SetBranchAddress("event", &event ); // Note &event, not event.
       
-   int Ztarg;
-   double pztarg;
-
    TBranchElement* branch = (TBranchElement*) tree.GetBranch("Ztarg");
-   
-   tree.SetBranchAddress("pztarg", &pztarg);
+   TBranchElement* branch_pz = (TBranchElement*) tree.GetBranch("pztarg");
 
 
    // Now we can do some analysis...
@@ -73,7 +69,7 @@ void run_test(TString inFileNames, int nEvents ) {
       // Read the next entry from the tree.
       tree.GetEntry(i);
 
-      cout << "pztarg  " << pztarg << endl;
+      cout << "pztarg  " << branch_pz->GetValue(0,0) << endl;
       
       // The event contains a vector (array) of particles.
       int nParticles = event->GetNTracks();
