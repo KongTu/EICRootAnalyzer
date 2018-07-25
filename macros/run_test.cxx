@@ -59,10 +59,10 @@ void run_test(TString inFileNames, int nEvents ) {
    
    TH1D* Ntrk = new TH1D("Ntrk",";Ntrk", 100, 0, 100);
    TH2D* pTvsThat = new TH2D("pTvsThat",";pT;t_hat", 1000,0,10,1000,-10,10);
-   TH2D* energy_corr = new TH2D("energy_corr",";incoming;outgoing", 100,0,1000,100,0,1000);
-   TH2D* px_corr = new TH2D("px_corr",";incoming;outgoing", 100,0,1000,100,0,1000);
-   TH2D* py_corr = new TH2D("py_corr",";incoming;outgoing", 100,0,1000,100,0,1000);
-   TH2D* pz_corr = new TH2D("pz_corr",";incoming;outgoing", 100,0,1000,100,0,1000);
+   TH2D* energy_corr = new TH2D("energy_corr",";incoming energy;outgoing energy", 1000,0,1000,1000,0,1000);
+   TH2D* px_corr = new TH2D("px_corr",";incoming px;outgoing px", 100,0,1000,100,0,1000);
+   TH2D* py_corr = new TH2D("py_corr",";incoming py;outgoing py", 100,0,1000,100,0,1000);
+   TH2D* pz_corr = new TH2D("pz_corr",";incoming pz;outgoing pz", 1000,0,1000,1000,0,1000);
 
    // Loop over events:
    for(int i(0); i < nEvents; ++i ) {
@@ -74,7 +74,7 @@ void run_test(TString inFileNames, int nEvents ) {
       double pztarg = branch_pz->GetValue(0,0);
       double Atarg = branch->GetValue(0,0);
       double pz_total = pztarg*Atarg;
-      double D_mass = 0.0;//1.8755
+      double D_mass = 1.8755;//1.8755
       double total_energy = sqrt(pz_total*pz_total + D_mass*D_mass);
 
       //electron, neglect electron mass
