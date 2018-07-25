@@ -78,9 +78,10 @@ void run_test(TString inFileNames, int nEvents ) {
       double total_energy = sqrt(pz_total*pz_total + D_mass*D_mass);
 
       //electron, neglect electron mass
-      int pz_lepton = branch_pzlep->GetValue(0,0);
+      double pz_lepton = branch_pzlep->GetValue(0,0);
       double total_lep_energy = sqrt(pz_lepton*pz_lepton);
 
+      cout << "pz_lepton " << pz_lepton << endl;
 
       TLorentzVector total4Mom_deuteron(total_energy, 0., 0., pz_total);
       TLorentzVector total4Mom_electron(total_lep_energy, 0., 0., pz_lepton);
