@@ -81,10 +81,8 @@ void run_test(TString inFileNames, int nEvents ) {
       double pz_lepton = branch_pzlep->GetValue(0,0);
       double total_lep_energy = sqrt(pz_lepton*pz_lepton);
 
-      cout << "pz_lepton " << pz_lepton << endl;
-
-      TLorentzVector total4Mom_deuteron(total_energy, 0., 0., pz_total);
-      TLorentzVector total4Mom_electron(total_lep_energy, 0., 0., pz_lepton);
+      TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
+      TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
 
       // The event contains a vector (array) of particles.
       int nParticles = event->GetNTracks();
@@ -93,8 +91,6 @@ void run_test(TString inFileNames, int nEvents ) {
       
       TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
       TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
-
-
 
       cout << "--------- event " << i << "------- " << endl;
 
