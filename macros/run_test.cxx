@@ -43,7 +43,7 @@ void run_test(TString inFileNames, int nEvents ) {
    // The events are stored in a branch named event:
    tree.SetBranchAddress("event", &event ); // Note &event, not event.
       
-   TBranchElement* branch = (TBranchElement*) tree.GetBranch("Ztarg");
+   TBranchElement* branch = (TBranchElement*) tree.GetBranch("Atarg");
    TBranchElement* branch_pz = (TBranchElement*) tree.GetBranch("pztarg");
 
 
@@ -69,19 +69,22 @@ void run_test(TString inFileNames, int nEvents ) {
       // Read the next entry from the tree.
       tree.GetEntry(i);
 
-      cout << "pztarg  " << branch_pz->GetValue(0,0) << endl;
-      
+      double pztarg = branch_pz->GetValue(0,0);
+      double Atarg = branch->GetValue(0,0);
+      double pz_total = pztarg*Atarg;
+      double D_mass = 1.8755;
+      double total_energy = sqrt(pz_total*pz_total + D_mass*D_mass);
+
       // The event contains a vector (array) of particles.
       int nParticles = event->GetNTracks();
       //event t_hat
       double t_hat = event->GetHardT();
       
       TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
-      TLorentzVector total4Mom_incoming(0.,0.,0.,0.);
+      TLorentzVector total4Mom_incoming(total_energy,0.,0.,pz_total);
 
       cout << "--------- event " << i << "------- " << endl;
 
-      cout << "Ztarg" << branch->GetValue(0,0) << endl;
       // We now know the number of particles in the event, so loop over
       // the particles:
       for(int j(0); j < nParticles; ++j ) {
@@ -94,20 +97,10 @@ void run_test(TString inFileNames, int nEvents ) {
 
          TLorentzVector particle_4mom = particle->PxPyPzE();
 
-
-         if (index == 1 || index == 2){
-
-            total4Mom_incoming += particle_4mom;
-            cout << "Particle index " << index << " status = " << status << " with energy " << particle_4mom.E() << endl;
-         }
-         else{
-
-            if( status == 1 ){
+         if( status == 1 ){
             total4Mom_outgoing += particle_4mom;
-            cout << "Particle index " << index << " status = " << status << " with energy " << particle_4mom.E() << endl;
-            }
-         }    
-
+         }
+            
 	      ptHist.Fill(particle->GetPt());
          statusHist.Fill( status ); 
 
