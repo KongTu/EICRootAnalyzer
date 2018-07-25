@@ -133,7 +133,7 @@ void run_test(int nEvents ) {
 
    } // for
 
-   TFile output("test.root","RECREATE");
+   TFile output("wrongpf_JpsiNodecay_eD.root","RECREATE");
    ptHist.Write();    
    statusHist.Write();
    pTvsThat->Write();
