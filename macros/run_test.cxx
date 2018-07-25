@@ -45,6 +45,7 @@ void run_test(TString inFileNames, int nEvents ) {
       
    TBranchElement* branch = (TBranchElement*) tree.GetBranch("Atarg");
    TBranchElement* branch_pz = (TBranchElement*) tree.GetBranch("pztarg");
+   TBranchElement* branch_pzlep = (TBranchElement*) tree.GetBranch("pzlep");
 
 
    // Now we can do some analysis...
@@ -69,11 +70,19 @@ void run_test(TString inFileNames, int nEvents ) {
       // Read the next entry from the tree.
       tree.GetEntry(i);
 
+      //Deuteron
       double pztarg = branch_pz->GetValue(0,0);
       double Atarg = branch->GetValue(0,0);
       double pz_total = pztarg*Atarg;
       double D_mass = 1.8755;
       double total_energy = sqrt(pz_total*pz_total + D_mass*D_mass);
+
+      //electron, neglect electron mass
+      double pz_lepton = branch_pzlep->GetValue(0,0);
+
+
+      TLorentzVector total4Mom_deuteron(total_energy,0.,0.,pz_total);
+      TLorentzVector total4Mom_electron(pz_lepton, 0., 0., pz_lepton);
 
       // The event contains a vector (array) of particles.
       int nParticles = event->GetNTracks();
@@ -81,7 +90,7 @@ void run_test(TString inFileNames, int nEvents ) {
       double t_hat = event->GetHardT();
       
       TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
-      TLorentzVector total4Mom_incoming(total_energy,0.,0.,pz_total);
+      TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
 
       cout << "--------- event " << i << "------- " << endl;
 
