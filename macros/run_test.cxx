@@ -17,6 +17,7 @@ void run_test(TString inFileNames, int nEvents ) {
    // but these can be ignored. However if you wish to work with the event
    // objects themselves, the shared library must be loaded:
    gSystem->Load("/afs/rhic.bnl.gov/eic/MACROS/BuildTree/lib/BuildTree.so" ); // To use the master version
+   
    //gSystem->Load("../lib/BuildTree.so" ); // To use your own compiled version
    
    // The TTrees are named EICTree.
@@ -42,6 +43,9 @@ void run_test(TString inFileNames, int nEvents ) {
    // The events are stored in a branch named event:
    tree.SetBranchAddress("event", &event ); // Note &event, not event.
       
+   int Ztarg;
+   tree.SetBranchAddress("Ztarg", &Ztarg);
+
    // Now we can do some analysis...
    
    // We record the largest particle pT we find here:
@@ -73,6 +77,8 @@ void run_test(TString inFileNames, int nEvents ) {
       TLorentzVector total4Mom_incoming(0.,0.,0.,0.);
 
       cout << "--------- event " << i << "------- " << endl;
+
+      cout << "Ztarg" << Ztarg << endl;
       // We now know the number of particles in the event, so loop over
       // the particles:
       for(int j(0); j < nParticles; ++j ) {
