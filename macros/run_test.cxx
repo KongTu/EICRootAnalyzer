@@ -59,7 +59,7 @@ void run_test(TString inFileNames, int nEvents ) {
    
    TH1D* Ntrk = new TH1D("Ntrk",";Ntrk", 100, 0, 100);
    TH2D* pTvsThat = new TH2D("pTvsThat",";pT;t_hat", 1000,0,10,1000,-10,10);
-   TH2D* energy_corr = new TH2D("energy_corr",";incoming;outgoing", 100,0,1000,100,0,1000);
+   TH2D* energy_corr = new TH2D("energy_corr",";incoming;outgoing", 1000,0,1000,1000,0,1000);
    TH2D* px_corr = new TH2D("px_corr",";incoming;outgoing", 100,0,1000,100,0,1000);
    TH2D* py_corr = new TH2D("py_corr",";incoming;outgoing", 100,0,1000,100,0,1000);
    TH2D* pz_corr = new TH2D("pz_corr",";incoming;outgoing", 100,0,1000,100,0,1000);
