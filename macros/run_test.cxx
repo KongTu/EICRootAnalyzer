@@ -78,7 +78,7 @@ void run_test(TString inFileNames, int nEvents ) {
       double total_energy = sqrt(pz_total*pz_total + D_mass*D_mass);
 
       //electron, neglect electron mass
-      double pz_lepton = branch_pzlep->GetValue(0,0);
+      int pz_lepton = branch_pzlep->GetValue(0,0);
       double total_lep_energy = sqrt(pz_lepton*pz_lepton);
 
 
