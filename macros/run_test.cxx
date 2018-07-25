@@ -46,7 +46,9 @@ void run_test(TString inFileNames, int nEvents ) {
    TBranchElement* branch = (TBranchElement*) tree.GetBranch("Atarg");
    TBranchElement* branch_pz = (TBranchElement*) tree.GetBranch("pztarg");
    TBranchElement* branch_pzlep = (TBranchElement*) tree.GetBranch("pzlep");
-
+   TBranchElement* branch_pxf = (TBranchElement*) tree.GetBranch("pxf");
+   TBranchElement* branch_pyf = (TBranchElement*) tree.GetBranch("pyf");
+   TBranchElement* branch_pzf = (TBranchElement*) tree.GetBranch("pzf");
 
    // Now we can do some analysis...
    
@@ -113,10 +115,14 @@ void run_test(TString inFileNames, int nEvents ) {
 
       } // for
 
+      double pxf = branch_pxf->GetValue(0,0);
+      double pyf = branch_pyf->GetValue(0,0);
 
+      double particle_ptF = sqrt(pxf*pxf + pyf*pyf);
 
       double particle_pt = sqrt(total4Mom_outgoing.Px()*total4Mom_outgoing.Px() + total4Mom_outgoing.Py()*total4Mom_outgoing.Py());
-      pTvsThat->Fill( particle_pt, t_hat );
+      
+      pTvsThat->Fill( particle_ptF, t_hat );
       Ntrk->Fill(nParticles);
       energy_corr->Fill( total4Mom_incoming.E(), total4Mom_outgoing.E() );
       px_corr->Fill( total4Mom_incoming.Px(), total4Mom_outgoing.Px() );
