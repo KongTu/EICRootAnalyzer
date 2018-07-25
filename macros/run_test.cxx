@@ -105,17 +105,15 @@ void run_test(int nEvents ) {
          int status = particle->GetStatus();
          int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
 
-         if ( index > 1 ){
+         
+         cout << "----- check if this is exchanged photon ------- " << endl;
+         cout << "index = " << index << " pdg = " << pdg << endl;
+         TLorentzVector photon_4mom = particle->PxPyPzE();
+         cout << "gamma px = " << photon_4mom.Px() << endl;
+         cout << "gamma py = " << photon_4mom.Py() << endl;
+         cout << "gamma pz = " << photon_4mom.Pz() << endl;
 
-            cout << "----- check if this is exchanged photon ------- " << endl;
-            cout << "status = " << status << " pdg = " << pdg << endl;
-            TLorentzVector photon_4mom = particle->PxPyPzE();
-            cout << "gamma px = " << photon_4mom.Px() << endl;
-            cout << "gamma py = " << photon_4mom.Py() << endl;
-            cout << "gamma pz = " << photon_4mom.Pz() << endl;
-
-         }
-
+         
          TLorentzVector particle_4mom = particle->PxPyPzE();
 
          if( status == 1 ){
