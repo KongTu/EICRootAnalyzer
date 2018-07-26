@@ -113,18 +113,32 @@ void run_test(int nEvents ) {
       double D_mass = 1.8755;//1.8755
       double total_energy = sqrt(pz_total*pz_total + D_mass*D_mass);
 
+      //Lorentz boost by hand:
       double gamma_factor_ion = total_energy/D_mass;
       double velocity = sqrt( 1 - (1/(gamma_factor_ion*gamma_factor_ion)));
 
-      cout << "gamma " << gamma_factor_ion << " and velocity " << velocity << endl;
-
-
       //electron, neglect electron mass
       double pz_lepton = branch_pzlep->GetValue(0,0);
-      double total_lep_energy = sqrt(pz_lepton*pz_lepton);
+      double electron_mass = 0.00055;
+      double total_lep_energy = sqrt(pz_lepton*pz_lepton + electron_mass*electron_mass);
+      double gamma_factor_electron = total_lep_energy/electron_mass;
 
+      //In ion frame:
+      double pz_lepton_ionframe = gamma_factor_electron*(pz_lepton - velocity*total_lep_energy);
+      double total_lep_energy_ionframe = gamma_factor_electron*(total_lep_energy - velocity*pz_lepton);
+
+      cout << "pz_lepton_ionframe = " << pz_lepton_ionframe << endl;
+      cout << "total_lep_energy_ionframe = " << total_lep_energy_ionframe << endl;
+      
+
+      //Lab frame:
       TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
       TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
+
+      //Ion frame: 
+      TLorentzVector total4Mom_deuteron_ionframe(0., 0., 0., D_mass);
+      TLorentzVector total4Mom_electron_ionframe(0., 0., pz_lepton_ionframe, total_lep_energy_ionframe);
+
 
       // The event contains a vector (array) of particles.
       int nParticles = event->GetNTracks();
