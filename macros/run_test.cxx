@@ -114,6 +114,23 @@ void run_test(int nEvents ) {
       TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
       TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
 
+      /* only mess up from here*/
+      
+      cout << "before boost = " << total4Mom_electron.Pz() << endl;
+
+      double gamma_ion = total_energy/D_mass;
+      double bz = pz_total/(gamma_ion*D_mass);
+
+      TVector3 b;
+      total4Mom_electron.Boost(0,0,bz);
+      total4Mom_electron.Boost(b);
+
+      cout << "pz boost = " << total4Mom_electron.Pz() << endl;
+
+
+      //end here
+
+      
       // The event contains a vector (array) of particles.
       int nParticles = event->GetNTracks();
       //event t_hat
