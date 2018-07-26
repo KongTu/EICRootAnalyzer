@@ -119,7 +119,7 @@ void run_test(int nEvents ) {
       cout << "before boost = " << total4Mom_electron.Pz() << endl;
 
       double gamma_ion = total_energy/D_mass;
-      double bz = pz_total/(gamma_ion*D_mass);
+      double bz = pz_total;
 
       TVector3 b;
       total4Mom_electron.Boost(0,0,bz);
