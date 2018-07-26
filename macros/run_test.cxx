@@ -117,7 +117,6 @@ void run_test(int nEvents ) {
       double D_mass = 1.8755;//1.8755
       double total_energy = sqrt(pz_total*pz_total + D_mass*D_mass);
 
-      TVector3 ion_momentum(0.,0.,pz_total);
 
       //Lorentz boost by hand:
       double gamma_factor_ion = total_energy/D_mass;
@@ -144,10 +143,15 @@ void run_test(int nEvents ) {
       TLorentzVector total4Mom_deuteron_ionframe(0., 0., 0., D_mass);
       TLorentzVector total4Mom_electron_ionframe(0., 0., pz_lepton_ionframe, total_lep_energy_ionframe);
       
-      TLorentzVector total4Mom_electron_ionframe_boost = total4Mom_electron.Boost(ion_momentum);
+
+      TVector3 ion_momentum(0.,0.,pz_total);
+      
+      cout << "lab pz" << total4Mom_electron.Pz() << endl;
+
+      total4Mom_electron.Boost(ion_momentum);
 
       cout << "hand pz" << total4Mom_electron_ionframe.Pz() << endl;
-      cout << "boost pz " << total4Mom_electron_ionframe_boost.Pz() << endl;
+      cout << "boost pz " << total4Mom_electron.Pz() << endl;
 
       //Lab frame
       TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
@@ -237,10 +241,10 @@ void run_test(int nEvents ) {
       energy_corr_ionframe->Fill( energy_diff_ion );
       pz_corr_ionframe->Fill( total4Mom_incoming_ionframe.Pz() - total4Mom_outgoing_ionframe.Pz() );
 
-      cout << "incoming: " << total4Mom_incoming_ionframe.E() << endl;
-      cout << "outgoing: " << total4Mom_outgoing_ionframe.E() << endl;
+      // cout << "incoming: " << total4Mom_incoming_ionframe.E() << endl;
+      // cout << "outgoing: " << total4Mom_outgoing_ionframe.E() << endl;
       
-      cout << "diff " << energy_diff_ion << endl;
+      // cout << "diff " << energy_diff_ion << endl;
 
       //2D histogram:
       energyVsQ2_2Dcorr->Fill(energy_diff, trueQ2);
