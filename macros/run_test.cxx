@@ -65,9 +65,6 @@ void run_test(int nEvents ) {
    TH1D* py_corr = new TH1D("py_corr","; py_{in} - py_{out}", 600,-30,30);
    TH1D* pz_corr = new TH1D("pz_corr","; pz_{in} - pz_{out}", 600,-30,30);
 
-   TH1D* energy_corr_ionframe = new TH1D("energy_corr_ionframe",";E_{in} - E_{out}",600,-3000,3000);
-   TH1D* pz_corr_ionframe = new TH1D("pz_corr_ionframe","; pz_{in} - pz_{out}", 600,-3000,3000);
-
    TH2D* energyVsQ2_2Dcorr = new TH2D("energyVsQ2_2Dcorr",";E_{in} - E_{out};Q2",600,-30,30, 200,0,10);
    TH2D* energyVsW2_2Dcorr = new TH2D("energyVsW2_2Dcorr",";E_{in} - E_{out};W2",600,-30,30, 2000,0,20000);
    TH2D* energyVsX_2Dcorr = new TH2D("energyVsX_2Dcorr",";E_{in} - E_{out};X",600,-30,30, 1000,0,0.5);
@@ -83,8 +80,6 @@ void run_test(int nEvents ) {
       
       // Read the next entry from the tree.
       tree->GetEntry(i);
-
-      cout << "event " << i << endl;
 
       //fermi momentum in the ion rest frame with gamma* direction as z
       double pxf = branch_pxf->GetValue(0,0);
@@ -113,46 +108,49 @@ void run_test(int nEvents ) {
 
       //electron, neglect electron mass
       double pz_lepton = branch_pzlep->GetValue(0,0);
-      double electron_mass = 0.00055;
+      double electron_mass = 0.00051;
       double total_lep_energy = sqrt(pz_lepton*pz_lepton + electron_mass*electron_mass);
 
-      //Lab frame:
       TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
       TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
 
-      //cout << "lab pz" << total4Mom_electron.Pz() << endl;
-      //total4Mom_electron.Boost(0.0,0.0,pz_total);
-      //cout << "boost pz " << total4Mom_electron.Pz() << endl;
+      // The event contains a vector (array) of particles.
+      int nParticles = event->GetNTracks();
+      //event t_hat
 
-      //Lab frame
       TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
       TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
 
       // We now know the number of particles in the event, so loop over
       // the particles:
-
-     // The event contains a vector (array) of particles.
-      int nParticles = event->GetNTracks();
- 
       for(int j(0); j < nParticles; ++j ) {
-         
          const erhic::ParticleMC* particle = event->GetTrack(j);
-	 
-	  // Let's just select charged pions for this example:
+    
+    // Let's just select charged pions for this example:
          int pdg = particle->GetPdgCode();
          int status = particle->GetStatus();
          int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
          
+         // cout << "----- check if this is exchanged photon ------- " << endl;
+         // cout << "index = " << index << " pdg = " << pdg << endl;
+         // TLorentzVector photon_4mom = particle->PxPyPzE();
+         // cout << "gamma px = " << photon_4mom.Px() << endl;
+         // cout << "gamma py = " << photon_4mom.Py() << endl;
+         // cout << "gamma pz = " << photon_4mom.Pz() << endl;
+
+         TLorentzVector particle_4mom = particle->PxPyPzE();
+
          if( status == 1 ){
-            
-            TLorentzVector particle_4mom = particle->PxPyPzE();//lab frame
             total4Mom_outgoing += particle_4mom;
          }
             
-	      ptHist.Fill(particle->GetPt());
+         ptHist.Fill(particle->GetPt());
          statusHist.Fill( status ); 
 
       } // for
+
+      
+      //
 
       double particle_pt = sqrt(total4Mom_outgoing.Px()*total4Mom_outgoing.Px() + total4Mom_outgoing.Py()*total4Mom_outgoing.Py());
       
@@ -188,9 +186,6 @@ void run_test(int nEvents ) {
    px_corr->Write();
    py_corr->Write();
    pz_corr->Write();
-
-   energy_corr_ionframe->Write();
-   pz_corr_ionframe->Write();
 
    energyVsQ2_2Dcorr->Write();
    energyVsW2_2Dcorr->Write();
