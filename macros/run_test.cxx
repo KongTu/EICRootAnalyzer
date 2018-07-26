@@ -183,6 +183,8 @@ void run_test(int nEvents ) {
 
             cout << " ---------------- " << endl;
             cout << "gamma particle " << gamma_particle << endl;
+            cout << "mass " << mass_labframe << endl;
+            cout << "pdg " << pdg << endl;
             cout << "velocity: " << velocity << endl;
             cout << "E_labframe: " << E_labframe << endl;
             cout << "pz_labframe: " << pz_labframe << endl;
