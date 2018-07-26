@@ -9,6 +9,13 @@
 // root [0] .L /path/to/read.cxx
 // root [1] read("myInputFile.root", 10000 )
 
+#include "TFile.h"
+#include "TH1.h"
+#include "TH2.h"
+#include "TTree.h"
+#include "TBranchElement.h"
+#include "TChain.h"
+
 void run_test(int nEvents ) {
    
    // If the analysis solely uses TTree::Draw statements, you don't need to load
