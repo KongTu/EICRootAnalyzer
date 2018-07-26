@@ -119,10 +119,11 @@ void run_test(int nEvents ) {
       cout << "before boost = " << total4Mom_electron.Pz() << endl;
 
       double gamma_ion = total_energy/D_mass;
-      double bz = pz_total;
+      double bz = pz_total/(gamma_ion*D_mass);
 
+      const double speedoflight = 30000000;
       TVector3 b;
-      total4Mom_electron.Boost(0,0,bz);
+      total4Mom_electron.Boost(0,0,bz*speedoflight);
       total4Mom_electron.Boost(b);
 
       cout << "pz boost = " << total4Mom_electron.Pz() << endl;
