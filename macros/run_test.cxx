@@ -177,9 +177,21 @@ void run_test(int nEvents ) {
             double E_labframe = particle_4mom.E();
             double mass_labframe = particle->GetM();
             double gamma_particle = E_labframe/mass_labframe;
+            double pz_ionframe = 0.0;
+            double E_ionframe = 0.0;
 
-            double pz_ionframe = gamma_particle*(pz_labframe - velocity*E_labframe);
-            double E_ionframe = gamma_particle*(E_labframe - velocity*pz_labframe);
+            if( mass_labframe == 0 ){
+
+               pz_ionframe = pz_labframe;
+               E_ionframe = E_labframe;
+            }
+            else{
+               
+               pz_ionframe = gamma_particle*(pz_labframe - velocity*E_labframe);
+               E_ionframe = gamma_particle*(E_labframe - velocity*pz_labframe);
+            } 
+
+           
 
             cout << " ---------------- " << endl;
             cout << "gamma particle " << gamma_particle << endl;
