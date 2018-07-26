@@ -114,11 +114,7 @@ void run_test(int nEvents ) {
       TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
       TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
 
-      /* only mess up from here*/
-      
-      cout << "before boost = " << total4Mom_electron.Pz() << endl;
-      cout << "before boost = " << total4Mom_deuteron.Pz() << endl;
-
+      /* lorentz boost incoming particle*/
       double gamma_ion = total_energy/D_mass;
       double bz = pz_total/(gamma_ion*D_mass);
 
@@ -128,11 +124,6 @@ void run_test(int nEvents ) {
 
       total4Mom_deuteron.Boost(0,0,-bz);
       total4Mom_deuteron.Boost(b);
-
-      cout << "pz boost = " << total4Mom_electron.Pz() << endl;
-      cout << "pz boost = " << total4Mom_deuteron.Pz() << endl;
-
-
       //end here
 
       
@@ -163,6 +154,10 @@ void run_test(int nEvents ) {
          TLorentzVector particle_4mom = particle->PxPyPzE();
 
          if( status == 1 ){
+            
+            TVector3 bb;
+            particle_4mom.Boost(0,0,-bz);
+            particle_4mom.Boost(bb);
             total4Mom_outgoing += particle_4mom;
          }
             
