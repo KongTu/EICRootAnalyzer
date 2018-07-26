@@ -117,6 +117,8 @@ void run_test(int nEvents ) {
       double D_mass = 1.8755;//1.8755
       double total_energy = sqrt(pz_total*pz_total + D_mass*D_mass);
 
+      TVector3 ion_momentum(0.,0.,pz_total);
+
       //Lorentz boost by hand:
       double gamma_factor_ion = total_energy/D_mass;
       double velocity = sqrt( 1 - (1/(gamma_factor_ion*gamma_factor_ion)));
@@ -131,13 +133,21 @@ void run_test(int nEvents ) {
       double pz_lepton_ionframe = gamma_factor_electron*(pz_lepton - velocity*total_lep_energy);
       double total_lep_energy_ionframe = gamma_factor_electron*(total_lep_energy - velocity*pz_lepton);
 
+
+
       //Lab frame:
       TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
       TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
 
+
       //Ion frame: 
       TLorentzVector total4Mom_deuteron_ionframe(0., 0., 0., D_mass);
       TLorentzVector total4Mom_electron_ionframe(0., 0., pz_lepton_ionframe, total_lep_energy_ionframe);
+      
+      TLorentzVector total4Mom_electron_ionframe_boost = total4Mom_electron.Boost(ion_momentum);
+
+      cout << "hand pz" << total4Mom_electron_ionframe.Pz() << endl;
+      cout << "boost pz " << total4Mom_electron_ionframe_boost.Pz() << endl;
 
       //Lab frame
       TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
@@ -191,20 +201,16 @@ void run_test(int nEvents ) {
                E_ionframe = gamma_particle*(E_labframe - velocity*pz_labframe);
             } 
 
-           
-
-            cout << " ---------------- " << endl;
-            cout << "gamma particle " << gamma_particle << endl;
-            cout << "mass " << mass_labframe << endl;
-            cout << "pdg " << pdg << endl;
-            cout << "velocity: " << velocity << endl;
-            cout << "E_labframe: " << E_labframe << endl;
-            cout << "pz_labframe: " << pz_labframe << endl;
-
-            cout << "pz_ionframe " << pz_ionframe << endl;
+            // cout << " ---------------- " << endl;
+            // cout << "gamma particle " << gamma_particle << endl;
+            // cout << "mass " << mass_labframe << endl;
+            // cout << "pdg " << pdg << endl;
+            // cout << "velocity: " << velocity << endl;
+            // cout << "E_labframe: " << E_labframe << endl;
+            // cout << "pz_labframe: " << pz_labframe << endl;
+            // cout << "pz_ionframe " << pz_ionframe << endl;
 
             TLorentzVector temp_4mom(particle_4mom.Px(), particle_4mom.Py(), pz_ionframe, E_ionframe);
-
 
             total4Mom_outgoing += particle_4mom;
             total4Mom_outgoing_ionframe += temp_4mom;
@@ -214,9 +220,6 @@ void run_test(int nEvents ) {
          statusHist.Fill( status ); 
 
       } // for
-
-      
-      //
 
       double particle_pt = sqrt(total4Mom_outgoing.Px()*total4Mom_outgoing.Px() + total4Mom_outgoing.Py()*total4Mom_outgoing.Py());
       
