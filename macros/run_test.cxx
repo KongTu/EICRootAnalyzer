@@ -113,6 +113,12 @@ void run_test(int nEvents ) {
       double D_mass = 1.8755;//1.8755
       double total_energy = sqrt(pz_total*pz_total + D_mass*D_mass);
 
+      double gamma_factor_ion = total_energy/D_mass;
+      double velocity = sqrt( 1 - (1/(gamma_factor_ion*gamma_factor_ion)));
+
+      cout << "gamma " << gamma_factor_ion << " and velocity " << velocity << endl;
+
+
       //electron, neglect electron mass
       double pz_lepton = branch_pzlep->GetValue(0,0);
       double total_lep_energy = sqrt(pz_lepton*pz_lepton);
