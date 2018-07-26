@@ -124,9 +124,10 @@ void run_test(int nEvents ) {
 
       total4Mom_deuteron.Boost(0,0,-bz);
       total4Mom_deuteron.Boost(b);
+
+      b.clear();
       //end here
 
-      
       // The event contains a vector (array) of particles.
       int nParticles = event->GetNTracks();
       //event t_hat
@@ -159,6 +160,7 @@ void run_test(int nEvents ) {
             particle_4mom.Boost(0,0,-bz);
             particle_4mom.Boost(bb);
             total4Mom_outgoing += particle_4mom;
+            bb.clear();
          }
             
          ptHist.Fill(particle->GetPt());
