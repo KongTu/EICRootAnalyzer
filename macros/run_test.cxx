@@ -91,6 +91,8 @@ void run_test(int nEvents ) {
       // Read the next entry from the tree.
       tree->GetEntry(i);
 
+      cout << "event " << i << endl;
+
       //fermi momentum in the ion rest frame with gamma* direction as z
       double pxf = branch_pxf->GetValue(0,0);
       double pyf = branch_pyf->GetValue(0,0);
@@ -140,20 +142,13 @@ void run_test(int nEvents ) {
       int nParticles = event->GetNTracks();
  
       for(int j(0); j < nParticles; ++j ) {
+         
          const erhic::ParticleMC* particle = event->GetTrack(j);
 	 
-	 // Let's just select charged pions for this example:
+	  // Let's just select charged pions for this example:
          int pdg = particle->GetPdgCode();
          int status = particle->GetStatus();
          int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
-         
-         // cout << "----- check if this is exchanged photon ------- " << endl;
-         // cout << "index = " << index << " pdg = " << pdg << endl;
-         // TLorentzVector photon_4mom = particle->PxPyPzE();
-         // cout << "gamma px = " << photon_4mom.Px() << endl;
-         // cout << "gamma py = " << photon_4mom.Py() << endl;
-         // cout << "gamma pz = " << photon_4mom.Pz() << endl;
-
          
          if( status == 1 ){
             
