@@ -116,15 +116,20 @@ void run_test(int nEvents ) {
 
       /* only mess up from here*/
       
+      cout << "before boost = " << total4Mom_electron.Pz() << endl;
       cout << "before boost = " << total4Mom_deuteron.Pz() << endl;
 
       double gamma_ion = total_energy/D_mass;
       double bz = pz_total/(gamma_ion*D_mass);
 
       TVector3 b;
+      total4Mom_electron.Boost(0,0,-bz);
+      total4Mom_electron.Boost(b);
+
       total4Mom_deuteron.Boost(0,0,-bz);
       total4Mom_deuteron.Boost(b);
 
+      cout << "pz boost = " << total4Mom_electron.Pz() << endl;
       cout << "pz boost = " << total4Mom_deuteron.Pz() << endl;
 
 
