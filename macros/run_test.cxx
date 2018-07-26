@@ -72,7 +72,7 @@ void run_test(int nEvents ) {
    TH2D* energyVsNu_2Dcorr = new TH2D("energyVsNu_2Dcorr",";E_{in} - E_{out};Nu",600,-30,30, 200, 0,10000);
    TH2D* energyVsPf_2Dcorr = new TH2D("energyVsPf_2Dcorr",";E_{in} - E_{out};pf",600,-30,30, 200, -10,10);
    TH2D* energyVsPtf_2Dcorr = new TH2D("energyVsPtf_2Dcorr",";E_{in} - E_{out};ptf",600,-30,30, 200, -10,10);
-   TH2D* energyVsProcess_2Dcorr = new TH2D("energyVsProcess_2Dcorr",";E_{in} - E_{out};process",600,-30,30, 100, 0,100);
+   TH2D* energyVsProcess_2Dcorr = new TH2D("energyVsProcess_2Dcorr",";E_{in} - E_{out};process",600,-30,30, 10, 90,100);
 
 
    // Loop over events:
