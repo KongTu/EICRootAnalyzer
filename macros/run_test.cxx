@@ -72,8 +72,8 @@ void run_test(int nEvents ) {
    TH1D* py_corr = new TH1D("py_corr","; py_{in} - py_{out}", 600,-30,30);
    TH1D* pz_corr = new TH1D("pz_corr","; pz_{in} - pz_{out}", 600,-30,30);
 
-   TH1D* energy_corr_ionframe = new TH1D("energy_corr_ionframe",";E_{in} - E_{out}",600,-30,30);
-   TH1D* pz_corr_ionframe = new TH1D("pz_corr_ionframe","; pz_{in} - pz_{out}", 600,-30,30);
+   TH1D* energy_corr_ionframe = new TH1D("energy_corr_ionframe",";E_{in} - E_{out}",600,-3000,3000);
+   TH1D* pz_corr_ionframe = new TH1D("pz_corr_ionframe","; pz_{in} - pz_{out}", 600,-3000,3000);
 
 
    TH2D* energyVsQ2_2Dcorr = new TH2D("energyVsQ2_2Dcorr",";E_{in} - E_{out};Q2",600,-30,30, 200,0,10);
@@ -130,10 +130,6 @@ void run_test(int nEvents ) {
       //In ion frame:
       double pz_lepton_ionframe = gamma_factor_electron*(pz_lepton - velocity*total_lep_energy);
       double total_lep_energy_ionframe = gamma_factor_electron*(total_lep_energy - velocity*pz_lepton);
-
-      cout << "pz_lepton_ionframe = " << pz_lepton_ionframe << endl;
-      cout << "total_lep_energy_ionframe = " << total_lep_energy_ionframe << endl;
-
 
       //Lab frame:
       TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
@@ -211,6 +207,8 @@ void run_test(int nEvents ) {
       double energy_diff_ion = total4Mom_incoming_ionframe.E() - total4Mom_outgoing_ionframe.E();
       energy_corr_ionframe->Fill( energy_diff_ion );
       pz_corr_ionframe->Fill( total4Mom_incoming_ionframe.Pz() - total4Mom_outgoing_ionframe.Pz() );
+
+      cout << "diff " << energy_diff_ion << endl;
 
       //2D histogram:
       energyVsQ2_2Dcorr->Fill(energy_diff, trueQ2);
