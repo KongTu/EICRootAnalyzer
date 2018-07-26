@@ -154,9 +154,9 @@ void run_test(int nEvents ) {
 
          if( status == 1 ){
             
-            // TVector3 bb;
-            // particle_4mom.Boost(0,0,-bz);
-            // particle_4mom.Boost(bb);
+            
+            particle_4mom.Boost(0,0,-bz);
+            particle_4mom.Boost(b);
             total4Mom_outgoing += particle_4mom;
             
          }
