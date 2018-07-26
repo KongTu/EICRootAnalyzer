@@ -143,16 +143,15 @@ void run_test(int nEvents ) {
       TLorentzVector total4Mom_deuteron_ionframe(0., 0., 0., D_mass);
       TLorentzVector total4Mom_electron_ionframe(0., 0., pz_lepton_ionframe, total_lep_energy_ionframe);
       
-
-      TVector3 ion_momentum(0.,0.,pz_total);
       
       cout << "lab pz" << total4Mom_electron.Pz() << endl;
 
-      total4Mom_electron.Boost(ion_momentum);
+      total4Mom_electron.Boost(0.0,0.0,pz_total);
 
       cout << "hand pz" << total4Mom_electron_ionframe.Pz() << endl;
       cout << "boost pz " << total4Mom_electron.Pz() << endl;
 
+      return;
       //Lab frame
       TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
       TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
