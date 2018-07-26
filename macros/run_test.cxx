@@ -26,7 +26,7 @@ void run_test(int nEvents ) {
    
    // Add the file(s) we want to analyse to the chain.
    // We could add multiple files if we wanted.
-   tree->Add("../../EICTree/ePb_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_fixpf_mdbaker.root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
+   tree->Add("../../EICTree/eD_Jpsidiffnodecay_EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_wrongpf.root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
 // tree.Add(/path/to/otherFileNames ); // etc... 
    
    // Create an object to store the current event from the tree.
@@ -44,7 +44,7 @@ void run_test(int nEvents ) {
    tree->SetBranchAddress("event", &event ); // Note &event, not event.
    // tree.SetBranchAddress("event", &event_beagle ); // Note &event, not event.
       
-   TBranchElement* branch = (TBranchElement*) tree->GetBranch("Atarg");
+   TBranchElement* branch_atarg = (TBranchElement*) tree->GetBranch("Atarg");
    TBranchElement* branch_pz = (TBranchElement*) tree->GetBranch("pztarg");
    TBranchElement* branch_pzlep = (TBranchElement*) tree->GetBranch("pzlep");
    TBranchElement* branch_pxf = (TBranchElement*) tree->GetBranch("pxf");
@@ -53,19 +53,27 @@ void run_test(int nEvents ) {
 
    // Now we can do some analysis...
    
-   // We record the largest particle pT we find here:
-   //double highestPt(-1. );
-   
    // Histograms for our analysis.
-   TH1D ptHist("ptHist", "pT of charged pions", 500, 0.0, 10 );
+   TH1D ptHist("ptHist", "pT of all particles", 500, 0.0, 10 );
    TH1D statusHist("statusHist", "status distribution  ", 50, 0, 50 );
    
    TH1D* Ntrk = new TH1D("Ntrk",";Ntrk", 100, 0, 100);
    TH2D* pTvsThat = new TH2D("pTvsThat",";pT;t_hat", 1000,0,10,1000,-10,10);
+   
    TH1D* energy_corr = new TH1D("energy_corr",";E_{in} - E_{out}",600,-30,30);
    TH1D* px_corr = new TH1D("px_corr","; px_{in} - px_{out}", 600,-30,30);
    TH1D* py_corr = new TH1D("py_corr","; py_{in} - py_{out}", 600,-30,30);
    TH1D* pz_corr = new TH1D("pz_corr","; pz_{in} - pz_{out}", 600,-30,30);
+
+   TH2D* energyVsQ2_2Dcorr = new TH2D("energyVsQ2_2Dcorr",";E_{in} - E_{out};Q2",600,-30,30, 200,0,10);
+   TH2D* energyVsW2_2Dcorr = new TH2D("energyVsW2_2Dcorr",";E_{in} - E_{out};W2",600,-30,30, 2000,0,20000);
+   TH2D* energyVsX_2Dcorr = new TH2D("energyVsX_2Dcorr",";E_{in} - E_{out};X",600,-30,30, 1000,0,0.5);
+   TH2D* energyVsY_2Dcorr = new TH2D("energyVsY_2Dcorr",";E_{in} - E_{out};Y",600,-30,30, 1000,0,1.0);
+   TH2D* energyVsNu_2Dcorr = new TH2D("energyVsNu_2Dcorr",";E_{in} - E_{out};Nu",600,-30,30, 200, 0,10000);
+   TH2D* energyVsPf_2Dcorr = new TH2D("energyVsPf_2Dcorr",";E_{in} - E_{out};pf",600,-30,30, 200, -10,10);
+   TH2D* energyVsPtf_2Dcorr = new TH2D("energyVsPtf_2Dcorr",";E_{in} - E_{out};ptf",600,-30,30, 200, -10,10);
+   TH2D* energyVsProcess_2Dcorr = new TH2D("energyVsProcess_2Dcorr",";E_{in} - E_{out};process",600,-30,30, 100, 0,100);
+
 
    // Loop over events:
    for(int i(0); i < nEvents; ++i ) {
@@ -73,9 +81,27 @@ void run_test(int nEvents ) {
       // Read the next entry from the tree.
       tree->GetEntry(i);
 
+      //fermi momentum in the ion rest frame with gamma* direction as z
+      double pxf = branch_pxf->GetValue(0,0);
+      double pyf = branch_pyf->GetValue(0,0);
+      double pzf = branch_pzf->GetValue(0,0);
+      double ptf = sqrt(pxf*pxf + pyf*pyf);
+      double pf = sqrt(pxf*pxf + pyf*pyf + pzf*pzf);
+
+      //event information:
+      double trueQ2 = event->GetTrueQ2();
+      double trueW2 = event->GetTrueW2();
+      double trueX = event->GetTrueX();
+      double trueY = event->GetTrueY();
+      double trueNu = event->GetTrueNu();
+      double s_hat = event->GetHardS();
+      double t_hat = event->GetHardT();
+      double u_hat = event->GetHardU();
+      int event_process = event->GetProcess();
+
       //Deuteron
       double pztarg = branch_pz->GetValue(0,0);
-      double Atarg = branch->GetValue(0,0);
+      double Atarg = branch_atarg->GetValue(0,0);
       double pz_total = pztarg*Atarg;
       double D_mass = 1.8755;//1.8755
       double total_energy = sqrt(pz_total*pz_total + D_mass*D_mass);
@@ -90,8 +116,7 @@ void run_test(int nEvents ) {
       // The event contains a vector (array) of particles.
       int nParticles = event->GetNTracks();
       //event t_hat
-      double t_hat = event->GetHardT();
-      
+
       TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
       TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
 
@@ -123,24 +148,35 @@ void run_test(int nEvents ) {
 
       } // for
 
-      //fermi momentum
-      double pxf = branch_pxf->GetValue(0,0);
-      double pyf = branch_pyf->GetValue(0,0);
-      double particle_ptF = sqrt(pxf*pxf + pyf*pyf);
+      
       //
 
       double particle_pt = sqrt(total4Mom_outgoing.Px()*total4Mom_outgoing.Px() + total4Mom_outgoing.Py()*total4Mom_outgoing.Py());
       
+      //1D histogram:
       pTvsThat->Fill( particle_pt, t_hat );
       Ntrk->Fill(nParticles);
-      energy_corr->Fill( total4Mom_incoming.E() - total4Mom_outgoing.E() );
+
+      double energy_diff = total4Mom_incoming.E() - total4Mom_outgoing.E();
+      energy_corr->Fill( energy_diff );
       px_corr->Fill( total4Mom_incoming.Px() - total4Mom_outgoing.Px() );
       py_corr->Fill( total4Mom_incoming.Py() - total4Mom_outgoing.Py() );
       pz_corr->Fill( total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() );
 
+      //2D histogram:
+      energyVsQ2_2Dcorr->Fill(energy_diff, trueQ2);
+      energyVsW2_2Dcorr->Fill(energy_diff, trueW2);
+      energyVsX_2Dcorr->Fill(energy_diff, trueX);
+      energyVsY_2Dcorr->Fill(energy_diff, trueY);
+      energyVsNu_2Dcorr->Fill(energy_diff, trueNu);
+      energyVsPf_2Dcorr->Fill(energy_diff, pf);
+      energyVsPtf_2Dcorr->Fill(energy_diff, ptf);
+      energyVsProcess_2Dcorr->Fill(energy_diff, event_process);
+
    } // for
 
-   TFile output("fixpf_mdmaker_JpsiNodecay_ePb.root","RECREATE");
+   TFile output("wrongpf_JpsiNodecay_eD.root","RECREATE");
+   
    ptHist.Write();    
    statusHist.Write();
    pTvsThat->Write();
@@ -149,6 +185,15 @@ void run_test(int nEvents ) {
    px_corr->Write();
    py_corr->Write();
    pz_corr->Write();
+
+   energyVsQ2_2Dcorr->Write();
+   energyVsW2_2Dcorr->Write();
+   energyVsX_2Dcorr->Write();
+   energyVsY_2Dcorr->Write();
+   energyVsNu_2Dcorr->Write();
+   energyVsPf_2Dcorr->Write();
+   energyVsPtf_2Dcorr->Write();
+   energyVsProcess_2Dcorr->Write();
 
 }
 
