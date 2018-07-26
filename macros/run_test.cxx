@@ -208,6 +208,9 @@ void run_test(int nEvents ) {
       energy_corr_ionframe->Fill( energy_diff_ion );
       pz_corr_ionframe->Fill( total4Mom_incoming_ionframe.Pz() - total4Mom_outgoing_ionframe.Pz() );
 
+      cout << "incoming: " << total4Mom_incoming_ionframe.E() << endl;
+      cout << "outgoing: " << total4Mom_outgoing_ionframe.E() << endl;
+      
       cout << "diff " << energy_diff_ion << endl;
 
       //2D histogram:
