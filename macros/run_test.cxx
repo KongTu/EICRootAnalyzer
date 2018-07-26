@@ -168,25 +168,30 @@ void run_test(int nEvents ) {
          // cout << "gamma py = " << photon_4mom.Py() << endl;
          // cout << "gamma pz = " << photon_4mom.Pz() << endl;
 
-         TLorentzVector particle_4mom = particle->PxPyPzE();//lab frame
-
-         double pz_labframe = particle_4mom.Pz();
-         double E_labframe = particle_4mom.E();
-         double mass_labframe = particle->GetM();
-         double gamma_particle = E_labframe/mass_labframe;
-
-         double pz_ionframe = gamma_particle*(pz_labframe - velocity*E_labframe);
-         double E_ionframe = gamma_particle*(E_labframe - velocity*pz_labframe);
-
-         cout << "gamma particle " << gamma_particle << endl;
-         cout << "velocity: " << velocity << endl;
-         cout << "E_labframe: " << E_labframe << endl;
-         cout << "pz_labframe: " << pz_labframe << endl;
-          
-         cout << "pz_ionframe " << pz_ionframe << endl;
-
-         TLorentzVector temp_4mom(particle_4mom.Px(), particle_4mom.Py(), pz_ionframe, E_ionframe);
+         
          if( status == 1 ){
+            
+            TLorentzVector particle_4mom = particle->PxPyPzE();//lab frame
+
+            double pz_labframe = particle_4mom.Pz();
+            double E_labframe = particle_4mom.E();
+            double mass_labframe = particle->GetM();
+            double gamma_particle = E_labframe/mass_labframe;
+
+            double pz_ionframe = gamma_particle*(pz_labframe - velocity*E_labframe);
+            double E_ionframe = gamma_particle*(E_labframe - velocity*pz_labframe);
+
+            cout << " ---------------- " << endl;
+            cout << "gamma particle " << gamma_particle << endl;
+            cout << "velocity: " << velocity << endl;
+            cout << "E_labframe: " << E_labframe << endl;
+            cout << "pz_labframe: " << pz_labframe << endl;
+
+            cout << "pz_ionframe " << pz_ionframe << endl;
+
+            TLorentzVector temp_4mom(particle_4mom.Px(), particle_4mom.Py(), pz_ionframe, E_ionframe);
+
+
             total4Mom_outgoing += particle_4mom;
             total4Mom_outgoing_ionframe += temp_4mom;
          }
