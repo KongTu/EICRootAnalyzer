@@ -72,6 +72,10 @@ void run_test(int nEvents ) {
    TH1D* py_corr = new TH1D("py_corr","; py_{in} - py_{out}", 600,-30,30);
    TH1D* pz_corr = new TH1D("pz_corr","; pz_{in} - pz_{out}", 600,-30,30);
 
+   TH1D* energy_corr_ionframe = new TH1D("energy_corr_ionframe",";E_{in} - E_{out}",600,-30,30);
+   TH1D* pz_corr_ionframe = new TH1D("pz_corr_ionframe","; pz_{in} - pz_{out}", 600,-30,30);
+
+
    TH2D* energyVsQ2_2Dcorr = new TH2D("energyVsQ2_2Dcorr",";E_{in} - E_{out};Q2",600,-30,30, 200,0,10);
    TH2D* energyVsW2_2Dcorr = new TH2D("energyVsW2_2Dcorr",";E_{in} - E_{out};W2",600,-30,30, 2000,0,20000);
    TH2D* energyVsX_2Dcorr = new TH2D("energyVsX_2Dcorr",";E_{in} - E_{out};X",600,-30,30, 1000,0,0.5);
@@ -129,7 +133,7 @@ void run_test(int nEvents ) {
 
       cout << "pz_lepton_ionframe = " << pz_lepton_ionframe << endl;
       cout << "total_lep_energy_ionframe = " << total_lep_energy_ionframe << endl;
-      
+
 
       //Lab frame:
       TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
@@ -139,16 +143,20 @@ void run_test(int nEvents ) {
       TLorentzVector total4Mom_deuteron_ionframe(0., 0., 0., D_mass);
       TLorentzVector total4Mom_electron_ionframe(0., 0., pz_lepton_ionframe, total_lep_energy_ionframe);
 
-
-      // The event contains a vector (array) of particles.
-      int nParticles = event->GetNTracks();
-      //event t_hat
-
+      //Lab frame
       TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
       TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
 
+      //Ion frame: 
+      TLorentzVector total4Mom_outgoing_ionframe(0.,0.,0.,0.);
+      TLorentzVector total4Mom_incoming_ionframe = total4Mom_deuteron_ionframe + total4Mom_electron_ionframe;
+
       // We now know the number of particles in the event, so loop over
       // the particles:
+
+     // The event contains a vector (array) of particles.
+      int nParticles = event->GetNTracks();
+ 
       for(int j(0); j < nParticles; ++j ) {
          const erhic::ParticleMC* particle = event->GetTrack(j);
 	 
@@ -164,10 +172,20 @@ void run_test(int nEvents ) {
          // cout << "gamma py = " << photon_4mom.Py() << endl;
          // cout << "gamma pz = " << photon_4mom.Pz() << endl;
 
-         TLorentzVector particle_4mom = particle->PxPyPzE();
+         TLorentzVector particle_4mom = particle->PxPyPzE();//lab frame
 
+         double pz_labframe = particle_4mom.Pz();
+         double E_labframe = particle_4mom.E();
+         double mass_labframe = particle->GetM();
+         double gamma_particle = E_labframe/mass_labframe;
+
+         double pz_ionframe = gamma_particle*(pz_labframe - velocity*E_labframe);
+         double E_ionframe = gamma_particle*(E_labframe - velocity*pz_labframe);
+
+         TLorentzVector temp_4mom(particle_4mom.Px(), particle_4mom.Py(), pz_ionframe, E_ionframe);
          if( status == 1 ){
             total4Mom_outgoing += particle_4mom;
+            total4Mom_outgoing_ionframe += temp_4mom;
          }
             
 	      ptHist.Fill(particle->GetPt());
@@ -189,6 +207,10 @@ void run_test(int nEvents ) {
       px_corr->Fill( total4Mom_incoming.Px() - total4Mom_outgoing.Px() );
       py_corr->Fill( total4Mom_incoming.Py() - total4Mom_outgoing.Py() );
       pz_corr->Fill( total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() );
+
+      double energy_diff_ion = total4Mom_incoming_ionframe.E() - total4Mom_outgoing_ionframe.E();
+      energy_corr_ionframe->Fill( energy_diff_ion );
+      pz_corr_ionframe->Fill( total4Mom_incoming_ionframe.Pz() - total4Mom_outgoing_ionframe.Pz() );
 
       //2D histogram:
       energyVsQ2_2Dcorr->Fill(energy_diff, trueQ2);
@@ -212,6 +234,9 @@ void run_test(int nEvents ) {
    px_corr->Write();
    py_corr->Write();
    pz_corr->Write();
+
+   energy_corr_ionframe->Write();
+   pz_corr_ionframe->Write();
 
    energyVsQ2_2Dcorr->Write();
    energyVsW2_2Dcorr->Write();
