@@ -122,7 +122,7 @@ void run_test(int nEvents ) {
       double bz = pz_total/(gamma_ion*D_mass);
 
       TVector3 b;
-      total4Mom_electron.Boost(0,0,bz);
+      total4Mom_electron.Boost(0,0,-bz);
       total4Mom_electron.Boost(b);
 
       cout << "pz boost = " << total4Mom_electron.Pz() << endl;
