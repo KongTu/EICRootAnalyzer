@@ -175,8 +175,8 @@ void run_test(int nEvents ) {
          double mass_labframe = particle->GetM();
          double gamma_particle = E_labframe/mass_labframe;
 
-         double pz_ionframe = gamma_particle*(pz_labframe - velocity*E_labframe);
-         double E_ionframe = gamma_particle*(E_labframe - velocity*pz_labframe);
+         double pz_ionframe = gamma_particle*(pz_labframe + velocity*E_labframe);
+         double E_ionframe = gamma_particle*(E_labframe + velocity*pz_labframe);
 
          TLorentzVector temp_4mom(particle_4mom.Px(), particle_4mom.Py(), pz_ionframe, E_ionframe);
          if( status == 1 ){
