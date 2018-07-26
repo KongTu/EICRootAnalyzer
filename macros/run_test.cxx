@@ -125,8 +125,8 @@ void run_test(int nEvents ) {
       TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
       TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
 
-      cout << "lab pz" << total4Mom_electron.Pz() << endl;
-      total4Mom_electron.Boost(0.0,0.0,pz_total);
+      //cout << "lab pz" << total4Mom_electron.Pz() << endl;
+      //total4Mom_electron.Boost(0.0,0.0,pz_total);
       //cout << "boost pz " << total4Mom_electron.Pz() << endl;
 
       //Lab frame
