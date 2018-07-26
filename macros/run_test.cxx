@@ -124,8 +124,6 @@ void run_test(int nEvents ) {
 
       total4Mom_deuteron.Boost(0,0,-bz);
       total4Mom_deuteron.Boost(b);
-
-      b.clear();
       //end here
 
       // The event contains a vector (array) of particles.
@@ -156,11 +154,11 @@ void run_test(int nEvents ) {
 
          if( status == 1 ){
             
-            TVector3 bb;
-            particle_4mom.Boost(0,0,-bz);
-            particle_4mom.Boost(bb);
+            // TVector3 bb;
+            // particle_4mom.Boost(0,0,-bz);
+            // particle_4mom.Boost(bb);
             total4Mom_outgoing += particle_4mom;
-            bb.clear();
+            
          }
             
          ptHist.Fill(particle->GetPt());
