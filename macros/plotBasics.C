@@ -47,7 +47,7 @@ void plotBasics(){
 
 	for(int i = 0; i < 8; i++){
 
-		c1[i] = new TCanvas("c1","",1,1,700,700);
+		c1[i] = new TCanvas("c1",name[i],1,1,700,700);
 		c1[i]->Divide(3,3);
 		c1[i]->cd(1);
 		pz_corr[i]->SetTitle("p_{z,in} - p_{z,out}");
