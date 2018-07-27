@@ -193,7 +193,11 @@ void run_test( int nEvents, bool doBoost ) {
 
    } // for
 
-   TFile output("wrongpf_JpsiNodecay_eD.root","RECREATE");
+   TString outfilename;
+   if( doBoost ) outfilename = "JpsiNodecay_eD_ionframe.root";
+   else outfilename = "JpsiNodecay_eD.root";
+
+   TFile output("wrongpf_"+outfilename,"RECREATE");
    
    ptHist.Write();    
    statusHist.Write();
