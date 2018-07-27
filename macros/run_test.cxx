@@ -176,8 +176,6 @@ void run_test( int nEvents, bool doBoost, TString inputFilename ) {
       Ntrk->Fill(nParticles);
 
       double energy_diff = total4Mom_incoming.E() - total4Mom_outgoing.E();
-
-      cout << "energy_diff " << energy_diff << endl;
       energy_corr->Fill( energy_diff );
       px_corr->Fill( total4Mom_incoming.Px() - total4Mom_outgoing.Px() );
       py_corr->Fill( total4Mom_incoming.Py() - total4Mom_outgoing.Py() );
