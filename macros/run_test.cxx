@@ -194,8 +194,8 @@ void run_test( int nEvents, bool doBoost, TString inputFilename ) {
    } // for
 
    TString outfilename;
-   if( doBoost ) outfilename = "JpsiNodecay_eD_ionframe.root";
-   else outfilename = "JpsiNodecay_eD.root";
+   if( doBoost ) outfilename = "_JpsiNodecay_eD_ionframe.root";
+   else outfilename = "_JpsiNodecay_eD.root";
 
    TFile output(inputFilename+outfilename,"RECREATE");
    
