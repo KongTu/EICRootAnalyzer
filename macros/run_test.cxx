@@ -70,8 +70,8 @@ void run_test( int nEvents, bool doBoost, TString inputFilename ) {
    TH2D* energyVsX_2Dcorr = new TH2D("energyVsX_2Dcorr",";E_{in} - E_{out};X",600,-30,30, 1000,0,0.5);
    TH2D* energyVsY_2Dcorr = new TH2D("energyVsY_2Dcorr",";E_{in} - E_{out};Y",600,-30,30, 1000,0,1.0);
    TH2D* energyVsNu_2Dcorr = new TH2D("energyVsNu_2Dcorr",";E_{in} - E_{out};Nu",600,-30,30, 200, 0,10000);
-   TH2D* energyVsPf_2Dcorr = new TH2D("energyVsPf_2Dcorr",";E_{in} - E_{out};pf",600,-30,30, 200, -10,10);
-   TH2D* energyVsPtf_2Dcorr = new TH2D("energyVsPtf_2Dcorr",";E_{in} - E_{out};ptf",600,-30,30, 200, -10,10);
+   TH2D* energyVsPf_2Dcorr = new TH2D("energyVsPf_2Dcorr",";E_{in} - E_{out};pf",600,-30,30, 2000, -1,1);
+   TH2D* energyVsPtf_2Dcorr = new TH2D("energyVsPtf_2Dcorr",";E_{in} - E_{out};ptf",600,-30,30, 2000, -1,1);
    TH2D* energyVsProcess_2Dcorr = new TH2D("energyVsProcess_2Dcorr",";E_{in} - E_{out};process",600,-30,30, 10, 90,100);
 
 
@@ -197,7 +197,7 @@ void run_test( int nEvents, bool doBoost, TString inputFilename ) {
    if( doBoost ) outfilename = "_JpsiNodecay_ePb_ionframe.root";
    else outfilename = "_JpsiNodecay_ePb.root";
 
-   TFile output(inputFilename+outfilename,"RECREATE");
+   TFile output("../rootfiles/"+inputFilename+outfilename,"RECREATE");
    
    ptHist.Write();    
    statusHist.Write();
