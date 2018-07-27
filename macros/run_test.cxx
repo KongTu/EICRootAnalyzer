@@ -9,7 +9,7 @@
 // root [0] .L /path/to/read.cxx
 // root [1] read("myInputFile.root", 10000 )
 
-void run_test(int nEvents, bool doBoost ) {
+void run_test( int nEvents ) {
    
    // If the analysis solely uses TTree::Draw statements, you don't need to load
    // the shared library. You will receive warnings such as
@@ -118,17 +118,13 @@ void run_test(int nEvents, bool doBoost ) {
       double gamma_ion = total_energy/D_mass;
       double bz = pz_total/(gamma_ion*D_mass);
 
-      if( doBoost ){
+      TVector3 b;
+      total4Mom_electron.Boost(0,0,-bz);
+      total4Mom_electron.Boost(b);
 
-         TVector3 b;
-         total4Mom_electron.Boost(0,0,-bz);
-         total4Mom_electron.Boost(b);
+      total4Mom_deuteron.Boost(0,0,-bz);
+      total4Mom_deuteron.Boost(b);
 
-         total4Mom_deuteron.Boost(0,0,-bz);
-         total4Mom_deuteron.Boost(b);
-
-      }//end boost
-      
       //end here
 
       // The event contains a vector (array) of particles.
@@ -159,11 +155,9 @@ void run_test(int nEvents, bool doBoost ) {
 
          if( status == 1 ){
             
-            if( doBoost ){
-               particle_4mom.Boost(0,0,-bz);
-               particle_4mom.Boost(b);
-            }
-
+            particle_4mom.Boost(0,0,-bz);
+            particle_4mom.Boost(b);
+         
             total4Mom_outgoing += particle_4mom;   
          }
             
