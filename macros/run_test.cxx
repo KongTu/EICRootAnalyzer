@@ -9,7 +9,7 @@
 // root [0] .L /path/to/read.cxx
 // root [1] read("myInputFile.root", 10000 )
 
-void run_test(int nEvents ) {
+void run_test(int nEvents, bool doBoost ) {
    
    // If the analysis solely uses TTree::Draw statements, you don't need to load
    // the shared library. You will receive warnings such as
@@ -118,12 +118,17 @@ void run_test(int nEvents ) {
       double gamma_ion = total_energy/D_mass;
       double bz = pz_total/(gamma_ion*D_mass);
 
-      TVector3 b;
-      total4Mom_electron.Boost(0,0,-bz);
-      total4Mom_electron.Boost(b);
+      if( doBoost ){
 
-      total4Mom_deuteron.Boost(0,0,-bz);
-      total4Mom_deuteron.Boost(b);
+         TVector3 b;
+         total4Mom_electron.Boost(0,0,-bz);
+         total4Mom_electron.Boost(b);
+
+         total4Mom_deuteron.Boost(0,0,-bz);
+         total4Mom_deuteron.Boost(b);
+
+      }//end boost
+      
       //end here
 
       // The event contains a vector (array) of particles.
@@ -154,20 +159,18 @@ void run_test(int nEvents ) {
 
          if( status == 1 ){
             
-            
-            particle_4mom.Boost(0,0,-bz);
-            particle_4mom.Boost(b);
-            total4Mom_outgoing += particle_4mom;
-            
+            if( doBoost ){
+               particle_4mom.Boost(0,0,-bz);
+               particle_4mom.Boost(b);
+            }
+
+            total4Mom_outgoing += particle_4mom;   
          }
             
          ptHist.Fill(particle->GetPt());
          statusHist.Fill( status ); 
 
       } // for
-
-      
-      //
 
       double particle_pt = sqrt(total4Mom_outgoing.Px()*total4Mom_outgoing.Px() + total4Mom_outgoing.Py()*total4Mom_outgoing.Py());
       
@@ -193,7 +196,11 @@ void run_test(int nEvents ) {
 
    } // for
 
-   TFile output("wrongpf_JpsiNodecay_eD.root","RECREATE");
+   TString outfile;
+   if(doBoost) outfile = "wrongpf_JpsiNodecay_eD_ionframe.root";
+   outfile = "wrongpf_JpsiNodecay_eD.root"
+
+   TFile output(outfile,"RECREATE");
    
    ptHist.Write();    
    statusHist.Write();
