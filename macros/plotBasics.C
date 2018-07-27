@@ -5,14 +5,14 @@ using namespace std;
 void plotBasics(){
 
 	TFile* file[20];
-	file[0] = new TFile("wrongpf_JpsiNodecay_eD.root");
-	file[1] = new TFile("wrongpf_JpsiNodecay_eD_ionframe.root");
-	file[2] = new TFile("fixpf_JpsiNodecay_eD.root");
-	file[3] = new TFile("fixpf_JpsiNodecay_eD_ionframe.root");
-	file[4] = new TFile("highpf_JpsiNodecay_eD.root");
-	file[5] = new TFile("highpf_JpsiNodecay_eD_ionframe.root");
-	file[6] = new TFile("zeropf_JpsiNodecay_eD.root");
-	file[7] = new TFile("zeropf_JpsiNodecay_eD_ionframe.root");
+	file[0] = new TFile("../rootfiles/wrongpf_JpsiNodecay_eD.root");
+	file[1] = new TFile("../rootfiles/wrongpf_JpsiNodecay_eD_ionframe.root");
+	file[2] = new TFile("../rootfiles/fixpf_JpsiNodecay_eD.root");
+	file[3] = new TFile("../rootfiles/fixpf_JpsiNodecay_eD_ionframe.root");
+	file[4] = new TFile("../rootfiles/highpf_JpsiNodecay_eD.root");
+	file[5] = new TFile("../rootfiles/highpf_JpsiNodecay_eD_ionframe.root");
+	file[6] = new TFile("../rootfiles/zeropf_JpsiNodecay_eD.root");
+	file[7] = new TFile("../rootfiles/zeropf_JpsiNodecay_eD_ionframe.root");
 	
 	TH1D* pz_corr[8];
 	TH1D* energy_corr[8];
