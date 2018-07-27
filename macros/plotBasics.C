@@ -94,6 +94,6 @@ void plotBasics(){
 	//energyVsProcess_2Dcorr->GetXaxis()->SetRangeUser(280,320);
 	energyVsProcess_2Dcorr[0]->Draw("colz");
 
-	c1->Print("test.pdf");
+	c1->Print("wrongpf_JpsiNodecay_eD.pdf");
 
 }
