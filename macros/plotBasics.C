@@ -79,13 +79,13 @@ void plotBasics(){
 	c1->cd(7);
 	gPad->SetLogz();
 	energyVsPf_2Dcorr[0]->SetTitle("pf vs E_{in}-E_{out}");
-	energyVsPf_2Dcorr[0]->GetYaxis()->SetRangeUser(-0.3,0.3);
+	energyVsPf_2Dcorr[0]->GetYaxis()->SetRangeUser(-0.1,0.3);
 	energyVsPf_2Dcorr[0]->Draw("colz");
 
 	c1->cd(8);
 	gPad->SetLogz();
 	energyVsPtf_2Dcorr[0]->SetTitle("ptf vs E_{in}-E_{out}");
-	energyVsPtf_2Dcorr[0]->GetYaxis()->SetRangeUser(-0.3,0.3);
+	energyVsPtf_2Dcorr[0]->GetYaxis()->SetRangeUser(-0.1,0.3);
 	energyVsPtf_2Dcorr[0]->Draw("colz");
 
 	c1->cd(9);
