@@ -4,22 +4,89 @@ using namespace std;
 
 void plotBasics(){
 
-	TFile* file = new TFile("highpf_JpsiDecay_eD.root");
-	TH1D* pz_corr = (TH1D*) file->Get("pz_corr");
-	TH1D* energy_corr = (TH1D*) file->Get("energy_corr");
+	TFile* file[20];
+	file[0] = new TFile("wrongpf_JpsiNodecay_eD.root");
+	file[1] = new TFile("wrongpf_JpsiNodecay_eD_ionframe.root");
+	file[2] = new TFile("fixpf_JpsiNodecay_eD.root");
+	file[3] = new TFile("fixpf_JpsiNodecay_eD_ionframe.root");
+	file[4] = new TFile("highpf_JpsiNodecay_eD.root");
+	file[5] = new TFile("highpf_JpsiNodecay_eD_ionframe.root");
+	file[6] = new TFile("zeropf_JpsiNodecay_eD.root");
+	file[7] = new TFile("zeropf_JpsiNodecay_eD_ionframe.root");
+	
+	TH1D* pz_corr[8];
+	TH1D* energy_corr[8];
+	
+	TH2D* energyVsQ2_2Dcorr[8];
+	TH2D* energyVsW2_2Dcorr[8];
+	TH2D* energyVsX_2Dcorr[8];
+	TH2D* energyVsY_2Dcorr[8];
+	TH2D* energyVsNu_2Dcorr[8];
+	TH2D* energyVsPf_2Dcorr[8];
+	TH2D* energyVsPtf_2Dcorr[8];
+	TH2D* energyVsProcess_2Dcorr[8];
 
-	TCanvas* c1 = new TCanvas("c1","",1,1,800,400);
-	c1->Divide(2,1);
+	for(int i = 0; i < 8; i++){
+
+		pz_corr[i] = (TH1D*) file[i]->Get("pz_corr");
+		energy_corr[i] = (TH1D*) file[i]->Get("energy_corr");
+		energyVsQ2_2Dcorr[i] = (TH2D*) file[i]->Get("energyVsQ2_2Dcorr");
+		energyVsW2_2Dcorr[i] = (TH2D*) file[i]->Get("energyVsW2_2Dcorr");
+		energyVsX_2Dcorr[i] = (TH2D*) file[i]->Get("energyVsX_2Dcorr");
+		energyVsY_2Dcorr[i] = (TH2D*) file[i]->Get("energyVsY_2Dcorr");
+		energyVsNu_2Dcorr[i] = (TH2D*) file[i]->Get("energyVsNu_2Dcorr");
+		energyVsPf_2Dcorr[i] = (TH2D*) file[i]->Get("energyVsPf_2Dcorr");
+		energyVsPtf_2Dcorr[i] = (TH2D*) file[i]->Get("energyVsPtf_2Dcorr");
+		energyVsProcess_2Dcorr[i] = (TH2D*) file[i]->Get("energyVsProcess_2Dcorr");
+	}
+
+	TCanvas* c1 = new TCanvas("c1","",1,1,900,900);
+	c1->Divide(3,3);
 	c1->cd(1);
-	pz_corr->SetTitle("highpf_eD");
+	pz_corr[0]->SetTitle("");
 	//pz_corr->GetXaxis()->SetRangeUser(240,270);
-	pz_corr->Draw("");
+	pz_corr[0]->Draw("");
 	
 	c1->cd(2);
-	energy_corr->SetTitle("highpf_eD");
+	energy_corr[0]->SetTitle("highpf_eD");
 	//energy_corr->GetXaxis()->SetRangeUser(280,320);
-	energy_corr->Draw("");
+	energy_corr[0]->Draw("");
 
-	c1->Print("pz_corr_highpf_JpsiDecay_eD.pdf");
+	c1->cd(3);
+	energyVsQ2_2Dcorr[0]->SetTitle("highpf_eD");
+	//energyVsQ2_2Dcorr->GetXaxis()->SetRangeUser(280,320);
+	energyVsQ2_2Dcorr[0]->Draw("");
+
+	c1->cd(4);
+	energyVsW2_2Dcorr[0]->SetTitle("highpf_eD");
+	//energyVsW2_2Dcorr->GetXaxis()->SetRangeUser(280,320);
+	energyVsW2_2Dcorr[0]->Draw("");
+
+	c1->cd(5);
+	energyVsX_2Dcorr[0]->SetTitle("highpf_eD");
+	//energyVsX_2Dcorr->GetXaxis()->SetRangeUser(280,320);
+	energyVsX_2Dcorr[0]->Draw("");
+
+	c1->cd(6);
+	energyVsY_2Dcorr[0]->SetTitle("highpf_eD");
+	//energyVsY_2Dcorr->GetXaxis()->SetRangeUser(280,320);
+	energyVsY_2Dcorr[0]->Draw("");
+
+	c1->cd(7);
+	energyVsPf_2Dcorr[0]->SetTitle("highpf_eD");
+	//energyVsPf_2Dcorr->GetXaxis()->SetRangeUser(280,320);
+	energyVsPf_2Dcorr[0]->Draw("");
+
+	c1->cd(8);
+	energyVsPtf_2Dcorr[0]->SetTitle("highpf_eD");
+	//energyVsPtf_2Dcorr->GetXaxis()->SetRangeUser(280,320);
+	energyVsPtf_2Dcorr[0]->Draw("");
+
+	c1->cd(9);
+	energyVsProcess_2Dcorr[0]->SetTitle("highpf_eD");
+	//energyVsProcess_2Dcorr->GetXaxis()->SetRangeUser(280,320);
+	energyVsProcess_2Dcorr[0]->Draw("");
+
+	c1->Print("test.pdf");
 
 }
