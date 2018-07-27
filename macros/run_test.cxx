@@ -103,7 +103,7 @@ void run_test( int nEvents, bool doBoost, TString inputFilename ) {
       double pztarg = branch_pz->GetValue(0,0);
       double Atarg = branch_atarg->GetValue(0,0);
       double pz_total = pztarg*Atarg;
-      double D_mass = 193;//1.8755 for D, 193 for Pb
+      double D_mass = 1.8755;//1.8755 for D, 193 for Pb
       double total_energy = sqrt(pz_total*pz_total + D_mass*D_mass);
 
       //electron, neglect electron mass
