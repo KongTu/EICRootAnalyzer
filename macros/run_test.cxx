@@ -9,7 +9,7 @@
 // root [0] .L /path/to/read.cxx
 // root [1] read("myInputFile.root", 10000 )
 
-void run_test( int nEvents, bool doBoost ) {
+void run_test( int nEvents, bool doBoost, TString inputFilename ) {
    
    // If the analysis solely uses TTree::Draw statements, you don't need to load
    // the shared library. You will receive warnings such as
@@ -26,7 +26,7 @@ void run_test( int nEvents, bool doBoost ) {
    
    // Add the file(s) we want to analyse to the chain.
    // We could add multiple files if we wanted.
-   tree->Add("../../EICTree/eD_Jpsidiffnodecay_EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_wrongpf.root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
+   tree->Add("../../EICTree/eD_Jpsidiffnodecay_EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
 // tree.Add(/path/to/otherFileNames ); // etc... 
    
    // Create an object to store the current event from the tree.
@@ -197,7 +197,7 @@ void run_test( int nEvents, bool doBoost ) {
    if( doBoost ) outfilename = "JpsiNodecay_eD_ionframe.root";
    else outfilename = "JpsiNodecay_eD.root";
 
-   TFile output("wrongpf_"+outfilename,"RECREATE");
+   TFile output(inputFilename+outfilename,"RECREATE");
    
    ptHist.Write();    
    statusHist.Write();
