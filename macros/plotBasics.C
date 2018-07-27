@@ -4,7 +4,7 @@ using namespace std;
 
 void plotBasics(){
 
-	TString name[8];
+	TString name[20];
 	name[0] = "wrongpf_JpsiNodecay_eD";
 	name[1] = "wrongpf_JpsiNodecay_eD_ionframe";
 	name[2] = "fixpf_JpsiNodecay_eD";
@@ -13,23 +13,31 @@ void plotBasics(){
 	name[5] = "highpf_JpsiNodecay_eD_ionframe";
 	name[6] = "zeropf_JpsiNodecay_eD";
 	name[7] = "zeropf_JpsiNodecay_eD_ionframe";
+	name[8] = "fixpf_JpsiNodecay_ePb";
+	name[9] = "fixpf_JpsiNodecay_ePb_ionframe";
+	name[10] = "wrongpf_Jpsilept_eD";
+	name[11] = "wrongpf_Jpsilept_eD_ionframe";
+	name[12] = "fixpf_Jpsilept_eD";
+	name[13] = "fixpf_Jpsilept_eD_ionframe";
+	name[14] = "highpf_Jpsilept_eD";
+	name[15] = "highpf_Jpsilept_eD_ionframe";
 
 	TFile* file[20];
-	for(int i = 0; i < 8; i++){file[i] = new TFile("../rootfiles/"+name[i]+".root");}
+	for(int i = 0; i < 16; i++){file[i] = new TFile("../rootfiles/"+name[i]+".root");}
 
-	TH1D* pz_corr[8];
-	TH1D* energy_corr[8];
+	TH1D* pz_corr[20];
+	TH1D* energy_corr[20];
 	
-	TH2D* energyVsQ2_2Dcorr[8];
-	TH2D* energyVsW2_2Dcorr[8];
-	TH2D* energyVsX_2Dcorr[8];
-	TH2D* energyVsY_2Dcorr[8];
-	TH2D* energyVsNu_2Dcorr[8];
-	TH2D* energyVsPf_2Dcorr[8];
-	TH2D* energyVsPtf_2Dcorr[8];
-	TH2D* energyVsProcess_2Dcorr[8];
+	TH2D* energyVsQ2_2Dcorr[20];
+	TH2D* energyVsW2_2Dcorr[20];
+	TH2D* energyVsX_2Dcorr[20];
+	TH2D* energyVsY_2Dcorr[20];
+	TH2D* energyVsNu_2Dcorr[20];
+	TH2D* energyVsPf_2Dcorr[20];
+	TH2D* energyVsPtf_2Dcorr[20];
+	TH2D* energyVsProcess_2Dcorr[20];
 
-	for(int i = 0; i < 8; i++){
+	for(int i = 0; i < 16; i++){
 
 		pz_corr[i] = (TH1D*) file[i]->Get("pz_corr");
 		energy_corr[i] = (TH1D*) file[i]->Get("energy_corr");
@@ -43,9 +51,9 @@ void plotBasics(){
 		energyVsProcess_2Dcorr[i] = (TH2D*) file[i]->Get("energyVsProcess_2Dcorr");
 	}
 
-	TCanvas* c1[8];
+	TCanvas* c1[20];
 
-	for(int i = 0; i < 8; i++){
+	for(int i = 0; i < 16; i++){
 
 		c1[i] = new TCanvas("c1",name[i],1,1,700,700);
 		c1[i]->Divide(3,3);
