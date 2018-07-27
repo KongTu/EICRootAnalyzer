@@ -43,54 +43,54 @@ void plotBasics(){
 	TCanvas* c1 = new TCanvas("c1","",1,1,700,700);
 	c1->Divide(3,3);
 	c1->cd(1);
-	pz_corr[0]->SetTitle("");
+	pz_corr[0]->SetTitle("p_{z,in} - p_{z,out}");
 	//pz_corr->GetXaxis()->SetRangeUser(240,270);
 	pz_corr[0]->Draw("");
 	
 	c1->cd(2);
-	energy_corr[0]->SetTitle("highpf_eD");
+	energy_corr[0]->SetTitle("E_{in} - E_{out}");
 	//energy_corr->GetXaxis()->SetRangeUser(280,320);
 	energy_corr[0]->Draw("");
 
 	c1->cd(3);
 	gPad->SetLogz();
-	energyVsQ2_2Dcorr[0]->SetTitle("highpf_eD");
+	energyVsQ2_2Dcorr[0]->SetTitle("Q2 vs E_{in}-E_{out}");
 	//energyVsQ2_2Dcorr->GetXaxis()->SetRangeUser(280,320);
 	energyVsQ2_2Dcorr[0]->Draw("colz");
 
 	c1->cd(4);
 	gPad->SetLogz();
-	energyVsW2_2Dcorr[0]->SetTitle("highpf_eD");
+	energyVsW2_2Dcorr[0]->SetTitle("W2 vs E_{in}-E_{out}");
 	//energyVsW2_2Dcorr->GetXaxis()->SetRangeUser(280,320);
 	energyVsW2_2Dcorr[0]->Draw("colz");
 
 	c1->cd(5);
 	gPad->SetLogz();
-	energyVsX_2Dcorr[0]->SetTitle("highpf_eD");
+	energyVsX_2Dcorr[0]->SetTitle("x vs E_{in}-E_{out}");
 	//energyVsX_2Dcorr->GetXaxis()->SetRangeUser(280,320);
 	energyVsX_2Dcorr[0]->Draw("colz");
 
 	c1->cd(6);
 	gPad->SetLogz();
-	energyVsY_2Dcorr[0]->SetTitle("highpf_eD");
+	energyVsY_2Dcorr[0]->SetTitle("y vs E_{in}-E_{out}");
 	//energyVsY_2Dcorr->GetXaxis()->SetRangeUser(280,320);
 	energyVsY_2Dcorr[0]->Draw("colz");
 
 	c1->cd(7);
 	gPad->SetLogz();
-	energyVsPf_2Dcorr[0]->SetTitle("highpf_eD");
-	//energyVsPf_2Dcorr->GetXaxis()->SetRangeUser(280,320);
+	energyVsPf_2Dcorr[0]->SetTitle("pf vs E_{in}-E_{out}");
+	energyVsPf_2Dcorr->GetYaxis()->SetRangeUser(-0.3,0.3);
 	energyVsPf_2Dcorr[0]->Draw("colz");
 
 	c1->cd(8);
 	gPad->SetLogz();
-	energyVsPtf_2Dcorr[0]->SetTitle("highpf_eD");
-	//energyVsPtf_2Dcorr->GetXaxis()->SetRangeUser(280,320);
+	energyVsPtf_2Dcorr[0]->SetTitle("ptf vs E_{in}-E_{out}");
+	energyVsPtf_2Dcorr->GetYaxis()->SetRangeUser(-0.3,0.3);
 	energyVsPtf_2Dcorr[0]->Draw("colz");
 
 	c1->cd(9);
 	gPad->SetLogz();
-	energyVsProcess_2Dcorr[0]->SetTitle("highpf_eD");
+	energyVsProcess_2Dcorr[0]->SetTitle("process vs E_{in}-E_{out}");
 	//energyVsProcess_2Dcorr->GetXaxis()->SetRangeUser(280,320);
 	energyVsProcess_2Dcorr[0]->Draw("colz");
 
