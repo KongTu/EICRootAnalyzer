@@ -59,42 +59,42 @@ void plotBasics(){
 		c1[i]->Divide(3,3);
 		c1[i]->cd(1);
 		pz_corr[i]->SetTitle("p_{z,in} - p_{z,out}");
-		pz_corr->GetXaxis()->SetRangeUser(-5,5);
+		pz_corr[i]->GetXaxis()->SetRangeUser(-5,5);
 		pz_corr[i]->Draw("");
 		
 		c1[i]->cd(2);
 		energy_corr[i]->SetTitle("E_{in} - E_{out}");
-		energy_corr->GetXaxis()->SetRangeUser(-5,5);
+		energy_corr[i]->GetXaxis()->SetRangeUser(-5,5);
 		energy_corr[i]->Draw("");
 
 		c1[i]->cd(3);
 		gPad->SetLogz();
 		energyVsQ2_2Dcorr[i]->SetTitle("Q2 vs E_{in}-E_{out}");
-		energyVsQ2_2Dcorr->GetXaxis()->SetRangeUser(-5,5);
+		energyVsQ2_2Dcorr[i]->GetXaxis()->SetRangeUser(-5,5);
 		energyVsQ2_2Dcorr[i]->Draw("colz");
 
 		c1[i]->cd(4);
 		gPad->SetLogz();
 		energyVsW2_2Dcorr[i]->SetTitle("W2 vs E_{in}-E_{out}");
-		energyVsW2_2Dcorr->GetXaxis()->SetRangeUser(-5,5);
+		energyVsW2_2Dcorr[i]->GetXaxis()->SetRangeUser(-5,5);
 		energyVsW2_2Dcorr[i]->Draw("colz");
 
 		c1[i]->cd(5);
 		gPad->SetLogz();
 		energyVsX_2Dcorr[i]->SetTitle("x vs E_{in}-E_{out}");
-		energyVsX_2Dcorr->GetXaxis()->SetRangeUser(-5,5);
+		energyVsX_2Dcorr[i]->GetXaxis()->SetRangeUser(-5,5);
 		energyVsX_2Dcorr[i]->Draw("colz");
 
 		c1[i]->cd(6);
 		gPad->SetLogz();
 		energyVsY_2Dcorr[i]->SetTitle("y vs E_{in}-E_{out}");
-		energyVsY_2Dcorr->GetXaxis()->SetRangeUser(-5,5);
+		energyVsY_2Dcorr[i]->GetXaxis()->SetRangeUser(-5,5);
 		energyVsY_2Dcorr[i]->Draw("colz");
 
 		c1[i]->cd(7);
 		gPad->SetLogz();
 		energyVsPf_2Dcorr[i]->SetTitle("pf vs E_{in}-E_{out}");
-		energyVsPf_2Dcorr->GetXaxis()->SetRangeUser(-5,5);
+		energyVsPf_2Dcorr[i]->GetXaxis()->SetRangeUser(-5,5);
 		energyVsPf_2Dcorr[i]->GetYaxis()->SetRangeUser(-0.1,0.3);
 		energyVsPf_2Dcorr[i]->Draw("colz");
 
@@ -102,13 +102,13 @@ void plotBasics(){
 		gPad->SetLogz();
 		energyVsPtf_2Dcorr[i]->SetTitle("ptf vs E_{in}-E_{out}");
 		energyVsPtf_2Dcorr[i]->GetYaxis()->SetRangeUser(-0.1,0.3);
-		energyVsPtf_2Dcorr->GetXaxis()->SetRangeUser(-5,5);
+		energyVsPtf_2Dcorr[i]->GetXaxis()->SetRangeUser(-5,5);
 		energyVsPtf_2Dcorr[i]->Draw("colz");
 
 		c1[i]->cd(9);
 		gPad->SetLogz();
 		energyVsProcess_2Dcorr[i]->SetTitle("process vs E_{in}-E_{out}");
-		energyVsProcess_2Dcorr->GetXaxis()->SetRangeUser(-5,5);
+		energyVsProcess_2Dcorr[i]->GetXaxis()->SetRangeUser(-5,5);
 		energyVsProcess_2Dcorr[i]->Draw("colz");
 
 		c1[i]->Print(name[i]+".pdf");
