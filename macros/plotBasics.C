@@ -23,7 +23,7 @@ void plotBasics(){
 	name[15] = "highpf_Jpsilept_eD_ionframe";
 
 	TFile* file[20];
-	for(int i = 0; i < 16; i++){file[i] = new TFile("../rootfiles/zoomin/"+name[i]+".root");}
+	for(int i = 0; i < 16; i++){file[i] = new TFile("../rootfiles/"+name[i]+".root");}
 
 	TH1D* pz_corr[20];
 	TH1D* energy_corr[20];
