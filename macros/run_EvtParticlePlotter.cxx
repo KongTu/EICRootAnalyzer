@@ -62,21 +62,21 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    TH1D* Ntrk = new TH1D("Ntrk",";Ntrk", 100, 0, 100);
    TH2D* pTvsThat = new TH2D("pTvsThat",";pT;t_hat", 1000,0,10,1000,-10,10);
    
-   TH1D* PtDist_process_91 = new TH1D("PtDist_process_91",";PtDist_process_91", 2000, 0,50);
-   TH1D* PhiDist_process_91 = new TH1D("PhiDist_process_91",";PhiDist_process_91", 20000, -5,5);
-   TH1D* EtaDist_process_91 = new TH1D("EtaDist_process_91",";EtaDist_process_91", 20000, -10,10);
+   TH1D* PtDist_process_91 = new TH1D("PtDist_process_91",";PtDist_process_91", 200, 0,10);
+   TH1D* PhiDist_process_91 = new TH1D("PhiDist_process_91",";PhiDist_process_91", 2000, 0,10);
+   TH1D* EtaDist_process_91 = new TH1D("EtaDist_process_91",";EtaDist_process_91", 2000, -10,10);
 
-   TH1D* PtDist_process_93 = new TH1D("PtDist_process_93",";PtDist_process_93", 2000, 0,50);
-   TH1D* PhiDist_process_93 = new TH1D("PhiDist_process_93",";PhiDist_process_93", 20000, -5,5);
-   TH1D* EtaDist_process_93 = new TH1D("EtaDist_process_93",";EtaDist_process_93", 20000, -10,10);
+   TH1D* PtDist_process_93 = new TH1D("PtDist_process_93",";PtDist_process_93", 200, 0,10);
+   TH1D* PhiDist_process_93 = new TH1D("PhiDist_process_93",";PhiDist_process_93", 2000, 0,10);
+   TH1D* EtaDist_process_93 = new TH1D("EtaDist_process_93",";EtaDist_process_93", 2000, -10,10);
 
-   TH1D* PtDist_process_91_Jpsi = new TH1D("PtDist_process_91_Jpsi",";PtDist_process_91_Jpsi", 2000, 0,50);
-   TH1D* PhiDist_process_91_Jpsi = new TH1D("PhiDist_process_91_Jpsi",";PhiDist_process_91_Jpsi", 20000, -5,5);
-   TH1D* EtaDist_process_91_Jpsi = new TH1D("EtaDist_process_91_Jpsi",";EtaDist_process_91_Jpsi", 20000, -10,10);
+   TH1D* PtDist_process_91_Jpsi = new TH1D("PtDist_process_91_Jpsi",";PtDist_process_91_Jpsi", 200, 0,10);
+   TH1D* PhiDist_process_91_Jpsi = new TH1D("PhiDist_process_91_Jpsi",";PhiDist_process_91_Jpsi", 2000, 0,10);
+   TH1D* EtaDist_process_91_Jpsi = new TH1D("EtaDist_process_91_Jpsi",";EtaDist_process_91_Jpsi", 2000, -10,10);
 
-   TH1D* PtDist_process_93_Jpsi = new TH1D("PtDist_process_93_Jpsi",";PtDist_process_93_Jpsi", 2000, 0,50);
-   TH1D* PhiDist_process_93_Jpsi = new TH1D("PhiDist_process_93_Jpsi",";PhiDist_process_93_Jpsi", 20000, -5,5);
-   TH1D* EtaDist_process_93_Jpsi = new TH1D("EtaDist_process_93_Jpsi",";EtaDist_process_93_Jpsi", 20000, -10,10);
+   TH1D* PtDist_process_93_Jpsi = new TH1D("PtDist_process_93_Jpsi",";PtDist_process_93_Jpsi", 200, 0,10);
+   TH1D* PhiDist_process_93_Jpsi = new TH1D("PhiDist_process_93_Jpsi",";PhiDist_process_93_Jpsi", 2000, 0,10);
+   TH1D* EtaDist_process_93_Jpsi = new TH1D("EtaDist_process_93_Jpsi",";EtaDist_process_93_Jpsi", 2000, -10,10);
 
    // Loop over events:
    for(int i(0); i < nEvents; ++i ) {
