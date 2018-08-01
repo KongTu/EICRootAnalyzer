@@ -16,7 +16,7 @@ void run_test( int nEvents, bool doBoost, TString inputFilename ) {
    // Warning in <TClass::TClass>: no dictionary for class Particle is available
    // but these can be ignored. However if you wish to work with the event
    // objects themselves, the shared library must be loaded:
-   gSystem->Load("/afs/rhic.bnl.gov/eic/MACROS/BuildTree/lib/BuildTree.so" ); // To use the master version
+   // gSystem->Load("/afs/rhic.bnl.gov/eic/MACROS/BuildTree/lib/BuildTree.so" ); // To use the master version
    
    //gSystem->Load("../lib/BuildTree.so" ); // To use your own compiled version
    
@@ -26,7 +26,7 @@ void run_test( int nEvents, bool doBoost, TString inputFilename ) {
    
    // Add the file(s) we want to analyse to the chain.
    // We could add multiple files if we wanted.
-   tree->Add("../../EICTree/eD_Jpsidifflept_EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidifflept_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
+   tree->Add("../../EICTree/eD_Jpsidiffnodecay_EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
 // tree.Add(/path/to/otherFileNames ); // etc... 
    
    // Create an object to store the current event from the tree.
@@ -38,7 +38,7 @@ void run_test( int nEvents, bool doBoost, TString inputFilename ) {
    // you can use EventBase and the macro will be general for any Monte Carlo.
    EventPythia* event(NULL);// = new EventPythia;
    //EventBase* event(NULL);
-   EventBeagle* event_beagle(NULL);
+   //EventBeagle* event_beagle(NULL);
    // Now associate the contents of the branch with the buffer.
    // The events are stored in a branch named event:
    tree->SetBranchAddress("event", &event ); // Note &event, not event.
@@ -194,8 +194,8 @@ void run_test( int nEvents, bool doBoost, TString inputFilename ) {
    } // for
 
    TString outfilename;
-   if( doBoost ) outfilename = "_Jpsilept_eD_ionframe.root";
-   else outfilename = "_Jpsilept_eD.root";
+   if( doBoost ) outfilename = "_JpsiNodcay_eD_ionframe.root";
+   else outfilename = "_JpsiNodcay_eD.root";
 
    TFile output("../rootfiles/"+inputFilename+outfilename,"RECREATE");
    
