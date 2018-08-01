@@ -162,8 +162,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    } // for
 
    TString outfilename;
-   if( doBoost ) outfilename = "_Jpsinodecay_eD_ionframe.root";
-   else outfilename = "_Jpsinodecay_eD.root";
+   if( doBoost ) outfilename = "_Jpsinodecay_EvtParticlePlotter_eD_ionframe.root";
+   else outfilename = "_Jpsinodecay_EvtParticlePlotter_eD.root";
 
    TFile output("../rootfiles/"+inputFilename+outfilename,"RECREATE");
    
