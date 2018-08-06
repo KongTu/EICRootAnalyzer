@@ -52,8 +52,6 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    TBranchElement* branch_pyf = (TBranchElement*) tree->GetBranch("pyf");
    TBranchElement* branch_pzf = (TBranchElement*) tree->GetBranch("pzf");
 
-   // Now we can do some analysis...
-   
    // Histograms for our analysis.
    TH1D* Ntrk_process_91 = new TH1D("Ntrk_process_91",";Ntrk_process_91", 100, 0, 100);
    TH1D* Ntrk_process_93 = new TH1D("Ntrk_process_93",";Ntrk_process_93", 100, 0, 100);
@@ -62,9 +60,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    
    TH1D* Ntrk = new TH1D("Ntrk",";Ntrk", 100, 0, 100);
    TH2D* pTvsThat = new TH2D("pTvsThat",";pT;t_hat", 1000,0,10,1000,-10,10);
-   
    //more in hist.h
-
+   // Now we can do some analysis...
    // Loop over events:
    for(int i(0); i < nEvents; ++i ) {
       
@@ -81,6 +78,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       double t_hat = event->GetHardT();
       double u_hat = event->GetHardU();
       int event_process = event->GetProcess();
+
+      Q2VsX->Fill(trueX, trueQ2);
 
       // The event contains a vector (array) of particles.
       int nParticles = event->GetNTracks();
@@ -103,6 +102,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
          double pt = particle->GetPt();
          double eta = particle->GetEta();
          double phi = particle->GetPhi();
+         double theta = particle->GetTheta();
+         double mom = particle->GetP();
 
          statusHist.Fill( status ); 
 
@@ -128,6 +129,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                PhiDist_process_91_proton->Fill( phi );
 
                PtVsEta_process_91_proton->Fill(eta, pt);
+               AngleVsMom_process_91_proton->Fill(mom, theta);
 
                double pt_91_proton = particle->GetPt();
 
@@ -139,6 +141,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                PhiDist_process_91_neutron->Fill( phi );
 
                PtVsEta_process_91_neutron->Fill(eta, pt);
+               AngleVsMom_process_91_neutron->Fill(mom, theta);
+
             }
 
             nParticles_process_91++;
@@ -164,6 +168,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                PhiDist_process_93_proton->Fill( phi );
 
                PtVsEta_process_93_proton->Fill(eta, pt);
+               AngleVsMom_process_93_proton->Fill(mom, theta);
 
                double pt_93_proton = particle->GetPt();
             }
@@ -174,6 +179,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                PhiDist_process_93_neutron->Fill( phi );
 
                PtVsEta_process_93_neutron->Fill(eta, pt);
+               AngleVsMom_process_93_neutron->Fill(mom, theta);
+           
             }
 
             nParticles_process_93++;
@@ -197,6 +204,10 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
    TFile output("../rootfiles/"+inputFilename+outfilename,"RECREATE");
    
+   Q2VsX->Write();
+
+
+
    statusHist.Write();
 
    Ntrk_process_all->Write();
@@ -243,6 +254,13 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
    PtVsPt_process_91_protonVsJpsi->Write();
    PtVsPt_process_93_protonVsJpsi->Write();
+
+   AngleVsMom_process_91_proton->Write();
+   AngleVsMom_process_91_neutron->Write();
+   
+   AngleVsMom_process_93_proton->Write();
+   AngleVsMom_process_93_neutron->Write();
+  
 
 }
 
