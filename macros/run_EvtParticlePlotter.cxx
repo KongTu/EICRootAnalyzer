@@ -64,7 +64,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    TH2D* pTvsThat = new TH2D("pTvsThat",";pT;t_hat", 1000,0,10,1000,-10,10);
    
    //more in hist.h
-   
+
    // Loop over events:
    for(int i(0); i < nEvents; ++i ) {
       
@@ -118,18 +118,27 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                PtDist_process_91_Jpsi->Fill( pt );
                EtaDist_process_91_Jpsi->Fill( eta );
                PhiDist_process_91_Jpsi->Fill( phi );
+
+               double pt_91_jpsi = particle->GetPt();
             }
             if( pdg == 2212 ){//proton
 
                PtDist_process_91_proton->Fill( pt );
                EtaDist_process_91_proton->Fill( eta );
                PhiDist_process_91_proton->Fill( phi );
+
+               PtVsEta_process_91_proton->Fill(eta, pt);
+
+               double pt_91_proton = particle->GetPt();
+
             }
             if( pdg == 2112 ){//neutron
 
                PtDist_process_91_neutron->Fill( pt );
                EtaDist_process_91_neutron->Fill( eta );
                PhiDist_process_91_neutron->Fill( phi );
+
+               PtVsEta_process_91_neutron->Fill(eta, pt);
             }
 
             nParticles_process_91++;
@@ -145,18 +154,26 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                PtDist_process_93_Jpsi->Fill( pt );
                EtaDist_process_93_Jpsi->Fill( eta );
                PhiDist_process_93_Jpsi->Fill( phi );
+
+               double pt_93_jpsi = particle->GetPt();
             }
             if( pdg == 2212 ){//proton
 
                PtDist_process_93_proton->Fill( pt );
                EtaDist_process_93_proton->Fill( eta );
                PhiDist_process_93_proton->Fill( phi );
+
+               PtVsEta_process_93_proton->Fill(eta, pt);
+
+               double pt_93_proton = particle->GetPt();
             }
             if( pdg == 2112 ){//neutron
 
                PtDist_process_93_neutron->Fill( pt );
                EtaDist_process_93_neutron->Fill( eta );
                PhiDist_process_93_neutron->Fill( phi );
+
+               PtVsEta_process_93_neutron->Fill(eta, pt);
             }
 
             nParticles_process_93++;
@@ -164,6 +181,9 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
 
       } // for
+
+      PtVsPt_process_91_protonVsJpsi->Fill(pt_91_jpsi, pt_91_proton);
+      PtVsPt_process_93_protonVsJpsi->Fill(pt_93_jpsi, pt_93_proton);//this may have more than one proton in one event
 
       Ntrk_process_all->Fill(nParticles);
       Ntrk_process_91->Fill(nParticles_process_91);
@@ -214,6 +234,15 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    PtDist_process_93_neutron->Write();
    EtaDist_process_93_neutron->Write();
    PhiDist_process_93_neutron->Write();
+
+   PtVsEta_process_91_proton->Write();
+   PtVsEta_process_91_neutron->Write();
+
+   PtVsEta_process_93_proton->Write();
+   PtVsEta_process_93_neutron->Write();
+
+   PtVsPt_process_91_protonVsJpsi->Write();
+   PtVsPt_process_93_protonVsJpsi->Write();
 
 }
 
