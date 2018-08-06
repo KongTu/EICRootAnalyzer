@@ -206,9 +206,9 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       TVector3 total_NN = p_proton+p_neutron;
       TVector3 V_cm = (1/E_NN)*total_NN;
 
-      double bx = 0.5;
-      double by = 0.5;
-      double bz = 0.5;
+      double bx = V_cm.X();
+      double by = V_cm.Y();
+      double bz = V_cm.Z();
       
       TVector3 b;
       particle_4mom_proton.Boost(-bx,-by,-bz);
