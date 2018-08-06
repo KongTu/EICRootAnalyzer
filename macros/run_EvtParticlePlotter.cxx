@@ -199,6 +199,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
       //compute center of mass energy of proton and neutron system:
       double E_NN = particle_4mom_proton.E() + particle_4mom_neutron.E();
+      double Pt_proton = particle_4mom_proton.Pt();
 
       TVector3 p_proton = particle_4mom_proton.Vect();
       TVector3 p_neutron = particle_4mom_neutron.Vect();
@@ -221,6 +222,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
       cout << "proton energy: " << particle_4mom_proton.E() << endl;
       cout << "CM energy: " << particle_4mom.E() << endl;
+      cout << "4pt^2 " << 4*Pt_proton*Pt_proton << endl;
       
       double sNN = particle_4mom.E();//center of mass energy
       E_CM->Fill( sNN );
