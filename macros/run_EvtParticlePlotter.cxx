@@ -8,6 +8,7 @@
 // To run, in ROOT do:
 // root [0] .L /path/to/read.cxx
 // root [1] read("myInputFile.root", 10000 )
+#include "hist.h"
 
 void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) {
    
@@ -62,38 +63,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    TH1D* Ntrk = new TH1D("Ntrk",";Ntrk", 100, 0, 100);
    TH2D* pTvsThat = new TH2D("pTvsThat",";pT;t_hat", 1000,0,10,1000,-10,10);
    
-   TH1D* PtDist_process_91 = new TH1D("PtDist_process_91",";PtDist_process_91", 200, 0,10);
-   TH1D* PhiDist_process_91 = new TH1D("PhiDist_process_91",";PhiDist_process_91", 2000, 0,10);
-   TH1D* EtaDist_process_91 = new TH1D("EtaDist_process_91",";EtaDist_process_91", 2000, -10,10);
-
-   TH1D* PtDist_process_93 = new TH1D("PtDist_process_93",";PtDist_process_93", 200, 0,10);
-   TH1D* PhiDist_process_93 = new TH1D("PhiDist_process_93",";PhiDist_process_93", 2000, 0,10);
-   TH1D* EtaDist_process_93 = new TH1D("EtaDist_process_93",";EtaDist_process_93", 2000, -10,10);
-
-   TH1D* PtDist_process_91_Jpsi = new TH1D("PtDist_process_91_Jpsi",";PtDist_process_91_Jpsi", 200, 0,10);
-   TH1D* PhiDist_process_91_Jpsi = new TH1D("PhiDist_process_91_Jpsi",";PhiDist_process_91_Jpsi", 2000, 0,10);
-   TH1D* EtaDist_process_91_Jpsi = new TH1D("EtaDist_process_91_Jpsi",";EtaDist_process_91_Jpsi", 2000, -10,10);
-
-   TH1D* PtDist_process_93_Jpsi = new TH1D("PtDist_process_93_Jpsi",";PtDist_process_93_Jpsi", 200, 0,10);
-   TH1D* PhiDist_process_93_Jpsi = new TH1D("PhiDist_process_93_Jpsi",";PhiDist_process_93_Jpsi", 2000, 0,10);
-   TH1D* EtaDist_process_93_Jpsi = new TH1D("EtaDist_process_93_Jpsi",";EtaDist_process_93_Jpsi", 2000, -10,10);
-
-   TH1D* PtDist_process_91_proton = new TH1D("PtDist_process_91_proton",";PtDist_process_91_proton", 200, 0,10);
-   TH1D* PhiDist_process_91_proton = new TH1D("PhiDist_process_91_proton",";PhiDist_process_91_proton", 2000, 0,10);
-   TH1D* EtaDist_process_91_proton = new TH1D("EtaDist_process_91_proton",";EtaDist_process_91_proton", 2000, -10,10);
-
-   TH1D* PtDist_process_93_proton = new TH1D("PtDist_process_93_proton",";PtDist_process_93_proton", 200, 0,10);
-   TH1D* PhiDist_process_93_proton = new TH1D("PhiDist_process_93_proton",";PhiDist_process_93_proton", 2000, 0,10);
-   TH1D* EtaDist_process_93_proton = new TH1D("EtaDist_process_93_proton",";EtaDist_process_93_proton", 2000, -10,10);
-
-   TH1D* PtDist_process_91_neutron = new TH1D("PtDist_process_91_neutron",";PtDist_process_91_neutron", 200, 0,10);
-   TH1D* PhiDist_process_91_neutron = new TH1D("PhiDist_process_91_neutron",";PhiDist_process_91_neutron", 2000, 0,10);
-   TH1D* EtaDist_process_91_neutron = new TH1D("EtaDist_process_91_neutron",";EtaDist_process_91_neutron", 2000, -10,10);
-
-   TH1D* PtDist_process_93_neutron = new TH1D("PtDist_process_93_neutron",";PtDist_process_93_neutron", 200, 0,10);
-   TH1D* PhiDist_process_93_neutron = new TH1D("PhiDist_process_93_neutron",";PhiDist_process_93_neutron", 2000, 0,10);
-   TH1D* EtaDist_process_93_neutron = new TH1D("EtaDist_process_93_neutron",";EtaDist_process_93_neutron", 2000, -10,10);
-
+   //more in hist.h
+   
    // Loop over events:
    for(int i(0); i < nEvents; ++i ) {
       
