@@ -29,14 +29,14 @@
 #include "TGraphErrors.h"
 
 //TH2D:
-TH2D* PtVsEta_process_91_proton = new TH1D("PtVsEta_process_91_proton",";#eta;p_{T} (GeV)", 2000, -20,20, 200, 0,10);
-TH2D* PtVsEta_process_91_neutron = new TH1D("PtVsEta_process_91_neutron",";#eta;p_{T} (GeV)", 2000, -20,20, 200, 0,10);
+TH2D* PtVsEta_process_91_proton = new TH2D("PtVsEta_process_91_proton",";#eta;p_{T} (GeV)", 2000, -20,20, 200, 0,10);
+TH2D* PtVsEta_process_91_neutron = new TH2D("PtVsEta_process_91_neutron",";#eta;p_{T} (GeV)", 2000, -20,20, 200, 0,10);
 
-TH2D* PtVsEta_process_93_proton = new TH1D("PtVsEta_process_93_proton",";#eta;p_{T} (GeV)", 2000, -20,20, 200, 0,10);
-TH2D* PtVsEta_process_93_neutron = new TH1D("PtVsEta_process_93_neutron",";#eta;p_{T} (GeV)", 2000, -20,20, 200, 0,10);
+TH2D* PtVsEta_process_93_proton = new TH2D("PtVsEta_process_93_proton",";#eta;p_{T} (GeV)", 2000, -20,20, 200, 0,10);
+TH2D* PtVsEta_process_93_neutron = new TH2D("PtVsEta_process_93_neutron",";#eta;p_{T} (GeV)", 2000, -20,20, 200, 0,10);
 
-TH2D* PtVsPt_process_91_protonVsJpsi = new TH1D("PtVsPt_process_91_protonVsJpsi",";p_{T} (GeV);p_{T} (GeV)", 200, 0,10, 200, 0,10);
-TH2D* PtVsPt_process_93_protonVsJpsi = new TH1D("PtVsPt_process_93_protonVsJpsi",";p_{T} (GeV);p_{T} (GeV)", 200, 0,10, 200, 0,10);
+TH2D* PtVsPt_process_91_protonVsJpsi = new TH2D("PtVsPt_process_91_protonVsJpsi",";p_{T} (GeV);p_{T} (GeV)", 200, 0,10, 200, 0,10);
+TH2D* PtVsPt_process_93_protonVsJpsi = new TH2D("PtVsPt_process_93_protonVsJpsi",";p_{T} (GeV);p_{T} (GeV)", 200, 0,10, 200, 0,10);
 
 //TH1D:
 TH1D* PtDist_process_91 = new TH1D("PtDist_process_91",";PtDist_process_91", 200, 0,10);
