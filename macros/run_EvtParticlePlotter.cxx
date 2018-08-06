@@ -188,7 +188,13 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
 
       } // for
-
+      
+      Q2VsJpsi_91->Fill(trueQ2, pt_91_jpsi);
+      Q2VsJpsi_93->Fill(trueQ2, pt_93_jpsi);
+      
+      HardTVsJpsi_91->Fill(t_hat, pt_91_jpsi);
+      HardTVsJpsi_93->Fill(t_hat, pt_93_jpsi);
+      
       PtVsPt_process_91_protonVsJpsi->Fill(pt_91_jpsi, pt_91_proton);
       PtVsPt_process_93_protonVsJpsi->Fill(pt_93_jpsi, pt_93_proton);//this may have more than one proton in one event
 
@@ -206,7 +212,11 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    
    Q2VsX->Write();
 
+   Q2VsJpsi_91->Write();
+   Q2VsJpsi_93->Write();
 
+   HardTVsJpsi_91->Write();
+   HardTVsJpsi_93->Write();
 
    statusHist.Write();
 
