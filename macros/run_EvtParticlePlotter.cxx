@@ -220,7 +220,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       
       particle_4mom = particle_4mom_proton + particle_4mom_neutron;
 
-      double sNN = particle_4mom.Et();//center of mass energy
+      double sNN = particle_4mom.E();//center of mass energy
       E_CM->Fill( sNN );
       //end COM
 
