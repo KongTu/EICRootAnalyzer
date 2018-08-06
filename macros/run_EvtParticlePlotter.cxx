@@ -156,6 +156,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
             //compute center of mass energy of proton and neutron system:
             particle_4mom = particle_4mom_neutron + particle_4mom_proton;
+            cout << "proton energy: " << particle_4mom_proton.E() << endl;
+            cout << "CM energy: " << particle_4mom.E() << endl;
             double sNN = particle_4mom.E();//center of mass energy
             E_CM->Fill( sNN );
 
