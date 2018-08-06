@@ -206,9 +206,9 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       // TVector3 total_NN = p_proton+p_neutron;
       // TVector3 V_cm = total_NN/E_NN;
 
-      double bx = 1.0;
-      double by = 1.0;
-      double bz = 1.0;
+      double bx = 0.5;
+      double by = 0.5;
+      double bz = 0.5;
       
       TVector3 b;
       particle_4mom_proton.Boost(-bx,-by,-bz);
@@ -221,6 +221,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
       cout << "proton energy: " << particle_4mom_proton.E() << endl;
       cout << "CM energy: " << particle_4mom.E() << endl;
+      
       double sNN = particle_4mom.E();//center of mass energy
       E_CM->Fill( sNN );
       //end COM
