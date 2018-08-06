@@ -220,9 +220,9 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       
       particle_4mom = particle_4mom_proton + particle_4mom_neutron;
 
-      cout << "proton energy: " << particle_4mom_proton.E() << endl;
-      cout << "CM energy: " << particle_4mom.E() << endl;
-      cout << "4pt^2 " << 4*Pt_proton*Pt_proton << endl;
+      // cout << "proton energy: " << particle_4mom_proton.E() << endl;
+      // cout << "CM energy: " << particle_4mom.E() << endl;
+      // cout << "4pt^2 " << 4*Pt_proton*Pt_proton << endl;
       
       double sNN = particle_4mom.E();//center of mass energy
       E_CM->Fill( sNN );
