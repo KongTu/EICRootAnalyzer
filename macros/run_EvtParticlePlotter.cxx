@@ -132,6 +132,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                AngleVsMom_process_91_proton->Fill(mom, theta);
 
                double pt_91_proton = particle->GetPt();
+               TLorentzVector particle_4mom_proton_91 = particle->PxPyPzE();
 
             }
             if( pdg == 2112 ){//neutron
@@ -142,6 +143,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
                PtVsEta_process_91_neutron->Fill(eta, pt);
                AngleVsMom_process_91_neutron->Fill(mom, theta);
+               
+               TLorentzVector particle_4mom_neutron_91 = particle->PxPyPzE();
 
             }
 
@@ -184,16 +187,19 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
             }
 
             nParticles_process_93++;
+
          } 
 
+         //compute center of mass energy of proton and neutron system:
+         TLorentzVector particle_4mom = particle_4mom_proton_91 + particle_4mom_neutron_91;
+         double sNN = particle_4mom.E();//center of mass energy
+
+         E_CM->Fill(sNN);
 
       } // for
       
       Q2VsJpsi_91->Fill(trueQ2, pt_91_jpsi);
       Q2VsJpsi_93->Fill(trueQ2, pt_93_jpsi);
-      
-      HardTVsJpsi_91->Fill(t_hat, pt_91_jpsi);
-      HardTVsJpsi_93->Fill(t_hat, pt_93_jpsi);
       
       PtVsPt_process_91_protonVsJpsi->Fill(pt_91_jpsi, pt_91_proton);
       PtVsPt_process_93_protonVsJpsi->Fill(pt_93_jpsi, pt_93_proton);//this may have more than one proton in one event
@@ -211,12 +217,10 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    TFile output("../rootfiles/"+inputFilename+outfilename,"RECREATE");
    
    Q2VsX->Write();
+   E_CM->Write();
 
    Q2VsJpsi_91->Write();
    Q2VsJpsi_93->Write();
-
-   HardTVsJpsi_91->Write();
-   HardTVsJpsi_93->Write();
 
    statusHist.Write();
 
