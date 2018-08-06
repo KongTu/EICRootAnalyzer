@@ -106,6 +106,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
          double mom = particle->GetP();
 
          TLorentzVector particle_4mom;
+         TLorentzVector particle_4mom_proton;
+         TLorentzVector particle_4mom_neutron;
 
          statusHist.Fill( status ); 
 
@@ -134,7 +136,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                AngleVsMom_process_91_proton->Fill(mom, theta);
 
                double pt_91_proton = particle->GetPt();
-               TLorentzVector particle_4mom_proton = particle->PxPyPzE();
+               particle_4mom_proton = particle->PxPyPzE();
 
             }
             if( pdg == 2112 ){//neutron
@@ -146,7 +148,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                PtVsEta_process_91_neutron->Fill(eta, pt);
                AngleVsMom_process_91_neutron->Fill(mom, theta);
                
-               TLorentzVector particle_4mom_neutron = particle->PxPyPzE();
+               particle_4mom_neutron = particle->PxPyPzE();
 
             }
 
