@@ -91,6 +91,10 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       int nParticles_process_91 = 0;
       int nParticles_process_93 = 0;
 
+      TLorentzVector particle_4mom;
+      TLorentzVector particle_4mom_proton;
+      TLorentzVector particle_4mom_neutron;
+
       for(int j(0); j < nParticles; ++j ) {
          
          const erhic::ParticleMC* particle = event->GetTrack(j);
@@ -104,10 +108,6 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
          double phi = particle->GetPhi();
          double theta = particle->GetTheta();
          double mom = particle->GetP();
-
-         TLorentzVector particle_4mom;
-         TLorentzVector particle_4mom_proton;
-         TLorentzVector particle_4mom_neutron;
 
          statusHist.Fill( status ); 
 
@@ -154,13 +154,6 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
             nParticles_process_91++;
 
-            //compute center of mass energy of proton and neutron system:
-            particle_4mom = particle_4mom_neutron + particle_4mom_proton;
-            cout << "proton energy: " << particle_4mom_proton.E() << endl;
-            cout << "CM energy: " << particle_4mom.E() << endl;
-            double sNN = particle_4mom.E();//center of mass energy
-            E_CM->Fill( sNN );
-
          }
          if( event_process == 93 ){
 
@@ -203,6 +196,13 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
          } 
 
       } // for
+
+      //compute center of mass energy of proton and neutron system:
+      particle_4mom = particle_4mom_neutron + particle_4mom_proton;
+      cout << "proton energy: " << particle_4mom_proton.E() << endl;
+      cout << "CM energy: " << particle_4mom.E() << endl;
+      double sNN = particle_4mom.E();//center of mass energy
+      E_CM->Fill( sNN );
       
       Q2VsJpsi_91->Fill(trueQ2, pt_91_jpsi);
       Q2VsJpsi_93->Fill(trueQ2, pt_93_jpsi);
