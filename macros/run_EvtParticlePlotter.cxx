@@ -200,8 +200,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       //compute center of mass energy of proton and neutron system:
       double E_NN = particle_4mom_proton.E() + particle_4mom_neutron.E();
 
-      // TVector3 p_proton = particle_4mom_proton.Vect();
-      // TVector3 p_neutron = particle_4mom_neutron.Vect();
+      TVector3 p_proton = particle_4mom_proton.Vect();
+      //TVector3 p_neutron = particle_4mom_neutron.Vect();
 
       // TVector3 total_NN = p_proton+p_neutron;
       // TVector3 V_cm = total_NN/E_NN;
