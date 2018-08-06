@@ -105,6 +105,9 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
          double theta = particle->GetTheta();
          double mom = particle->GetP();
 
+         TLorentzVector particle_4mom;
+
+
          statusHist.Fill( status ); 
 
          if( status != 1 ) continue;
@@ -132,7 +135,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                AngleVsMom_process_91_proton->Fill(mom, theta);
 
                double pt_91_proton = particle->GetPt();
-               TLorentzVector particle_4mom_proton_91 = particle->PxPyPzE();
+               particle_4mom += particle->PxPyPzE();
 
             }
             if( pdg == 2112 ){//neutron
@@ -144,17 +147,16 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                PtVsEta_process_91_neutron->Fill(eta, pt);
                AngleVsMom_process_91_neutron->Fill(mom, theta);
                
-               TLorentzVector particle_4mom_neutron_91 = particle->PxPyPzE();
+               particle_4mom += particle->PxPyPzE();
 
             }
 
             nParticles_process_91++;
 
             //compute center of mass energy of proton and neutron system:
-            TLorentzVector particle_4mom = particle_4mom_proton_91 + particle_4mom_neutron_91;
             double sNN = particle_4mom.E();//center of mass energy
-
-            E_CM->Fill(sNN);
+            E_CM->Fill( sNN );
+            
          }
          if( event_process == 93 ){
 
