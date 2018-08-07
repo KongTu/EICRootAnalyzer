@@ -53,7 +53,7 @@ TH2D* AngleVssNN_process_93_neutron = new TH2D("AngleVssNN_process_93_neutron","
 
 TH2D* Q2VsJpsi_91 = new TH2D("Q2VsJpsi_91",";p_{T};Q^{2}",100,0,10,2000,0,200);
 TH2D* Q2VsJpsi_93 = new TH2D("Q2VsJpsi_93",";p_{T};Q^{2}",100,0,10,2000,0,200);
-TH2D* T_hat = new TH2D("T_hat",";p_{T} (GeV);T", 1000,0,10,2000,-5,0);
+TH2D* T_hat = new TH2D("T_hat",";p^{2}_{T}+Q^{2} (GeV);T", 500,0,50,200,-5,0);
 
 //TH1D event variables:
 
