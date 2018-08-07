@@ -83,52 +83,6 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       double u_hat = event->GetHardU();
       int event_process = event->GetProcess();
 
-/*Start testing center of mass energy*/
-
-      //Deuteron
-      double pztarg = branch_pz->GetValue(0,0);
-      double Atarg = branch_atarg->GetValue(0,0);
-      double pz_total = pztarg*Atarg;
-      double D_mass = 1.8755;//1.8755 for D, 193 for Pb
-      double total_energy = sqrt(pz_total*pz_total + D_mass*D_mass);
-
-      //electron, neglect electron mass
-      double pz_lepton = branch_pzlep->GetValue(0,0);
-      double electron_mass = 0.00051;
-      double total_lep_energy = sqrt(pz_lepton*pz_lepton + electron_mass*electron_mass);
-
-      TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
-      TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
-
-      double E_NN = total4Mom_deuteron.E() + total4Mom_electron.E();
-
-      TVector3 p_deuteron = total4Mom_deuteron.Vect();
-      TVector3 p_electron = total4Mom_electron.Vect();
-
-      TVector3 total_NN = p_deuteron+p_electron;
-      TVector3 V_cm = (1/E_NN)*total_NN;
-
-      double bbx = V_cm.X();
-      double bby = V_cm.Y();
-      double bbz = V_cm.Z();
-      
-      TVector3 bb;
-      total4Mom_deuteron.Boost(-bbx,-bby,-bbz);
-      total4Mom_deuteron.Boost(bb);
-
-      total4Mom_electron.Boost(-bbx,-bby,-bbz);
-      total4Mom_electron.Boost(bb);
-      
-      TLorentzVector total_momentum = total4Mom_deuteron + total4Mom_electron;
-
-      double s_eD = total_momentum.E();//center of mass energy
-      
-
-      cout << "center of mass energy: " << s_eD << endl;
-      cout << "event s_hat: " << s_hat << endl;
-
-//end testing
-
       Q2VsX->Fill(trueX, trueQ2);
       T_hat->Fill( t_hat );
 
