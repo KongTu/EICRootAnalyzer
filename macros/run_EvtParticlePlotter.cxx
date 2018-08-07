@@ -153,7 +153,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
                PtVsEta_process_91_neutron->Fill(eta, pt);
                AngleVsMom_process_91_neutron->Fill(mom, theta);
-               
+               double theta_91_neutron = theta;//for later use
+
                particle_4mom_neutron = particle->PxPyPzE();
 
             }
@@ -195,7 +196,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
                PtVsEta_process_93_neutron->Fill(eta, pt);
                AngleVsMom_process_93_neutron->Fill(mom, theta);
-           
+               double theta_93_neutron = theta;//for later use
             }
 
             nParticles_process_93++;
@@ -233,6 +234,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
       AngleVssNN_process_91_proton->Fill( sNN, theta_91_proton);
       AngleVssNN_process_93_proton->Fill( sNN, theta_93_proton);
+      AngleVssNN_process_91_neutron->Fill( sNN, theta_91_neutron);
+      AngleVssNN_process_93_neutron->Fill( sNN, theta_93_neutron);
       
       Q2VsJpsi_91->Fill( pt_91_jpsi, trueQ2);
       Q2VsJpsi_93->Fill( pt_93_jpsi, trueQ2);
@@ -299,22 +302,22 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    PhiDist_process_93_neutron->Write();
 
    PtVsEta_process_91_proton->Write();
-   PtVsEta_process_91_neutron->Write();
-
    PtVsEta_process_93_proton->Write();
+   PtVsEta_process_91_neutron->Write();
    PtVsEta_process_93_neutron->Write();
 
    PtVsPt_process_91_protonVsJpsi->Write();
    PtVsPt_process_93_protonVsJpsi->Write();
 
    AngleVsMom_process_91_proton->Write();
-   AngleVsMom_process_91_neutron->Write();
-   
    AngleVsMom_process_93_proton->Write();
+   AngleVsMom_process_91_neutron->Write();
    AngleVsMom_process_93_neutron->Write();
 
    AngleVssNN_process_91_proton->Write();
    AngleVssNN_process_93_proton->Write();
+   AngleVssNN_process_91_neutron->Write();
+   AngleVssNN_process_93_neutron->Write();
   
 
 }
