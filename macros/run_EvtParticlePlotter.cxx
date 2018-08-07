@@ -85,6 +85,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
       Q2VsX->Fill(trueX, trueQ2);
       T_hat->Fill( t_hat );
+      cout << "t_hat " << t_hat << endl;
 
       // The event contains a vector (array) of particles.
       int nParticles = event->GetNTracks();
