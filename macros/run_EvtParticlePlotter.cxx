@@ -240,7 +240,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       Q2VsJpsi_91->Fill( pt_91_jpsi, trueQ2);
       Q2VsJpsi_93->Fill( pt_93_jpsi, trueQ2);
       T_hat->Fill( pt_91_jpsi*pt_91_jpsi-trueQ2, t_hat );
-      TvsPt->Fill( pt_91_jpsi, t_hat );
+      TvsPt_91->Fill( pt_91_jpsi, t_hat );
+      TvsPt_93->Fill( pt_93_jpsi, t_hat );
       
       PtVsPt_process_91_protonVsJpsi->Fill(pt_91_jpsi, pt_91_proton);
       PtVsPt_process_93_protonVsJpsi->Fill(pt_93_jpsi, pt_93_proton);//this may have more than one proton in one event
@@ -260,7 +261,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    Q2VsX->Write();
    E_CM->Write();
    T_hat->Write();
-   TvsPt->Write();
+   TvsPt_91->Write();
+   TvsPt_93->Write();
 
    Q2VsJpsi_91->Write();
    Q2VsJpsi_93->Write();
