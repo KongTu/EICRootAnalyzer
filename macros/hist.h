@@ -56,7 +56,7 @@ TH2D* Q2VsJpsi_93 = new TH2D("Q2VsJpsi_93",";p_{T};Q^{2}",100,0,10,2000,0,200);
 TH2D* T_hatVsPt2 = new TH2D("T_hatVsPt2",";p^{2}_{T}-Q^{2} (GeV);T", 500,0,50,200,-5,0);
 TH2D* TvsPt_91 = new TH2D("TvsPt_91",";p_{T} (GeV);T", 100,0,10,200,-5,0);
 TH2D* TvsPt_93 = new TH2D("TvsPt_93",";p_{T} (GeV);T", 100,0,10,200,-5,0);
-TH2D* sNNvsPt_91 = new TH2D("sNNvsPt_91",";p_{T} (GeV);s_{_{NN}}", 100,0,10,200,0,200);
+TH2D* sNNvsPt_91 = new TH2D("sNNvsPt_91",";p_{T} (GeV);s_{_{NN}}", 100,0,10,200,0,20);
 
 
 //TH1D event variables:
