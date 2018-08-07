@@ -111,7 +111,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
          double eta = particle->GetEta();
          double phi = particle->GetPhi();
          double theta = particle->GetTheta(); 
-         theta = theta/1000.; //change to mrad;
+         theta = theta*1000.0; //change to mrad;
          double mom = particle->GetP();
 
          statusHist.Fill( status ); 
