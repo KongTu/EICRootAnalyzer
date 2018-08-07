@@ -115,6 +115,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
          statusHist.Fill( status ); 
 
+         double proton_theta = 0.;
+
          if( status != 1 ) continue;
          if( event_process == 91 ){
 
@@ -138,6 +140,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
                PtVsEta_process_91_proton->Fill(eta, pt);
                AngleVsMom_process_91_proton->Fill(mom, theta);
+               proton_theta = theta;//for later use
 
                double pt_91_proton = particle->GetPt();
                particle_4mom_proton = particle->PxPyPzE();
@@ -228,6 +231,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       E_CM->Fill( sNN );
       //end COM
 
+      AngleVssNN_process_91_proton->Fill( sNN, proton_theta);
+      
       Q2VsJpsi_91->Fill( pt_91_jpsi, trueQ2);
       Q2VsJpsi_93->Fill( pt_93_jpsi, trueQ2);
       T_hat->Fill( pt_91_jpsi, t_hat );
@@ -306,6 +311,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    
    AngleVsMom_process_93_proton->Write();
    AngleVsMom_process_93_neutron->Write();
+
+   AngleVssNN_process_91_proton->Write();
   
 
 }

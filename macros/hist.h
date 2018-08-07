@@ -47,13 +47,15 @@ TH2D* AngleVsMom_process_91_neutron = new TH2D("AngleVsMom_process_91_neutron","
 TH2D* AngleVsMom_process_93_proton = new TH2D("AngleVsMom_process_93_proton",";p (GeV);#theta (mrad)",2500,0,250,300,0,0.03);
 TH2D* AngleVsMom_process_93_neutron = new TH2D("AngleVsMom_process_93_neutron",";p (GeV);#theta (mrad)",2500,0,250,300,0,0.03);
 
+TH2D* AngleVssNN_process_91_proton = new TH2D("AngleVssNN_process_91_proton",";#sqrt{s_{_{NN}}} (GeV);#theta (mrad)",2500,0,10,300,0,0.03);
+
 TH2D* Q2VsJpsi_91 = new TH2D("Q2VsJpsi_91",";p_{T};Q^{2}",100,0,10,2000,0,200);
 TH2D* Q2VsJpsi_93 = new TH2D("Q2VsJpsi_93",";p_{T};Q^{2}",100,0,10,2000,0,200);
 TH2D* T_hat = new TH2D("T_hat",";p_{T} (GeV);T", 100,0,10,2000,-5,0);
 
 //TH1D event variables:
 
-TH1D* E_CM = new TH1D("E_CM",";E (GeV)", 200,0,10);
+TH1D* E_CM = new TH1D("E_CM",";#sqrt{s_{_{NN}}} (GeV)", 200,0,10);
 
 //TH1D:
 TH1D* PtDist_process_91 = new TH1D("PtDist_process_91",";PtDist_process_91", 200, 0,10);
