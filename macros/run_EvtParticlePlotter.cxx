@@ -84,8 +84,6 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       int event_process = event->GetProcess();
 
       Q2VsX->Fill(trueX, trueQ2);
-      T_hat->Fill( t_hat );
-      cout << "t_hat " << t_hat << endl;
 
       // The event contains a vector (array) of particles.
       int nParticles = event->GetNTracks();
@@ -230,8 +228,9 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       E_CM->Fill( sNN );
       //end COM
 
-      Q2VsJpsi_91->Fill(trueQ2, pt_91_jpsi);
-      Q2VsJpsi_93->Fill(trueQ2, pt_93_jpsi);
+      Q2VsJpsi_91->Fill( pt_91_jpsi, trueQ2);
+      Q2VsJpsi_93->Fill( pt_93_jpsi, trueQ2);
+      T_hat->Fill( pt_91_jpsi, t_hat );
       
       PtVsPt_process_91_protonVsJpsi->Fill(pt_91_jpsi, pt_91_proton);
       PtVsPt_process_93_protonVsJpsi->Fill(pt_93_jpsi, pt_93_proton);//this may have more than one proton in one event
