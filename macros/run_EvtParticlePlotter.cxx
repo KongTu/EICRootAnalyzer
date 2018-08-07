@@ -130,6 +130,12 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                PhiDist_process_91_Jpsi->Fill( phi );
 
                double pt_91_jpsi = particle->GetPt();
+
+               if( fabs(eta) < 2.0 && fabs(t_hat) < 1.0 ){
+                  
+                  double pt_91_jpsi_differential = particle->GetPt();
+               }
+
             }
             if( pdg == 2212 ){//proton
 
@@ -239,9 +245,12 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       
       Q2VsJpsi_91->Fill( pt_91_jpsi, trueQ2);
       Q2VsJpsi_93->Fill( pt_93_jpsi, trueQ2);
-      T_hat->Fill( pt_91_jpsi*pt_91_jpsi-trueQ2, t_hat );
+      T_hatVsPt2->Fill( pt_91_jpsi*pt_91_jpsi-trueQ2, t_hat );
       TvsPt_91->Fill( pt_91_jpsi, t_hat );
       TvsPt_93->Fill( pt_93_jpsi, t_hat );
+
+      if( fabs(t_hat) < 1.0 ) t_dist->Fill( t_hat );
+      sNNvsPt_91->Fill( pt_91_jpsi_differential, sNN*sNN );
       
       PtVsPt_process_91_protonVsJpsi->Fill(pt_91_jpsi, pt_91_proton);
       PtVsPt_process_93_protonVsJpsi->Fill(pt_93_jpsi, pt_93_proton);//this may have more than one proton in one event
@@ -260,9 +269,12 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    
    Q2VsX->Write();
    E_CM->Write();
-   T_hat->Write();
+   t_dist->Write();
+   T_hatVsPt2->Write();
    TvsPt_91->Write();
    TvsPt_93->Write();
+   sNNvsPt_91->Write();
+
 
    Q2VsJpsi_91->Write();
    Q2VsJpsi_93->Write();
