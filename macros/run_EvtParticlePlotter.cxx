@@ -110,12 +110,11 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
          double pt = particle->GetPt();
          double eta = particle->GetEta();
          double phi = particle->GetPhi();
-         double theta = particle->GetTheta();
+         double theta = particle->GetTheta(); 
+         theta = theta/1000.; //change to mrad;
          double mom = particle->GetP();
 
          statusHist.Fill( status ); 
-
-         double proton_theta = 0.;
 
          if( status != 1 ) continue;
          if( event_process == 91 ){
@@ -140,8 +139,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
                PtVsEta_process_91_proton->Fill(eta, pt);
                AngleVsMom_process_91_proton->Fill(mom, theta);
-               proton_theta = theta;//for later use
-
+               
+               double theta_91_proton = theta;//for later use
                double pt_91_proton = particle->GetPt();
                particle_4mom_proton = particle->PxPyPzE();
 
@@ -185,6 +184,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                PtVsEta_process_93_proton->Fill(eta, pt);
                AngleVsMom_process_93_proton->Fill(mom, theta);
 
+               double theta_93_proton = theta;
                double pt_93_proton = particle->GetPt();
             }
             if( pdg == 2112 ){//neutron
@@ -231,7 +231,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       E_CM->Fill( sNN );
       //end COM
 
-      AngleVssNN_process_91_proton->Fill( sNN, proton_theta);
+      AngleVssNN_process_91_proton->Fill( sNN, theta_91_proton);
+      AngleVssNN_process_93_proton->Fill( sNN, theta_93_proton);
       
       Q2VsJpsi_91->Fill( pt_91_jpsi, trueQ2);
       Q2VsJpsi_93->Fill( pt_93_jpsi, trueQ2);
@@ -313,6 +314,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    AngleVsMom_process_93_neutron->Write();
 
    AngleVssNN_process_91_proton->Write();
+   AngleVssNN_process_93_proton->Write();
   
 
 }
