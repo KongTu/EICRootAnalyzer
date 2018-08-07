@@ -111,7 +111,7 @@ void plotBasics(){
 		energyVsProcess_2Dcorr[i]->GetXaxis()->SetRangeUser(-2,2);
 		energyVsProcess_2Dcorr[i]->Draw("colz");
 
-		c1[i]->Print(name[i]+".pdf");
+		c1[i]->Print("../figures/"+name[i]+".pdf");
 
 	} 
 
