@@ -79,7 +79,7 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
       double total_energy = sqrt(pz_total*pz_total + MASS_DEUTERON*MASS_DEUTERON);
 
       //electron, neglect electron mass
-      double pz_lepton = 18.0;
+      double pz_lepton = -18.0;
       double electron_mass = 0.00051;
       double total_lep_energy = sqrt(pz_lepton*pz_lepton + electron_mass*electron_mass);
 
