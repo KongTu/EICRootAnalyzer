@@ -252,8 +252,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    
    E_CM->Write();
    t_dist->Write();//T_distribution in the selected range
-   t_proton_dist->Write();t_distribution for proton
-   
+   t_proton_dist->Write();//t_distribution for proton
+
    T_hatVsPt2->Write();
    TvsPt_91->Write();
    TvsPt_93->Write();
