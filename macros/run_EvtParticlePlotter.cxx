@@ -213,6 +213,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       
       //end COM
 
+      if( t_proton_squared > 0 ) cout << "sNN " << sNN << endl;
+
       //hadron angle vs their center of mass energy
       AngleVssNN_process_91_proton->Fill( sNN, theta_91_proton);
       AngleVssNN_process_93_proton->Fill( sNN, theta_93_proton);
