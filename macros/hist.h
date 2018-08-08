@@ -82,8 +82,13 @@ TH2D* W2VsJpsi_91 = new TH2D("W2VsJpsi_91",";p_{T};W^{2}",100,0,10,1000,0,10000)
 TH2D* W2VsJpsi_93 = new TH2D("W2VsJpsi_93",";p_{T};W^{2}",100,0,10,1000,0,10000);
 
 TH2D* T_hatVsPt2 = new TH2D("T_hatVsPt2",";p^{2}_{T}-Q^{2} (GeV);T", 500,0,50,200,-5,0);
+
 TH2D* TvsPt_91 = new TH2D("TvsPt_91",";p_{T} (GeV);T", 100,0,10,200,-5,0);
 TH2D* TvsPt_93 = new TH2D("TvsPt_93",";p_{T} (GeV);T", 100,0,10,200,-5,0);
+
+TH2D* tProtonVsPt_91 = new TH2D("tProtonVsPt_91",";p_{T} (GeV);T", 100,0,10,200,-5,0);
+TH2D* tProtonVsPt_93 = new TH2D("tProtonVsPt_93",";p_{T} (GeV);T", 100,0,10,200,-5,0);
+
 
 TH2D* ThatVssNN = new TH2D("ThatVssNN",";s_{_{NN}} (GeV^{2});T" ,200,0,20,200,-5,0);
 TH2D* tdisVssNN = new TH2D("tdisVssNN",";s_{_{NN}} (GeV^{2});t" ,200,0,20,400,-5,5);
