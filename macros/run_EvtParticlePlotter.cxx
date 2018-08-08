@@ -160,6 +160,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
                PtVsEta_process_93_proton->Fill(eta, pt);
                AngleVsMom_process_93_proton->Fill(mom, theta);
+               
+               particle_4mom_proton = particle->PxPyPzE();
 
                double theta_93_proton = theta;
                double pt_93_proton = particle->GetPt();
@@ -172,6 +174,9 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
                PtVsEta_process_93_neutron->Fill(eta, pt);
                AngleVsMom_process_93_neutron->Fill(mom, theta);
+               
+               particle_4mom_neutron = particle->PxPyPzE();
+
                double theta_93_neutron = theta;//for later use
             }
 
