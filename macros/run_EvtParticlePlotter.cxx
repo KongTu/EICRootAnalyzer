@@ -223,6 +223,10 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       Q2VsJpsi_91->Fill( pt_91_jpsi, trueQ2);
       Q2VsJpsi_93->Fill( pt_93_jpsi, trueQ2);
       
+      //Wsqured vs Jpsi transverse momentum
+      W2VsJpsi_91->Fill( pt_91_jpsi, trueW2);
+      W2VsJpsi_93->Fill( pt_93_jpsi, trueW2);
+
       //t vs pt^2-Q^2
       T_hatVsPt2->Fill( pt_91_jpsi*pt_91_jpsi-trueQ2, t_hat );
       
@@ -276,6 +280,10 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
    Q2VsJpsi_91->Write();
    Q2VsJpsi_93->Write();
+
+   W2VsJpsi_91->Write();
+   W2VsJpsi_93->Write();
+
 
    statusHist.Write();
 

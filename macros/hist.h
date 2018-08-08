@@ -63,6 +63,9 @@ TH2D* AngleVssNN_process_93_neutron = new TH2D("AngleVssNN_process_93_neutron","
 TH2D* Q2VsJpsi_91 = new TH2D("Q2VsJpsi_91",";p_{T};Q^{2}",100,0,10,2000,0,200);
 TH2D* Q2VsJpsi_93 = new TH2D("Q2VsJpsi_93",";p_{T};Q^{2}",100,0,10,2000,0,200);
 
+TH2D* W2VsJpsi_91 = new TH2D("W2VsJpsi_91",";p_{T};Q^{2}",100,0,10,1000,0,10000);
+TH2D* W2VsJpsi_93 = new TH2D("W2VsJpsi_93",";p_{T};Q^{2}",100,0,10,1000,0,10000);
+
 TH2D* T_hatVsPt2 = new TH2D("T_hatVsPt2",";p^{2}_{T}-Q^{2} (GeV);T", 500,0,50,200,-5,0);
 TH2D* TvsPt_91 = new TH2D("TvsPt_91",";p_{T} (GeV);T", 100,0,10,200,-5,0);
 TH2D* TvsPt_93 = new TH2D("TvsPt_93",";p_{T} (GeV);T", 100,0,10,200,-5,0);
@@ -79,7 +82,7 @@ TH1D* T_dist = new TH1D("T_dist",";T", 200,-5,0);
 TH1D* t_dist = new TH1D("t_dist",";t", 200,-5,5);
 
 TH1D* t_proton_dist = new TH1D("t_proton_dist",";t",200,-5,5);
-TH1D* W2 = new TH1D("W2",";W^{2} (GeV^{2})", 5000,0,100000);
+TH1D* W2 = new TH1D("W2",";W^{2} (GeV^{2})", 1000,0,10000);
 TH1D* photonFlux = new TH1D("photonFlux",";#Phi", 5000,0,0.1);
 
 
