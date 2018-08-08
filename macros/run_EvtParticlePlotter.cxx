@@ -141,7 +141,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       if( t_proton_squared > 0.0 ){
 
          cout << "event number " << i << endl;
-         cout << "event process " << evnet_process << endl;
+         cout << "event process " << event_process << endl;
          cout << "nParticles_process " << nParticles_process << endl;
          cout << "proton energy " << particle_4mom_proton.E() << endl;
          cout << "neutron energy " << particle_4mom_neutron.E() << endl;
