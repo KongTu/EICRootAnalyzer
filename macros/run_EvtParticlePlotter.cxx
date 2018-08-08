@@ -61,7 +61,6 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
       int nParticles_process_91 = 0;
       int nParticles_process_93 = 0;
-
       int nParticles_stable = 0;
 
       TLorentzVector particle_4mom;
@@ -85,7 +84,6 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
          statusHist.Fill( status ); 
 
          if( status != 1 ) continue; //only stable final-state particles 
-         if( event_process == 93 ) continue;
 
          if( event_process == 91 ){
 
