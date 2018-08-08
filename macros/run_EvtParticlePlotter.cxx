@@ -145,7 +145,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       double t_proton_squared = t_proton.Mag2();
 
       if( t_proton_squared > 0.0 ) continue;
-      
+
       // if( t_proton_squared > 0.0 ){
 
       //    cout << "event number " << i << endl;
@@ -182,6 +182,15 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       double sNN = particle_4mom.E()*particle_4mom.E();//center of mass energy squared
          
       E_CM->Fill( sqrt(sNN) );
+
+      if( sNN < 1.0 ) {
+
+         cout << "event number " << i << endl;
+         cout << "event process " << event_process << endl;
+         cout << "nParticles_process " << nParticles_process << endl;
+         cout << "proton energy " << particle_4mom_proton.E() << endl;
+         cout << "neutron energy " << particle_4mom_neutron.E() << endl;
+      }
       
       //end COM
 
