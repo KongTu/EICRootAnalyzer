@@ -163,8 +163,8 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
    } // for
 
    TString outfilename;
-   if( doBoost ) outfilename = "_JpsiNodcay_ePb_ionframe.root";
-   else outfilename = "_JpsiNodcay_ePb.root";
+   if( doBoost ) outfilename = "_DMPJet_eD_ionframe.root";
+   else outfilename = "_DMPJet_eD.root";
 
    TFile output("../rootfiles/"+inputFilename+outfilename,"RECREATE");
    
