@@ -267,7 +267,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    
    Q2VsX->Write();
    W2VsFlux->Write();
-   tProtonVsPt_91
+  
    E_CM->Write();
    W2->Write();
    photonFlux->Write();
