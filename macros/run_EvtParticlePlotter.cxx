@@ -95,7 +95,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
                double pt_91_jpsi = particle->GetPt();
 
-               if( fabs(eta) < 2.0 && fabs(t_hat) < 1.0 ){
+               if( fabs(eta) < 2.0 ){
                   
                   double pt_91_jpsi_differential = particle->GetPt();
                }
@@ -228,12 +228,12 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       TvsPt_93->Fill( pt_93_jpsi, t_hat );
 
       //sNN vs Jpsi pt
-      if( fabs(t_hat) < 1.0 ) {
+      //if( fabs(t_hat) < 1.0 ) {
 
          T_dist->Fill( t_hat );
          t_dist->Fill( t_proton_squared );
          sNNvsPt_91->Fill( pt_91_jpsi_differential, sNN*sNN );
-      }
+      //}
       //Jpsi pt vs proton pt
       PtVsPt_process_91_protonVsJpsi->Fill(pt_91_jpsi, pt_91_proton);
       PtVsPt_process_93_protonVsJpsi->Fill(pt_93_jpsi, pt_93_proton);//this may have more than one proton in one event
