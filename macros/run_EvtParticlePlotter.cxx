@@ -87,9 +87,9 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
             if( pdg == 443 ){//Jpsi
 
-               PtDist_process_91_Jpsi->Fill( pt );
-               EtaDist_process_91_Jpsi->Fill( eta );
-               PhiDist_process_91_Jpsi->Fill( phi );
+               PtDist_Jpsi->Fill( pt );
+               EtaDist_Jpsi->Fill( eta );
+               PhiDist_Jpsi->Fill( phi );
 
                double pt_91_jpsi = particle->GetPt();
 
@@ -101,12 +101,12 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
             }
             if( pdg == 2212 ){//proton
 
-               PtDist_process_91_proton->Fill( pt );
-               EtaDist_process_91_proton->Fill( eta );
-               PhiDist_process_91_proton->Fill( phi );
+               PtDist_proton->Fill( pt );
+               EtaDist_proton->Fill( eta );
+               PhiDist_proton->Fill( phi );
 
-               PtVsEta_process_91_proton->Fill(eta, pt);
-               AngleVsMom_process_91_proton->Fill(mom, theta);
+               PtVsEta_proton->Fill(eta, pt);
+               AngleVsMom_proton->Fill(mom, theta);
                
                double theta_91_proton = theta;//for later use
                double pt_91_proton = particle->GetPt();
@@ -116,12 +116,12 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
             }
             if( pdg == 2112 ){//neutron
 
-               PtDist_process_91_neutron->Fill( pt );
-               EtaDist_process_91_neutron->Fill( eta );
-               PhiDist_process_91_neutron->Fill( phi );
+               PtDist_neutron->Fill( pt );
+               EtaDist_neutron->Fill( eta );
+               PhiDist_neutron->Fill( phi );
 
-               PtVsEta_process_91_neutron->Fill(eta, pt);
-               AngleVsMom_process_91_neutron->Fill(mom, theta);
+               PtVsEta_neutron->Fill(eta, pt);
+               AngleVsMom_neutron->Fill(mom, theta);
                
                double theta_91_neutron = theta;//for later use
 
@@ -170,8 +170,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       //end COM
 
       //hadron angle vs their center of mass energy
-      AngleVssNN_process_91_proton->Fill( sNN, theta_91_proton);
-      AngleVssNN_process_91_neutron->Fill( sNN, theta_91_neutron);
+      AngleVssNN_proton->Fill( sNN, theta_91_proton);
+      AngleVssNN_neutron->Fill( sNN, theta_91_neutron);
       
       //Qsquared vs Jpsi transverse momentum
       Q2VsJpsi_91->Fill( pt_91_jpsi, trueQ2);
@@ -199,11 +199,11 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
          sNNvsPt_91->Fill( pt_91_jpsi_differential, sNN );
       //}
       //Jpsi pt vs proton pt
-      PtVsPt_process_91_protonVsJpsi->Fill(pt_91_jpsi, pt_91_proton);
+      PtVsPt_protonVsJpsi->Fill(pt_91_jpsi, pt_91_proton);
 
       //multiplicity distribution
       Ntrk_process_all->Fill(nParticles);
-      Ntrk_process_91->Fill(nParticles_process);
+      Ntrk->Fill(nParticles_process);
 
    } // for
 
@@ -242,35 +242,35 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    statusHist.Write();
 
    Ntrk_process_all->Write();
-   Ntrk_process_91->Write();
+   Ntrk->Write();
 
-   PtDist_process_91->Write();
-   EtaDist_process_91->Write();
-   PhiDist_process_91->Write();
+   PtDist->Write();
+   EtaDist->Write();
+   PhiDist->Write();
 
-   PtDist_process_91_Jpsi->Write();
-   EtaDist_process_91_Jpsi->Write();
-   PhiDist_process_91_Jpsi->Write();
+   PtDist_Jpsi->Write();
+   EtaDist_Jpsi->Write();
+   PhiDist_Jpsi->Write();
 
-   PtDist_process_91_proton->Write();
-   EtaDist_process_91_proton->Write();
-   PhiDist_process_91_proton->Write();
+   PtDist_proton->Write();
+   EtaDist_proton->Write();
+   PhiDist_proton->Write();
 
-   PtDist_process_91_neutron->Write();
-   EtaDist_process_91_neutron->Write();
-   PhiDist_process_91_neutron->Write();
+   PtDist_neutron->Write();
+   EtaDist_neutron->Write();
+   PhiDist_neutron->Write();
 
   
-   PtVsEta_process_91_proton->Write();
-   PtVsEta_process_91_neutron->Write();
+   PtVsEta_proton->Write();
+   PtVsEta_neutron->Write();
 
-   PtVsPt_process_91_protonVsJpsi->Write();
+   PtVsPt_protonVsJpsi->Write();
 
-   AngleVsMom_process_91_proton->Write();
-   AngleVsMom_process_91_neutron->Write();
+   AngleVsMom_proton->Write();
+   AngleVsMom_neutron->Write();
 
-   AngleVssNN_process_91_proton->Write();
-   AngleVssNN_process_91_neutron->Write();
+   AngleVssNN_proton->Write();
+   AngleVssNN_neutron->Write();
   
 
 }
