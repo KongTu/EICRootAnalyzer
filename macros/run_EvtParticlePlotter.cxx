@@ -228,9 +228,12 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       TvsPt_93->Fill( pt_93_jpsi, t_hat );
 
       //sNN vs Jpsi pt
-      if( fabs(t_hat) < 1.0 ) t_dist->Fill( t_hat );
-      sNNvsPt_91->Fill( pt_91_jpsi_differential, sNN*sNN );
-      
+      if( fabs(t_hat) < 1.0 && fabs(t_proton_squared) > 1.0 ) {
+
+         T_dist->Fill( t_hat );
+         t_dist->Fill( t_proton_squared );
+         sNNvsPt_91->Fill( pt_91_jpsi_differential, sNN*sNN );
+      }
       //Jpsi pt vs proton pt
       PtVsPt_process_91_protonVsJpsi->Fill(pt_91_jpsi, pt_91_proton);
       PtVsPt_process_93_protonVsJpsi->Fill(pt_93_jpsi, pt_93_proton);//this may have more than one proton in one event
@@ -251,8 +254,9 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    Q2VsX->Write();
    
    E_CM->Write();
-   t_dist->Write();//T_distribution in the selected range
-   t_proton_dist->Write();//t_distribution for proton
+   T_dist->Write();//T_distribution in the selected range
+   t_dist->Write();//t_distribution in the selected range
+   t_proton_dist->Write();//t_distribution for proton for entire range
 
    T_hatVsPt2->Write();
    TvsPt_91->Write();

@@ -72,7 +72,9 @@ TH2D* sNNvsPt_91 = new TH2D("sNNvsPt_91",";p_{T} (GeV);s_{_{NN}}", 100,0,10,200,
 
 //TH1D event variables:
 TH1D* E_CM = new TH1D("E_CM",";#sqrt{s_{_{NN}}} (GeV)", 200,0,10);
-TH1D* t_dist = new TH1D("t_dist",";T", 200,-5,0);
+TH1D* T_dist = new TH1D("T_dist",";T", 200,-5,0);
+TH1D* t_dist = new TH1D("t_dist",";t", 200,-5,0);
+
 TH1D* t_proton_dist = new TH1D("t_proton_dist",";t",200,-5,5);
 
 
