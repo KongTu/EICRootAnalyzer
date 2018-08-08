@@ -38,6 +38,15 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       double u_hat = event->GetHardU();
       int event_process = event->GetProcess();
 
+      //initial proton in Deuteron
+      double pztarg = branch_pz->GetValue(0,0);
+      double Atarg = branch_atarg->GetValue(0,0);
+      double pz_total = pztarg*(Atarg-1.0);//proton longitudinal momentum
+      double P_mass = 0.93827;//1.8624778138724238 for D, 193.69769264273208 for Pb
+      double total_energy = sqrt(pz_total*pz_total + P_mass*P_mass);
+
+      TLorentzVector total4Mom_iProton(0., 0., pz_total, total_energy);
+
       Q2VsX->Fill(trueX, trueQ2);
 
       // The event contains a vector (array) of particles.
@@ -166,6 +175,12 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
       } // for
 
+      //small t, namely the momentum transfer to the struck nucleon (proton)
+      TLorentzVector t_proton = particle_4mom_proton - total4Mom_iProton;//(p'-p)
+      double t_proton_squared = t_proton.Mag2();
+
+         t_proton_dist->Fill( t_proton_squared );
+
       //compute COM s_NN of proton and neutron system:
       double E_NN = particle_4mom_proton.E() + particle_4mom_neutron.E();
       double Pt_proton = particle_4mom_proton.Pt();
@@ -190,7 +205,9 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       particle_4mom = particle_4mom_proton + particle_4mom_neutron;
 
       double sNN = particle_4mom.E();//center of mass energy
-      E_CM->Fill( sNN );
+         
+         E_CM->Fill( sNN );
+      
       //end COM
 
       //hadron angle vs their center of mass energy
@@ -235,6 +252,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    
    E_CM->Write();
    t_dist->Write();//T_distribution in the selected range
+   t_proton_dist->Write();t_distribution for proton
    
    T_hatVsPt2->Write();
    TvsPt_91->Write();
