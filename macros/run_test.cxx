@@ -38,7 +38,7 @@ void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_
    // Create a TChain for trees with this name.
    TChain *tree = new TChain("EICTree");
    
-   const double NUCLEI_MASS = MASS_PROTON;//default proton mass
+   double NUCLEI_MASS = MASS_PROTON;//default proton mass
    if( system_name == "eD" ) NUCLEI_MASS = MASS_DEUTERON;
    if( system_name == "eT" ) NUCLEI_MASS = MASS_TRITON;
    if( system_name == "eHe3" ) NUCLEI_MASS = MASS_HE3;
