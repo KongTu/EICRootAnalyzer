@@ -22,7 +22,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
    // Now we can do some analysis...
    // Loop over events:
-   for(int i(0); i < nEvents; ++i ) {
+   for(int i(34381); i < 34381+1; ++i ) {
       
       // Read the next entry from the tree.
       tree->GetEntry(i);
@@ -90,10 +90,10 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
          if( status != 1 ) continue; //only stable final-state particles 
 
-         // cout << "pdg " << pdg << endl;
-         // cout << "status " << status << endl;
-         // cout << "index " << index << endl;
-         // cout << "pt " << pt << endl;
+         cout << "pdg " << pdg << endl;
+         cout << "status " << status << endl;
+         cout << "index " << index << endl;
+         cout << "pt " << pt << endl;
 
             if( pdg == 443 ){//Jpsi
 
@@ -138,13 +138,13 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
       } // end of particle loop
 
-      if( nParticles_process < 4 ) continue; 
+      if( nParticles_process != 4 ) continue; 
       
       //small t, namely the momentum transfer to the struck nucleon (proton)
       TLorentzVector t_proton = particle_4mom_proton - total4Mom_iProton;//(p'-p)
       double t_proton_squared = t_proton.Mag2();
 
-      if( t_proton_squared > 0.0 ) continue;
+      // if( t_proton_squared > 0.0 ) continue;
 
       // if( t_proton_squared > 0.0 ){
 
@@ -182,15 +182,6 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       double sNN = particle_4mom.E()*particle_4mom.E();//center of mass energy squared
          
       E_CM->Fill( sqrt(sNN) );
-
-      if( sNN < 1.0 ) {
-
-         cout << "event number " << i << endl;
-         cout << "event process " << event_process << endl;
-         cout << "nParticles_process " << nParticles_process << endl;
-         cout << "proton energy " << particle_4mom_proton.E() << endl;
-         cout << "neutron energy " << particle_4mom_neutron.E() << endl;
-      }
       
       //end COM
 
