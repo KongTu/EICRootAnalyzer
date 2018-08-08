@@ -138,9 +138,9 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       TLorentzVector t_proton = particle_4mom_proton - total4Mom_iProton;//(p'-p)
       double t_proton_squared = t_proton.Mag2();
 
-      if( t_proton_squared > 0){
+      if( t_proton_squared > 0.0 ){
 
-         cout << "event number " << i < endl;
+         cout << "event number " << i << endl;
          cout << "event process " << evnet_process << endl;
          cout << "nParticles_process " << nParticles_process << endl;
          cout << "proton energy " << particle_4mom_proton.E() << endl;
