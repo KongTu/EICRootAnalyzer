@@ -28,6 +28,15 @@
 #include "TGraph.h"
 #include "TGraphErrors.h"
 
+// Histograms for our analysis.
+TH1D* Ntrk_process_91 = new TH1D("Ntrk_process_91",";Ntrk_process_91", 100, 0, 100);
+TH1D* Ntrk_process_93 = new TH1D("Ntrk_process_93",";Ntrk_process_93", 100, 0, 100);
+TH1D* Ntrk_process_all = new TH1D("Ntrk_process_all",";Ntrk_process_all", 100, 0, 100);
+TH1D statusHist("statusHist", "status distribution  ", 50, 0, 50 );
+
+TH1D* Ntrk = new TH1D("Ntrk",";Ntrk", 100, 0, 100);
+TH2D* pTvsThat = new TH2D("pTvsThat",";pT;t_hat", 1000,0,10,1000,-10,10);
+
 //TH2D DIS kinematics:
 TH2D* Q2VsX = new TH2D("Q2VsX",";x;Q^{2}",10000,0.00001,1,2000,0,200);
 
@@ -53,14 +62,15 @@ TH2D* AngleVssNN_process_93_neutron = new TH2D("AngleVssNN_process_93_neutron","
 
 TH2D* Q2VsJpsi_91 = new TH2D("Q2VsJpsi_91",";p_{T};Q^{2}",100,0,10,2000,0,200);
 TH2D* Q2VsJpsi_93 = new TH2D("Q2VsJpsi_93",";p_{T};Q^{2}",100,0,10,2000,0,200);
+
 TH2D* T_hatVsPt2 = new TH2D("T_hatVsPt2",";p^{2}_{T}-Q^{2} (GeV);T", 500,0,50,200,-5,0);
 TH2D* TvsPt_91 = new TH2D("TvsPt_91",";p_{T} (GeV);T", 100,0,10,200,-5,0);
 TH2D* TvsPt_93 = new TH2D("TvsPt_93",";p_{T} (GeV);T", 100,0,10,200,-5,0);
+
 TH2D* sNNvsPt_91 = new TH2D("sNNvsPt_91",";p_{T} (GeV);s_{_{NN}}", 100,0,10,200,0,20);
 
 
 //TH1D event variables:
-
 TH1D* E_CM = new TH1D("E_CM",";#sqrt{s_{_{NN}}} (GeV)", 200,0,10);
 TH1D* t_dist = new TH1D("t_dist",";T", 200,-5,0);
 //TH1D:

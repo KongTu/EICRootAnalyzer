@@ -1,54 +1,18 @@
-
-// read.cxx
-//
-// Created by TB on 6/13/11.
-// Copyright 2011 BNL. All rights reserved.
-//
-// Example of how to read a file produced by BuildTree for a simple analysis.
-// To run, in ROOT do:
-// root [0] .L /path/to/read.cxx
-// root [1] read("myInputFile.root", 10000 )
-#include "hist.h"
+#include "hist.h"//define all the histograms
 
 void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) {
    
-   // If the analysis solely uses TTree::Draw statements, you don't need to load
-   // the shared library. You will receive warnings such as
-   // Warning in <TClass::TClass>: no dictionary for class Particle is available
-   // but these can be ignored. However if you wish to work with the event
-   // objects themselves, the shared library must be loaded:
-   // gSystem->Load("/afs/rhic.bnl.gov/eic/MACROS/BuildTree/lib/BuildTree.so" ); // To use the master version
-   
-   //gSystem->Load("../lib/BuildTree.so" ); // To use your own compiled version
-   
-   // The TTrees are named EICTree.
-   // Create a TChain for trees with this name.
    TChain *tree = new TChain("EICTree");
-   
-   // Add the file(s) we want to analyse to the chain.
-   // We could add multiple files if we wanted.
-   
    tree->Add("../../EICTree/eD_Jpsidiffnodecay_EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
-   
-   // tree.Add(/path/to/otherFileNames ); // etc... 
-   
-   // Create an object to store the current event from the tree.
-   // This is how we access the values in the tree.
-   // If you want to use generator-specific values, then
-   // the event type should match the type in the TTree. Valid types are
-   // EventPythia, EventPepsi, EventRapgap, EventDjangoh, EventMilou.
-   // If you only need shared quantities like x, Q2 and the particle list
-   // you can use EventBase and the macro will be general for any Monte Carlo.
    
    EventPythia* event(NULL);// = new EventPythia;
    
-   //EventBase* event(NULL);
+   // EventBase* event(NULL);
    // EventBeagle* event_beagle(NULL);
-   // Now associate the contents of the branch with the buffer.
-   // The events are stored in a branch named event:
+
    tree->SetBranchAddress("event", &event ); // Note &event, not event.
-   // tree.SetBranchAddress("event", &event_beagle ); // Note &event, not event.
-      
+
+   //Using the TBranchElement is a hack to access the BeAGLE information.       
    TBranchElement* branch_atarg = (TBranchElement*) tree->GetBranch("Atarg");
    TBranchElement* branch_pz = (TBranchElement*) tree->GetBranch("pztarg");
    TBranchElement* branch_pzlep = (TBranchElement*) tree->GetBranch("pzlep");
@@ -56,15 +20,6 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    TBranchElement* branch_pyf = (TBranchElement*) tree->GetBranch("pyf");
    TBranchElement* branch_pzf = (TBranchElement*) tree->GetBranch("pzf");
 
-   // Histograms for our analysis.
-   TH1D* Ntrk_process_91 = new TH1D("Ntrk_process_91",";Ntrk_process_91", 100, 0, 100);
-   TH1D* Ntrk_process_93 = new TH1D("Ntrk_process_93",";Ntrk_process_93", 100, 0, 100);
-   TH1D* Ntrk_process_all = new TH1D("Ntrk_process_all",";Ntrk_process_all", 100, 0, 100);
-   TH1D statusHist("statusHist", "status distribution  ", 50, 0, 50 );
-   
-   TH1D* Ntrk = new TH1D("Ntrk",";Ntrk", 100, 0, 100);
-   TH2D* pTvsThat = new TH2D("pTvsThat",";pT;t_hat", 1000,0,10,1000,-10,10);
-   //more in hist.h
    // Now we can do some analysis...
    // Loop over events:
    for(int i(0); i < nEvents; ++i ) {
@@ -103,7 +58,6 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
          
          const erhic::ParticleMC* particle = event->GetTrack(j);
     
-      // Let's just select charged pions for this example:
          int pdg = particle->GetPdgCode();
          int status = particle->GetStatus();
          int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
@@ -116,7 +70,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
          statusHist.Fill( status ); 
 
-         if( status != 1 ) continue;
+         if( status != 1 ) continue; //only stable final-state particles 
+         
          if( event_process == 91 ){
 
             PtDist_process_91->Fill( pt );
@@ -211,7 +166,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
       } // for
 
-      //compute center of mass energy of proton and neutron system:
+      //compute COM s_NN of proton and neutron system:
       double E_NN = particle_4mom_proton.E() + particle_4mom_neutron.E();
       double Pt_proton = particle_4mom_proton.Pt();
 
@@ -238,23 +193,32 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       E_CM->Fill( sNN );
       //end COM
 
+      //hadron angle vs their center of mass energy
       AngleVssNN_process_91_proton->Fill( sNN, theta_91_proton);
       AngleVssNN_process_93_proton->Fill( sNN, theta_93_proton);
       AngleVssNN_process_91_neutron->Fill( sNN, theta_91_neutron);
       AngleVssNN_process_93_neutron->Fill( sNN, theta_93_neutron);
       
+      //Qsquared vs Jpsi transverse momentum
       Q2VsJpsi_91->Fill( pt_91_jpsi, trueQ2);
       Q2VsJpsi_93->Fill( pt_93_jpsi, trueQ2);
+      
+      //t vs pt^2-Q^2
       T_hatVsPt2->Fill( pt_91_jpsi*pt_91_jpsi-trueQ2, t_hat );
+      
+      //t vs Jpsi pt
       TvsPt_91->Fill( pt_91_jpsi, t_hat );
       TvsPt_93->Fill( pt_93_jpsi, t_hat );
 
+      //sNN vs Jpsi pt
       if( fabs(t_hat) < 1.0 ) t_dist->Fill( t_hat );
       sNNvsPt_91->Fill( pt_91_jpsi_differential, sNN*sNN );
       
+      //Jpsi pt vs proton pt
       PtVsPt_process_91_protonVsJpsi->Fill(pt_91_jpsi, pt_91_proton);
       PtVsPt_process_93_protonVsJpsi->Fill(pt_93_jpsi, pt_93_proton);//this may have more than one proton in one event
 
+      //multiplicity distribution
       Ntrk_process_all->Fill(nParticles);
       Ntrk_process_91->Fill(nParticles_process_91);
       Ntrk_process_93->Fill(nParticles_process_93);
@@ -268,13 +232,14 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    TFile output("../rootfiles/"+inputFilename+outfilename,"RECREATE");
    
    Q2VsX->Write();
+   
    E_CM->Write();
-   t_dist->Write();
+   t_dist->Write();//T_distribution in the selected range
+   
    T_hatVsPt2->Write();
    TvsPt_91->Write();
    TvsPt_93->Write();
    sNNvsPt_91->Write();
-
 
    Q2VsJpsi_91->Write();
    Q2VsJpsi_93->Write();
