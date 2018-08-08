@@ -8,6 +8,20 @@
 // To run, in ROOT do:
 // root [0] .L /path/to/read.cxx
 // root [1] read("myInputFile.root", 10000 )
+#define PI            3.1415926
+
+#define MASS_PROTON   0.93827
+#define MASS_NEUTRON  0.93957
+#define MASS_DEUTERON 1.8624778138724238
+#define MASS_TRITON   2.7937167208086358
+#define MASS_HE3      2.7937167208086358
+#define MASS_ALPHA    3.7249556277448477
+#define MASS_LI6      5.5874334416172715
+#define MASS_C12      11.174866883234543
+#define MASS_CA40     37.249556277448477
+#define MASS_XE131    121.99229680864376
+#define MASS_AU197    183.45406466643374
+#define MASS_PB208    193.69769264273208
 
 void run_test( int nEvents, bool doBoost, TString inputFilename ) {
    
@@ -26,7 +40,7 @@ void run_test( int nEvents, bool doBoost, TString inputFilename ) {
    
    // Add the file(s) we want to analyse to the chain.
    // We could add multiple files if we wanted.
-   tree->Add("../../EICTree/eD_Jpsidiffnodecay_EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
+   tree->Add("../../EICTree/ePb_Jpsidiffnodecay_EICTree/ePb_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
 // tree.Add(/path/to/otherFileNames ); // etc... 
    
    // Create an object to store the current event from the tree.
@@ -103,8 +117,7 @@ void run_test( int nEvents, bool doBoost, TString inputFilename ) {
       double pztarg = branch_pz->GetValue(0,0);
       double Atarg = branch_atarg->GetValue(0,0);
       double pz_total = pztarg*Atarg;
-      double D_mass = 1.8755;//1.8755 for D, 193 for Pb
-      double total_energy = sqrt(pz_total*pz_total + D_mass*D_mass);
+      double total_energy = sqrt(pz_total*pz_total + MASS_PB208*MASS_PB208);
 
       //electron, neglect electron mass
       double pz_lepton = branch_pzlep->GetValue(0,0);
@@ -115,8 +128,8 @@ void run_test( int nEvents, bool doBoost, TString inputFilename ) {
       TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
 
       /* lorentz boost incoming particle*/
-      double gamma_ion = total_energy/D_mass;
-      double bz = pz_total/(gamma_ion*D_mass);
+      double gamma_ion = total_energy/MASS_PB208;
+      double bz = pz_total/(gamma_ion*MASS_PB208);
 
       TVector3 b;
 
@@ -194,8 +207,8 @@ void run_test( int nEvents, bool doBoost, TString inputFilename ) {
    } // for
 
    TString outfilename;
-   if( doBoost ) outfilename = "_JpsiNodcay_eD_ionframe.root";
-   else outfilename = "_JpsiNodcay_eD.root";
+   if( doBoost ) outfilename = "_JpsiNodcay_ePb_ionframe.root";
+   else outfilename = "_JpsiNodcay_ePb.root";
 
    TFile output("../rootfiles/"+inputFilename+outfilename,"RECREATE");
    
