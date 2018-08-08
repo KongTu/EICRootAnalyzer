@@ -39,6 +39,7 @@ TH2D* pTvsThat = new TH2D("pTvsThat",";pT;t_hat", 1000,0,10,1000,-10,10);
 
 //TH2D DIS kinematics:
 TH2D* Q2VsX = new TH2D("Q2VsX",";x;Q^{2}",10000,0.00001,1,2000,0,200);
+TH2D* W2VsFlux = new TH2D("W2VsFlux",";#Phi;W^{2}",5000,0,0.1,1000,0,10000);
 
 //TH2D:
 TH2D* PtVsEta_process_91_proton = new TH2D("PtVsEta_process_91_proton",";#eta;p_{T} (GeV)", 2000, -20,20, 200, 0,10);
@@ -63,8 +64,8 @@ TH2D* AngleVssNN_process_93_neutron = new TH2D("AngleVssNN_process_93_neutron","
 TH2D* Q2VsJpsi_91 = new TH2D("Q2VsJpsi_91",";p_{T};Q^{2}",100,0,10,2000,0,200);
 TH2D* Q2VsJpsi_93 = new TH2D("Q2VsJpsi_93",";p_{T};Q^{2}",100,0,10,2000,0,200);
 
-TH2D* W2VsJpsi_91 = new TH2D("W2VsJpsi_91",";p_{T};Q^{2}",100,0,10,1000,0,10000);
-TH2D* W2VsJpsi_93 = new TH2D("W2VsJpsi_93",";p_{T};Q^{2}",100,0,10,1000,0,10000);
+TH2D* W2VsJpsi_91 = new TH2D("W2VsJpsi_91",";p_{T};W^{2}",100,0,10,1000,0,10000);
+TH2D* W2VsJpsi_93 = new TH2D("W2VsJpsi_93",";p_{T};W^{2}",100,0,10,1000,0,10000);
 
 TH2D* T_hatVsPt2 = new TH2D("T_hatVsPt2",";p^{2}_{T}-Q^{2} (GeV);T", 500,0,50,200,-5,0);
 TH2D* TvsPt_91 = new TH2D("TvsPt_91",";p_{T} (GeV);T", 100,0,10,200,-5,0);

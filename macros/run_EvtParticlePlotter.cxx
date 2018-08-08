@@ -51,6 +51,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       TLorentzVector total4Mom_iProton(0., 0., pz_total, total_energy);
 
       Q2VsX->Fill(trueX, trueQ2);
+      W2VsFlux->Fill(photon_flux, trueW2);
 
       // The event contains a vector (array) of particles.
       int nParticles = event->GetNTracks();
@@ -261,6 +262,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    TFile output("../rootfiles/"+inputFilename+outfilename,"RECREATE");
    
    Q2VsX->Write();
+   W2VsFlux->Write();
    
    E_CM->Write();
    W2->Write();
