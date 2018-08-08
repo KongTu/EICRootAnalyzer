@@ -152,7 +152,6 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
       py_corr->Fill( total4Mom_incoming.Py() - total4Mom_outgoing.Py() );
       pz_corr->Fill( total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() );
 
-      cout << "pz_corr " << total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() << endl;
       //2D histogram:
       energyVsQ2_2Dcorr->Fill(energy_diff, trueQ2);
       energyVsW2_2Dcorr->Fill(energy_diff, trueW2);
