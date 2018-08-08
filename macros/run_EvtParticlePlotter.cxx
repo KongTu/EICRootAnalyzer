@@ -213,6 +213,9 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
    TFile output("../rootfiles/"+inputFilename+outfilename,"RECREATE");
    
+   Ntrk_process_all->Write();
+   Ntrk_process->Write();
+   
    Q2VsX->Write();
    W2VsFlux->Write();
   
@@ -241,12 +244,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
    statusHist.Write();
 
-   Ntrk_process_all->Write();
-   Ntrk_process->Write();
-
-   PtDist->Write();
-   EtaDist->Write();
-   PhiDist->Write();
+   
 
    PtDist_Jpsi->Write();
    EtaDist_Jpsi->Write();
@@ -260,7 +258,6 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    EtaDist_neutron->Write();
    PhiDist_neutron->Write();
 
-  
    PtVsEta_proton->Write();
    PtVsEta_neutron->Write();
 
