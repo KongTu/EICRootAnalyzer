@@ -144,7 +144,6 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
       double particle_pt = sqrt(total4Mom_outgoing.Px()*total4Mom_outgoing.Px() + total4Mom_outgoing.Py()*total4Mom_outgoing.Py());
       
       //1D histogram:
-      pTvsThat->Fill( particle_pt, t_hat );
       Ntrk->Fill(nParticles);
 
       double energy_diff = total4Mom_incoming.E() - total4Mom_outgoing.E();
