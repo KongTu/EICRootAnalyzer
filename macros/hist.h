@@ -28,6 +28,20 @@
 #include "TGraph.h"
 #include "TGraphErrors.h"
 
+#define PI            3.1415926
+
+#define MASS_PROTON   0.93827
+#define MASS_NEUTRON  0.93957
+#define MASS_DEUTERON 1.8624778138724238
+#define MASS_TRITON   2.7937167208086358
+#define MASS_HE3      2.7937167208086358
+#define MASS_ALPHA    3.7249556277448477
+#define MASS_LI6      5.5874334416172715
+#define MASS_C12      11.174866883234543
+#define MASS_CA40     37.249556277448477
+#define MASS_XE131    121.99229680864376
+#define MASS_AU197    183.45406466643374
+#define MASS_PB208    193.69769264273208
 // Histograms for our analysis.
 TH1D* Ntrk_process_91 = new TH1D("Ntrk_process_91",";Ntrk_process_91", 100, 0, 100);
 TH1D* Ntrk_process_93 = new TH1D("Ntrk_process_93",";Ntrk_process_93", 100, 0, 100);
@@ -76,7 +90,6 @@ TH2D* tdisVssNN = new TH2D("tdisVssNN",";s_{_{NN}} (GeV^{2});t" ,200,0,20,400,-5
 
 TH2D* sNNvsPt_91 = new TH2D("sNNvsPt_91",";p_{T} (GeV);s_{_{NN}} (GeV^{2})", 100,0,10,200,0,20);
 
-
 //TH1D event variables:
 TH1D* E_CM = new TH1D("E_CM",";#sqrt{s_{_{NN}}} (GeV)", 200,0,10);
 TH1D* T_dist = new TH1D("T_dist",";T", 200,-5,0);
@@ -85,7 +98,6 @@ TH1D* t_dist = new TH1D("t_dist",";t", 200,-5,5);
 TH1D* t_proton_dist = new TH1D("t_proton_dist",";t",200,-5,5);
 TH1D* W2 = new TH1D("W2",";W^{2} (GeV^{2})", 1000,0,10000);
 TH1D* photonFlux = new TH1D("photonFlux",";#Phi", 5000,0,0.1);
-
 
 //TH1D:
 TH1D* PtDist_process_91 = new TH1D("PtDist_process_91",";PtDist_process_91", 200, 0,10);

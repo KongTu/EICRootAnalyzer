@@ -45,8 +45,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       double pztarg = branch_pz->GetValue(0,0);
       double Atarg = branch_atarg->GetValue(0,0);
       double pz_total = pztarg*(Atarg-1.0);//proton longitudinal momentum
-      double P_mass = 0.93827;//1.8624778138724238 for D, 193.69769264273208 for Pb
-      double total_energy = sqrt(pz_total*pz_total + P_mass*P_mass);
+      double total_energy = sqrt(pz_total*pz_total + MASS_PROTON*MASS_PROTON);
 
       TLorentzVector total4Mom_iProton(0., 0., pz_total, total_energy);
 
