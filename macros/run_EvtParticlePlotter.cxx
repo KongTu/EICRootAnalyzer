@@ -62,6 +62,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       int nParticles_process_91 = 0;
       int nParticles_process_93 = 0;
 
+      int nParticles_stable = 0;
+
       TLorentzVector particle_4mom;
       TLorentzVector particle_4mom_proton;
       TLorentzVector particle_4mom_neutron;
@@ -133,6 +135,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
             }
 
             nParticles_process_91++;
+            nParticles_stable++;
 
          }
          if( event_process == 93 ){
@@ -173,14 +176,14 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
             }
 
             nParticles_process_93++;
+            nParticles_stable++;
 
          } 
 
       } // end of particle loop
 
-      if( event_process == 91 && nParticles_process_91 < 4 ) continue; 
-      if( event_process == 93 && nParticles_process_93 < 4 ) continue; 
-
+      if( nParticles_stable < 4 ) continue; 
+      
       //small t, namely the momentum transfer to the struck nucleon (proton)
       TLorentzVector t_proton = particle_4mom_proton - total4Mom_iProton;//(p'-p)
       double t_proton_squared = t_proton.Mag2();
