@@ -30,12 +30,15 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       //event information:
       double trueQ2 = event->GetTrueQ2();
       double trueW2 = event->GetTrueW2();
+         W2->Fill(trueW2);
       double trueX = event->GetTrueX();
       double trueY = event->GetTrueY();
       double trueNu = event->GetTrueNu();
       double s_hat = event->GetHardS();
       double t_hat = event->GetHardT();
       double u_hat = event->GetHardU();
+      double photon_flux = event->GetPhotonFlux();
+         photonFlux->Fill( photon_flux );
       int event_process = event->GetProcess();
 
       //initial proton in Deuteron
@@ -256,6 +259,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    Q2VsX->Write();
    
    E_CM->Write();
+   W2->Write();
+   photonFlux->Write();
    T_dist->Write();//T_distribution in the selected range
    t_dist->Write();//t_distribution in the selected range
    t_proton_dist->Write();//t_distribution for proton for entire range
