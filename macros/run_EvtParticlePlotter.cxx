@@ -204,9 +204,9 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       
       particle_4mom = particle_4mom_proton + particle_4mom_neutron;
 
-      double sNN = particle_4mom.E();//center of mass energy
+      double sNN = particle_4mom.E()*particle_4mom.E();//center of mass energy squared
          
-         E_CM->Fill( sNN );
+         E_CM->Fill( sqrt(sNN) );
       
       //end COM
 
@@ -234,7 +234,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
          T_dist->Fill( t_hat );
          t_dist->Fill( t_proton_squared );
-         sNNvsPt_91->Fill( pt_91_jpsi_differential, sNN*sNN );
+         sNNvsPt_91->Fill( pt_91_jpsi_differential, sNN );
       //}
       //Jpsi pt vs proton pt
       PtVsPt_process_91_protonVsJpsi->Fill(pt_91_jpsi, pt_91_proton);
@@ -266,7 +266,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       
    ThatVssNN->Write();
    tdisVssNN->Write();
-   
+
    sNNvsPt_91->Write();
 
    Q2VsJpsi_91->Write();
