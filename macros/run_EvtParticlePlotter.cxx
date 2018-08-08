@@ -227,6 +227,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       TvsPt_91->Fill( pt_91_jpsi, t_hat );
       TvsPt_93->Fill( pt_93_jpsi, t_hat );
 
+      ThatVssNN->Fill(sNN, t_hat);
+      tdisVssNN->Fill(sNN, t_proton_squared);
       //sNN vs Jpsi pt
       //if( fabs(t_hat) < 1.0 ) {
 
@@ -261,6 +263,10 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    T_hatVsPt2->Write();
    TvsPt_91->Write();
    TvsPt_93->Write();
+      
+   ThatVssNN->Write();
+   tdisVssNN->Write();
+   
    sNNvsPt_91->Write();
 
    Q2VsJpsi_91->Write();
