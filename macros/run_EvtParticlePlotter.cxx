@@ -85,7 +85,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
          statusHist.Fill( status ); 
 
          if( status != 1 ) continue; //only stable final-state particles 
-         
+         if( event_process == 93 ) continue;
+
          if( event_process == 91 ){
 
             PtDist_process_91->Fill( pt );
@@ -197,7 +198,6 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
       //compute COM s_NN of proton and neutron system:
       double E_NN = particle_4mom_proton.E() + particle_4mom_neutron.E();
-      double Pt_proton = particle_4mom_proton.Pt();
 
       TVector3 p_proton = particle_4mom_proton.Vect();
       TVector3 p_neutron = particle_4mom_neutron.Vect();
