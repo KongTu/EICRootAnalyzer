@@ -91,12 +91,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                EtaDist_Jpsi->Fill( eta );
                PhiDist_Jpsi->Fill( phi );
 
-               double pt_91_jpsi = particle->GetPt();
-
-               if( fabs(eta) < 2.0 ){
-                  
-                  double pt_91_jpsi_differential = particle->GetPt();
-               }
+               double pt_jpsi = particle->GetPt();
 
             }
             if( pdg == 2212 ){//proton
@@ -108,8 +103,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                PtVsEta_proton->Fill(eta, pt);
                AngleVsMom_proton->Fill(mom, theta);
                
-               double theta_91_proton = theta;//for later use
-               double pt_91_proton = particle->GetPt();
+               double theta_proton = theta;//for later use
+               double pt_proton = particle->GetPt();
                
                particle_4mom_proton = particle->PxPyPzE();
 
@@ -123,7 +118,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                PtVsEta_neutron->Fill(eta, pt);
                AngleVsMom_neutron->Fill(mom, theta);
                
-               double theta_91_neutron = theta;//for later use
+               double theta_neutron = theta;//for later use
 
                particle_4mom_neutron = particle->PxPyPzE();
 
@@ -170,36 +165,35 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       //end COM
 
       //hadron angle vs their center of mass energy
-      AngleVssNN_proton->Fill( sNN, theta_91_proton);
-      AngleVssNN_neutron->Fill( sNN, theta_91_neutron);
+      AngleVssNN_proton->Fill( sNN, theta_proton);
+      AngleVssNN_neutron->Fill( sNN, theta_neutron);
       
       //Qsquared vs Jpsi transverse momentum
-      Q2VsJpsi_91->Fill( pt_91_jpsi, trueQ2);
+      Q2VsJpsi->Fill( pt_jpsi, trueQ2);
       
       //Wsqured vs Jpsi transverse momentum
-      W2VsJpsi_91->Fill( pt_91_jpsi, trueW2);
+      W2VsJpsi->Fill( pt_jpsi, trueW2);
 
       //t vs pt^2-Q^2
-      T_hatVsPt2->Fill( pt_91_jpsi*pt_91_jpsi-trueQ2, t_hat );
+      T_hatVsPt2->Fill( pt_jpsi*pt_jpsi-trueQ2, t_hat );
       
       //t vs Jpsi pt
-      TvsPt_91->Fill( pt_91_jpsi, t_hat );
-
-      tProtonVsPt_91->Fill( pt_91_jpsi, t_proton_squared );
+      TvsPt->Fill( pt_jpsi, t_hat );
+      tProtonVsPt->Fill( pt_jpsi, t_proton_squared );
 
       ThatVssNN->Fill(sNN, t_hat);
       tdisVssNN->Fill(sNN, t_proton_squared);
-
       tVsT->Fill(t_hat, t_proton_squared);
+
       //sNN vs Jpsi pt
       //if( fabs(t_hat) < 1.0 ) {
 
          T_dist->Fill( t_hat );
          t_dist->Fill( t_proton_squared );
-         sNNvsPt_91->Fill( pt_91_jpsi_differential, sNN );
+         sNNvsPt->Fill( pt_jpsi, sNN );
       //}
       //Jpsi pt vs proton pt
-      PtVsPt_protonVsJpsi->Fill(pt_91_jpsi, pt_91_proton);
+      PtVsPt_protonVsJpsi->Fill(pt_jpsi, pt_proton);
 
       //multiplicity distribution
       Ntrk_process_all->Fill(nParticles);
@@ -215,7 +209,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    
    Ntrk_process_all->Write();
    Ntrk_process->Write();
-   
+   statusHist.Write();
+
    Q2VsX->Write();
    W2VsFlux->Write();
   
@@ -227,24 +222,16 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    t_proton_dist->Write();//t_distribution for proton for entire range
 
    T_hatVsPt2->Write();
-   TvsPt_91->Write();
-
-   tProtonVsPt_91->Write();
+   TvsPt->Write();
+   tProtonVsPt->Write();
 
    ThatVssNN->Write();
    tdisVssNN->Write();
-
    tVsT->Write();
 
-   sNNvsPt_91->Write();
-
-   Q2VsJpsi_91->Write();
-
-   W2VsJpsi_91->Write();
-
-   statusHist.Write();
-
-   
+   sNNvsPt->Write();
+   Q2VsJpsi->Write();
+   W2VsJpsi->Write();
 
    PtDist_Jpsi->Write();
    EtaDist_Jpsi->Write();
