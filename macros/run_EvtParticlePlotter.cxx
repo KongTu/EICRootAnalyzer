@@ -228,7 +228,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       TvsPt_93->Fill( pt_93_jpsi, t_hat );
 
       //sNN vs Jpsi pt
-      if( fabs(t_hat) < 1.0 && fabs(t_proton_squared) > 1.0 ) {
+      if( fabs(t_hat) < 1.0 ) {
 
          T_dist->Fill( t_hat );
          t_dist->Fill( t_proton_squared );
