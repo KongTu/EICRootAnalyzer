@@ -184,6 +184,18 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
          t_proton_dist->Fill( t_proton_squared );
 
+      if( t_proton_squared > 0 ) {
+
+         cout << "proton energy " << particle_4mom_proton.E() << endl;
+         cout << "neutron energy " << particle_4mom_neutron.E() << endl;
+         
+         cout << "proton pz " << particle_4mom_proton.Pz() << endl;
+         cout << "neutron pz " << particle_4mom_neutron.Pz() << endl;
+        
+         cout << "proton pt " << particle_4mom_proton.Pt() << endl;
+         cout << "neutron pt " << particle_4mom_neutron.Pt() << endl;
+      }
+
       //compute COM s_NN of proton and neutron system:
       double E_NN = particle_4mom_proton.E() + particle_4mom_neutron.E();
       double Pt_proton = particle_4mom_proton.Pt();
@@ -213,7 +225,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       
       //end COM
 
-      if( t_proton_squared > 0 ) cout << "sNN " << sNN << endl;
+
 
       //hadron angle vs their center of mass energy
       AngleVssNN_process_91_proton->Fill( sNN, theta_91_proton);
