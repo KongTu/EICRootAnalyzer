@@ -31,14 +31,18 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       double trueQ2 = event->GetTrueQ2();
       double trueW2 = event->GetTrueW2();
          W2->Fill(trueW2);
+
       double trueX = event->GetTrueX();
       double trueY = event->GetTrueY();
       double trueNu = event->GetTrueNu();
       double s_hat = event->GetHardS();
       double t_hat = event->GetHardT();
+         T_dist->Fill( t_hat );
+
       double u_hat = event->GetHardU();
       double photon_flux = event->GetPhotonFlux();
          photonFlux->Fill( photon_flux );
+
       int event_process = event->GetProcess();
 
       //initial proton in Deuteron
@@ -91,7 +95,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                EtaDist_Jpsi->Fill( eta );
                PhiDist_Jpsi->Fill( phi );
 
-               double pt_jpsi = particle->GetPt();
+               double pt_jpsi = pt;//store Jpsi pt
 
             }
             if( pdg == 2212 ){//proton
@@ -103,10 +107,10 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                PtVsEta_proton->Fill(eta, pt);
                AngleVsMom_proton->Fill(mom, theta);
                
-               double theta_proton = theta;//for later use
-               double pt_proton = particle->GetPt();
+               double theta_proton = theta;//store proton angle
+               double pt_proton = pt;//store proton pt
                
-               particle_4mom_proton = particle->PxPyPzE();
+               particle_4mom_proton = particle->PxPyPzE();//store proton 4vector
 
             }
             if( pdg == 2112 ){//neutron
@@ -118,7 +122,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                PtVsEta_neutron->Fill(eta, pt);
                AngleVsMom_neutron->Fill(mom, theta);
                
-               double theta_neutron = theta;//for later use
+               double theta_neutron = theta;//store neutron angle
 
                particle_4mom_neutron = particle->PxPyPzE();
 
@@ -134,7 +138,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       TLorentzVector t_proton = particle_4mom_proton - total4Mom_iProton;//(p'-p)
       double t_proton_squared = t_proton.Mag2();
 
-         t_proton_dist->Fill( t_proton_squared );
+      t_dist->Fill( t_proton_squared );
 
       //compute COM s_NN of proton and neutron system:
       double E_NN = particle_4mom_proton.E() + particle_4mom_neutron.E();
@@ -160,7 +164,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
       double sNN = particle_4mom.E()*particle_4mom.E();//center of mass energy squared
          
-         E_CM->Fill( sqrt(sNN) );
+      E_CM->Fill( sqrt(sNN) );
       
       //end COM
 
@@ -177,22 +181,21 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       //t vs pt^2-Q^2
       T_hatVsPt2->Fill( pt_jpsi*pt_jpsi-trueQ2, t_hat );
       
-      //t vs Jpsi pt
+      //T and t vs Jpsi pt
       TvsPt->Fill( pt_jpsi, t_hat );
       tProtonVsPt->Fill( pt_jpsi, t_proton_squared );
 
+      //T and t vs center of mass energy
       ThatVssNN->Fill(sNN, t_hat);
       tdisVssNN->Fill(sNN, t_proton_squared);
+      
+      //t vs T
       tVsT->Fill(t_hat, t_proton_squared);
 
-      //sNN vs Jpsi pt
-      //if( fabs(t_hat) < 1.0 ) {
-
-         T_dist->Fill( t_hat );
-         t_dist->Fill( t_proton_squared );
-         sNNvsPt->Fill( pt_jpsi, sNN );
-      //}
-      //Jpsi pt vs proton pt
+      //center of mass energy vs Jpsi pt
+      sNNvsPt->Fill( pt_jpsi, sNN );
+      
+      //proton pt vs Jpsi pt
       PtVsPt_protonVsJpsi->Fill(pt_jpsi, pt_proton);
 
       //multiplicity distribution
@@ -207,31 +210,16 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
    TFile output("../rootfiles/"+inputFilename+outfilename,"RECREATE");
    
+   //TH1D
    Ntrk_process_all->Write();
    Ntrk_process->Write();
    statusHist.Write();
 
-   Q2VsX->Write();
-   W2VsFlux->Write();
-  
    E_CM->Write();
    W2->Write();
    photonFlux->Write();
    T_dist->Write();//T_distribution in the selected range
    t_dist->Write();//t_distribution in the selected range
-   t_proton_dist->Write();//t_distribution for proton for entire range
-
-   T_hatVsPt2->Write();
-   TvsPt->Write();
-   tProtonVsPt->Write();
-
-   ThatVssNN->Write();
-   tdisVssNN->Write();
-   tVsT->Write();
-
-   sNNvsPt->Write();
-   Q2VsJpsi->Write();
-   W2VsJpsi->Write();
 
    PtDist_Jpsi->Write();
    EtaDist_Jpsi->Write();
@@ -244,6 +232,22 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    PtDist_neutron->Write();
    EtaDist_neutron->Write();
    PhiDist_neutron->Write();
+
+   //TH2D
+   Q2VsX->Write();
+   W2VsFlux->Write();
+  
+   T_hatVsPt2->Write();
+   TvsPt->Write();
+   tProtonVsPt->Write();
+
+   ThatVssNN->Write();
+   tdisVssNN->Write();
+   tVsT->Write();
+
+   sNNvsPt->Write();
+   Q2VsJpsi->Write();
+   W2VsJpsi->Write();
 
    PtVsEta_proton->Write();
    PtVsEta_neutron->Write();
