@@ -43,7 +43,7 @@
 #define MASS_AU197    183.45406466643374
 #define MASS_PB208    193.69769264273208
 // Histograms for our analysis.
-TH1D* Ntrk = new TH1D("Ntrk",";Ntrk", 100, 0, 100);
+TH1D* Ntrk_process = new TH1D("Ntrk_process",";Ntrk_process", 100, 0, 100);
 TH1D* Ntrk_process_all = new TH1D("Ntrk_process_all",";Ntrk_process_all", 100, 0, 100);
 TH1D statusHist("statusHist", "status distribution  ", 50, 0, 50 );
 

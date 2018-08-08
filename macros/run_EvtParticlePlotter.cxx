@@ -203,7 +203,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
       //multiplicity distribution
       Ntrk_process_all->Fill(nParticles);
-      Ntrk->Fill(nParticles_process);
+      Ntrk_process->Fill(nParticles_process);
 
    } // for
 
@@ -242,7 +242,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    statusHist.Write();
 
    Ntrk_process_all->Write();
-   Ntrk->Write();
+   Ntrk_process->Write();
 
    PtDist->Write();
    EtaDist->Write();
