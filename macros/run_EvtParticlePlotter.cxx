@@ -22,7 +22,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
    // Now we can do some analysis...
    // Loop over events:
-   for(int i(34381); i < 34381+1; ++i ) {
+   for(int i(0); i < nEvents; ++i ) {
       
       // Read the next entry from the tree.
       tree->GetEntry(i);
@@ -90,10 +90,10 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
          if( status != 1 ) continue; //only stable final-state particles 
 
-         cout << "pdg " << pdg << endl;
-         cout << "status " << status << endl;
-         cout << "index " << index << endl;
-         cout << "pt " << pt << endl;
+         // cout << "pdg " << pdg << endl;
+         // cout << "status " << status << endl;
+         // cout << "index " << index << endl;
+         // cout << "pt " << pt << endl;
 
             if( pdg == 443 ){//Jpsi
 
