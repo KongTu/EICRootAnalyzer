@@ -178,7 +178,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
       } // end of particle loop
 
-      //if( nParticles_process_91 < 4 || nParticles_process_93 < 4 ) continue; 
+      if( nParticles_process_91 < 4 || nParticles_process_93 < 4 ) continue; 
       
       //small t, namely the momentum transfer to the struck nucleon (proton)
       TLorentzVector t_proton = particle_4mom_proton - total4Mom_iProton;//(p'-p)
