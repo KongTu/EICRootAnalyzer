@@ -89,9 +89,10 @@ TH2D* TvsPt_93 = new TH2D("TvsPt_93",";p_{T} (GeV);T", 100,0,10,200,-5,0);
 TH2D* tProtonVsPt_91 = new TH2D("tProtonVsPt_91",";p_{T} (GeV);T", 100,0,10,200,-5,0);
 TH2D* tProtonVsPt_93 = new TH2D("tProtonVsPt_93",";p_{T} (GeV);T", 100,0,10,200,-5,0);
 
-
 TH2D* ThatVssNN = new TH2D("ThatVssNN",";s_{_{NN}} (GeV^{2});T" ,200,0,20,200,-5,0);
 TH2D* tdisVssNN = new TH2D("tdisVssNN",";s_{_{NN}} (GeV^{2});t" ,200,0,20,400,-5,5);
+
+TH2D* tVsT = new TH2D("tVsT",";T;t" ,200,-5,0,400,-5,5);
 
 TH2D* sNNvsPt_91 = new TH2D("sNNvsPt_91",";p_{T} (GeV);s_{_{NN}} (GeV^{2})", 100,0,10,200,0,20);
 
