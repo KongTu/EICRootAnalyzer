@@ -23,7 +23,7 @@
 #define MASS_AU197    183.45406466643374
 #define MASS_PB208    193.69769264273208
 
-void run_test( int nEvents, bool doBoost, TString inputFilename ) {
+void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_name ) {
    
    // If the analysis solely uses TTree::Draw statements, you don't need to load
    // the shared library. You will receive warnings such as
@@ -38,10 +38,20 @@ void run_test( int nEvents, bool doBoost, TString inputFilename ) {
    // Create a TChain for trees with this name.
    TChain *tree = new TChain("EICTree");
    
-   // Add the file(s) we want to analyse to the chain.
-   // We could add multiple files if we wanted.
-   tree->Add("../../EICTree/ePb_Jpsidiffnodecay_EICTree/ePb_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
-// tree.Add(/path/to/otherFileNames ); // etc... 
+   const double NUCLEI_MASS = MASS_PROTON;//default proton mass
+   if( system_name == "eD" ) NUCLEI_MASS = MASS_DEUTERON;
+   if( system_name == "eT" ) NUCLEI_MASS = MASS_TRITON;
+   if( system_name == "eHe3" ) NUCLEI_MASS = MASS_HE3;
+   if( system_name == "eAlpha" ) NUCLEI_MASS = MASS_ALPHA;
+   if( system_name == "eLi" ) NUCLEI_MASS = MASS_LI6;
+   if( system_name == "eC" ) NUCLEI_MASS = MASS_C12;
+   if( system_name == "eCa" ) NUCLEI_MASS = MASS_CA40;
+   if( system_name == "eXe" ) NUCLEI_MASS = MASS_XE131;
+   if( system_name == "eAu" ) NUCLEI_MASS = MASS_AU197;
+   if( system_name == "ePb" ) NUCLEI_MASS = MASS_PB208;
+
+
+   tree->Add("../../EICTree/"+system_name+"_Jpsidiffnodecay_EICTree/"+system_name+"_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
    
    // Create an object to store the current event from the tree.
    // This is how we access the values in the tree.
@@ -117,7 +127,7 @@ void run_test( int nEvents, bool doBoost, TString inputFilename ) {
       double pztarg = branch_pz->GetValue(0,0);
       double Atarg = branch_atarg->GetValue(0,0);
       double pz_total = pztarg*Atarg;
-      double total_energy = sqrt(pz_total*pz_total + MASS_PB208*MASS_PB208);
+      double total_energy = sqrt(pz_total*pz_total + NUCLEI_MASS*NUCLEI_MASS);
 
       //electron, neglect electron mass
       double pz_lepton = branch_pzlep->GetValue(0,0);
@@ -128,8 +138,8 @@ void run_test( int nEvents, bool doBoost, TString inputFilename ) {
       TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
 
       /* lorentz boost incoming particle*/
-      double gamma_ion = total_energy/MASS_PB208;
-      double bz = pz_total/(gamma_ion*MASS_PB208);
+      double gamma_ion = total_energy/NUCLEI_MASS;
+      double bz = pz_total/(gamma_ion*NUCLEI_MASS);
 
       TVector3 b;
 
@@ -207,8 +217,8 @@ void run_test( int nEvents, bool doBoost, TString inputFilename ) {
    } // for
 
    TString outfilename;
-   if( doBoost ) outfilename = "_JpsiNodcay_ePb_ionframe.root";
-   else outfilename = "_JpsiNodcay_ePb.root";
+   if( doBoost ) outfilename = "_JpsiNodcay_"+system_name+"_ionframe.root";
+   else outfilename = "_JpsiNodcay_"+system_name+".root";
 
    TFile output("../rootfiles/"+inputFilename+outfilename,"RECREATE");
    
