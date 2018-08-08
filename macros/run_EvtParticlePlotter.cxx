@@ -22,7 +22,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
    // Now we can do some analysis...
    // Loop over events:
-   for(int i(18038); i < 18038+1; ++i ) {
+   for(int i(0); i < nEvents; ++i ) {
       
       // Read the next entry from the tree.
       tree->GetEntry(i);
@@ -90,11 +90,11 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
          if( status != 1 ) continue; //only stable final-state particles 
 
-         cout << "pdg " << pdg << endl;
-         cout << "status " << status << endl;
-         cout << "index " << index << endl;
-         cout << "pt " << pt << endl;
-         
+         // cout << "pdg " << pdg << endl;
+         // cout << "status " << status << endl;
+         // cout << "index " << index << endl;
+         // cout << "pt " << pt << endl;
+
             if( pdg == 443 ){//Jpsi
 
                PtDist_Jpsi->Fill( pt );
@@ -144,14 +144,14 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       TLorentzVector t_proton = particle_4mom_proton - total4Mom_iProton;//(p'-p)
       double t_proton_squared = t_proton.Mag2();
 
-      if( t_proton_squared > 0.0 ){
+      // if( t_proton_squared > 0.0 ){
 
-         cout << "event number " << i << endl;
-         cout << "event process " << event_process << endl;
-         cout << "nParticles_process " << nParticles_process << endl;
-         cout << "proton energy " << particle_4mom_proton.E() << endl;
-         cout << "neutron energy " << particle_4mom_neutron.E() << endl;
-      }
+      //    cout << "event number " << i << endl;
+      //    cout << "event process " << event_process << endl;
+      //    cout << "nParticles_process " << nParticles_process << endl;
+      //    cout << "proton energy " << particle_4mom_proton.E() << endl;
+      //    cout << "neutron energy " << particle_4mom_neutron.E() << endl;
+      // }
 
       t_dist->Fill( t_proton_squared );
 
