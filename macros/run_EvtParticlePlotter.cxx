@@ -147,7 +147,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
       } // end of particle loop
 
-      //if( nParticles_process != 4 ) continue;
+      if( nParticles_process != 4 ) continue;
 
       T_dist->Fill( t_hat );
  
@@ -155,21 +155,11 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       TLorentzVector t_proton = particle_4mom_proton - total4Mom_Deuteron;//(p'-p)
       double t_proton_squared = t_proton.Mag2();
 
+      t_dist->Fill( t_proton_squared );
+
       TLorentzVector T_Jpsi = particle_4mom_Jpsi - particle_4mom_photon;//delta
       double T_Jpsi_squared = T_Jpsi.Mag2();
 
-      // if( t_proton_squared > 0.0 ) continue;
-
-      // if( t_proton_squared > 0.0 ){
-
-      //    cout << "event number " << i << endl;
-      //    cout << "event process " << event_process << endl;
-      //    cout << "nParticles_process " << nParticles_process << endl;
-      //    cout << "proton energy " << particle_4mom_proton.E() << endl;
-      //    cout << "neutron energy " << particle_4mom_neutron.E() << endl;
-      // }
-
-      t_dist->Fill( t_proton_squared );
       T_Jpsi_dist->Fill( T_Jpsi_squared );
 
       //compute COM s_NN of proton and neutron system:
