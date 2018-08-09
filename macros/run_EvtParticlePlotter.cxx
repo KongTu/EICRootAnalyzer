@@ -47,7 +47,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       double pztarg = branch_pz->GetValue(0,0);
       double Atarg = branch_atarg->GetValue(0,0);
       double pz_total = pztarg*Atarg;
-      double total_energy = sqrt(pz_total*pz_total + NUCLEI_MASS*NUCLEI_MASS);
+      double total_energy = sqrt(pz_total*pz_total + MASS_DEUTERON*MASS_DEUTERON);
 
 
       TLorentzVector total4Mom_Deuteron(0., 0., pz_total, total_energy);
