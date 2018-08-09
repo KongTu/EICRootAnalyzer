@@ -201,11 +201,11 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       W2VsJpsi->Fill( pt_jpsi, trueW2);
 
       //t vs pt^2-Q^2
-      T_hatVsPt2->Fill( pt_jpsi*pt_jpsi-trueQ2, T_Jpsi_squared );
+      T_hatVsPt2->Fill( pt_jpsi*pt_jpsi-trueQ2, T_Jpsi_squared );//should this be t_hat
       
       //T and t vs Jpsi pt
-      TvsPt->Fill( pt_jpsi, T_Jpsi_squared );
-      tProtonVsPt->Fill( pt_jpsi, t_proton_squared );
+      TvsPt->Fill( pt_jpsi*pt_jpsi, T_Jpsi_squared );
+      tProtonVsPt->Fill( pt_jpsi*pt_jpsi, t_proton_squared );
 
       //T and t vs center of mass energy
       ThatVssNN->Fill(sNN, T_Jpsi_squared);

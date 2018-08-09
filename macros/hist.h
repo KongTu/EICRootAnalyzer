@@ -49,8 +49,8 @@ TH2D* Q2VsX = new TH2D("Q2VsX",";x;Q^{2}",10000,0.00001,1,2000,0,200);
 TH2D* W2VsFlux = new TH2D("W2VsFlux",";#Phi;W^{2}",5000,0,0.1,1000,0,10000);
 
 TH2D* T_hatVsPt2 = new TH2D("T_hatVsPt2",";p^{2}_{T}-Q^{2} (GeV);T", 500,0,50,200,-5,0);
-TH2D* TvsPt = new TH2D("TvsPt",";p_{T} (GeV);T", 100,0,10,200,-5,0);
-TH2D* tProtonVsPt = new TH2D("tProtonVsPt",";p_{T} (GeV);T", 100,0,10,200,-5,0);
+TH2D* TvsPt = new TH2D("TvsPt",";p^{2}_{T} (GeV);T", 100,0,10,200,-5,0);
+TH2D* tProtonVsPt = new TH2D("tProtonVsPt",";p^{2}_{T} (GeV);T", 100,0,10,200,-5,0);
 
 TH2D* ThatVssNN = new TH2D("ThatVssNN",";s_{_{NN}} (GeV^{2});T" ,200,0,20,200,-5,0);
 TH2D* tdisVssNN = new TH2D("tdisVssNN",";s_{_{NN}} (GeV^{2});t" ,200,0,20,400,-5,5);
