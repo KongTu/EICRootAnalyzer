@@ -147,7 +147,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
       } // end of particle loop
 
-      if( nParticles_process != 4 ) continue;
+      //if( nParticles_process != 4 ) continue;
 
       T_dist->Fill( t_hat );
  
