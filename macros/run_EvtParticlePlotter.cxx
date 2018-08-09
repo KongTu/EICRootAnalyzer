@@ -37,21 +37,20 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       double trueNu = event->GetTrueNu();
       double s_hat = event->GetHardS();
       double t_hat = event->GetHardT();
-         T_dist->Fill( t_hat );
-
       double u_hat = event->GetHardU();
       double photon_flux = event->GetPhotonFlux();
          photonFlux->Fill( photon_flux );
 
       int event_process = event->GetProcess();
 
-      //initial proton in Deuteron
+      //Deuteron 4 momentum
       double pztarg = branch_pz->GetValue(0,0);
       double Atarg = branch_atarg->GetValue(0,0);
-      double pz_total = pztarg*(Atarg-1.0);//proton longitudinal momentum
-      double total_energy = sqrt(pz_total*pz_total + MASS_PROTON*MASS_PROTON);
+      double pz_total = pztarg*Atarg;
+      double total_energy = sqrt(pz_total*pz_total + NUCLEI_MASS*NUCLEI_MASS);
 
-      TLorentzVector total4Mom_iProton(0., 0., pz_total, total_energy);
+
+      TLorentzVector total4Mom_Deuteron(0., 0., pz_total, total_energy);
 
       Q2VsX->Fill(trueX, trueQ2);
       W2VsFlux->Fill(photon_flux, trueW2);
@@ -148,10 +147,12 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
       } // end of particle loop
 
-      if( nParticles_process != 4 ) continue; 
-      
+      if( nParticles_process != 4 ) continue;
+
+      T_dist->Fill( t_hat );
+ 
       //small t, namely the momentum transfer to the struck nucleon (proton)
-      TLorentzVector t_proton = particle_4mom_proton - total4Mom_iProton;//(p'-p)
+      TLorentzVector t_proton = particle_4mom_proton - total4Mom_Deuteron;//(p'-p)
       double t_proton_squared = t_proton.Mag2();
 
       TLorentzVector T_Jpsi = particle_4mom_Jpsi - particle_4mom_photon;//delta
