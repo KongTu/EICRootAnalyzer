@@ -69,6 +69,9 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       TLorentzVector particle_4mom_proton;
       TLorentzVector particle_4mom_neutron;
 
+      TLorentzVector particle_4mom_photon;
+      TLorentzVector particle_4mom_Jpsi;
+
       if( event_process != 91 ) continue;
 
       for(int j(0); j < nParticles; ++j ) {
@@ -87,12 +90,10 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
          statusHist.Fill( status ); 
 
-         if( index == 4 ){
+         if( index == 4 ){ //get gamma 4-momentum:
 
-         cout << "pdg " << pdg << endl;
-         cout << "status " << status << endl;
-         cout << "index " << index << endl;
-         cout << "pt " << pt << endl;
+            particle_4mom_photon = particle->PxPyPzE();
+            
          }
 
          if( status != 1 ) continue; //only stable final-state particles 
@@ -109,6 +110,8 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
                PhiDist_Jpsi->Fill( phi );
 
                double pt_jpsi = pt;//store Jpsi pt
+               
+               particle_4mom_Jpsi = particle->PxPyPzE();
 
             }
             if( pdg == 2212 ){//proton
@@ -151,6 +154,9 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       TLorentzVector t_proton = particle_4mom_proton - total4Mom_iProton;//(p'-p)
       double t_proton_squared = t_proton.Mag2();
 
+      TLorentzVector T_Jpsi = particle_4mom_Jpsi - particle_4mom_photon;//delta
+      double T_Jpsi_squared = T_Jpsi.Mag2();
+
       // if( t_proton_squared > 0.0 ) continue;
 
       // if( t_proton_squared > 0.0 ){
@@ -163,6 +169,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
       // }
 
       t_dist->Fill( t_proton_squared );
+      T_Jpsi_dist->Fill( T_Jpsi_squared );
 
       //compute COM s_NN of proton and neutron system:
       double E_NN = particle_4mom_proton.E() + particle_4mom_neutron.E();
@@ -243,6 +250,7 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
    W2->Write();
    photonFlux->Write();
    T_dist->Write();//T_distribution in the selected range
+   T_Jpsi_dist->Write();
    t_dist->Write();//t_distribution in the selected range
 
    PtDist_Jpsi->Write();

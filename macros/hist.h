@@ -80,6 +80,7 @@ TH1D* E_CM = new TH1D("E_CM",";#sqrt{s_{_{NN}}} (GeV)", 200,0,10);
 TH1D* W2 = new TH1D("W2",";W^{2} (GeV^{2})", 1000,0,10000);
 TH1D* photonFlux = new TH1D("photonFlux",";#Phi", 5000,0,0.1);
 TH1D* T_dist = new TH1D("T_dist",";T", 200,-5,0);
+TH1D* T_Jpsi_dist = new TH1D("T_Jpsi_dist",";T", 200,-5,0);
 TH1D* t_dist = new TH1D("t_dist",";t", 200,-5,5);
 
 //TH1D:
