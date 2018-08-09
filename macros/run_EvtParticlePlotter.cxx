@@ -87,6 +87,13 @@ void run_EvtParticlePlotter( int nEvents, bool doBoost, TString inputFilename ) 
 
          statusHist.Fill( status ); 
 
+         if( index == 4 ){
+
+         cout << "pdg " << pdg << endl;
+         cout << "status " << status << endl;
+         cout << "index " << index << endl;
+         cout << "pt " << pt << endl;
+         }
 
          if( status != 1 ) continue; //only stable final-state particles 
 
