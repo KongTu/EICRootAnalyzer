@@ -134,7 +134,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 					p_pT += kick;
 					p_E = sqrt(p_E*p_E + kick*kick);
 
-					particle_4mom_proton->SetPtEtaPhiE(p_pT, p_eta, p_phi, p_E);
+					particle_4mom_proton.SetPtEtaPhiE(p_pT, p_eta, p_phi, p_E);
 
 				}
 
@@ -178,14 +178,14 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 	}
 
 	//refill neutron kinematics:
-	PtDist_neutron->Fill( particle_4mom_neutron->Pt() );
-	EtaDist_neutron->Fill( particle_4mom_neutron->Eta() );
-	PhiDist_neutron->Fill( particle_4mom_neutron->Phi() );
+	PtDist_neutron->Fill( particle_4mom_neutron.Pt() );
+	EtaDist_neutron->Fill( particle_4mom_neutron.Eta() );
+	PhiDist_neutron->Fill( particle_4mom_neutron.Phi() );
 
-	PtVsEta_neutron->Fill(particle_4mom_neutron->Eta(), particle_4mom_neutron->Pt());
-	AngleVsMom_neutron->Fill(particle_4mom_neutron->P(), particle_4mom_neutron->Theta());
+	PtVsEta_neutron->Fill(particle_4mom_neutron.Eta(), particle_4mom_neutron.Pt());
+	AngleVsMom_neutron->Fill(particle_4mom_neutron.P(), particle_4mom_neutron.Theta());
 
-	double theta_neutron = particle_4mom_neutron->Theta();//store neutron angle
+	double theta_neutron = particle_4mom_neutron.Theta();//store neutron angle
 
 
 	//t_hat
@@ -273,8 +273,8 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
    } // for
 
    TString outfilename;
-   if( doBoost ) outfilename = "_Jpsinodecay_KickFinalStates_eD_ionframe.root";
-   else outfilename = "_Jpsinodecay_KickFinalStates_eD.root";
+   if( doKick ) outfilename = "_Jpsinodecay_KickFinalStates_eD_kick.root";
+   else outfilename = "_Jpsinodecay_KickFinalStates_eD_nokick.root";
 
    TFile output("../rootfiles/"+inputFilename+outfilename,"RECREATE");
    
