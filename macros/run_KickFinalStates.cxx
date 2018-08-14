@@ -195,7 +195,10 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 		particle_4mom_neutron = bKick_PN - particle_4mom_proton;//modify neutron kinematics.
 	}
 
-	total4Mom_outgoing = particle_4mom_neutron + particle_4mom_proton + particle_4mom_Jpsi + particle_4mom_electron;
+	total4Mom_outgoing += particle_4mom_neutron;
+	total4Mom_outgoing += particle_4mom_proton;
+	total4Mom_outgoing += particle_4mom_Jpsi;
+	total4Mom_outgoing += particle_4mom_electron;
 
 	//refill neutron kinematics:
 	PtDist_neutron->Fill( particle_4mom_neutron.Pt() );
