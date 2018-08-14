@@ -289,6 +289,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
    T_dist->Write();//T_distribution in the selected range
    T_Jpsi_dist->Write();
    t1_dist->Write();//t_distribution in the selected range
+   t2_dist->Write();//t_distribution in the selected range
 
    PtDist_Jpsi->Write();
    EtaDist_Jpsi->Write();
