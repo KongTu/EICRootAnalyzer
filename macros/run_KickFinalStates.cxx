@@ -85,7 +85,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
       TLorentzVector particle_4mom_photon;
       TLorentzVector particle_4mom_Jpsi;
-      TLorentzVector particle_4mom_electron;
+      //TLorentzVector particle_4mom_electron;
 
       if( event_process != 91 ) continue;
 
@@ -107,7 +107,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
          if( index == 3 ){ //get scattered electron
 
-         	particle_4mom_electron = particle->PxPyPzE();
+         	//particle_4mom_electron = particle->PxPyPzE();
 
          }
          if( index == 4 ){ //get gamma 4-momentum:
