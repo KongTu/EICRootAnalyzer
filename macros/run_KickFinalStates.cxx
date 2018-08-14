@@ -173,11 +173,11 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
 	if( nParticles_process != 4 ) continue;
 
+	TLorentzVector bKick_PN;
 	if( doKick ){
 
-		TLorentzVector bKick_PN = particle_4mom_proton_bKick + particle_4mom_neutron_bKick;
+		bKick_PN = particle_4mom_proton_bKick + particle_4mom_neutron_bKick;
 		particle_4mom_neutron = bKick_PN - particle_4mom_proton;//modify neutron kinematics.
-
 	}
 
 	//refill neutron kinematics:
