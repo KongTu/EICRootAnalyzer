@@ -1,7 +1,7 @@
 #include "hist.h"//define all the histograms
 
 TH1D* t1_dist = new TH1D("t1_dist",";t1", 200,-5,5);
-TH1D* t2_dist = new TH1D("t2_dist",";t2", 200,-100,100);
+TH1D* t2_dist = new TH1D("t2_dist",";t2", 200,-5,5);
 
 void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
    
@@ -131,7 +131,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 					double p_pT = pt;
 					double p_pz = particle->GetPz();
 
-					p_pT += 0.1;
+					p_pT += 0.5;
 					p_E = sqrt(p_E*p_E + kick*kick);
 					p_eta = TMath::ATanH(p_pz/sqrt(p_pz*p_pz+p_pT*p_pT));
 
