@@ -122,7 +122,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
 					TF1 *fa = new TF1("fa","[0]*TMath::Exp([1]*x)",0,3);
 					fa->SetParameter(0,1);
-					fa->SetParameter(1,-100);
+					fa->SetParameter(1,-5);
 
 					double kick = fa->GetRandom();
 
@@ -133,7 +133,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 					double p_pT = pt;
 					double p_pz = particle->GetPz();
 
-					p_pT += 0.5;
+					p_pT += kick;
 					p_pz = sqrt(p_E*p_E - p_M*p_M - p_pT*p_pT);
 					//p_E = sqrt(p_E*p_E + kick*kick);
 					p_eta = TMath::ATanH(p_pz/sqrt(p_pz*p_pz+p_pT*p_pT));
