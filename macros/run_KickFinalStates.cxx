@@ -1,7 +1,7 @@
 #include "hist.h"//define all the histograms
 
 TH1D* t1_dist = new TH1D("t1_dist",";t1", 200,-5,5);
-TH1D* t2_dist = new TH1D("t2_dist",";t2", 200,-5,5);
+TH1D* t2_dist = new TH1D("t2_dist",";t2", 200,-100,100);
 
 void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
    
