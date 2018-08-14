@@ -125,6 +125,8 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
 					double kick = fa->GetRandom();
 
+					cout << "kick " << kick << endl;
+
 					double p_eta = eta;
 					double p_phi = phi;
 					double p_E = particle->GetE();
@@ -136,6 +138,8 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
 					particle_4mom_proton.SetPtEtaPhiE(p_pT, p_eta, p_phi, p_E);
 
+					cout << "before kick pt " << particle_4mom_proton_bKick.Pt() << endl;
+					cout << "after. kick pt " << particle_4mom_proton.Pt() << endl;
 				}
 
 				double new_pt = particle->GetPt();
