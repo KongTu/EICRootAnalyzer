@@ -182,12 +182,14 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 	PtDist_neutron->Fill( particle_4mom_neutron.Pt() );
 	EtaDist_neutron->Fill( particle_4mom_neutron.Eta() );
 	PhiDist_neutron->Fill( particle_4mom_neutron.Phi() );
-
-	PtVsEta_neutron->Fill(particle_4mom_neutron.Eta(), particle_4mom_neutron.Pt());
-	AngleVsMom_neutron->Fill(particle_4mom_neutron.P(), particle_4mom_neutron.Theta());
-
+	
 	double theta_neutron = particle_4mom_neutron.Theta();//store neutron angle
 	theta_neutron = fabs(theta_neutron*1000);
+
+	PtVsEta_neutron->Fill(particle_4mom_neutron.Eta(), particle_4mom_neutron.Pt());
+	AngleVsMom_neutron->Fill(particle_4mom_neutron.P(), theta_neutron);
+
+
 
 
 	//t_hat
