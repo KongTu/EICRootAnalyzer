@@ -53,9 +53,9 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
       double total_energy = sqrt(pz_total*pz_total + MASS_DEUTERON*MASS_DEUTERON);
       
       //electron 4 momentum
-      double pz_lepton = branch_pzlep->GetValue(0,0);
+      // double pz_lepton = branch_pzlep->GetValue(0,0);
       double electron_mass = 0.00051;
-      double total_lep_energy = sqrt(pz_lepton*pz_lepton + electron_mass*electron_mass);
+      // double total_lep_energy = sqrt(pz_lepton*pz_lepton + electron_mass*electron_mass);
 
       TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
       //TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
