@@ -25,6 +25,11 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 	TBranchElement* branch_pyf = (TBranchElement*) tree->GetBranch("pyf");
 	TBranchElement* branch_pzf = (TBranchElement*) tree->GetBranch("pzf");
 
+	TLorentzVector total4Mom_electron;
+	TLorentzVector total4Mom_deuteron;
+	TLorentzVector total4Mom_outgoing;
+	TLorentzVector total4Mom_incoming;
+
 	for(int i(0); i < nEvents; ++i ) {
       
       // Read the next entry from the tree.
@@ -57,11 +62,11 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
       //double electron_mass = 0.00051;
       double total_lep_energy = sqrt(pz_lepton*pz_lepton+0.00051*0.00051);
 
-      TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
-      TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
+      total4Mom_deuteron.SetPxPyPzE(0., 0., pz_total, total_energy);
+      total4Mom_electron.SetPxPyPzE(0., 0., pz_lepton, total_lep_energy);
 
-      TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
-      TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
+      total4Mom_outgoing.SetPxPyPzE(0.,0.,0.,0.);
+      total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
 
       Q2VsX->Fill(trueX, trueQ2);
       W2VsFlux->Fill(photon_flux, trueW2);
