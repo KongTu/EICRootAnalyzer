@@ -121,7 +121,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
 					TF1 *fa = new TF1("fa","[0]*TMath::Exp([1]*x)",0,3);
 					fa->SetParameter(0,1);
-					fa->SetParameter(1,-1.2);
+					fa->SetParameter(1,-10);
 
 					double kick = fa->GetRandom();
 
