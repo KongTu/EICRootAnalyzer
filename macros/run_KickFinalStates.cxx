@@ -2,6 +2,7 @@
 
 TH1D* t1_dist = new TH1D("t1_dist",";t1", 200,-5,5);
 TH1D* t2_dist = new TH1D("t2_dist",";t2", 200,-5,5);
+TH1D* energy_corr = new TH1D("energy_corr",";E_{in} - E_{out}",600,-30,30);
 
 void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
    
@@ -50,9 +51,17 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
       double Atarg = branch_atarg->GetValue(0,0);
       double pz_total = pztarg*Atarg;
       double total_energy = sqrt(pz_total*pz_total + MASS_DEUTERON*MASS_DEUTERON);
+      
+      //electron 4 momentum
+      double pz_lepton = branch_pzlep->GetValue(0,0);
+      double electron_mass = 0.00051;
+      double total_lep_energy = sqrt(pz_lepton*pz_lepton + electron_mass*electron_mass);
 
+      TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
+      TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
 
-      TLorentzVector total4Mom_Deuteron(0., 0., pz_total, total_energy);
+      TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
+      TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
 
       Q2VsX->Fill(trueX, trueQ2);
       W2VsFlux->Fill(photon_flux, trueW2);
@@ -76,6 +85,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
       TLorentzVector particle_4mom_photon;
       TLorentzVector particle_4mom_Jpsi;
+      TLorentzVector particle_4mom_electron;
 
       if( event_process != 91 ) continue;
 
@@ -95,6 +105,11 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
          statusHist.Fill( status ); 
 
+         if( index == 3 ){ //get scattered electron
+
+         	particle_4mom_electron = particle->PxPyPzE();
+
+         }
          if( index == 4 ){ //get gamma 4-momentum:
 
             particle_4mom_photon = particle->PxPyPzE(); 
@@ -180,6 +195,8 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 		particle_4mom_neutron = bKick_PN - particle_4mom_proton;//modify neutron kinematics.
 	}
 
+	total4Mom_outgoing = particle_4mom_neutron + particle_4mom_proton + particle_4mom_Jpsi + particle_4mom_electron;
+
 	//refill neutron kinematics:
 	PtDist_neutron->Fill( particle_4mom_neutron.Pt() );
 	EtaDist_neutron->Fill( particle_4mom_neutron.Eta() );
@@ -191,19 +208,16 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 	PtVsEta_neutron->Fill(particle_4mom_neutron.Eta(), particle_4mom_neutron.Pt());
 	AngleVsMom_neutron->Fill(particle_4mom_neutron.P(), theta_neutron);
 
-
-
-
 	//t_hat
 	T_dist->Fill( t_hat );
 
 	//small t, namely the momentum transfer to the struck nucleon (proton)
-	TLorentzVector t1_proton = particle_4mom_proton_bKick - total4Mom_Deuteron;//(p'-p)
+	TLorentzVector t1_proton = particle_4mom_proton_bKick - total4Mom_deuteron;//(p'-p)
 	double t_proton_squared = t1_proton.Mag2();
 
 	t1_dist->Fill( t_proton_squared );
 
-	TLorentzVector t2_proton = particle_4mom_proton - total4Mom_Deuteron;//(p'-p)
+	TLorentzVector t2_proton = particle_4mom_proton - total4Mom_deuteron;//(p'-p)
 	double t_proton_squared = t2_proton.Mag2();
 
 	t2_dist->Fill( t_proton_squared );
@@ -276,7 +290,14 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 	Ntrk_process_all->Fill(nParticles);
 	Ntrk_process->Fill(nParticles_process);
 
+	double energy_diff = total4Mom_incoming.E() - total4Mom_outgoing.E();
+	energy_corr->Fill( energy_diff );
+
+
+
    } // for
+
+
 
    TString outfilename;
    if( doKick ) outfilename = "_Jpsinodecay_KickFinalStates_eD_kick.root";
@@ -336,6 +357,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
    AngleVssNN_proton->Write();
    AngleVssNN_neutron->Write();
 
+   energy_corr->Write();
 
 
 }
