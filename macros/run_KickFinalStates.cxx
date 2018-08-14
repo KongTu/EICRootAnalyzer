@@ -116,6 +116,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
             if( pdg == 2212 ){//proton
 
             	particle_4mom_proton_bKick = particle->PxPyPzE();
+            	particle_4mom_proton = particle->PxPyPzE();
 
 				if( doKick ){
 
@@ -139,11 +140,11 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
 				}
 
-				double new_pt = particle->GetPt();
-				double new_eta = particle->GetEta();
-				double new_phi = particle->GetPhi();
-				double new_theta = particle->GetTheta();
-				double new_mom = particle->GetP();
+				double new_pt = particle_4mom_proton.Pt();
+				double new_eta = particle_4mom_proton.Eta();
+				double new_phi = particle_4mom_proton.Phi();
+				double new_theta = particle_4mom_proton.Theta();
+				double new_mom = particle_4mom_proton.P();
 
 				PtDist_proton->Fill( new_pt );
 				EtaDist_proton->Fill( new_eta );
