@@ -133,6 +133,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
 					p_pT += 0.1;
 					p_E = sqrt(p_E*p_E + kick*kick);
+					p_eta = TMath::ATanH(p_pz/sqrt(p_pz*p_pz+p_pT*p_pT));
 
 					particle_4mom_proton.SetPtEtaPhiE(p_pT, p_eta, p_phi, p_E);
 
