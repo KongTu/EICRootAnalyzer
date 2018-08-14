@@ -131,7 +131,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 					double p_pT = pt;
 					double p_pz = particle->GetPz();
 
-					p_pT += kick;
+					p_pT += 0.1;
 					p_E = sqrt(p_E*p_E + kick*kick);
 
 					particle_4mom_proton.SetPtEtaPhiE(p_pT, p_eta, p_phi, p_E);
