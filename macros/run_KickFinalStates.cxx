@@ -187,7 +187,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 	AngleVsMom_neutron->Fill(particle_4mom_neutron.P(), particle_4mom_neutron.Theta());
 
 	double theta_neutron = particle_4mom_neutron.Theta();//store neutron angle
-	theta_neutron = theta_neutron*1000;
+	theta_neutron = fabs(theta_neutron*1000);
 
 
 	//t_hat
