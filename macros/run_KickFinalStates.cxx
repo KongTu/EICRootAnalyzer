@@ -53,12 +53,12 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
       double total_energy = sqrt(pz_total*pz_total + MASS_DEUTERON*MASS_DEUTERON);
       
       //electron 4 momentum
-      double pz_lepton = branch_pzlep->GetValue(0,0);
-      double electron_mass = 0.00051;
-      double total_lep_energy = sqrt(pz_lepton*pz_lepton + electron_mass*electron_mass);
+      // double pz_lepton = branch_pzlep->GetValue(0,0);
+      // double electron_mass = 0.00051;
+      // double total_lep_energy = sqrt(pz_lepton*pz_lepton + electron_mass*electron_mass);
 
       TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
-      TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
+      //TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
 
       // TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
       // TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
@@ -105,11 +105,11 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
          statusHist.Fill( status ); 
 
-         if( index == 3 ){ //get scattered electron
+         //if( index == 3 ){ //get scattered electron
 
          	//particle_4mom_electron = particle->PxPyPzE();
 
-         }
+         //}
          if( index == 4 ){ //get gamma 4-momentum:
 
             particle_4mom_photon = particle->PxPyPzE(); 
