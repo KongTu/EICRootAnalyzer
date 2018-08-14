@@ -58,10 +58,10 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
       double total_lep_energy = sqrt(pz_lepton*pz_lepton+0.00051*0.00051);
 
       TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
-      //TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
+      TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
 
-      // TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
-      // TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
+      TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
+      TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
 
       Q2VsX->Fill(trueX, trueQ2);
       W2VsFlux->Fill(photon_flux, trueW2);
