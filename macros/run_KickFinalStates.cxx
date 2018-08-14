@@ -129,11 +129,13 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 					double p_eta = eta;
 					double p_phi = phi;
 					double p_E = particle->GetE();
+					double p_M = particle->GetM();
 					double p_pT = pt;
 					double p_pz = particle->GetPz();
 
 					p_pT += 0.5;
-					p_E = sqrt(p_E*p_E + kick*kick);
+					p_pz = sqrt(p_E*p_E - p_M*p_M - p_pT*p_pT);
+					//p_E = sqrt(p_E*p_E + kick*kick);
 					p_eta = TMath::ATanH(p_pz/sqrt(p_pz*p_pz+p_pT*p_pT));
 
 					particle_4mom_proton.SetPtEtaPhiE(p_pT, p_eta, p_phi, p_E);
