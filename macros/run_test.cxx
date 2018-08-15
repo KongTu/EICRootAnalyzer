@@ -51,7 +51,7 @@ void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_
    if( system_name == "ePb" ) NUCLEI_MASS = MASS_PB208;
 
 
-   tree->Add("../../EICTree/"+system_name+"_JpsiGeneral_EICTree/"+system_name+"_18x135_Q2_1_20_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
+   tree->Add("../../EICTree/"+system_name+"_JpsiNodecay_EICTree/"+system_name+"_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
    
    // Create an object to store the current event from the tree.
    // This is how we access the values in the tree.
