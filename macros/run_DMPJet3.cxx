@@ -145,6 +145,7 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
             cout << "pdg " << pdg << endl;
             cout << "status" << status << endl;
             cout << "index " << index << endl;
+            cout << "mass " << particle->GetM() << endl;
             cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
             cout << "particle_4mom E " << particle_4mom.E() << endl;
 
