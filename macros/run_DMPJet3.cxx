@@ -87,12 +87,8 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
       TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
 
       /* lorentz boost incoming particle*/
-      double single_nucleon_energy = sqrt(pztarg*pztarg + MASS_PROTON);
-
-      // double gamma_ion = total_energy/MASS_DEUTERON;
-      // double bz = pz_total/(gamma_ion*MASS_DEUTERON);
-      double gamma_ion = single_nucleon_energy/MASS_PROTON;
-      double bz = pztarg/(gamma_ion*MASS_PROTON);
+      double gamma_ion = total_energy/MASS_DEUTERON;
+      double bz = pz_total/(gamma_ion*MASS_DEUTERON);
 
       TVector3 b;
 
