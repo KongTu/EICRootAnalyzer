@@ -2,7 +2,7 @@
 
 #define MASS_PROTON   0.93827
 #define MASS_NEUTRON  0.93957
-#define MASS_DEUTERON 1.87510191682235416
+#define MASS_DEUTERON 1.8624778138724238
 #define MASS_TRITON   2.7937167208086358
 #define MASS_HE3      2.7937167208086358
 #define MASS_ALPHA    3.7249556277448477
@@ -194,6 +194,8 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
       py_corr->Fill( total4Mom_incoming.Py() - total4Mom_outgoing.Py() );
       pz_corr->Fill( total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() );
 
+      cout << "e diff " << energy_diff << endl;
+      cout << "pz diff " << total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() << endl;
       //2D histogram:
       energyVsQ2_2Dcorr->Fill(energy_diff, trueQ2);
       energyVsW2_2Dcorr->Fill(energy_diff, trueW2);
