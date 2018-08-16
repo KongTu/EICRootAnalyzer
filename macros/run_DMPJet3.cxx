@@ -140,6 +140,16 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
                particle_4mom.Boost(b);
          }
 
+         if( index  < 3 ) {
+
+            cout << "pdg " << pdg << endl;
+            cout << "status" << status << endl;
+            cout << "index " << index << endl;
+            cout << "mass " << particle->GetM() << endl;
+            cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
+            cout << "particle_4mom E " << particle_4mom.E() << endl;
+         }
+
          if( status == 12 || status == 14 ){
             cout << "pdg " << pdg << endl;
             cout << "status" << status << endl;
