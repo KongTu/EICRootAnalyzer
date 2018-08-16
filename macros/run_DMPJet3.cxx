@@ -105,6 +105,7 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
       int nParticles = event->GetNTracks();
       //event t_hat
 
+      cout << "----------- event " << i << "--------------" << endl;
       cout << "electron pz " << total4Mom_electron.Pz() << endl;
       cout << "deuteron pz " << total4Mom_deuteron.Pz() << endl;
 
@@ -154,6 +155,10 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
          statusHist.Fill( status ); 
 
       } // for
+
+      cout << "outgoing pz " << total4Mom_outgoing.Pz() << endl;
+      cout << "outgoing E " << total4Mom_outgoing.E() << endl;
+
 
       double particle_pt = sqrt(total4Mom_outgoing.Px()*total4Mom_outgoing.Px() + total4Mom_outgoing.Py()*total4Mom_outgoing.Py());
       
