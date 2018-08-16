@@ -150,14 +150,15 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
          //    cout << "particle_4mom E " << particle_4mom.E() << endl;
          // }
 
-         // if( status == 12 || status == 14 ){
-         //    cout << "pdg " << pdg << endl;
-         //    cout << "status" << status << endl;
-         //    cout << "index " << index << endl;
-         //    cout << "mass " << particle->GetM() << endl;
-         //    cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
-         //    cout << "particle_4mom E " << particle_4mom.E() << endl;
-         // }
+
+         if( pdg == 2212 || pdg == 2112 ){
+            cout << "pdg " << pdg << endl;
+            cout << "status" << status << endl;
+            cout << "index " << index << endl;
+            cout << "mass " << particle->GetM() << endl;
+            cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
+            cout << "particle_4mom E " << particle_4mom.E() << endl;
+         }
          if( status == 1 ){
             
                
