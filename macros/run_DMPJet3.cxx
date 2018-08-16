@@ -2,7 +2,7 @@
 
 #define MASS_PROTON   0.93827
 #define MASS_NEUTRON  0.93957
-#define MASS_DEUTERON 1.8624778138724238
+#define MASS_DEUTERON 1.87510191682235416
 #define MASS_TRITON   2.7937167208086358
 #define MASS_HE3      2.7937167208086358
 #define MASS_ALPHA    3.7249556277448477
@@ -151,15 +151,15 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
          // }
 
 
-         if( pdg == 2212 || pdg == 2112 ){
-            cout << "pdg " << pdg << endl;
-            cout << "status" << status << endl;
-            cout << "index " << index << endl;
-            cout << "mass " << particle->GetM() << endl;
-            cout << "particle_4mom pt " << particle_4mom.Perp() << endl;
-            cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
-            cout << "particle_4mom E " << particle_4mom.E() << endl;
-         }
+         // if( pdg == 2212 || pdg == 2112 ){
+         //    cout << "pdg " << pdg << endl;
+         //    cout << "status" << status << endl;
+         //    cout << "index " << index << endl;
+         //    cout << "mass " << particle->GetM() << endl;
+         //    cout << "particle_4mom pt " << particle_4mom.Perp() << endl;
+         //    cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
+         //    cout << "particle_4mom E " << particle_4mom.E() << endl;
+         // }
          if( status == 1 ){
             
                
