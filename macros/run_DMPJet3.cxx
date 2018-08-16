@@ -105,16 +105,16 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
       int nParticles = event->GetNTracks();
       //event t_hat
 
-      cout << "----------- event " << i << "--------------" << endl;
-      cout << "electron pz " << total4Mom_electron.Pz() << endl;
-      cout << "deuteron pz " << total4Mom_deuteron.Pz() << endl;
+      // cout << "----------- event " << i << "--------------" << endl;
+      // cout << "electron pz " << total4Mom_electron.Pz() << endl;
+      // cout << "deuteron pz " << total4Mom_deuteron.Pz() << endl;
 
 
       TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
       TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
 
-      cout << "incoming pz " << total4Mom_incoming.Pz() << endl;
-      cout << "incoming E " << total4Mom_incoming.E() << endl;
+      // cout << "incoming pz " << total4Mom_incoming.Pz() << endl;
+      // cout << "incoming E " << total4Mom_incoming.E() << endl;
 
       // We now know the number of particles in the event, so loop over
       // the particles:
@@ -140,34 +140,34 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
                particle_4mom.Boost(b);
          }
 
-         if( index  < 3 ) {
+         // if( index  < 3 ) {
 
-            cout << "pdg " << pdg << endl;
-            cout << "status" << status << endl;
-            cout << "index " << index << endl;
-            cout << "mass " << particle->GetM() << endl;
-            cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
-            cout << "particle_4mom E " << particle_4mom.E() << endl;
-         }
+         //    cout << "pdg " << pdg << endl;
+         //    cout << "status" << status << endl;
+         //    cout << "index " << index << endl;
+         //    cout << "mass " << particle->GetM() << endl;
+         //    cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
+         //    cout << "particle_4mom E " << particle_4mom.E() << endl;
+         // }
 
-         if( status == 12 || status == 14 ){
-            cout << "pdg " << pdg << endl;
-            cout << "status" << status << endl;
-            cout << "index " << index << endl;
-            cout << "mass " << particle->GetM() << endl;
-            cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
-            cout << "particle_4mom E " << particle_4mom.E() << endl;
-         }
+         // if( status == 12 || status == 14 ){
+         //    cout << "pdg " << pdg << endl;
+         //    cout << "status" << status << endl;
+         //    cout << "index " << index << endl;
+         //    cout << "mass " << particle->GetM() << endl;
+         //    cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
+         //    cout << "particle_4mom E " << particle_4mom.E() << endl;
+         // }
          if( status == 1 ){
             
                
 
-            cout << "pdg " << pdg << endl;
-            cout << "status" << status << endl;
-            cout << "index " << index << endl;
-            cout << "mass " << particle->GetM() << endl;
-            cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
-            cout << "particle_4mom E " << particle_4mom.E() << endl;
+            // cout << "pdg " << pdg << endl;
+            // cout << "status" << status << endl;
+            // cout << "index " << index << endl;
+            // cout << "mass " << particle->GetM() << endl;
+            // cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
+            // cout << "particle_4mom E " << particle_4mom.E() << endl;
 
             total4Mom_outgoing += particle_4mom;   
          }
@@ -177,8 +177,8 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
 
       } // for
 
-      cout << "outgoing pz " << total4Mom_outgoing.Pz() << endl;
-      cout << "outgoing E " << total4Mom_outgoing.E() << endl;
+      // cout << "outgoing pz " << total4Mom_outgoing.Pz() << endl;
+      // cout << "outgoing E " << total4Mom_outgoing.E() << endl;
 
 
       double particle_pt = sqrt(total4Mom_outgoing.Px()*total4Mom_outgoing.Px() + total4Mom_outgoing.Py()*total4Mom_outgoing.Py());
