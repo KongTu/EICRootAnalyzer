@@ -123,6 +123,8 @@ void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_
       double u_hat = event->GetHardU();
       int event_process = event->GetProcess();
 
+      if( event_process != 91 ) continue;
+
       //Deuteron
       double pztarg = branch_pz->GetValue(0,0);
       double Atarg = branch_atarg->GetValue(0,0);
