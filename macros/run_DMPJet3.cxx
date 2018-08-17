@@ -90,6 +90,8 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
       double gamma_ion = total_energy/MASS_DEUTERON;
       double bz = pz_total/(gamma_ion*MASS_DEUTERON);
 
+      cout << "gamma factor: " << gamma_ion << endl;
+
       TVector3 b;
 
       if( doBoost ){
