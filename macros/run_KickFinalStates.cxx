@@ -146,24 +146,17 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
 				}
 
-				double new_pt = particle_4mom_proton.Pt();
-				double new_eta = particle_4mom_proton.Eta();
-				double new_phi = particle_4mom_proton.Phi();
-				double new_theta = particle_4mom_proton.Theta();
-				new_theta = new_theta*1000;
-				double new_mom = particle_4mom_proton.P();
+				PtDist_proton->Fill( particle_4mom_proton.Pt() );
+				EtaDist_proton->Fill( particle_4mom_proton.Eta() );
+				PhiDist_proton->Fill( particle_4mom_proton.Phi() );
 
-				PtDist_proton->Fill( new_pt );
-				EtaDist_proton->Fill( new_eta );
-				PhiDist_proton->Fill( new_phi );
-
-				PtVsEta_proton->Fill(new_eta, new_pt);
-				AngleVsMom_proton->Fill(new_mom, new_theta);
+				PtVsEta_proton->Fill(particle_4mom_proton.Eta(), particle_4mom_proton.Pt());
+				AngleVsMom_proton->Fill(particle_4mom_proton.P(), particle_4mom_proton.Theta()*1000.);
 
 				double theta_proton = new_theta;//store proton angle
 				double pt_proton = new_pt;//store proton pt
-				double eta_proton = new_eta;
-				double phi_proton = new_phi;
+				// double eta_proton = new_eta;
+				// double phi_proton = new_phi;
 
             }
             if( pdg == 2112 ){//neutron
@@ -193,11 +186,8 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 	EtaDist_neutron->Fill( particle_4mom_neutron.Eta() );
 	PhiDist_neutron->Fill( particle_4mom_neutron.Phi() );
 	
-	double theta_neutron = particle_4mom_neutron.Theta();//store neutron angle
-	theta_neutron = fabs(theta_neutron*1000);
-
 	PtVsEta_neutron->Fill(particle_4mom_neutron.Eta(), particle_4mom_neutron.Pt());
-	AngleVsMom_neutron->Fill(particle_4mom_neutron.P(), theta_neutron);
+	AngleVsMom_neutron->Fill(particle_4mom_neutron.P(), particle_4mom_neutron.Theta()*1000.);
 
 	//t_hat
 	T_dist->Fill( t_hat );
@@ -251,8 +241,8 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 	if( fabs(t_proton_squared)  > 0.5 && fabs(t_proton_squared) < 5.0 && fabs(T_Jpsi_squared) < 0.5 ) sNN_dist->Fill( sNN );
 	
 	//hadron angle vs their center of mass energy
-	AngleVssNN_proton->Fill( sNN, theta_proton);
-	AngleVssNN_neutron->Fill( sNN, theta_neutron);
+	AngleVssNN_proton->Fill( sNN, particle_4mom_proton.Theta()*1000.);
+	AngleVssNN_neutron->Fill( sNN, particle_4mom_neutron.Theta()*1000.);
 
 	//Qsquared vs Jpsi transverse momentum
 	Q2VsJpsi->Fill( pt_jpsi, trueQ2);
