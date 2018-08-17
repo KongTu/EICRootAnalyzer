@@ -162,6 +162,8 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
 				double theta_proton = new_theta;//store proton angle
 				double pt_proton = new_pt;//store proton pt
+				double eta_proton = new_eta;
+				double phi_proton = new_phi;
 
             }
             if( pdg == 2112 ){//neutron
@@ -183,6 +185,8 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 		bKick_PN = particle_4mom_proton_bKick + particle_4mom_neutron_bKick;
 		particle_4mom_neutron = bKick_PN - particle_4mom_proton;//modify neutron kinematics.
 	}
+
+	double neutron_eta = particle_4mom_neutron.Eta();
 
 	//refill neutron kinematics:
 	PtDist_neutron->Fill( particle_4mom_neutron.Pt() );
