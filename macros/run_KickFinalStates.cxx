@@ -174,10 +174,6 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 		particle_4mom_neutron = bKick_PN - particle_4mom_proton;//modify neutron kinematics.
 	}
 
-	// double neutron_eta = particle_4mom_neutron.Eta();
-
-	//deltaEtadeltaPhi->Fill( particle_4mom_proton.Eta()-particle_4mom_neutron.Eta(), particle_4mom_proton.Phi()-particle_4mom_neutron.Phi());
-
 	//refill neutron kinematics:
 	PtDist_neutron->Fill( particle_4mom_neutron.Pt() );
 	EtaDist_neutron->Fill( particle_4mom_neutron.Eta() );
@@ -235,7 +231,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
 	//end COM
 
-	if( fabs(t_proton_squared)  > 0.5 && fabs(t_proton_squared) < 5.0 && fabs(T_Jpsi_squared) < 0.5 ) sNN_dist->Fill( sNN );
+	// if( fabs(t_proton_squared)  > 0.5 && fabs(t_proton_squared) < 5.0 && fabs(T_Jpsi_squared) < 0.5 ) sNN_dist->Fill( sNN );
 	
 	//hadron angle vs their center of mass energy
 	AngleVssNN_proton->Fill( sNN, particle_4mom_proton.Theta()*1000.);
