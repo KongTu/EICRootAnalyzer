@@ -12,7 +12,7 @@
 
 #define MASS_PROTON   0.93827
 #define MASS_NEUTRON  0.93957
-#define MASS_DEUTERON 1.87783999999999995//1.8624778138724238
+#define MASS_DEUTERON 1.8624778138724238
 #define MASS_TRITON   2.7937167208086358
 #define MASS_HE3      2.7937167208086358
 #define MASS_ALPHA    3.7249556277448477
@@ -166,14 +166,9 @@ void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_
       TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
       TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
 
-      //TLorentzVector test_proton(0.076339,-0.05611,0.160708,0.9566370249);
-      TLorentzVector test_proton(-0.076339,0.05611,-0.160708,0.9579120278);
-      test_proton.Boost(0,0,bz);
-      test_proton.Boost(b);
-
-      cout << "fermi energy in lab frame " << test_proton.E() << endl;
-      cout << "fermi pz in lab frame " << test_proton.Pz() << endl; 
-
+      // TLorentzVector test_proton(-0.076339,0.05611,-0.160708,0.9579120278);
+      // test_proton.Boost(0,0,bz);
+      // test_proton.Boost(b);
 
       // We now know the number of particles in the event, so loop over
       // the particles:
@@ -192,29 +187,29 @@ void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_
                particle_4mom.Boost(b);
          }
 
-         if( index < 3 || index ==7 || index == 6 ) {
+         // if( index < 3 || index ==7 || index == 6 ) {
 
-            cout << "pdg " << pdg << endl;
-            cout << "status" << status << endl;
-            cout << "index " << index << endl;
-            cout << "mass " << particle->GetM() << endl;
-            cout << std::setprecision(10) << "particle_4mom px " << particle_4mom.Px() << endl;
-            cout << std::setprecision(10) << "particle_4mom py " << particle_4mom.Py() << endl;
-            cout << std::setprecision(10) << "particle_4mom pz " << particle_4mom.Pz() << endl;
-            cout << std::setprecision(10) << "particle_4mom E " << particle_4mom.E() << endl;
-         }
+         //    cout << "pdg " << pdg << endl;
+         //    cout << "status" << status << endl;
+         //    cout << "index " << index << endl;
+         //    cout << "mass " << particle->GetM() << endl;
+         //    cout << std::setprecision(10) << "particle_4mom px " << particle_4mom.Px() << endl;
+         //    cout << std::setprecision(10) << "particle_4mom py " << particle_4mom.Py() << endl;
+         //    cout << std::setprecision(10) << "particle_4mom pz " << particle_4mom.Pz() << endl;
+         //    cout << std::setprecision(10) << "particle_4mom E " << particle_4mom.E() << endl;
+         // }
 
 
          if( status == 1 ){
             
-            cout << "pdg " << pdg << endl;
-            cout << "status" << status << endl;
-            cout << "index " << index << endl;
-            cout << "mass " << particle->GetM() << endl;
-            cout << "particle_4mom px " << particle_4mom.Px() << endl;
-            cout << "particle_4mom py " << particle_4mom.Py() << endl;
-            cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
-            cout << "particle_4mom E " << particle_4mom.E() << endl;
+            // cout << "pdg " << pdg << endl;
+            // cout << "status" << status << endl;
+            // cout << "index " << index << endl;
+            // cout << "mass " << particle->GetM() << endl;
+            // cout << "particle_4mom px " << particle_4mom.Px() << endl;
+            // cout << "particle_4mom py " << particle_4mom.Py() << endl;
+            // cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
+            // cout << "particle_4mom E " << particle_4mom.E() << endl;
 
             total4Mom_outgoing += particle_4mom;   
          }
@@ -236,8 +231,8 @@ void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_
       py_corr->Fill( total4Mom_incoming.Py() - total4Mom_outgoing.Py() );
       pz_corr->Fill( total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() );
       
-      cout << "e diff " << energy_diff << endl;
-      cout << "pz diff " << total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() << endl;
+      // cout << "e diff " << energy_diff << endl;
+      // cout << "pz diff " << total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() << endl;
 
       //2D histogram:
       energyVsQ2_2Dcorr->Fill(energy_diff, trueQ2);

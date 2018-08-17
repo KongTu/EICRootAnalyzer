@@ -73,7 +73,6 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
     
       int event_process = branch_process1->GetValue(0,0);
 
-      cout << "process " << event_process << endl;
       if( event_process != 5 ) continue;
 
       //Deuteron hard code for DMPJet
@@ -95,8 +94,6 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
       double bz = pz_total/(gamma_ion*MASS_DEUTERON);
       // double gamma_ion = sqrt(135.*135. + MASS_NEUTRON*MASS_NEUTRON)/MASS_NEUTRON;
       // double bz = 135./(gamma_ion*MASS_NEUTRON);
-
-      cout << "gamma factor: " << gamma_ion << endl;
 
       TVector3 b;
 
@@ -121,12 +118,12 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
       TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
       TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
 
-      TLorentzVector test_proton(-0.01865,-0.0203,0.00038,0.93867);
-      test_proton.Boost(0,0,bz);
-      test_proton.Boost(b);
+      // TLorentzVector test_proton(-0.01865,-0.0203,0.00038,0.93867);
+      // test_proton.Boost(0,0,bz);
+      // test_proton.Boost(b);
 
-      cout << "fermi energy in lab frame " << test_proton.E() << endl;
-      cout << "fermi pz in lab frame " << test_proton.Pz() << endl; 
+      // cout << "fermi energy in lab frame " << test_proton.E() << endl;
+      // cout << "fermi pz in lab frame " << test_proton.Pz() << endl; 
 
       // cout << "incoming pz " << total4Mom_incoming.Pz() << endl;
       // cout << "incoming E " << total4Mom_incoming.E() << endl;
@@ -149,17 +146,17 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
 
          }
 
-         if( index == 6 || index == 7 ) {
+         // if( index == 6 || index == 7 ) {
 
-            cout << "pdg " << pdg << endl;
-            cout << "status" << status << endl;
-            cout << "index " << index << endl;
-            cout << "mass " << particle->GetM() << endl;
-            cout << std::setprecision(10) << "particle_4mom px " << particle_4mom.Px() << endl;
-            cout << std::setprecision(10) << "particle_4mom py " << particle_4mom.Py() << endl;
-            cout << std::setprecision(10) << "particle_4mom pz " << particle_4mom.Pz() << endl;
-            cout << std::setprecision(10) << "particle_4mom E " << particle_4mom.E() << endl;
-         }
+         //    cout << "pdg " << pdg << endl;
+         //    cout << "status" << status << endl;
+         //    cout << "index " << index << endl;
+         //    cout << "mass " << particle->GetM() << endl;
+         //    cout << std::setprecision(10) << "particle_4mom px " << particle_4mom.Px() << endl;
+         //    cout << std::setprecision(10) << "particle_4mom py " << particle_4mom.Py() << endl;
+         //    cout << std::setprecision(10) << "particle_4mom pz " << particle_4mom.Pz() << endl;
+         //    cout << std::setprecision(10) << "particle_4mom E " << particle_4mom.E() << endl;
+         // }
 
 
          // if( pdg == 2212 || pdg == 2112 ){
@@ -206,8 +203,8 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
       py_corr->Fill( total4Mom_incoming.Py() - total4Mom_outgoing.Py() );
       pz_corr->Fill( total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() );
 
-      cout << "e diff " << energy_diff << endl;
-      cout << "pz diff " << total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() << endl;
+      // cout << "e diff " << energy_diff << endl;
+      // cout << "pz diff " << total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() << endl;
       //2D histogram:
       energyVsQ2_2Dcorr->Fill(energy_diff, trueQ2);
       energyVsW2_2Dcorr->Fill(energy_diff, trueW2);
