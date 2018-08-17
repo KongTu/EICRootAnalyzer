@@ -260,6 +260,9 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
    EtaDist_neutron->Write();
    PhiDist_neutron->Write();
 
+   AngleVsMom_proton->Write();
+   AngleVsMom_neutron->Write();
+
    tVsT->Write();
    deltaEtadeltaPhi->Write();
    sNN_dist->Write();
