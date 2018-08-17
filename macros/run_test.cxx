@@ -126,7 +126,7 @@ void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_
       if( event_process != 91 ) continue;
 
       //Deuteron
-      double pztarg = 135.290727;//branch_pz->GetValue(0,0);
+      double pztarg = branch_pz->GetValue(0,0);
       double Atarg = branch_atarg->GetValue(0,0);
       double pz_total = pztarg*Atarg;
       double total_energy = sqrt(pz_total*pz_total + NUCLEI_MASS*NUCLEI_MASS);
