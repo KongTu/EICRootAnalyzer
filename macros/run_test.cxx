@@ -39,7 +39,7 @@ void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_
    TChain *tree = new TChain("EICTree");
    
    double NUCLEI_MASS = MASS_PROTON;//default proton mass
-   if( system_name == "eD" ) NUCLEI_MASS = MASS_DEUTERON;
+   if( system_name == "eD" ) NUCLEI_MASS = MASS_PROTON+MASS_NEUTRON;
    if( system_name == "eT" ) NUCLEI_MASS = MASS_TRITON;
    if( system_name == "eHe3" ) NUCLEI_MASS = MASS_HE3;
    if( system_name == "eAlpha" ) NUCLEI_MASS = MASS_ALPHA;
@@ -69,7 +69,7 @@ void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_
    // tree.SetBranchAddress("event", &event_beagle ); // Note &event, not event.
       
    TBranchElement* branch_atarg = (TBranchElement*) tree->GetBranch("Atarg");
-   TBranchElement* branch_pz = (TBranchElement*) tree->GetBranch("pztarg");
+   TBranchElement* branch_pz_nucl = (TBranchElement*) tree->GetBranch("pznucl");
    TBranchElement* branch_pzlep = (TBranchElement*) tree->GetBranch("pzlep");
    TBranchElement* branch_pxf = (TBranchElement*) tree->GetBranch("pxf");
    TBranchElement* branch_pyf = (TBranchElement*) tree->GetBranch("pyf");
@@ -126,9 +126,14 @@ void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_
       if( event_process != 91 ) continue;
 
       //Deuteron
-      double pztarg = branch_pz->GetValue(0,0);
+      double pztarg_1 = branch_pz_nucl->GetValue(0,0);
+      double pztarg_2 = branch_pz_nucl->GetValue(0,1);
+      
+      cout << "pz 1 " << pztarg_1 << endl;
+      cout << "pz 2 " << pztarg_2 << endl;
+
       double Atarg = branch_atarg->GetValue(0,0);
-      double pz_total = pztarg*Atarg;
+      double pz_total = pztarg_1+pztarg_2;
       double total_energy = sqrt(pz_total*pz_total + NUCLEI_MASS*NUCLEI_MASS);
 
       //electron, neglect electron mass
