@@ -185,8 +185,8 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 	}
 
 
-	double neutron_eta = particle_4mom_neutron.Eta();
-	double neutron_phi = particle_4mom_neutron.Phi();
+	// double neutron_eta = particle_4mom_neutron.Eta();
+	// double neutron_phi = particle_4mom_neutron.Phi();
 	
 	//delta eta delta phi
 
@@ -201,8 +201,8 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
 	//refill neutron kinematics:
 	PtDist_neutron->Fill( particle_4mom_neutron.Pt() );
-	EtaDist_neutron->Fill( neutron_eta );
-	PhiDist_neutron->Fill( neutron_phi );
+	EtaDist_neutron->Fill( particle_4mom_neutron.Eta() );
+	PhiDist_neutron->Fill( particle_4mom_neutron.Phi() );
 	
 	double theta_neutron = particle_4mom_neutron.Theta();//store neutron angle
 	theta_neutron = fabs(theta_neutron*1000);
