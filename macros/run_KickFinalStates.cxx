@@ -186,7 +186,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 		particle_4mom_neutron = bKick_PN - particle_4mom_proton;//modify neutron kinematics.
 	}
 
-	double neutron_eta = particle_4mom_neutron.Eta();
+	// double neutron_eta = particle_4mom_neutron.Eta();
 
 	//refill neutron kinematics:
 	PtDist_neutron->Fill( particle_4mom_neutron.Pt() );
