@@ -344,6 +344,6 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
    AngleVssNN_neutron->Write();
 
    energy_corr->Write();
-
+   sNN_dist->Write();
 
 }
