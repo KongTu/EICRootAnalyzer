@@ -161,6 +161,14 @@ void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_
       TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
       TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
 
+      TLorentzVector test_proton(0.076339,-0.05611,0.160708,0.9566370249);
+      test_proton.Boost(0,0,bz);
+      test_proton.Boost(b);
+
+      cout << "fermi energy in lab frame " << test_proton.E() << endl;
+      cout << "fermi pz in lab frame " << test_proton.Pz() << endl; 
+
+
       // We now know the number of particles in the event, so loop over
       // the particles:
       for(int j(0); j < nParticles; ++j ) {
