@@ -126,7 +126,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 					fa->SetParameter(0,1);
 					fa->SetParameter(1,-5);
 
-					double kick = fa->GetRandom();
+					double kick = 1.0;
 
 					double p_eta = eta;
 					double p_phi = phi;
