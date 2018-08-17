@@ -5,7 +5,7 @@ TH1D* t2_dist = new TH1D("t2_dist",";t2", 200,-5,5);
 TH1D* energy_corr = new TH1D("energy_corr",";E_{in} - E_{out}",600,-30,30);
 
 TH1D* sNN_dist = new TH1D("sNN_dist","s_{_{NN}} ",300,0,30);
-TH2D* deltaEtadeltaPhi = new TH2D("deltaEtadeltaPhi",";#eta;#phi",20,0,20,30,-1,10);
+TH2D* deltaEtadeltaPhi = new TH2D("deltaEtadeltaPhi",";#eta;#phi",200,-20,20,30,-7,7);
 
 
 void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
