@@ -5,6 +5,8 @@ TH1D* t2_dist = new TH1D("t2_dist",";t2", 200,-5,5);
 TH1D* energy_corr = new TH1D("energy_corr",";E_{in} - E_{out}",600,-30,30);
 
 TH1D* sNN_dist = new TH1D("sNN_dist","s_{_{NN}} ",300,0,30);
+TH2D* deltaEtadeltaPhi = new TH2D("deltaEtadeltaPhi",";#eta;#phi",200,0,20,300,-1,10);
+
 
 void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
    
@@ -240,6 +242,17 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 	 
 	E_CM->Fill( sqrt(sNN) );
 
+	double proton_eta = particle_4mom_proton.Eta();
+	double neutron_eta = particle_4mom_neutron.Eta();
+
+	double proton_phi = particle_4mom_proton.Phi();
+	double neutron_phi = particle_4mom_neutron.Phi();
+
+	double deltaEta = proton_eta - neutron_eta;
+	double deltaPhi = proton_phi - neutron_phi;
+
+	deltaEtadeltaPhi->Fill( deltaEta , deltaPhi );
+
 	//end COM
 
 	if( fabs(t_proton_squared)  > 0.5 && fabs(t_proton_squared) < 5.0 && fabs(T_Jpsi_squared) < 0.5 ) sNN_dist->Fill( sNN );
@@ -344,6 +357,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
    AngleVssNN_neutron->Write();
 
    energy_corr->Write();
+   deltaEtadeltaPhi->Write();
    sNN_dist->Write();
 
 }
