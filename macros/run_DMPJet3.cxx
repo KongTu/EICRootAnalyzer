@@ -85,7 +85,7 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
       //electron, neglect electron mass
       double pz_lepton = -17.99482;
       double electron_mass = 0.00051;
-      double total_lep_energy = 17.99481964;//sqrt(pz_lepton*pz_lepton + electron_mass*electron_mass);
+      double total_lep_energy = sqrt(pz_lepton*pz_lepton + electron_mass*electron_mass);
 
       TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
       TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
