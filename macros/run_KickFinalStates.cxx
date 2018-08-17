@@ -193,7 +193,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 	// double deltaEta = proton_eta - neutron_eta;
 	// double deltaPhi = proton_phi - neutron_phi;
 
-	// deltaEtadeltaPhi->Fill( deltaEta , deltaPhi );
+	deltaEtadeltaPhi->Fill( particle_4mom_proton.Eta() - particle_4mom_neutron.Eta() ,  particle_4mom_proton.Phi() - particle_4mom_neutron.Phi() );
 
 
 	// double proton_eta = particle_4mom_proton.Eta();
