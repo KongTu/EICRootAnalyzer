@@ -153,11 +153,6 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 				PtVsEta_proton->Fill(particle_4mom_proton.Eta(), particle_4mom_proton.Pt());
 				AngleVsMom_proton->Fill(particle_4mom_proton.P(), particle_4mom_proton.Theta()*1000.);
 
-				double theta_proton = new_theta;//store proton angle
-				double pt_proton = new_pt;//store proton pt
-				// double eta_proton = new_eta;
-				// double phi_proton = new_phi;
-
             }
             if( pdg == 2112 ){//neutron
 
@@ -268,7 +263,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 	sNNvsPt->Fill( pt_jpsi, sNN );
 
 	//proton pt vs Jpsi pt
-	PtVsPt_protonVsJpsi->Fill(pt_jpsi, pt_proton);
+	PtVsPt_protonVsJpsi->Fill(pt_jpsi, particle_4mom_proton.Pt());
 
 	//multiplicity distribution
 	Ntrk_process_all->Fill(nParticles);
