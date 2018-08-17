@@ -149,17 +149,17 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
 
          }
 
-         // if( index == 6 || index == 7 ) {
+         if( index == 6 || index == 7 ) {
 
-         //    cout << "pdg " << pdg << endl;
-         //    cout << "status" << status << endl;
-         //    cout << "index " << index << endl;
-         //    cout << "mass " << particle->GetM() << endl;
-         //    cout << std::setprecision(10) << "particle_4mom px " << particle_4mom.Px() << endl;
-         //    cout << std::setprecision(10) << "particle_4mom py " << particle_4mom.Py() << endl;
-         //    cout << std::setprecision(10) << "particle_4mom pz " << particle_4mom.Pz() << endl;
-         //    cout << std::setprecision(10) << "particle_4mom E " << particle_4mom.E() << endl;
-         // }
+            cout << "pdg " << pdg << endl;
+            cout << "status" << status << endl;
+            cout << "index " << index << endl;
+            cout << "mass " << particle->GetM() << endl;
+            cout << std::setprecision(10) << "particle_4mom px " << particle_4mom.Px() << endl;
+            cout << std::setprecision(10) << "particle_4mom py " << particle_4mom.Py() << endl;
+            cout << std::setprecision(10) << "particle_4mom pz " << particle_4mom.Pz() << endl;
+            cout << std::setprecision(10) << "particle_4mom E " << particle_4mom.E() << endl;
+         }
 
 
          // if( pdg == 2212 || pdg == 2112 ){
