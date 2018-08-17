@@ -178,7 +178,7 @@ void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_
                particle_4mom.Boost(b);
          }
 
-         if( status == 12 || status == 14 || index ==7 || index == 6 ) {
+         if( index < 3 || index ==7 || index == 6 ) {
 
             cout << "pdg " << pdg << endl;
             cout << "status" << status << endl;
