@@ -70,7 +70,7 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
       double trueY = event->GetY();
       double trueNu = event->GetNu();
     
-      int event_process = event->GetProcess();
+      int event_process = event->GetProcess(0);
 
       cout << "process " << event_process << endl;
       if( event_process != 5 ) continue;
