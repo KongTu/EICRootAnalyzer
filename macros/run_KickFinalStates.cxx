@@ -56,7 +56,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
       double pz_total = pztarg*Atarg;
       double total_energy = sqrt(pz_total*pz_total + MASS_DEUTERON*MASS_DEUTERON);
       
-      TLorentzVector* total4Mom_deuteron(0., 0., pz_total, total_energy);
+      TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
 
       Q2VsX->Fill(trueX, trueQ2);
       W2VsFlux->Fill(photon_flux, trueW2);
@@ -70,16 +70,16 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
       int nParticles_process = 0;
 
-      TLorentzVector* particle_4mom;
+      TLorentzVector particle_4mom;
 
-      TLorentzVector* particle_4mom_proton_bKick;
-      TLorentzVector* particle_4mom_neutron_bKick;
+      TLorentzVector particle_4mom_proton_bKick;
+      TLorentzVector particle_4mom_neutron_bKick;
 
-      TLorentzVector* particle_4mom_proton;
-      TLorentzVector* particle_4mom_neutron;
+      TLorentzVector particle_4mom_proton;
+      TLorentzVector particle_4mom_neutron;
 
-      TLorentzVector* particle_4mom_photon;
-      TLorentzVector* particle_4mom_Jpsi;
+      TLorentzVector particle_4mom_photon;
+      TLorentzVector particle_4mom_Jpsi;
       
       if( event_process != 91 ) continue;
 
@@ -146,12 +146,12 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
 				}
 
-				double new_pt = particle_4mom_proton->Pt();
-				double new_eta = particle_4mom_proton->Eta();
-				double new_phi = particle_4mom_proton->Phi();
-				double new_theta = particle_4mom_proton->Theta();
+				double new_pt = particle_4mom_proton.Pt();
+				double new_eta = particle_4mom_proton.Eta();
+				double new_phi = particle_4mom_proton.Phi();
+				double new_theta = particle_4mom_proton.Theta();
 				new_theta = new_theta*1000;
-				double new_mom = particle_4mom_proton->P();
+				double new_mom = particle_4mom_proton.P();
 
 				PtDist_proton->Fill( new_pt );
 				EtaDist_proton->Fill( new_eta );
@@ -177,7 +177,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
 	if( nParticles_process != 4 ) continue;
 
-	TLorentzVector* bKick_PN;
+	TLorentzVector bKick_PN;
 	if( doKick ){
 
 		bKick_PN = particle_4mom_proton_bKick + particle_4mom_neutron_bKick;
@@ -193,39 +193,41 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 	// double deltaEta = proton_eta - neutron_eta;
 	// double deltaPhi = proton_phi - neutron_phi;
 
-	deltaEtadeltaPhi->Fill( particle_4mom_proton->Eta() - particle_4mom_neutron->Eta() ,  particle_4mom_proton->Phi() - particle_4mom_neutron->Phi() );
+	cout << " tes " << particle_4mom_proton.Eta() - particle_4mom_neutron.Eta() << endl;
+
+	// deltaEtadeltaPhi->Fill( particle_4mom_proton.Eta() - particle_4mom_neutron.Eta() , particle_4mom_proton.Phi() - particle_4mom_neutron.Phi() );
 
 
-	// double proton_eta = particle_4mom_proton->Eta();
-	// double proton_phi = particle_4mom_proton->Phi();
+	// double proton_eta = particle_4mom_proton.Eta();
+	// double proton_phi = particle_4mom_proton.Phi();
 
 	//refill neutron kinematics:
-	PtDist_neutron->Fill( particle_4mom_neutron->Pt() );
-	EtaDist_neutron->Fill( particle_4mom_neutron->Eta() );
-	PhiDist_neutron->Fill( particle_4mom_neutron->Phi() );
+	PtDist_neutron->Fill( particle_4mom_neutron.Pt() );
+	EtaDist_neutron->Fill( particle_4mom_neutron.Eta() );
+	PhiDist_neutron->Fill( particle_4mom_neutron.Phi() );
 	
-	double theta_neutron = particle_4mom_neutron->Theta();//store neutron angle
+	double theta_neutron = particle_4mom_neutron.Theta();//store neutron angle
 	theta_neutron = fabs(theta_neutron*1000);
 
-	PtVsEta_neutron->Fill(particle_4mom_neutron->Eta(), particle_4mom_neutron->Pt());
-	AngleVsMom_neutron->Fill(particle_4mom_neutron->P(), theta_neutron);
+	PtVsEta_neutron->Fill(particle_4mom_neutron.Eta(), particle_4mom_neutron.Pt());
+	AngleVsMom_neutron->Fill(particle_4mom_neutron.P(), theta_neutron);
 
 	//t_hat
 	T_dist->Fill( t_hat );
 
 	//small t, namely the momentum transfer to the struck nucleon (proton)
-	TLorentzVector* t1_proton = particle_4mom_proton_bKick - total4Mom_deuteron;//(p'-p)
+	TLorentzVector t1_proton = particle_4mom_proton_bKick - total4Mom_deuteron;//(p'-p)
 	double t_proton_squared = t1_proton.Mag2();
 
 	t1_dist->Fill( t_proton_squared );
 
-	TLorentzVector* t2_proton = particle_4mom_proton - total4Mom_deuteron;//(p'-p)
+	TLorentzVector t2_proton = particle_4mom_proton - total4Mom_deuteron;//(p'-p)
 	double t_proton_squared = t2_proton.Mag2();
 
 	t2_dist->Fill( t_proton_squared );
 
 	//T, momentum transfer from photon to Jpsi
-	TLorentzVector* T_Jpsi = particle_4mom_Jpsi - particle_4mom_photon;//delta
+	TLorentzVector T_Jpsi = particle_4mom_Jpsi - particle_4mom_photon;//delta
 	double T_Jpsi_squared = T_Jpsi.Mag2();
 
 	T_Jpsi_dist->Fill( T_Jpsi_squared );
