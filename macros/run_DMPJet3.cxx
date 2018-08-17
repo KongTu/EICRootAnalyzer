@@ -115,6 +115,13 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
       TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
       TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
 
+      TLorentzVector test_proton(0.,0.,0.00688,0.94445);
+      test_proton.Boost(0,0,bz);
+      test_proton.Boost(b);
+
+      cout << "fermi energy in lab frame " << test_proton.E() << endl;
+      cout << "fermi pz in lab frame " << test_proton.Pz() << endl; 
+
       // cout << "incoming pz " << total4Mom_incoming.Pz() << endl;
       // cout << "incoming E " << total4Mom_incoming.E() << endl;
 
@@ -133,6 +140,7 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
          if(doBoost){
                particle_4mom.Boost(0,0,-bz);
                particle_4mom.Boost(b);
+
          }
 
          if( index  < 3 ) {
