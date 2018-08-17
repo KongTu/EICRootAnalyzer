@@ -223,7 +223,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
 	particle_4mom = particle_4mom_proton + particle_4mom_neutron;
 
-	double sNN = particle_4mom.E()*particle_4mom.E();//center of mass energy squared
+	double sNN = particle_4mom.Mag2();//center of mass energy squared
 	 
 	E_CM->Fill( sqrt(sNN) );
 
