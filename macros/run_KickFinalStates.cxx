@@ -184,23 +184,6 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 		particle_4mom_neutron = bKick_PN - particle_4mom_proton;//modify neutron kinematics.
 	}
 
-
-	// double neutron_eta = particle_4mom_neutron.Eta();
-	// double neutron_phi = particle_4mom_neutron.Phi();
-	
-	//delta eta delta phi
-
-	// double deltaEta = proton_eta - neutron_eta;
-	// double deltaPhi = proton_phi - neutron_phi;
-
-	cout << " tes " << endl;
-
-	// deltaEtadeltaPhi->Fill( particle_4mom_proton.Eta() - particle_4mom_neutron.Eta() , particle_4mom_proton.Phi() - particle_4mom_neutron.Phi() );
-
-
-	// double proton_eta = particle_4mom_proton.Eta();
-	// double proton_phi = particle_4mom_proton.Phi();
-
 	//refill neutron kinematics:
 	PtDist_neutron->Fill( particle_4mom_neutron.Pt() );
 	EtaDist_neutron->Fill( particle_4mom_neutron.Eta() );
