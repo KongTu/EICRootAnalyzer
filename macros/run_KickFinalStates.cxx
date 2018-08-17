@@ -216,6 +216,18 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
 	T_Jpsi_dist->Fill( T_Jpsi_squared );
 
+	//delta eta delta phi
+	double proton_eta = particle_4mom_proton.Eta();
+	double neutron_eta = particle_4mom_neutron.Eta();
+
+	double proton_phi = particle_4mom_proton.Phi();
+	double neutron_phi = particle_4mom_neutron.Phi();
+
+	double deltaEta = proton_eta - neutron_eta;
+	double deltaPhi = proton_phi - neutron_phi;
+
+	deltaEtadeltaPhi->Fill( deltaEta , deltaPhi );
+
 	//compute COM s_NN of proton and neutron system:
 	double E_NN = particle_4mom_proton.E() + particle_4mom_neutron.E();
 
@@ -241,17 +253,6 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 	double sNN = particle_4mom.E()*particle_4mom.E();//center of mass energy squared
 	 
 	E_CM->Fill( sqrt(sNN) );
-
-	double proton_eta = particle_4mom_proton.Eta();
-	double neutron_eta = particle_4mom_neutron.Eta();
-
-	double proton_phi = particle_4mom_proton.Phi();
-	double neutron_phi = particle_4mom_neutron.Phi();
-
-	double deltaEta = proton_eta - neutron_eta;
-	double deltaPhi = proton_phi - neutron_phi;
-
-	deltaEtadeltaPhi->Fill( deltaEta , deltaPhi );
 
 	//end COM
 
