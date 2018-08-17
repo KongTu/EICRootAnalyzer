@@ -72,6 +72,9 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
     
       int event_process = event->GetProcess();
 
+      cout << "process " << event_process << endl;
+      if( event_process != 5 ) continue;
+
       //Deuteron hard code for DMPJet
       double pztarg = 135.0;
       double Atarg = 2.0;
