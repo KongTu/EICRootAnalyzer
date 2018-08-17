@@ -149,7 +149,7 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
 
          }
 
-         if( index == 1 ) {
+         if( index == 6 || index == 7 ) {
 
             cout << "pdg " << pdg << endl;
             cout << "status" << status << endl;
