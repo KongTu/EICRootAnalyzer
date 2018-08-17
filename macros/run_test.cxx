@@ -169,21 +169,37 @@ void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_
          int status = particle->GetStatus();
          int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
          
-         // cout << "----- check if this is exchanged photon ------- " << endl;
-         // cout << "index = " << index << " pdg = " << pdg << endl;
-         // TLorentzVector photon_4mom = particle->PxPyPzE();
-         // cout << "gamma px = " << photon_4mom.Px() << endl;
-         // cout << "gamma py = " << photon_4mom.Py() << endl;
-         // cout << "gamma pz = " << photon_4mom.Pz() << endl;
-
          TLorentzVector particle_4mom = particle->PxPyPzE();
+         
+         if(doBoost){
+               particle_4mom.Boost(0,0,-bz);
+               particle_4mom.Boost(b);
+         }
+
+         if( index < 3 || index ==7 || index == 6 ) {
+
+            cout << "pdg " << pdg << endl;
+            cout << "status" << status << endl;
+            cout << "index " << index << endl;
+            cout << "mass " << particle->GetM() << endl;
+            cout << std::setprecision(10) << "particle_4mom px " << particle_4mom.Px() << endl;
+            cout << std::setprecision(10) << "particle_4mom py " << particle_4mom.Py() << endl;
+            cout << std::setprecision(10) << "particle_4mom pz " << particle_4mom.Pz() << endl;
+            cout << std::setprecision(10) << "particle_4mom E " << particle_4mom.E() << endl;
+         }
+
 
          if( status == 1 ){
             
-            if(doBoost){
-               particle_4mom.Boost(0,0,-bz);
-               particle_4mom.Boost(b);
-            }   
+            cout << "pdg " << pdg << endl;
+            cout << "status" << status << endl;
+            cout << "index " << index << endl;
+            cout << "mass " << particle->GetM() << endl;
+            cout << "particle_4mom px " << particle_4mom.Px() << endl;
+            cout << "particle_4mom py " << particle_4mom.Py() << endl;
+            cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
+            cout << "particle_4mom E " << particle_4mom.E() << endl;
+
             total4Mom_outgoing += particle_4mom;   
          }
             
