@@ -93,8 +93,8 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
       /* lorentz boost incoming particle*/
       // double gamma_ion = total_energy/MASS_DEUTERON;
       // double bz = pz_total/(gamma_ion*MASS_DEUTERON);
-      double gamma_ion = sqrt(135.*135. + MASS_PROTON*MASS_PROTON)/MASS_PROTON;
-      double bz = 135./(gamma_ion*MASS_PROTON);
+      double gamma_ion = sqrt(135.*135. + MASS_NEUTRON*MASS_NEUTRON)/MASS_NEUTRON;
+      double bz = 135./(gamma_ion*MASS_NEUTRON);
 
       cout << "gamma factor: " << gamma_ion << endl;
 
