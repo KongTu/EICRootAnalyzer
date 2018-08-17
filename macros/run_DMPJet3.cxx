@@ -91,10 +91,10 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
       TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
 
       /* lorentz boost incoming particle*/
-      // double gamma_ion = total_energy/MASS_DEUTERON;
-      // double bz = pz_total/(gamma_ion*MASS_DEUTERON);
-      double gamma_ion = sqrt(135.*135. + MASS_NEUTRON*MASS_NEUTRON)/MASS_NEUTRON;
-      double bz = 135./(gamma_ion*MASS_NEUTRON);
+      double gamma_ion = total_energy/MASS_DEUTERON;
+      double bz = pz_total/(gamma_ion*MASS_DEUTERON);
+      // double gamma_ion = sqrt(135.*135. + MASS_NEUTRON*MASS_NEUTRON)/MASS_NEUTRON;
+      // double bz = 135./(gamma_ion*MASS_NEUTRON);
 
       cout << "gamma factor: " << gamma_ion << endl;
 
@@ -149,16 +149,16 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
 
          }
 
-         if( index == 6 || index == 7 ) {
+         if( index == 1 ) {
 
             cout << "pdg " << pdg << endl;
             cout << "status" << status << endl;
             cout << "index " << index << endl;
             cout << "mass " << particle->GetM() << endl;
-            cout << "particle_4mom px " << particle_4mom.Px() << endl;
-            cout << "particle_4mom py " << particle_4mom.Py() << endl;
-            cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
-            cout << std::setprecision(10) <<  "particle_4mom E " << particle_4mom.E() << endl;
+            cout << std::setprecision(10) << "particle_4mom px " << particle_4mom.Px() << endl;
+            cout << std::setprecision(10) << "particle_4mom py " << particle_4mom.Py() << endl;
+            cout << std::setprecision(10) << "particle_4mom pz " << particle_4mom.Pz() << endl;
+            cout << std::setprecision(10) << "particle_4mom E " << particle_4mom.E() << endl;
          }
 
 
