@@ -125,14 +125,7 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
          int pdg = particle->GetPdgCode();
          int status = particle->GetStatus();
          int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
-         
-         // cout << "----- check if this is exchanged photon ------- " << endl;
-         // cout << "index = " << index << " pdg = " << pdg << endl;
-         // TLorentzVector photon_4mom = particle->PxPyPzE();
-         // cout << "gamma px = " << photon_4mom.Px() << endl;
-         // cout << "gamma py = " << photon_4mom.Py() << endl;
-         // cout << "gamma pz = " << photon_4mom.Pz() << endl;
-
+ 
          TLorentzVector particle_4mom = particle->PxPyPzE();
          
          if(doBoost){
@@ -140,15 +133,15 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
                particle_4mom.Boost(b);
          }
 
-         // if( index  < 3 ) {
+         if( index  < 3 ) {
 
-         //    cout << "pdg " << pdg << endl;
-         //    cout << "status" << status << endl;
-         //    cout << "index " << index << endl;
-         //    cout << "mass " << particle->GetM() << endl;
-         //    cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
-         //    cout << "particle_4mom E " << particle_4mom.E() << endl;
-         // }
+            cout << "pdg " << pdg << endl;
+            cout << "status" << status << endl;
+            cout << "index " << index << endl;
+            cout << "mass " << particle->GetM() << endl;
+            cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
+            cout << "particle_4mom E " << particle_4mom.E() << endl;
+         }
 
 
          if( pdg == 2212 || pdg == 2112 ){
