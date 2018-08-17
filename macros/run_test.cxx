@@ -178,17 +178,17 @@ void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_
                particle_4mom.Boost(b);
          }
 
-         if( index < 3 || index ==7 || index == 6 ) {
+         // if( index < 3 || index ==7 || index == 6 ) {
 
-            cout << "pdg " << pdg << endl;
-            cout << "status" << status << endl;
-            cout << "index " << index << endl;
-            cout << "mass " << particle->GetM() << endl;
-            cout << std::setprecision(10) << "particle_4mom px " << particle_4mom.Px() << endl;
-            cout << std::setprecision(10) << "particle_4mom py " << particle_4mom.Py() << endl;
-            cout << std::setprecision(10) << "particle_4mom pz " << particle_4mom.Pz() << endl;
-            cout << std::setprecision(10) << "particle_4mom E " << particle_4mom.E() << endl;
-         }
+         //    cout << "pdg " << pdg << endl;
+         //    cout << "status" << status << endl;
+         //    cout << "index " << index << endl;
+         //    cout << "mass " << particle->GetM() << endl;
+         //    cout << std::setprecision(10) << "particle_4mom px " << particle_4mom.Px() << endl;
+         //    cout << std::setprecision(10) << "particle_4mom py " << particle_4mom.Py() << endl;
+         //    cout << std::setprecision(10) << "particle_4mom pz " << particle_4mom.Pz() << endl;
+         //    cout << std::setprecision(10) << "particle_4mom E " << particle_4mom.E() << endl;
+         // }
 
 
          if( status == 1 ){
