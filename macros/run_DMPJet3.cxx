@@ -25,7 +25,8 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
 
    tree->SetBranchAddress("event", &event ); // Note &event, not event.
    // tree.SetBranchAddress("event", &event_beagle ); // Note &event, not event.
-      
+   
+   TBranchElement* branch_process1 = (TBranchElement*) tree->GetBranch("process1");
    // Now we can do some analysis...
    
    // Histograms for our analysis.
@@ -70,7 +71,7 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
       double trueY = event->GetY();
       double trueNu = event->GetNu();
     
-      int event_process = event->GetProcess();
+      int event_process = branch_process1->GetValue(0,0);
 
       cout << "process " << event_process << endl;
       if( event_process != 5 ) continue;
