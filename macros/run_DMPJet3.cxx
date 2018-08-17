@@ -158,7 +158,7 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
             cout << "particle_4mom px " << particle_4mom.Px() << endl;
             cout << "particle_4mom py " << particle_4mom.Py() << endl;
             cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
-            cout << "particle_4mom E " << particle_4mom.E() << endl;
+            cout << std::setprecision(10) <<  "particle_4mom E " << particle_4mom.E() << endl;
          }
 
 
