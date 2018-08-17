@@ -149,18 +149,29 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
 
          }
 
-         if( index  < 3 ) {
+         // if( index  < 3 ) {
 
-            cout << "pdg " << pdg << endl;
-            cout << "status" << status << endl;
-            cout << "index " << index << endl;
-            cout << "mass " << particle->GetM() << endl;
-            cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
-            cout << "particle_4mom E " << particle_4mom.E() << endl;
-         }
+         //    cout << "pdg " << pdg << endl;
+         //    cout << "status" << status << endl;
+         //    cout << "index " << index << endl;
+         //    cout << "mass " << particle->GetM() << endl;
+         //    cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
+         //    cout << "particle_4mom E " << particle_4mom.E() << endl;
+         // }
 
 
-         if( pdg == 2212 || pdg == 2112 ){
+         // if( pdg == 2212 || pdg == 2112 ){
+         //    cout << "pdg " << pdg << endl;
+         //    cout << "status" << status << endl;
+         //    cout << "index " << index << endl;
+         //    cout << "mass " << particle->GetM() << endl;
+         //    cout << "particle_4mom px " << particle_4mom.Px() << endl;
+         //    cout << "particle_4mom py " << particle_4mom.Py() << endl;
+         //    cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
+         //    cout << "particle_4mom E " << particle_4mom.E() << endl;
+         // }
+         if( status == 1 ){
+            
             cout << "pdg " << pdg << endl;
             cout << "status" << status << endl;
             cout << "index " << index << endl;
@@ -169,15 +180,6 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
             cout << "particle_4mom py " << particle_4mom.Py() << endl;
             cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
             cout << "particle_4mom E " << particle_4mom.E() << endl;
-         }
-         if( status == 1 ){
-            
-            // cout << "pdg " << pdg << endl;
-            // cout << "status" << status << endl;
-            // cout << "index " << index << endl;
-            // cout << "mass " << particle->GetM() << endl;
-            // cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
-            // cout << "particle_4mom E " << particle_4mom.E() << endl;
 
             total4Mom_outgoing += particle_4mom;   
          }
