@@ -121,7 +121,7 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
       TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
       TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
 
-      TLorentzVector test_proton(-0.01865,-0.0203,-0.00038,0.93867);
+      TLorentzVector test_proton(-0.01865,-0.0203,0.00038,0.93867);
       test_proton.Boost(0,0,bz);
       test_proton.Boost(b);
 
