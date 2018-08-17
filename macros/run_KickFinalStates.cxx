@@ -4,6 +4,8 @@ TH1D* t1_dist = new TH1D("t1_dist",";t1", 200,-5,5);
 TH1D* t2_dist = new TH1D("t2_dist",";t2", 200,-5,5);
 TH1D* energy_corr = new TH1D("energy_corr",";E_{in} - E_{out}",600,-30,30);
 
+TH1D* sNN_dist = new TH1D("sNN_dist","s_{_{NN}} ",300,0,30);
+
 void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
    
 
@@ -180,6 +182,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 		particle_4mom_neutron = bKick_PN - particle_4mom_proton;//modify neutron kinematics.
 	}
 
+
 	//refill neutron kinematics:
 	PtDist_neutron->Fill( particle_4mom_neutron.Pt() );
 	EtaDist_neutron->Fill( particle_4mom_neutron.Eta() );
@@ -239,6 +242,8 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
 	//end COM
 
+	if( fabs(t_proton_squared)  > 0.5 && fabs(t_proton_squared) < 5.0 && fabs(T_Jpsi_squared) < 0.5 ) sNN_dist->Fill( sNN );
+	
 	//hadron angle vs their center of mass energy
 	AngleVssNN_proton->Fill( sNN, theta_proton);
 	AngleVssNN_neutron->Fill( sNN, theta_neutron);
