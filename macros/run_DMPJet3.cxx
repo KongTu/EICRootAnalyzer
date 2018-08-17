@@ -19,7 +19,7 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
    
    tree->Add("../../EICTree/eD_DPMjet3/eD_18x135_y_0.01_0.95_Q2_1_20_1kevents.root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
 
-   EventBase* event(NULL);// = new EventPythia;
+   EventDpmjet* event(NULL);// = new EventPythia;
    //EventBase* event(NULL);
    //EventBeagle* event_beagle(NULL);
 
@@ -70,7 +70,7 @@ void run_DMPJet3( int nEvents, bool doBoost, TString inputFilename ) {
       double trueY = event->GetY();
       double trueNu = event->GetNu();
     
-      int event_process = event->GetProcess(0);
+      int event_process = event->GetProcess();
 
       cout << "process " << event_process << endl;
       if( event_process != 5 ) continue;
