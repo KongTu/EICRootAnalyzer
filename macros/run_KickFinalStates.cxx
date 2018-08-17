@@ -231,7 +231,7 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
 	//end COM
 
-	// if( fabs(t_proton_squared)  > 0.5 && fabs(t_proton_squared) < 5.0 && fabs(T_Jpsi_squared) < 0.5 ) sNN_dist->Fill( sNN );
+	if( fabs(t_proton_squared)  > 0.5 && fabs(t_proton_squared) < 5.0 && fabs(T_Jpsi_squared) < 0.5 ) sNN_dist->Fill( sNN );
 	
 	//hadron angle vs their center of mass energy
 	AngleVssNN_proton->Fill( sNN, particle_4mom_proton.Theta()*1000.);

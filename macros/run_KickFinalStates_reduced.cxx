@@ -175,6 +175,13 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	}
 
 	deltaEtadeltaPhi->Fill( particle_4mom_proton.Eta()-particle_4mom_neutron.Eta(), particle_4mom_proton.Phi()-particle_4mom_neutron.Phi());
+	
+	//refill neutron kinematics:
+	PtDist_neutron->Fill( particle_4mom_neutron.Pt() );
+	EtaDist_neutron->Fill( particle_4mom_neutron.Eta() );
+	PhiDist_neutron->Fill( particle_4mom_neutron.Phi() );
+	
+	AngleVsMom_neutron->Fill(particle_4mom_neutron.P(), particle_4mom_neutron.Theta()*1000.);
 
 	//t_hat
 	T_dist->Fill( t_hat );
