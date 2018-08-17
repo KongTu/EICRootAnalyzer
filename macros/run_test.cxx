@@ -127,7 +127,7 @@ void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_
 
       //Deuteron
       double pztarg_1 = branch_pz_nucl->GetValue(0,0);
-      double pztarg_2 = branch_pz_nucl->GetValue(0,1);
+      double pztarg_2 = branch_pz_nucl->GetValue(1,0);
       
       cout << "pz 1 " << pztarg_1 << endl;
       cout << "pz 2 " << pztarg_2 << endl;
