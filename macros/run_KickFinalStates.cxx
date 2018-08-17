@@ -185,10 +185,24 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 	}
 
 
+	double neutron_eta = particle_4mom_neutron.Eta();
+	double neutron_phi = particle_4mom_neutron.Phi();
+	
+	//delta eta delta phi
+
+	// double deltaEta = proton_eta - neutron_eta;
+	// double deltaPhi = proton_phi - neutron_phi;
+
+	// deltaEtadeltaPhi->Fill( deltaEta , deltaPhi );
+
+
+	// double proton_eta = particle_4mom_proton.Eta();
+	// double proton_phi = particle_4mom_proton.Phi();
+
 	//refill neutron kinematics:
 	PtDist_neutron->Fill( particle_4mom_neutron.Pt() );
-	EtaDist_neutron->Fill( particle_4mom_neutron.Eta() );
-	PhiDist_neutron->Fill( particle_4mom_neutron.Phi() );
+	EtaDist_neutron->Fill( neutron_eta );
+	PhiDist_neutron->Fill( neutron_phi );
 	
 	double theta_neutron = particle_4mom_neutron.Theta();//store neutron angle
 	theta_neutron = fabs(theta_neutron*1000);
@@ -216,17 +230,6 @@ void run_KickFinalStates( int nEvents, bool doKick, TString inputFilename ) {
 
 	T_Jpsi_dist->Fill( T_Jpsi_squared );
 
-	//delta eta delta phi
-	double proton_eta = particle_4mom_proton.Eta();
-	double neutron_eta = particle_4mom_neutron.Eta();
-
-	double proton_phi = particle_4mom_proton.Phi();
-	double neutron_phi = particle_4mom_neutron.Phi();
-
-	double deltaEta = proton_eta - neutron_eta;
-	double deltaPhi = proton_phi - neutron_phi;
-
-	deltaEtadeltaPhi->Fill( deltaEta , deltaPhi );
 
 	//compute COM s_NN of proton and neutron system:
 	double E_NN = particle_4mom_proton.E() + particle_4mom_neutron.E();
