@@ -120,11 +120,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
             }
             if( pdg == 2212 ){//proton
 
-            	particle_4mom_proton_bKick = particle->Get4Vector();
+            	particle_4mom_proton_bKick.SetPtEtaPhiM(pt,eta,phi,mass);
                particle_4mom_proton.SetPtEtaPhiM(pt,eta,phi,mass);
-
-               cout << "mass p " << particle->GetM() << endl;
-               cout << "mass p " << particle_4mom_proton_bKick.M() << endl;
 
 				if( doKick ){
 
@@ -159,9 +156,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
             }
             if( pdg == 2112 ){//neutron
 
-				particle_4mom_neutron_bKick = particle->Get4Vector();
-            cout << "mass n " << particle->GetM() << endl;
-            cout << "mass n " << particle_4mom_neutron_bKick.M() << endl;
+				particle_4mom_neutron_bKick.SetPtEtaPhiM(pt,eta,phi,mass);
 				double n_E = particle->GetE();
             double n_M = particle->GetM();
             double n_pT = pt + kick;
