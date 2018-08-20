@@ -174,6 +174,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 		particle_4mom_neutron = bKick_PN - particle_4mom_proton;//modify neutron kinematics.
 	}
 
+   
 	deltaEtadeltaPhi->Fill( particle_4mom_proton.Eta()-particle_4mom_neutron.Eta(), particle_4mom_proton.Phi()-particle_4mom_neutron.Phi());
 	
 	//refill neutron kinematics:
@@ -225,8 +226,17 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
 	double sNN = particle_4mom.Mag2();//center of mass energy squared
 	 
-	E_CM->Fill( sqrt(sNN) );
 
+   cout << "p+n sNN before kick: " << bKick_PN.Mag2() << endl;
+   cout << "p+n sNN after  kick: " << sNN << endl;
+
+   cout << "p mass before kick: " << particle_4mom_proton_bKick.M() << endl;
+   cout << "n mass before kick: " << particle_4mom_neutron_bKick.M() << endl;
+
+   cout << "p mass after kick: " << particle_4mom_proton.M() << endl;
+   cout << "n mass after kick: " << particle_4mom_neutron.M() << endl;
+
+	E_CM->Fill( sqrt(sNN) );
 	//end COM
 	if( fabs(t_proton_squared)  > 0.5 && fabs(t_proton_squared) < 5.0 && fabs(T_Jpsi_squared) < 0.5 ) sNN_dist->Fill( sNN );
 
