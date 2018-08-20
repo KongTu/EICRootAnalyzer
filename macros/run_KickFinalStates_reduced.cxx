@@ -120,11 +120,11 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
             }
             if( pdg == 2212 ){//proton
 
-
             	particle_4mom_proton_bKick = particle->Get4Vector();
-               cout << "mass p " << mass << endl;
-               cout << "mass p " << particle_4mom_proton_bKick.M() << endl;
                particle_4mom_proton.SetPtEtaPhiM(pt,eta,phi,mass);
+
+               cout << "mass p " << particle->GetM() << endl;
+               cout << "mass p " << particle_4mom_proton_bKick.M() << endl;
 
 				if( doKick ){
 
