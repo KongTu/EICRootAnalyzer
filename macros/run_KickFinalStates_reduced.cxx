@@ -163,7 +163,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
             double n_pz = sqrt(n_E*n_E - n_M*n_M - n_pT*n_pT);
             double n_eta = TMath::ATanH(n_pz/sqrt(n_pz*n_pz+n_pT*n_pT));
             
-            particle_4mom_neutron.SetPtEtaPhiM(n_pT,n_eta,phi,n_M);
+            particle_4mom_neutron.SetPtEtaPhiM(n_pT,n_eta,(particle_4mom_proton.Phi()+PI),n_M);
 
             }
 
