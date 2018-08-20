@@ -138,8 +138,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 					double p_pz = particle->GetPz();
 
 					p_pT += kick;
-					p_pz = sqrt(p_E*p_E - p_M*p_M - p_pT*p_pT);
-					//p_E = sqrt(p_E*p_E + kick*kick);
+					//p_pz = sqrt(p_E*p_E - p_M*p_M - p_pT*p_pT);
+					p_E = sqrt(p_E*p_E + kick*kick);
 					p_eta = TMath::ATanH(p_pz/sqrt(p_pz*p_pz+p_pT*p_pT));
 
 					particle_4mom_proton.SetPtEtaPhiE(p_pT, p_eta, p_phi, p_E);
@@ -202,24 +202,24 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	double T_Jpsi_squared = T_Jpsi.Mag2();
 
 	//compute COM s_NN of proton and neutron system:
-	double E_NN = particle_4mom_proton.E() + particle_4mom_neutron.E();
+	// double E_NN = particle_4mom_proton.E() + particle_4mom_neutron.E();
 
-	TVector3 p_proton = particle_4mom_proton.Vect();
-	TVector3 p_neutron = particle_4mom_neutron.Vect();
+	// TVector3 p_proton = particle_4mom_proton.Vect();
+	// TVector3 p_neutron = particle_4mom_neutron.Vect();
 
-	TVector3 total_NN = p_proton+p_neutron;
-	TVector3 V_cm = (1/E_NN)*total_NN;
+	// TVector3 total_NN = p_proton+p_neutron;
+	// TVector3 V_cm = (1/E_NN)*total_NN;
 
-	double bx = V_cm.X();
-	double by = V_cm.Y();
-	double bz = V_cm.Z();
+	// double bx = V_cm.X();
+	// double by = V_cm.Y();
+	// double bz = V_cm.Z();
 
-	TVector3 b;
-	particle_4mom_proton.Boost(-bx,-by,-bz);
-	particle_4mom_proton.Boost(b);
+	// TVector3 b;
+	// particle_4mom_proton.Boost(-bx,-by,-bz);
+	// particle_4mom_proton.Boost(b);
 
-	particle_4mom_neutron.Boost(-bx,-by,-bz);
-	particle_4mom_neutron.Boost(b);
+	// particle_4mom_neutron.Boost(-bx,-by,-bz);
+	// particle_4mom_neutron.Boost(b);
 
 	particle_4mom = particle_4mom_proton + particle_4mom_neutron;
 
