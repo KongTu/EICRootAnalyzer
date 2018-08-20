@@ -93,6 +93,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          double pt = particle->GetPt();
          double eta = particle->GetEta();
          double phi = particle->GetPhi();
+         double mass = particle->GetM();
          double theta = particle->GetTheta(); 
          theta = theta*1000.0; //change to mrad;
          double mom = particle->GetP();
@@ -101,7 +102,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
          if( index == 4 ){ //get gamma 4-momentum:
 
-            particle_4mom_photon = particle->Get4Vector(); 
+            particle_4mom_photon.SetPtEtaPhiM(pt,eta,phi,mass); 
+            cout << "mass of photon " << mass << endl;
          }
 
          if( status != 1 ) continue; //only stable final-state particles 
@@ -114,16 +116,13 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
                double pt_jpsi = pt;//store Jpsi pt
                
-               particle_4mom_Jpsi = particle->Get4Vector();
+               particle_4mom_Jpsi.SetPtEtaPhiM(pt,eta,phi,mass);
 
             }
             if( pdg == 2212 ){//proton
 
-            	particle_4mom_proton_bKick = particle->Get4Vector();
-            	cout << "mass " << particle->GetM() << endl;
-               cout << "mass " << particle_4mom_proton_bKick.M()<< endl;
-
-               particle_4mom_proton = particle->Get4Vector();
+            	particle_4mom_proton_bKick.SetPtEtaPhiM(pt,eta,phi,mass);
+               particle_4mom_proton.SetPtEtaPhiM(pt,eta,phi,mass);
 
 				if( doKick ){
 
@@ -158,7 +157,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
             }
             if( pdg == 2112 ){//neutron
 
-				particle_4mom_neutron_bKick = particle->Get4Vector();
+				particle_4mom_neutron_bKick.SetPtEtaPhiM(pt,eta,phi,mass);
 				double n_E = particle->GetE();
             double n_M = particle->GetM();
             double n_pT = pt - kick;
