@@ -85,13 +85,13 @@ TH1D* t_dist = new TH1D("t_dist",";t", 200,-5,5);
 
 //TH1D:
 TH1D* PtDist_Jpsi = new TH1D("PtDist_Jpsi",";PtDist_Jpsi", 200, 0,10);
-TH1D* PhiDist_Jpsi = new TH1D("PhiDist_Jpsi",";PhiDist_Jpsi", 200, 0,10);
+TH1D* PhiDist_Jpsi = new TH1D("PhiDist_Jpsi",";PhiDist_Jpsi", 200, -10,10);
 TH1D* EtaDist_Jpsi = new TH1D("EtaDist_Jpsi",";EtaDist_Jpsi", 2000, -20,20);
 
 TH1D* PtDist_proton = new TH1D("PtDist_proton",";PtDist_proton", 200, 0,10);
-TH1D* PhiDist_proton = new TH1D("PhiDist_proton",";PhiDist_proton", 200, 0,10);
+TH1D* PhiDist_proton = new TH1D("PhiDist_proton",";PhiDist_proton", 200, -10,10);
 TH1D* EtaDist_proton = new TH1D("EtaDist_proton",";EtaDist_proton", 2000, -20,20);
 
 TH1D* PtDist_neutron = new TH1D("PtDist_neutron",";PtDist_neutron", 200, 0,10);
-TH1D* PhiDist_neutron = new TH1D("PhiDist_neutron",";PhiDist_neutron", 200, 0,10);
+TH1D* PhiDist_neutron = new TH1D("PhiDist_neutron",";PhiDist_neutron", 200, -10,10);
 TH1D* EtaDist_neutron = new TH1D("EtaDist_neutron",";EtaDist_neutron", 2000, -20,20);
