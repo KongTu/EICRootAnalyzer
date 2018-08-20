@@ -235,8 +235,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
    cout << "p+n sNN before kick: " << bKick_PN.Mag2() << endl;
    cout << "p+n sNN after  kick: " << sNN << endl;
 
-   cout << "p mass before kick: " << particle_4mom_proton_bKick.M() << endl;
-   cout << "n mass before kick: " << particle_4mom_neutron_bKick.M() << endl;
+   cout << "p mass before kick: " << particle_4mom_proton_bKick.E() << endl;
+   cout << "n mass before kick: " << particle_4mom_neutron_bKick.E() << endl;
 
    cout << "p mass after kick: " << particle_4mom_proton.M() << endl;
    cout << "n mass after kick: " << particle_4mom_neutron.M() << endl;
