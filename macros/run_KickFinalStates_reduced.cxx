@@ -116,13 +116,14 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
                double pt_jpsi = pt;//store Jpsi pt
                
                particle_4mom_Jpsi = particle->Get4Vector();
-               cout << "mass j " << mass << endl;
-               cout << "mass j " << particle_4mom_Jpsi.M() << endl;
 
             }
             if( pdg == 2212 ){//proton
 
-            	particle_4mom_proton_bKick.SetPtEtaPhiM(pt,eta,phi,mass);
+
+            	particle_4mom_proton_bKick = particle->Get4Vector();
+               cout << "mass p " << mass << endl;
+               cout << "mass p " << particle_4mom_proton_bKick.M() << endl;
                particle_4mom_proton.SetPtEtaPhiM(pt,eta,phi,mass);
 
 				if( doKick ){
