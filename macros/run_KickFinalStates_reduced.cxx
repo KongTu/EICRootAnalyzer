@@ -102,8 +102,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
          if( index == 4 ){ //get gamma 4-momentum:
 
-            particle_4mom_photon = particle->Get4Vector(); 
-            cout << "mass of photon " << particle_4mom_photon.M() << endl;
+            particle_4mom_photon.SetPtEtaPhiM(pt,eta,phi,mass); 
          }
 
          if( status != 1 ) continue; //only stable final-state particles 
@@ -233,16 +232,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
 	double sNN = particle_4mom.Mag2();//center of mass energy squared
 	 
-
-   cout << "p+n sNN before kick: " << bKick_PN.Mag2() << endl;
-   cout << "p+n sNN after  kick: " << sNN << endl;
-
-   cout << "p mass before kick: " << particle_4mom_proton_bKick.M() << endl;
-   cout << "n mass before kick: " << particle_4mom_neutron_bKick.M() << endl;
-
-   cout << "p mass after kick: " << particle_4mom_proton.M() << endl;
-   cout << "n mass after kick: " << particle_4mom_neutron.M() << endl;
-
 	E_CM->Fill( sqrt(sNN) );
 	//end COM
 	if( fabs(t_proton_squared)  > 0.5 && fabs(t_proton_squared) < 5.0 && fabs(T_Jpsi_squared) < 0.5 ) sNN_dist->Fill( sNN );
