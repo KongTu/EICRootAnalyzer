@@ -116,6 +116,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
                double pt_jpsi = pt;//store Jpsi pt
                
                particle_4mom_Jpsi = particle->Get4Vector();
+               cout << "mass j " << mass << endl;
+               cout << "mass j " << particle_4mom_Jpsi.M() << endl;
 
             }
             if( pdg == 2212 ){//proton
@@ -159,7 +161,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 				particle_4mom_neutron_bKick.SetPtEtaPhiM(pt,eta,phi,mass);
 				double n_E = particle->GetE();
             double n_M = particle->GetM();
-            double n_pT = pt - kick;
+            double n_pT = pt + kick;
             double n_pz = sqrt(n_E*n_E - n_M*n_M - n_pT*n_pT);
             double n_eta = TMath::ATanH(n_pz/sqrt(n_pz*n_pz+n_pT*n_pT));
             
