@@ -102,7 +102,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
          if( index == 4 ){ //get gamma 4-momentum:
 
-            particle_4mom_photon.SetPtEtaPhiM(pt,eta,phi,mass); 
+            particle_4mom_photon = particle->Get4Vector(); 
          }
 
          if( status != 1 ) continue; //only stable final-state particles 
