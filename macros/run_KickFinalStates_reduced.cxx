@@ -115,7 +115,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
                double pt_jpsi = pt;//store Jpsi pt
                
-               particle_4mom_Jpsi.SetPtEtaPhiM(pt,eta,phi,mass);
+               particle_4mom_Jpsi->Get4Vector();
 
             }
             if( pdg == 2212 ){//proton
@@ -234,7 +234,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	 
 	E_CM->Fill( sqrt(sNN) );
 	//end COM
-	if( fabs(t_proton_squared)  > 0.5 && fabs(t_proton_squared) < 5.0 && fabs(T_Jpsi_squared) < 0.5 ) sNN_dist->Fill( sNN );
+	//if( fabs(t_proton_squared)  > 0.5 && fabs(t_proton_squared) < 5.0 && fabs(T_Jpsi_squared) < 0.5 ) sNN_dist->Fill( sNN );
 
 	//t vs T
 	tVsT->Fill(T_Jpsi_squared, t_proton_squared);
