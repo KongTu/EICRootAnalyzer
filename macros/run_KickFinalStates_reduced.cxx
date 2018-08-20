@@ -101,7 +101,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
          if( index == 4 ){ //get gamma 4-momentum:
 
-            particle_4mom_photon = particle->PxPyPzE(); 
+            particle_4mom_photon = particle->Get4Vector(); 
          }
 
          if( status != 1 ) continue; //only stable final-state particles 
@@ -114,13 +114,13 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
                double pt_jpsi = pt;//store Jpsi pt
                
-               particle_4mom_Jpsi = particle->PxPyPzE();
+               particle_4mom_Jpsi = particle->Get4Vector();
 
             }
             if( pdg == 2212 ){//proton
 
-            	particle_4mom_proton_bKick = particle->PxPyPzE();
-            	particle_4mom_proton = particle->PxPyPzE();
+            	particle_4mom_proton_bKick = particle->Get4Vector();
+            	particle_4mom_proton = particle->Get4Vector();
 
 				if( doKick ){
 
@@ -155,7 +155,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
             }
             if( pdg == 2112 ){//neutron
 
-				particle_4mom_neutron_bKick = particle->PxPyPzE();
+				particle_4mom_neutron_bKick = particle->Get4Vector();
 				double n_E = particle->GetE();
             double n_M = particle->GetM();
             double n_pT = pt - kick;
