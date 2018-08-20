@@ -156,8 +156,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
             if( pdg == 2112 ){//neutron
 
 				particle_4mom_neutron_bKick = particle->PxPyPzE();
-				double n_E = particle_4mom_neutron_bKick.E();
-            double n_M = particle_4mom_neutron_bKick.M();
+				double n_E = particle->GetE();
+            double n_M = particle->GetM();
             double n_pT = pt - kick;
             double n_pz = sqrt(n_E*n_E - n_M*n_M - n_pT*n_pT);
             double n_eta = TMath::ATanH(n_pz/sqrt(n_pz*n_pz+n_pT*n_pT));
