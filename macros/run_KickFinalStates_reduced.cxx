@@ -122,8 +122,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
             	particle_4mom_proton_bKick = particle->Get4Vector();
             	cout << "mass " << particle->GetM() << endl;
                cout << "mass " << particle_4mom_proton_bKick.M()<< endl;
-               
-               article_4mom_proton = particle->Get4Vector();
+
+               particle_4mom_proton = particle->Get4Vector();
 
 				if( doKick ){
 
