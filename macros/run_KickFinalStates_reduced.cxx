@@ -188,7 +188,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
                p_px += kick_x;
                p_py += kick_y;
-               p_pz += 0.1*kick;
+               p_pz += 0.9*kick;
 
                p_E = sqrt(p_px*p_px + p_py*p_py + p_pz*p_pz + p_M*p_M);//add energy
 
@@ -236,7 +236,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          double j_px = particle_4mom_Jpsi.Px();
          double j_py = particle_4mom_Jpsi.Py();
          double j_pz = particle_4mom_Jpsi.Pz();
-         j_pz = j_pz - 0.1*kick - 0.1*kick;
+         j_pz = j_pz - 0.9*kick - 0.9*kick;
 
          double j_E = sqrt(j_px*j_px+j_py*j_py+j_pz*j_pz+j_M*j_M);
          particle_4mom_Jpsi.SetPxPyPzE(j_px,j_py,j_pz,j_E);
