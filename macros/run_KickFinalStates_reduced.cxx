@@ -148,7 +148,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
                double pt_jpsi = pt;//store Jpsi pt
                
                particle_4mom_Jpsi = particle->Get4Vector();
-               j_M = particle->GetM();
+               j_M = particle_4mom_Jpsi.M();
 
             }
             if( pdg == 2212 ){//proton
