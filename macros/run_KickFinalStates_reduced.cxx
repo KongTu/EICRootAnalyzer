@@ -196,6 +196,10 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
                   p_neutron_bKick = particle_4mom_neutron_bKick.Vect();
 
                   cout << "before proton pz " << p_proton_bKick.Pz() << endl;
+                  cout << "before proton px " << p_proton_bKick.Px() << endl;
+                  cout << "before proton py " << p_proton_bKick.Py() << endl;
+                  
+
                   cout << "before neutron pz " << p_neutron_bKick.Pz() << endl;
 
 
