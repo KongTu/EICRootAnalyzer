@@ -212,20 +212,20 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
    /*E-M Conservation*/
 
-   cout << "Eout proton E" << particle_4mom_proton_bKick.E() << endl;
-   cout << "Eout neutron E" << particle_4mom_neutron.E() << endl;
-   cout << "Eout Jpsi E" << particle_4mom_Jpsi.E() << endl;
-   cout << "Eout electron E" << particle_4mom_electron_prime.E() << endl;
+   cout << "Eout proton E " << particle_4mom_proton_bKick.E() << endl;
+   cout << "Eout neutron E " << particle_4mom_neutron.E() << endl;
+   cout << "Eout Jpsi E " << particle_4mom_Jpsi.E() << endl;
+   cout << "Eout electron E " << particle_4mom_electron_prime.E() << endl;
 
-   cout << "--------" << endl;
-   cout << "Eout proton Pz" << particle_4mom_proton_bKick.Pz() << endl;
-   cout << "Eout neutron Pz" << particle_4mom_neutron.Pz() << endl;
-   cout << "Eout Jpsi Pz" << particle_4mom_Jpsi.Pz() << endl;
-   cout << "Eout electron Pz" << particle_4mom_electron_prime.Pz() << endl;
+   cout << "-------- " << endl;
+   cout << "Eout proton Pz " << particle_4mom_proton_bKick.Pz() << endl;
+   cout << "Eout neutron Pz " << particle_4mom_neutron.Pz() << endl;
+   cout << "Eout Jpsi Pz " << particle_4mom_Jpsi.Pz() << endl;
+   cout << "Eout electron Pz " << particle_4mom_electron_prime.Pz() << endl;
 
    total4Mom_outgoing = particle_4mom_proton + particle_4mom_neutron + particle_4mom_Jpsi + particle_4mom_electron_prime;
    
-   cout << "Ein " << total4Mom_incoming.E() << endl;
+   cout << "Ein  " << total4Mom_incoming.E() << endl;
    cout << "Eout " << total4Mom_outgoing.E() << endl;
    cout << "Ein - Eout: " <<  total4Mom_incoming.E() - total4Mom_outgoing.E() << endl;
    cout << "pzin - pzout: " << total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() << endl;
