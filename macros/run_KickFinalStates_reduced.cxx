@@ -187,6 +187,13 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	TLorentzVector bKick_PN;
 	if( doKick ){
 
+      cout << "proton px " << particle_4mom_proton.Px() << endl;
+      cout << "proton py " << particle_4mom_proton.Py() << endl;
+
+      cout << "neutron px " << particle_4mom_neutron.Px() << endl;
+      cout << "neutron py " << particle_4mom_neutron.Py() << endl;
+
+
 		bKick_PN = particle_4mom_proton_bKick + particle_4mom_neutron_bKick;
 		//particle_4mom_neutron = bKick_PN - particle_4mom_proton;//modify neutron kinematics.
 	}
