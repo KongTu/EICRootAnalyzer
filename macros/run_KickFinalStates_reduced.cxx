@@ -214,8 +214,12 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          p_neutron.SetZ(pz_neutron_modified);
 
          particle_4mom_neutron.SetVectM(p_neutron,n_M);
+
+         particle_4mom_Jpsi = particle_4mom_Jpsi + particle_4mom_proton_bKick + particle_4mom_neutron_bKick - particle_4mom_proton - particle_4mom_neutron;
          
       }
+
+
 
    /*E-M Conservation*/
 
