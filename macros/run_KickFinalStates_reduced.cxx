@@ -156,19 +156,26 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
             }
             if( pdg == 2112 ){//neutron
 
-				particle_4mom_neutron_bKick.SetPtEtaPhiM(pt,eta,phi,mass);
-				double n_E = particle->GetE();
-            double n_M = particle->GetM();
-            double n_pT = pt + kick;
-            double n_pz = sqrt(n_E*n_E - n_M*n_M - n_pT*n_pT);
-            double n_eta = TMath::ATanH(n_pz/sqrt(n_pz*n_pz+n_pT*n_pT));
-            
-            double p_phi = particle_4mom_proton.Phi();
-            double n_phi = particle->GetPhi();
-            n_phi = -p_phi;
-            
-            particle_4mom_neutron.SetPtEtaPhiM(n_pT,n_eta,n_phi,n_M);
+               particle_4mom_neutron_bKick.SetPtEtaPhiM(pt,eta,phi,mass);
+               particle_4mom_neutron.SetPtEtaPhiM(pt,eta,phi,mass);
+				
+               if( doKick ){
+                  double n_E = particle->GetE();
+                  double n_M = particle->GetM();
+                  
+                  double n_pT = pt + kick;
+                  double n_pz = sqrt(n_E*n_E - n_M*n_M - n_pT*n_pT);
+                  double n_eta = TMath::ATanH(n_pz/sqrt(n_pz*n_pz+n_pT*n_pT));
+                  
+                  double p_phi = particle_4mom_proton.Phi();
+                  double n_phi = particle->GetPhi();
+                  if( p_phi > PI ) n_phi = p_phi-PI;
+                  if( p_phi < PI ) n_phi = p_phi+PI;
+                  
+                  particle_4mom_neutron.SetPtEtaPhiM(n_pT,n_eta,n_phi,n_M);
 
+               }
+         
             }
 
             nParticles_process++;
