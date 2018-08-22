@@ -149,7 +149,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
             	//particle_4mom_proton_bKick.SetPtEtaPhiM(pt,eta,phi,mass);
                particle_4mom_proton_bKick = particle->Get4Vector();
-               particle_4mom_proton.SetPtEtaPhiM(pt,eta,phi,mass);
+               particle_4mom_proton = particle->Get4Vector();
 
 				if( doKick ){
 
