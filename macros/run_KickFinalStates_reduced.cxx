@@ -92,8 +92,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       if( event_process != 91 ) continue;
 
       /*E-M Conservation*/
-      double pztarg_1 = branch_pz_nucl->GetValue(0,0);
-      double pztarg_2 = 135.1035;
+      double pztarg_1 = 135.290727;
+      double pztarg_2 = 135.103537;
       double Atarg = branch_atarg->GetValue(0,0);
       double pz_total = pztarg_1+pztarg_2;
       double total_energy = sqrt(pz_total*pz_total + MASS_DEUTERON*MASS_DEUTERON);
