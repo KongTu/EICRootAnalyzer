@@ -226,6 +226,11 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
    cout << "Pzout neutron Pz " << particle_4mom_neutron.Pz() << endl;
    cout << "Pzout Jpsi Pz " << particle_4mom_Jpsi.Pz() << endl;
    cout << "Pzout electron Pz " << particle_4mom_electron_prime.Pz() << endl;
+   cout << "-------- " << endl;
+
+   cout << "P total momentum proton " << particle_4mom_proton.P() << endl;
+   cout << "P total momentum neutron " << particle_4mom_neutron.P() << endl;
+
 
    cout << "-------- " << endl;
    cout << "Pzout proton Pt " << particle_4mom_proton.Pt() << endl;
