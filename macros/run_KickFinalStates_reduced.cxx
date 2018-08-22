@@ -122,6 +122,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          theta = theta*1000.0; //change to mrad;
          double mom = particle->GetP();
 
+         double n_M = MASS_NEUTRON;
+
          statusHist.Fill( status ); 
 
          if( index == 4 ){ //get gamma 4-momentum:
@@ -184,6 +186,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
             }
             if( pdg == 2112 ){//neutron
 
+               n_M = particle->GetM();
                particle_4mom_neutron_bKick = particle->Get4Vector();
                particle_4mom_neutron = particle->Get4Vector();
 				
@@ -200,8 +203,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       if( doKick ){
 
          //only conserve 3 momentum from before kick. 
-         double n_M = particle->GetM();
-
+         
          p_proton_bKick = particle_4mom_proton_bKick.Vect();
          p_neutron_bKick = particle_4mom_neutron_bKick.Vect();
 
