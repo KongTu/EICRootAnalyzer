@@ -70,6 +70,13 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       int nParticles_process = 0;
 
+
+      TVector3 p_proton_bKick;
+      TVector3 p_neutron_bKick;
+      
+      TVector3 p_proton;
+      TVector3 p_neutron;
+
       TLorentzVector particle_4mom;
 
       TLorentzVector particle_4mom_proton_bKick;
@@ -169,11 +176,11 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
                   double p_phi = particle_4mom_proton.Phi();
                   double n_phi = particle->GetPhi();
                   
-                  TVector3 p_proton_bKick = particle_4mom_proton_bKick.Vect();
-                  TVector3 p_neutron_bKick = particle_4mom_neutron_bKick.Vect();
+                  p_proton_bKick = particle_4mom_proton_bKick.Vect();
+                  p_neutron_bKick = particle_4mom_neutron_bKick.Vect();
 
-                  TVector3 p_proton = particle_4mom_proton.Vect();
-                  TVector3 p_neutron = p_neutron_bKick + p_proton_bKick - p_proton;
+                  p_proton = particle_4mom_proton.Vect();
+                  p_neutron = p_neutron_bKick + p_proton_bKick - p_proton;
 
                   particle_4mom_neutron.SetVectM(p_neutron,n_M);
                   // if( p_phi > 0 ) n_phi = p_phi - (1-(p_pT/(p_pT+kick)))*PI;
