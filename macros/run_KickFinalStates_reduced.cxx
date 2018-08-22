@@ -319,7 +319,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	tVsT->Fill(T_Jpsi_squared, t_proton_squared);
 
    } // for
-
+   ratio += 0.001;
    }
 
    TString outfilename;
