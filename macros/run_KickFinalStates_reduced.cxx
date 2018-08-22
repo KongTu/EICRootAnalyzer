@@ -125,7 +125,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          double mom = particle->GetP();
 
          double n_M = MASS_NEUTRON;
-         double j_M = 0.;
+         double j_M = 3.1;
 
          statusHist.Fill( status ); 
 
