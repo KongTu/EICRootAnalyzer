@@ -87,8 +87,27 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       TLorentzVector particle_4mom_photon;
       TLorentzVector particle_4mom_Jpsi;
+      TLorentzVector particle_4mom_electron_prime;
       
       if( event_process != 91 ) continue;
+
+      /*E-M Conservation*/
+      double pztarg_1 = branch_pz_nucl->GetValue(0,0);
+      double pztarg_2 = 135.1035;
+      double Atarg = branch_atarg->GetValue(0,0);
+      double pz_total = pztarg_1+pztarg_2;
+      double total_energy = sqrt(pz_total*pz_total + MASS_DEUTERON*MASS_DEUTERON);
+      //electron, neglect electron mass
+      double pz_lepton = branch_pzlep->GetValue(0,0);
+      double electron_mass = 0.00051;
+      double total_lep_energy = sqrt(pz_lepton*pz_lepton + electron_mass*electron_mass);
+
+      TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
+      TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
+
+      TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
+      TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
+      /*end*/
 
       for(int j(0); j < nParticles; ++j ) {
          
@@ -110,6 +129,9 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          if( index == 4 ){ //get gamma 4-momentum:
 
             particle_4mom_photon = particle->Get4Vector(); 
+         }
+         if( index == 3 ){
+            particle_4mom_electron_prime = particle->Get4Vector();
          }
 
          if( status != 1 ) continue; //only stable final-state particles 
@@ -188,7 +210,18 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	} // end of particle loop
 
 	if( nParticles_process != 4 ) continue;
+
+   /*E-M Conservation*/
+   total4Mom_outgoing = particle_4mom_proton + particle_4mom_neutron + particle_4mom_Jpsi + particle_4mom_electron_prime;
    
+   cout << "Ein - Eout: " <<  total4Mom_incoming.E() - total4Mom_outgoing.E() << endl;
+   cout << "pzin - pzout: " << total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() << endl;
+
+   cout << "Jpsi mass = " << particle_4mom_Jpsi.M() << endl;
+   cout << "proton mass = " << particle_4mom_proton.M() << endl;
+   cout << "neutron mass = " << particle_4mom_neutron.M() << endl;
+   /**/
+
 	deltaEtadeltaPhi->Fill( particle_4mom_proton.Eta()-particle_4mom_neutron.Eta(), particle_4mom_proton.Phi()-particle_4mom_neutron.Phi());
 	
 	//refill neutron kinematics:
