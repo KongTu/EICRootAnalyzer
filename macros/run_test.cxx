@@ -129,9 +129,6 @@ void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_
       double pztarg_1 = branch_pz_nucl->GetValue(0,0);
       double pztarg_2 = 135.1035;
       
-      cout << "pz 1 " << pztarg_1 << endl;
-      cout << "pz 2 " << pztarg_2 << endl;
-
       double Atarg = branch_atarg->GetValue(0,0);
       double pz_total = pztarg_1+pztarg_2;
       double total_energy = sqrt(pz_total*pz_total + NUCLEI_MASS*NUCLEI_MASS);
@@ -202,14 +199,16 @@ void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_
 
          if( status == 1 ){
             
-            // cout << "pdg " << pdg << endl;
-            // cout << "status" << status << endl;
-            // cout << "index " << index << endl;
-            // cout << "mass " << particle->GetM() << endl;
-            // cout << "particle_4mom px " << particle_4mom.Px() << endl;
-            // cout << "particle_4mom py " << particle_4mom.Py() << endl;
-            // cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
-            // cout << "particle_4mom E " << particle_4mom.E() << endl;
+            if( pdg == 2212 ){
+            cout << "pdg " << pdg << endl;
+            cout << "status" << status << endl;
+            cout << "index " << index << endl;
+            cout << "mass " << particle->GetM() << endl;
+            cout << "particle_4mom px " << particle_4mom.Px() << endl;
+            cout << "particle_4mom py " << particle_4mom.Py() << endl;
+            cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
+            cout << "particle_4mom E " << particle_4mom.E() << endl;
+            }
 
             total4Mom_outgoing += particle_4mom;   
          }
@@ -224,6 +223,7 @@ void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_
       //1D histogram:
       pTvsThat->Fill( particle_pt, t_hat );
       Ntrk->Fill(nParticles);
+
 
       double energy_diff = total4Mom_incoming.E() - total4Mom_outgoing.E();
       energy_corr->Fill( energy_diff );
