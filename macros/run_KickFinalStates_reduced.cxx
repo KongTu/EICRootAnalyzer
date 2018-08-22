@@ -167,15 +167,10 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
                particle_4mom_neutron.SetPtEtaPhiM(pt,eta,phi,mass);
 				
                if( doKick ){
-                  double n_E = particle->GetE();
+
+                  //only conserve 3 momentum from before kick. 
                   double n_M = particle->GetM();
-                  double n_pT = pt + kick;
-                  double n_pz = sqrt(n_E*n_E - n_M*n_M - n_pT*n_pT);
-                  double n_eta = TMath::ATanH(n_pz/sqrt(n_pz*n_pz+n_pT*n_pT));
-                  
-                  double p_phi = particle_4mom_proton.Phi();
-                  double n_phi = particle->GetPhi();
-                  
+        
                   p_proton_bKick = particle_4mom_proton_bKick.Vect();
                   p_neutron_bKick = particle_4mom_neutron_bKick.Vect();
 
@@ -183,11 +178,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
                   p_neutron = p_neutron_bKick + p_proton_bKick - p_proton;
 
                   particle_4mom_neutron.SetVectM(p_neutron,n_M);
-                  // if( p_phi > 0 ) n_phi = p_phi - (1-(p_pT/(p_pT+kick)))*PI;
-                  // if( p_phi < 0 ) n_phi = p_phi+()PI;
-                  
-                  //particle_4mom_neutron.SetPtEtaPhiM(n_pT,n_eta,n_phi,n_M);
-
+      
                }
          
             }
@@ -201,16 +192,10 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	TLorentzVector bKick_PN;
 	if( doKick ){
 
-      cout << "proton px " << particle_4mom_proton.Px() << endl;
-      cout << "proton py " << particle_4mom_proton.Py() << endl;
-      cout << "proton pz " << particle_4mom_proton.Pz() << endl;
-      cout << "proton mass " << particle_4mom_proton.M() << endl;
+      cout << "proton P " << particle_4mom_proton.P() << endl;
 
-      cout << "neutron px " << particle_4mom_neutron.Px() << endl;
-      cout << "neutron py " << particle_4mom_neutron.Py() << endl;
-      cout << "neutron pz " << particle_4mom_neutron.Pz() << endl;  
-      cout << "neutron mass " << particle_4mom_neutron.M() << endl;
-
+      cout << "neutron P " << particle_4mom_neutron.P() << endl;
+  
 
 		bKick_PN = particle_4mom_proton_bKick + particle_4mom_neutron_bKick;
 		//particle_4mom_neutron = bKick_PN - particle_4mom_proton;//modify neutron kinematics.
