@@ -212,7 +212,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
    /*E-M Conservation*/
    total4Mom_outgoing = particle_4mom_proton + particle_4mom_neutron + particle_4mom_Jpsi + particle_4mom_electron_prime;
-   
+   cout << "Eout " << total4Mom_outgoing.E() << endl;
    cout << "Ein - Eout: " <<  total4Mom_incoming.E() - total4Mom_outgoing.E() << endl;
    cout << "pzin - pzout: " << total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() << endl;
 
