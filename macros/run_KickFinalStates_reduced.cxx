@@ -169,8 +169,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
                   
                   double p_phi = particle_4mom_proton.Phi();
                   double n_phi = particle->GetPhi();
-                  if( p_phi > PI ) n_phi = p_phi-PI;
-                  if( p_phi < PI ) n_phi = p_phi+PI;
+                  if( p_phi > 0 ) n_phi = p_phi-PI;
+                  if( p_phi < 0 ) n_phi = p_phi+PI;
                   
                   particle_4mom_neutron.SetPtEtaPhiM(n_pT,n_eta,n_phi,n_M);
 
