@@ -6,7 +6,7 @@ TH1D* energy_corr = new TH1D("energy_corr",";E_{in} - E_{out}",600,-30,30);
 
 TH1D* sNN_dist = new TH1D("sNN_dist","s_{_{NN}} ",300,0,30);
 TH2D* deltaEtadeltaPhi = new TH2D("deltaEtadeltaPhi",";#eta;#phi",200,-20,20,30,-7,7);
-TH1D* energy_nonconserve = new TH1D("energy_corr",";E_{in} - E_{out}",600,-30,30);
+TH1D* energy_nonconserve = new TH1D("energy_corr_test",";E_{in} - E_{out}",600,-30,30);
 
 void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilename ) {
    
