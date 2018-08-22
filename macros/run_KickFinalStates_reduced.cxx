@@ -167,7 +167,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 					fa->SetParameter(0,1);
 					fa->SetParameter(1,-3);
 
-					kick = 2.;//fa->GetRandom();
+					kick = 10.;//fa->GetRandom();
                double kick_x = kick;
                double kick_y = kick;
 
