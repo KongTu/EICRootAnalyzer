@@ -29,9 +29,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	TBranchElement* branch_pyf = (TBranchElement*) tree->GetBranch("pyf");
 	TBranchElement* branch_pzf = (TBranchElement*) tree->GetBranch("pzf");
 
-   double ratio = 0.001;
-   for(int k = 0; k < 1000; k++){
-      
+   double ratio = 0.0;;
+
 	for(int i(0); i < nEvents; ++i ) {
       
       // Read the next entry from the tree.
@@ -319,8 +318,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	tVsT->Fill(T_Jpsi_squared, t_proton_squared);
 
    } // for
-   ratio += 0.001;
-   }
+
 
    TString outfilename;
    if( doKick ) outfilename = "_Jpsinodecay_KickFinalStates_eD_kick.root";
