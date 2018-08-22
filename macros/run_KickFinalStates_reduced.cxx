@@ -192,8 +192,10 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	TLorentzVector bKick_PN;
 	if( doKick ){
 
+      cout << "before proton P " << particle_4mom_proton_bKick.P() << endl;
       cout << "proton P " << particle_4mom_proton.P() << endl;
-
+   
+      cout << "before neutron P " << particle_4mom_neutron_bKick.P() << endl;
       cout << "neutron P " << particle_4mom_neutron.P() << endl;
   
 
