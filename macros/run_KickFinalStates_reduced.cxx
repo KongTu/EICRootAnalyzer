@@ -164,6 +164,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
                   double n_M = particle->GetM();
                   double n_px = -particle_4mom_proton.Px();
                   double n_py = -particle_4mom_proton.Py();
+                  double n_pT = sqrt(n_px*n_px + n_py*n_py);
                   //double n_pT = pt + kick;
                   double n_pz = sqrt(n_E*n_E - n_M*n_M - n_px*n_px - n_py*n_py);
                   double n_eta = TMath::ATanH(n_pz/sqrt(n_pz*n_pz+n_pT*n_pT));
