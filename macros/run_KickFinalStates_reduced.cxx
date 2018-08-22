@@ -210,6 +210,9 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          p_proton = particle_4mom_proton.Vect();
          p_neutron = p_neutron_bKick + p_proton_bKick - p_proton;
 
+         double pz_neutron_modified = sqrt(particle_4mom_neutron_bKick.P()*particle_4mom_neutron_bKick.P() - p_neutron.Px()*p_neutron.Px() - p_neutron.Py()*p_neutron.Py());
+         p_neutron.SetPz(pz_neutron_modified);
+         
          particle_4mom_neutron.SetVectM(p_neutron,n_M);
          
       }
