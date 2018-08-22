@@ -147,7 +147,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
             }
             if( pdg == 2212 ){//proton
 
-            	//particle_4mom_proton_bKick.SetPtEtaPhiM(pt,eta,phi,mass);
+            	//particle_4mom_proton_bKick.SetPtEtaPhiM(pt,eta,phi,mass);//this won't work if there is no pT 
                particle_4mom_proton_bKick = particle->Get4Vector();
                particle_4mom_proton = particle->Get4Vector();
 
@@ -212,10 +212,17 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
    /*E-M Conservation*/
 
-   cout << "Eout proton " << particle_4mom_proton_bKick.E() << endl;
-   cout << "Eout neutron " << particle_4mom_neutron.E() << endl;
-   cout << "Eout Jpsi " << particle_4mom_Jpsi.E() << endl;
-   cout << "Eout electron " << particle_4mom_electron_prime.E() << endl;
+   cout << "Eout proton E" << particle_4mom_proton_bKick.E() << endl;
+   cout << "Eout neutron E" << particle_4mom_neutron.E() << endl;
+   cout << "Eout Jpsi E" << particle_4mom_Jpsi.E() << endl;
+   cout << "Eout electron E" << particle_4mom_electron_prime.E() << endl;
+
+   cout << "--------" << endl;
+   cout << "Eout proton Pz" << particle_4mom_proton_bKick.Pz() << endl;
+   cout << "Eout neutron Pz" << particle_4mom_neutron.Pz() << endl;
+   cout << "Eout Jpsi Pz" << particle_4mom_Jpsi.Pz() << endl;
+   cout << "Eout electron Pz" << particle_4mom_electron_prime.Pz() << endl;
+
    total4Mom_outgoing = particle_4mom_proton + particle_4mom_neutron + particle_4mom_Jpsi + particle_4mom_electron_prime;
    
    cout << "Ein " << total4Mom_incoming.E() << endl;
