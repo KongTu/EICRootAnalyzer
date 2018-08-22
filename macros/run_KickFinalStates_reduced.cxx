@@ -239,7 +239,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          j_pz = j_pz - 0.6*kick - 0.6*kick;
 
          double j_E = sqrt(j_px*j_px+j_py*j_py+j_pz*j_pz+j_M*j_M);
-         particle_4mom_Jpsi.SetPxPyPzE(j_px,j_py,j_pz,j_M);
+         particle_4mom_Jpsi.SetPxPyPzE(j_px,j_py,j_pz,j_E);
          
       }
 
