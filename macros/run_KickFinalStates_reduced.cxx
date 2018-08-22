@@ -187,41 +187,44 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
                particle_4mom_neutron_bKick = particle->Get4Vector();
                particle_4mom_neutron = particle->Get4Vector();
 				
-               if( doKick ){
-
-                  //only conserve 3 momentum from before kick. 
-                  double n_M = particle->GetM();
-        
-                  p_proton_bKick = particle_4mom_proton_bKick.Vect();
-                  p_neutron_bKick = particle_4mom_neutron_bKick.Vect();
-
-                  cout << "before proton pz " << p_proton_bKick.Pz() << endl;
-                  cout << "before proton px " << p_proton_bKick.Px() << endl;
-                  cout << "before proton py " << p_proton_bKick.Py() << endl;
-                  
-
-                  cout << "before neutron pz " << p_neutron_bKick.Pz() << endl;
-
-
-                  p_proton = particle_4mom_proton.Vect();
-
-                  cout << "after proton pz " << p_proton.Pz() << endl;
-
-                  p_neutron = p_neutron_bKick + p_proton_bKick - p_proton;
-
-                  cout << "after neutron pz " << p_neutron.Pz() << endl;
-
-                  particle_4mom_neutron.SetVectM(p_neutron,n_M);
-      
-               }
-         
             }
 
             nParticles_process++;
 
 	} // end of particle loop
 
+
+
 	if( nParticles_process != 4 ) continue;
+
+   if( doKick ){
+
+      //only conserve 3 momentum from before kick. 
+      double n_M = particle->GetM();
+
+      p_proton_bKick = particle_4mom_proton_bKick.Vect();
+      p_neutron_bKick = particle_4mom_neutron_bKick.Vect();
+
+      cout << "before proton pz " << p_proton_bKick.Pz() << endl;
+      cout << "before proton px " << p_proton_bKick.Px() << endl;
+      cout << "before proton py " << p_proton_bKick.Py() << endl;
+      
+
+      cout << "before neutron pz " << p_neutron_bKick.Pz() << endl;
+      cout << "before neutron px " << p_neutron_bKick.Px() << endl;
+      cout << "before neutron py " << p_neutron_bKick.Py() << endl;
+
+      p_proton = particle_4mom_proton.Vect();
+
+      cout << "after proton pz " << p_proton.Pz() << endl;
+
+      p_neutron = p_neutron_bKick + p_proton_bKick - p_proton;
+
+      cout << "after neutron pz " << p_neutron.Pz() << endl;
+
+      particle_4mom_neutron.SetVectM(p_neutron,n_M);
+      
+   }
 
    /*E-M Conservation*/
 
