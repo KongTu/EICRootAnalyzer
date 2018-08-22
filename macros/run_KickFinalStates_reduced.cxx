@@ -29,7 +29,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	TBranchElement* branch_pyf = (TBranchElement*) tree->GetBranch("pyf");
 	TBranchElement* branch_pzf = (TBranchElement*) tree->GetBranch("pzf");
 
-   double ratio = 0.0;;
+   double ratio = -0.1;;
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -167,7 +167,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 					fa->SetParameter(0,1);
 					fa->SetParameter(1,-3);
 
-					kick = 10.;//fa->GetRandom();
+					kick = 2.;//fa->GetRandom();
                double kick_x = kick;
                double kick_y = kick;
 
