@@ -70,7 +70,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       int nParticles_process = 0;
 
-
       TVector3 p_proton_bKick;
       TVector3 p_neutron_bKick;
       
@@ -148,7 +147,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
             }
             if( pdg == 2212 ){//proton
 
-            	particle_4mom_proton_bKick.SetPtEtaPhiM(pt,eta,phi,mass);
+            	//particle_4mom_proton_bKick.SetPtEtaPhiM(pt,eta,phi,mass);
+               particle_4mom_proton_bKick = particle->Get4Vector();
                particle_4mom_proton.SetPtEtaPhiM(pt,eta,phi,mass);
 
 				if( doKick ){
