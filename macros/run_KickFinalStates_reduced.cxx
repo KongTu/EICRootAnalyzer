@@ -211,6 +211,11 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	if( nParticles_process != 4 ) continue;
 
    /*E-M Conservation*/
+
+   cout << "Eout proton " << particle_4mom_proton.E() << endl;
+   cout << "Eout neutron " << particle_4mom_neutron.E() << endl;
+   cout << "Eout Jpsi " << particle_4mom_Jpsi.E() << endl;
+   cout << "Eout electron " << particle_4mom_electron_prime.E() << endl;
    total4Mom_outgoing = particle_4mom_proton + particle_4mom_neutron + particle_4mom_Jpsi + particle_4mom_electron_prime;
    
    cout << "Ein " << total4Mom_incoming.E() << endl;
