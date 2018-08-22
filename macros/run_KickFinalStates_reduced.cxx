@@ -109,6 +109,10 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
       /*end*/
 
+      double n_M = MASS_NEUTRON;
+      double j_M = 0.;
+
+
       for(int j(0); j < nParticles; ++j ) {
          
          const erhic::ParticleMC* particle = event->GetTrack(j);
@@ -124,9 +128,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          theta = theta*1000.0; //change to mrad;
          double mom = particle->GetP();
 
-         double n_M = MASS_NEUTRON;
-         double j_M = 3.1;
-
+         
          statusHist.Fill( status ); 
 
          if( index == 4 ){ //get gamma 4-momentum:
