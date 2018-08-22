@@ -6,7 +6,7 @@ TH1D* energy_corr = new TH1D("energy_corr",";E_{in} - E_{out}",600,-30,30);
 
 TH1D* sNN_dist = new TH1D("sNN_dist","s_{_{NN}} ",300,0,30);
 TH2D* deltaEtadeltaPhi = new TH2D("deltaEtadeltaPhi",";#eta;#phi",200,-20,20,30,-7,7);
-
+TH1D* energy_nonconserve = new TH1D("energy_corr",";E_{in} - E_{out}",600,-30,30);
 
 void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilename ) {
    
@@ -29,6 +29,9 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	TBranchElement* branch_pyf = (TBranchElement*) tree->GetBranch("pyf");
 	TBranchElement* branch_pzf = (TBranchElement*) tree->GetBranch("pzf");
 
+   double ratio = 0.001;
+   for(int k = 0; k < 1000; k++){
+      
 	for(int i(0); i < nEvents; ++i ) {
       
       // Read the next entry from the tree.
@@ -112,7 +115,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       double n_M = MASS_NEUTRON;
       double j_M = 0.;
       double kick;
-
+    
       for(int j(0); j < nParticles; ++j ) {
          
          const erhic::ParticleMC* particle = event->GetTrack(j);
@@ -188,7 +191,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
                p_px += kick_x;
                p_py += kick_y;
-               p_pz += 0.9*kick;
+               p_pz += ratio*kick;
 
                p_E = sqrt(p_px*p_px + p_py*p_py + p_pz*p_pz + p_M*p_M);//add energy
 
@@ -236,7 +239,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          double j_px = particle_4mom_Jpsi.Px();
          double j_py = particle_4mom_Jpsi.Py();
          double j_pz = particle_4mom_Jpsi.Pz();
-         j_pz = j_pz - 0.9*kick - 0.9*kick;
+         j_pz = j_pz - ratio*kick - ratio*kick;
 
          double j_E = sqrt(j_px*j_px+j_py*j_py+j_pz*j_pz+j_M*j_M);
          particle_4mom_Jpsi.SetPxPyPzE(j_px,j_py,j_pz,j_E);
@@ -274,6 +277,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
    cout << "Jpsi mass = " << particle_4mom_Jpsi.M() << endl;
    cout << "proton mass = " << particle_4mom_proton.M() << endl;
    cout << "neutron mass = " << particle_4mom_neutron.M() << endl;
+
+   energy_nonconserve->Fill(total4Mom_incoming.E() - total4Mom_outgoing.E());
    /**/
 
 
@@ -316,6 +321,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	tVsT->Fill(T_Jpsi_squared, t_proton_squared);
 
    } // for
+      ratio += 0.001;
+   }//test
 
 
 
