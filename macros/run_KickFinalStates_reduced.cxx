@@ -157,7 +157,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
             if( pdg == 2112 ){//neutron
 
                particle_4mom_neutron_bKick.SetPtEtaPhiM(pt,eta,phi,mass);
-               particle_4mom_neutron.SetPtEtaPhiM(pt,eta,phi,mass);
+               //particle_4mom_neutron.SetPtEtaPhiM(pt,eta,phi,mass);
 				
                if( doKick ){
                   double n_E = particle->GetE();
