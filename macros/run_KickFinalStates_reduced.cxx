@@ -233,20 +233,13 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
          particle_4mom_neutron.SetPxPyPzE(n_px,n_py,n_pz,n_E);//add energy
 
-         p_proton_bKick = particle_4mom_proton_bKick.Vect();
-         p_neutron_bKick = particle_4mom_neutron_bKick.Vect();
-         p_Jpsi_bKick = particle_4mom_Jpsi.Vect();
+         double j_px = particle_4mom_Jpsi.Px();
+         double j_py = particle_4mom_Jpsi.Py();
+         double j_pz = particle_4mom_Jpsi.Pz();
+         j_pz = j_pz - 0.6*kick - 0.6*kick;
 
-         // p_proton = particle_4mom_proton.Vect();
-         // p_neutron = p_neutron_bKick + p_proton_bKick - p_proton;
-
-         // double pz_neutron_modified = sqrt(particle_4mom_neutron_bKick.P()*particle_4mom_neutron_bKick.P() - p_neutron.Px()*p_neutron.Px() - p_neutron.Py()*p_neutron.Py());
-         // p_neutron.SetZ(pz_neutron_modified);
-
-         // particle_4mom_neutron.SetVectM(p_neutron,n_M);
-
-         p_Jpsi = p_Jpsi_bKick + p_proton_bKick + p_neutron_bKick - particle_4mom_neutron.Vect() - particle_4mom_proton.Vect();
-         particle_4mom_Jpsi.SetVectM(p_Jpsi, j_M);
+         double j_E = sqrt(j_px*j_px+j_py*j_py+j_pz*j_pz+j_M*j_M);
+         particle_4mom_Jpsi.SetPxPyPzE(j_px,j_py,j_pz,j_M);
          
       }
 
