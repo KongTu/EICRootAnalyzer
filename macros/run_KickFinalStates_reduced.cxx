@@ -188,21 +188,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	} // end of particle loop
 
 	if( nParticles_process != 4 ) continue;
-
-	TLorentzVector bKick_PN;
-	if( doKick ){
-
-      cout << "before proton E " << particle_4mom_proton_bKick.E() << endl;
-      cout << "proton E " << particle_4mom_proton.E() << endl;
-   
-      cout << "before neutron E " << particle_4mom_neutron_bKick.E() << endl;
-      cout << "neutron E " << particle_4mom_neutron.E() << endl;
-  
-
-		bKick_PN = particle_4mom_proton_bKick + particle_4mom_neutron_bKick;
-		//particle_4mom_neutron = bKick_PN - particle_4mom_proton;//modify neutron kinematics.
-	}
-
    
 	deltaEtadeltaPhi->Fill( particle_4mom_proton.Eta()-particle_4mom_neutron.Eta(), particle_4mom_proton.Phi()-particle_4mom_neutron.Phi());
 	
@@ -231,28 +216,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	TLorentzVector T_Jpsi = particle_4mom_Jpsi - particle_4mom_photon;//delta
 	double T_Jpsi_squared = T_Jpsi.Mag2();
 
-	//compute COM s_NN of proton and neutron system:
-	// double E_NN = particle_4mom_proton.E() + particle_4mom_neutron.E();
-
-	// TVector3 p_proton = particle_4mom_proton.Vect();
-	// TVector3 p_neutron = particle_4mom_neutron.Vect();
-
-	// TVector3 total_NN = p_proton+p_neutron;
-	// TVector3 V_cm = (1/E_NN)*total_NN;
-
-	// double bx = V_cm.X();
-	// double by = V_cm.Y();
-	// double bz = V_cm.Z();
-
-	// TVector3 b;
-	// particle_4mom_proton.Boost(-bx,-by,-bz);
-	// particle_4mom_proton.Boost(b);
-
-	// particle_4mom_neutron.Boost(-bx,-by,-bz);
-	// particle_4mom_neutron.Boost(b);
-
 	particle_4mom = particle_4mom_proton + particle_4mom_neutron;
-
 
 	double sNN = particle_4mom.Mag2();//center of mass energy squared
 	 
