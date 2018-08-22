@@ -6,7 +6,7 @@ TH1D* energy_corr = new TH1D("energy_corr",";E_{in} - E_{out}",600,-30,30);
 
 TH1D* sNN_dist = new TH1D("sNN_dist","s_{_{NN}} ",300,0,30);
 TH2D* deltaEtadeltaPhi = new TH2D("deltaEtadeltaPhi",";#eta;#phi",200,-20,20,30,-7,7);
-TH1D* energy_nonconserve = new TH1D("energy_corr_test",";E_{in} - E_{out}",600,-30,30);
+
 
 void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilename ) {
    
@@ -230,7 +230,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
          double n_px = particle_4mom_neutron_bKick.Px() + particle_4mom_proton_bKick.Px() - particle_4mom_proton.Px();
          double n_py = particle_4mom_neutron_bKick.Py() + particle_4mom_proton_bKick.Py() - particle_4mom_proton.Py();
-         double n_pz = particle_4mom_neutron_bKick.Pz() + 0.6*kick;
+         double n_pz = particle_4mom_neutron_bKick.Pz() + ratio*kick;
 
          double n_E = sqrt(n_px*n_px+n_py*n_py+n_pz*n_pz+n_M*n_M);
 
@@ -277,8 +277,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
    cout << "Jpsi mass = " << particle_4mom_Jpsi.M() << endl;
    cout << "proton mass = " << particle_4mom_proton.M() << endl;
    cout << "neutron mass = " << particle_4mom_neutron.M() << endl;
-
-   energy_nonconserve->Fill(total4Mom_incoming.E() - total4Mom_outgoing.E());
    /**/
 
 
@@ -321,10 +319,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	tVsT->Fill(T_Jpsi_squared, t_proton_squared);
 
    } // for
-      ratio += 0.001;
-   }//test
 
-
+   }
 
    TString outfilename;
    if( doKick ) outfilename = "_Jpsinodecay_KickFinalStates_eD_kick.root";
