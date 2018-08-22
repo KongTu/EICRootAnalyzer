@@ -162,17 +162,20 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
                if( doKick ){
                   double n_E = particle->GetE();
                   double n_M = particle->GetM();
-                  
-                  double n_pT = pt + kick;
-                  double n_pz = sqrt(n_E*n_E - n_M*n_M - n_pT*n_pT);
+                  double n_px = -particle_4mom_proton.Px();
+                  double n_py = -particle_4mom_proton.Py();
+                  //double n_pT = pt + kick;
+                  double n_pz = sqrt(n_E*n_E - n_M*n_M - n_px*n_px - n_py*n_py);
                   double n_eta = TMath::ATanH(n_pz/sqrt(n_pz*n_pz+n_pT*n_pT));
                   
-                  double p_phi = particle_4mom_proton.Phi();
-                  double n_phi = particle->GetPhi();
-                  if( p_phi > 0 ) n_phi = p_phi-PI;
-                  if( p_phi < 0 ) n_phi = p_phi+PI;
+
+                  particle_4mom_neutron.SetPxPyPzE(n_px,n_py,n_pz,n_E);
+                  // double p_phi = particle_4mom_proton.Phi();
+                  // double n_phi = particle->GetPhi();
+                  // if( p_phi > 0 ) n_phi = p_phi-PI;
+                  // if( p_phi < 0 ) n_phi = p_phi+PI;
                   
-                  particle_4mom_neutron.SetPtEtaPhiM(n_pT,n_eta,n_phi,n_M);
+                  // particle_4mom_neutron.SetPtEtaPhiM(n_pT,n_eta,n_phi,n_M);
 
                }
          
@@ -189,9 +192,11 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       cout << "proton px " << particle_4mom_proton.Px() << endl;
       cout << "proton py " << particle_4mom_proton.Py() << endl;
+      cout << "proton mass " << particle_4mom_proton.M() << endl;
 
       cout << "neutron px " << particle_4mom_neutron.Px() << endl;
       cout << "neutron py " << particle_4mom_neutron.Py() << endl;
+      cout << "neutron mass " << particle_4mom_neutron.M() << endl;
 
 
 		bKick_PN = particle_4mom_proton_bKick + particle_4mom_neutron_bKick;
