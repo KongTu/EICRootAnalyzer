@@ -72,9 +72,11 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       TVector3 p_proton_bKick;
       TVector3 p_neutron_bKick;
+      TVector3 p_Jpsi_bKick;
       
       TVector3 p_proton;
       TVector3 p_neutron;
+      TVector3 p_Jpsi;
 
       TLorentzVector particle_4mom;
 
@@ -123,6 +125,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          double mom = particle->GetP();
 
          double n_M = MASS_NEUTRON;
+         double j_M = 0.;
 
          statusHist.Fill( status ); 
 
@@ -145,6 +148,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
                double pt_jpsi = pt;//store Jpsi pt
                
                particle_4mom_Jpsi = particle->Get4Vector();
+               j_M = particle->GetM();
 
             }
             if( pdg == 2212 ){//proton
@@ -215,7 +219,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
          particle_4mom_neutron.SetVectM(p_neutron,n_M);
 
-         particle_4mom_Jpsi = particle_4mom_Jpsi + particle_4mom_proton_bKick + particle_4mom_neutron_bKick - particle_4mom_proton - particle_4mom_neutron;
+         p_Jpsi = p_Jpsi_bKick + p_proton_bKick + p_neutron_bKick - p_neutron - p_proton;
+         particle_4mom_Jpsi.SetVectM(p_Jpsi, j_M);
          
       }
 
