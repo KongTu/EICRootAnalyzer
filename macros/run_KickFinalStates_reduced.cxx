@@ -190,7 +190,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
                p_py += kick_y;
                p_pz += 0.6*kick;
 
-               p_E = sqrt(p_px*p_px + p_py*p_py + p_pz*p_pz);//add energy
+               p_E = sqrt(p_px*p_px + p_py*p_py + p_pz*p_pz + p_M*p_M);//add energy
 
 					particle_4mom_proton.SetPxPyPzE(p_px, p_py, p_pz, p_E);
 				}
