@@ -50,13 +50,13 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       int event_process = event->GetProcess();
 
-      //Deuteron 4 momentum
-      double pztarg = branch_pz->GetValue(0,0);
-      double Atarg = branch_atarg->GetValue(0,0);
-      double pz_total = pztarg*Atarg;
-      double total_energy = sqrt(pz_total*pz_total + MASS_DEUTERON*MASS_DEUTERON);
+      // //Deuteron 4 momentum
+      // double pztarg = branch_pz->GetValue(0,0);
+      // double Atarg = branch_atarg->GetValue(0,0);
+      // double pz_total = pztarg*Atarg;
+      // double total_energy = sqrt(pz_total*pz_total + MASS_DEUTERON*MASS_DEUTERON);
       
-      TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
+      // TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
 
       Q2VsX->Fill(trueX, trueQ2);
       W2VsFlux->Fill(photon_flux, trueW2);
@@ -94,7 +94,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       /*E-M Conservation*/
       double pztarg_1 = 135.290727;
       double pztarg_2 = 135.103537;
-      double Atarg = branch_atarg->GetValue(0,0);
       double pz_total = pztarg_1+pztarg_2;
       double total_energy = sqrt(pz_total*pz_total + MASS_DEUTERON*MASS_DEUTERON);
       //electron, neglect electron mass
