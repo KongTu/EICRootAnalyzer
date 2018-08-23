@@ -283,7 +283,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
    
    cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
    cout << "E diff: " << E_min <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
-      if( jter == 0 ){
+      if( j_min == 0 ){
 
       cout << "Eout Jpsi E " << particle_4mom_jpsi.E() << endl;
       cout << "Jpsi Px " << particle_4mom_jpsi.Px() << endl;
