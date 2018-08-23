@@ -161,7 +161,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       fa->SetParameter(0,1);
       fa->SetParameter(1,-3);
 
-      kick = 1.;//fa->GetRandom();
+      double kick = 1.;//fa->GetRandom();
       double kick_px = kick;
       double kick_py = kick;
 
@@ -212,9 +212,9 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       int j_min = 0;
       int k_min = 0;
 
-      if(p_px >= 0 ) kick_px = -kick;
+      if(p_px >= 0 ) kick_px = kick;
       if(p_px < 0 ) kick_px = -kick;
-      if(p_py >= 0 ) kick_py = -kick;
+      if(p_py >= 0 ) kick_py = kick;
       if(p_py < 0 ) kick_py = -kick;
 
       for(int iter = 0; iter < 80; iter++){
