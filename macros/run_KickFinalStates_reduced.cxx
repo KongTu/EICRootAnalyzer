@@ -257,6 +257,10 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
                   j_min = jter;
                   k_min = kter;  
 
+                  particle_4mom_proton.SetPxPyPzE(p_px_prime,p_py_prime,p_pz_prime,p_E_prime);
+                  particle_4mom_neutron.SetPxPyPzE(n_px_prime,n_py_prime,n_pz_prime,n_E_prime);
+                  particle_4mom_jpsi.SetPxPyPzE(j_px_prime,j_py_prime,j_pz_prime,j_E_prime);
+
                   // cout << "proton Pt " << p1.Pt() << endl;
                   // cout << "neutron Pt " << p2.Pt() << endl;
                   // cout << "J Pt " << p3.Pt() << endl;
