@@ -2,7 +2,7 @@
 
 TH1D* t1_dist = new TH1D("t1_dist",";t1", 200,-5,5);
 TH1D* t2_dist = new TH1D("t2_dist",";t2", 200,-5,5);
-TH1D* energy_corr = new TH1D("energy_corr",";E_{in} - E_{out}",600,-30,30);
+TH1D* energy_corr = new TH1D("energy_corr",";E_{in} - E_{out}",1000,-0.05,0.05);
 
 TH1D* sNN_dist = new TH1D("sNN_dist","s_{_{NN}} ",300,0,30);
 TH2D* deltaEtadeltaPhi = new TH2D("deltaEtadeltaPhi",";#eta;#phi",200,-20,20,30,-7,7);
@@ -331,6 +331,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
    cout << "neutron mass = " << particle_4mom_neutron.M() << endl;
    /**/
 
+   energy_corr->Fill(total4Mom_incoming.E() - total4Mom_outgoing.E());
+
    //proton
    PtDist_proton->Fill( particle_4mom_proton.Pt() );
    EtaDist_proton->Fill( particle_4mom_proton.Eta() );
@@ -408,5 +410,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
    tVsT->Write();
    deltaEtadeltaPhi->Write();
    sNN_dist->Write();
+   energy_corr->Write();
 
 }
