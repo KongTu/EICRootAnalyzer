@@ -197,10 +197,10 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          double temp = comp_init+0.5*jter;
          comp[jter] = temp;
 
-         temp = delta_init+0.5*jter;
+         temp = delta_init+1.0*jter;
          delta[jter] = temp;
 
-         temp = kappa_init+0.5*jter;
+         temp = kappa_init+1.0*jter;
          kappa[jter] = temp;
       }
 
