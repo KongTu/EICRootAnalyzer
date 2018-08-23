@@ -162,7 +162,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       fa->SetParameter(0,1);
       fa->SetParameter(1,-3);
 
-      double kick = 1.;//fa->GetRandom();
+      double kick = 0.1;//fa->GetRandom();
       double kick_px = kick;
       double kick_py = kick;
 
