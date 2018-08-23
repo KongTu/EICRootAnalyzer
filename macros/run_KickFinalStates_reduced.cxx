@@ -185,21 +185,25 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       double j_E = sqrt(j_px*j_px + j_py*j_py + j_pz*j_pz + MASS_JPSI*MASS_JPSI);
 
       double comp_init = -50;
-      double delta_init = -50;
-      double kappa_init = -50;
+      double delta_init = -5;
+      double kappa_init = -5;
 
-      const int iteration = 100;
+      const int iteration_1 = 100;
+      const int iteration_2 = 10;
 
-      double comp[iteration];
-      double delta[iteration];
-      double kappa[iteration];
+      double comp[iteration_1];
+      double delta[iteration_2];
+      double kappa[iteration_2];
 
-      for(int jter = 0; jter < iteration; jter++){
+      for(int jter = 0; jter < iteration_1; jter++){
 
          double temp = comp_init+1.*jter;
-         comp[jter] = temp;
+         comp[jter] = temp;  
+      }
 
-         temp = delta_init+1.*jter;
+      for(int jter = 0; jter < iteration_2; jter++){
+
+         double temp = delta_init+1.*jter;
          delta[jter] = temp;
 
          temp = kappa_init+1.*jter;
@@ -220,9 +224,9 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       if(p_py >= 0 ) kick_py = kick;
       if(p_py < 0 ) kick_py = -kick;
 
-      for(int iter = 0; iter < iteration; iter++){
-         for(int jter = 0; jter < iteration; jter++){
-            for(int kter = 0; kter < iteration; kter++){
+      for(int iter = 0; iter < iteration_2; iter++){//delta
+         for(int jter = 0; jter < iteration_1; jter++){//comp
+            for(int kter = 0; kter < iteration_2; kter++){//kappa
 
             double p_py_prime = p_py + kick_py;
             double n_py_prime = n_py - kick_py + delta[iter];
