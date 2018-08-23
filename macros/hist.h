@@ -30,6 +30,7 @@
 
 #define PI            3.1415926
 
+#define MASS_JPSI 	  3.09688
 #define MASS_PROTON   0.93827
 #define MASS_NEUTRON  0.93957
 #define MASS_DEUTERON 1.8624778138724238
