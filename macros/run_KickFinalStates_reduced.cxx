@@ -184,17 +184,19 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       double j_pz = particle_4mom_jpsi_bKick.Pz();
       double j_E = sqrt(j_px*j_px + j_py*j_py + j_pz*j_pz + MASS_JPSI*MASS_JPSI);
 
-      double comp_init = -40;
-      double delta_init = -40;
-      double kappa_init = -40;
+      double comp_init = -50;
+      double delta_init = -50;
+      double kappa_init = -50;
 
-      double comp[80];
-      double delta[80];
-      double kappa[80];
+      const int iteration = 100;
 
-      for(int jter = 0; jter < 80; jter++){
+      double comp[iteration];
+      double delta[iteration];
+      double kappa[iteration];
 
-         double temp = comp_init+0.5*jter;
+      for(int jter = 0; jter < iteration; jter++){
+
+         double temp = comp_init+1.0*jter;
          comp[jter] = temp;
 
          temp = delta_init+1.0*jter;
@@ -218,9 +220,9 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       if(p_py >= 0 ) kick_py = kick;
       if(p_py < 0 ) kick_py = -kick;
 
-      for(int iter = 0; iter < 80; iter++){
-         for(int jter = 0; jter < 80; jter++){
-            for(int kter = 0; kter < 80; kter++){
+      for(int iter = 0; iter < iteration; iter++){
+         for(int jter = 0; jter < iteration; jter++){
+            for(int kter = 0; kter < iteration; kter++){
 
             double p_py_prime = p_py + kick_py;
             double n_py_prime = n_py - kick_py + delta[iter];
