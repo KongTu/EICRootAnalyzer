@@ -334,6 +334,11 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
    energy_corr->Fill(total4Mom_incoming.E() - total4Mom_outgoing.E());
 
+   //Jpsi:
+   PtDist_Jpsi->Fill( particle_4mom_jpsi.Pt() );
+   EtaDist_Jpsi->Fill( particle_4mom_jpsi.Eta() );
+   PhiDist_Jpsi->Fill( particle_4mom_jpsi.Phi() );
+
    //proton
    PtDist_proton->Fill( particle_4mom_proton.Pt() );
    EtaDist_proton->Fill( particle_4mom_proton.Eta() );
