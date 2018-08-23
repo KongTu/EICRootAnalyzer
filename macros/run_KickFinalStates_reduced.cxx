@@ -82,7 +82,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       TLorentzVector particle_4mom_Jpsi;
 
       TLorentzVector particle_4mom_photon;
-      TLorenVector particle_4mom_electron_prime;tz
+      TLorentzVector particle_4mom_electron_prime;
       
       if( event_process != 91 ) continue;
 
