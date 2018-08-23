@@ -80,6 +80,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       TLorentzVector particle_4mom_proton;
       TLorentzVector particle_4mom_neutron;
       TLorentzVector particle_4mom_jpsi;
+      TLorentzVector p3,p4,p5;
 
       TLorentzVector particle_4mom_photon;
       TLorentzVector particle_4mom_electron_prime;
@@ -237,11 +238,11 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
             double n_E_prime = sqrt(n_px_prime*n_px_prime + n_py_prime*n_py_prime + n_pz_prime*n_pz_prime + MASS_NEUTRON*MASS_NEUTRON);
             double j_E_prime = sqrt(j_px_prime*j_px_prime + j_py_prime*j_py_prime + j_pz_prime*j_pz_prime + MASS_JPSI*MASS_JPSI);
 
-            particle_4mom_proton.SetPxPyPzE(p_px_prime,p_py_prime,p_pz_prime,p_E_prime);
-            particle_4mom_neutron.SetPxPyPzE(n_px_prime,n_py_prime,n_pz_prime,n_E_prime);
-            particle_4mom_jpsi.SetPxPyPzE(j_px_prime,j_py_prime,j_pz_prime,j_E_prime);
+            p3.SetPxPyPzE(p_px_prime,p_py_prime,p_pz_prime,p_E_prime);
+            p4.SetPxPyPzE(n_px_prime,n_py_prime,n_pz_prime,n_E_prime);
+            p5.SetPxPyPzE(j_px_prime,j_py_prime,j_pz_prime,j_E_prime);
 
-            k = particle_4mom_proton+particle_4mom_neutron+particle_4mom_jpsi;
+            k = p3+p4+p5;
 
             double E_DIFF = t.E() - k.E();
             double pz_DIFF = t.Pz() - k.Pz();
@@ -257,9 +258,9 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
                   j_min = jter;
                   k_min = kter;  
 
-                  particle_4mom_proton.SetPxPyPzE(p_px_prime,p_py_prime,p_pz_prime,p_E_prime);
-                  particle_4mom_neutron.SetPxPyPzE(n_px_prime,n_py_prime,n_pz_prime,n_E_prime);
-                  particle_4mom_jpsi.SetPxPyPzE(j_px_prime,j_py_prime,j_pz_prime,j_E_prime);
+                  particle_4mom_proton = p3;
+                  particle_4mom_neutron = p4;
+                  particle_4mom_jpsi = p5;
 
                   // cout << "proton Pt " << p1.Pt() << endl;
                   // cout << "neutron Pt " << p2.Pt() << endl;
