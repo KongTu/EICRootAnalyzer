@@ -188,7 +188,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       double delta_init = -50;
       double kappa_init = -50;
 
-      const int iteration = 10;
+      const int iteration = 100;
 
       double comp[iteration];
       double delta[iteration];
@@ -196,13 +196,13 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       for(int jter = 0; jter < iteration; jter++){
 
-         double temp = comp_init+10.*jter;
+         double temp = comp_init+1.*jter;
          comp[jter] = temp;
 
-         temp = delta_init+10.*jter;
+         temp = delta_init+1.*jter;
          delta[jter] = temp;
 
-         temp = kappa_init+10.*jter;
+         temp = kappa_init+1.*jter;
          kappa[jter] = temp;
       }
 
