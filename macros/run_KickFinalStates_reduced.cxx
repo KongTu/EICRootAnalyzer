@@ -158,11 +158,11 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
    if( doKick ){
 
-      TF1 *fa = new TF1("fa","[0]*TMath::Exp([1]*x)",0,3);
+      TF1 *fa = new TF1("fa","[0]*TMath::Exp([1]*x)",0,2);
       fa->SetParameter(0,1);
       fa->SetParameter(1,-3);
 
-      double kick = 2;//fa->GetRandom();
+      double kick = fa->GetRandom();
       double kick_px = kick;
       double kick_py = kick;
 
@@ -283,13 +283,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
    
    cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
    cout << "E diff: " << E_min <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
-      if( j_min == 0 ){
 
-      cout << "Eout Jpsi E " << particle_4mom_jpsi.E() << endl;
-      cout << "Jpsi Px " << particle_4mom_jpsi.Px() << endl;
-      cout << "Jpsi Py " << particle_4mom_jpsi.Py() << endl;
-      cout << "Jpsi Pz " << particle_4mom_jpsi.Pz() << endl;
-      }
    }//end of kick
 
    total4Mom_outgoing = particle_4mom_proton + particle_4mom_neutron + particle_4mom_jpsi + particle_4mom_electron_prime;
