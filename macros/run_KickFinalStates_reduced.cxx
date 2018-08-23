@@ -183,14 +183,14 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 					//p_E = sqrt(p_E*p_E + kick*kick);
                //p_eta = TMath::ATanH(p_pz/sqrt(p_pz*p_pz+p_pT*p_pT));
 
-               if( p_px > 0 ) kick_x = kick;
-               if( p_px < 0 ) kick_x = -kick;
+               // if( p_px > 0 ) kick_x = kick;
+               // if( p_px < 0 ) kick_x = -kick;
                if( p_py > 0 ) kick_y = kick;
                if( p_py < 0 ) kick_y = -kick;
 
-               p_px += kick_x;
+               //p_px += kick_x;
                p_py += kick_y;
-               p_pz += ratio*kick;
+               //p_pz += ratio*kick;
 
                p_E = sqrt(p_px*p_px + p_py*p_py + p_pz*p_pz + p_M*p_M);//add energy
 
@@ -227,7 +227,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          double n_py = particle_4mom_neutron_bKick.Py();
          double n_pz = particle_4mom_neutron_bKick.Pz(); 
 
-         double n_px = particle_4mom_neutron_bKick.Px() + particle_4mom_proton_bKick.Px() - particle_4mom_proton.Px();
+         //double n_px = particle_4mom_neutron_bKick.Px() + particle_4mom_proton_bKick.Px() - particle_4mom_proton.Px();
          double n_py = particle_4mom_neutron_bKick.Py() + particle_4mom_proton_bKick.Py() - particle_4mom_proton.Py();
          double n_pz = particle_4mom_neutron_bKick.Pz() + ratio*kick;
 
@@ -252,26 +252,40 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
    cout << "Eout electron E " << particle_4mom_electron_prime.E() << endl;
 
    cout << "-------- " << endl;
-   cout << "Pzout proton Pz " << particle_4mom_proton.Pz() << endl;
-   cout << "Pzout neutron Pz " << particle_4mom_neutron.Pz() << endl;
-   cout << "Pzout Jpsi Pz " << particle_4mom_Jpsi.Pz() << endl;
-   cout << "Pzout electron Pz " << particle_4mom_electron_prime.Pz() << endl;
-   cout << "-------- " << endl;
-
-   cout << "P total momentum proton " << particle_4mom_proton.P() << endl;
-   cout << "P total momentum neutron " << particle_4mom_neutron.P() << endl;
+   cout << "proton Px " << particle_4mom_proton.Px() << endl;
+   cout << "neutron Px " << particle_4mom_neutron.Px() << endl;
+   cout << "Jpsi Px " << particle_4mom_Jpsi.Px() << endl;
+   cout << "electron Px " << particle_4mom_electron_prime.Px() << endl;
 
    cout << "-------- " << endl;
-   cout << "Pzout proton Pt " << particle_4mom_proton.Pt() << endl;
-   cout << "Pzout neutron Pt " << particle_4mom_neutron.Pt() << endl;
-   cout << "Pzout Jpsi Pt " << particle_4mom_Jpsi.Pt() << endl;
-   cout << "Pzout electron Pt " << particle_4mom_electron_prime.Pt() << endl;
+   cout << "proton Py " << particle_4mom_proton.Py() << endl;
+   cout << "neutron Py " << particle_4mom_neutron.Py() << endl;
+   cout << "Jpsi Py " << particle_4mom_Jpsi.Py() << endl;
+   cout << "electron Py " << particle_4mom_electron_prime.Py() << endl;
+
+   cout << "-------- " << endl;
+   cout << "proton Pz " << particle_4mom_proton.Pz() << endl;
+   cout << "neutron Pz " << particle_4mom_neutron.Pz() << endl;
+   cout << "Jpsi Pz " << particle_4mom_Jpsi.Pz() << endl;
+   cout << "electron Pz " << particle_4mom_electron_prime.Pz() << endl;
+   cout << "-------- " << endl;
+
+   // cout << "P total momentum proton " << particle_4mom_proton.P() << endl;
+   // cout << "P total momentum neutron " << particle_4mom_neutron.P() << endl;
+
+   // cout << "-------- " << endl;
+   // cout << "Pzout proton Pt " << particle_4mom_proton.Pt() << endl;
+   // cout << "Pzout neutron Pt " << particle_4mom_neutron.Pt() << endl;
+   // cout << "Pzout Jpsi Pt " << particle_4mom_Jpsi.Pt() << endl;
+   // cout << "Pzout electron Pt " << particle_4mom_electron_prime.Pt() << endl;
+   
+
    total4Mom_outgoing = particle_4mom_proton + particle_4mom_neutron + particle_4mom_Jpsi + particle_4mom_electron_prime;
    
-   cout << "Ein  " << total4Mom_incoming.E() << endl;
-   cout << "Eout " << total4Mom_outgoing.E() << endl;
-   cout << "Ein - Eout: " <<  total4Mom_incoming.E() - total4Mom_outgoing.E() << endl;
-   cout << "pzin - pzout: " << total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() << endl;
+   // cout << "Ein  " << total4Mom_incoming.E() << endl;
+   // cout << "Eout " << total4Mom_outgoing.E() << endl;
+   // cout << "Ein - Eout: " <<  total4Mom_incoming.E() - total4Mom_outgoing.E() << endl;
+   // cout << "pzin - pzout: " << total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() << endl;
 
    cout << "Jpsi mass = " << particle_4mom_Jpsi.M() << endl;
    cout << "proton mass = " << particle_4mom_proton.M() << endl;
