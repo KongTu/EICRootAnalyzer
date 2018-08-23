@@ -162,7 +162,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       fa->SetParameter(0,1);
       fa->SetParameter(1,-3);
 
-      double kick = 0.1;//fa->GetRandom();
+      double kick = 2;//fa->GetRandom();
       double kick_px = kick;
       double kick_py = kick;
 
@@ -290,45 +290,45 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
 
    /*E-M Conservation*/
-   cout << "Eout proton E " << particle_4mom_proton.E() << endl;
-   cout << "Eout neutron E " << particle_4mom_neutron.E() << endl;
-   cout << "Eout Jpsi E " << particle_4mom_jpsi.E() << endl;
-   cout << "Eout electron E " << particle_4mom_electron_prime.E() << endl;
+   // cout << "Eout proton E " << particle_4mom_proton.E() << endl;
+   // cout << "Eout neutron E " << particle_4mom_neutron.E() << endl;
+   // cout << "Eout Jpsi E " << particle_4mom_jpsi.E() << endl;
+   // cout << "Eout electron E " << particle_4mom_electron_prime.E() << endl;
 
-   cout << "-------- " << endl;
-   cout << "proton Px " << particle_4mom_proton.Px() << endl;
-   cout << "neutron Px " << particle_4mom_neutron.Px() << endl;
-   cout << "Jpsi Px " << particle_4mom_jpsi.Px() << endl;
-   cout << "electron Px " << particle_4mom_electron_prime.Px() << endl;
+   // cout << "-------- " << endl;
+   // cout << "proton Px " << particle_4mom_proton.Px() << endl;
+   // cout << "neutron Px " << particle_4mom_neutron.Px() << endl;
+   // cout << "Jpsi Px " << particle_4mom_jpsi.Px() << endl;
+   // cout << "electron Px " << particle_4mom_electron_prime.Px() << endl;
 
-   cout << "-------- " << endl;
-   cout << "proton Py " << particle_4mom_proton.Py() << endl;
-   cout << "neutron Py " << particle_4mom_neutron.Py() << endl;
-   cout << "Jpsi Py " << particle_4mom_jpsi.Py() << endl;
-   cout << "electron Py " << particle_4mom_electron_prime.Py() << endl;
+   // cout << "-------- " << endl;
+   // cout << "proton Py " << particle_4mom_proton.Py() << endl;
+   // cout << "neutron Py " << particle_4mom_neutron.Py() << endl;
+   // cout << "Jpsi Py " << particle_4mom_jpsi.Py() << endl;
+   // cout << "electron Py " << particle_4mom_electron_prime.Py() << endl;
 
-   cout << "-------- " << endl;
-   cout << "proton Pz " << particle_4mom_proton.Pz() << endl;
-   cout << "neutron Pz " << particle_4mom_neutron.Pz() << endl;
-   cout << "Jpsi Pz " << particle_4mom_jpsi.Pz() << endl;
-   cout << "electron Pz " << particle_4mom_electron_prime.Pz() << endl;
-   cout << "-------- " << endl;
+   // cout << "-------- " << endl;
+   // cout << "proton Pz " << particle_4mom_proton.Pz() << endl;
+   // cout << "neutron Pz " << particle_4mom_neutron.Pz() << endl;
+   // cout << "Jpsi Pz " << particle_4mom_jpsi.Pz() << endl;
+   // cout << "electron Pz " << particle_4mom_electron_prime.Pz() << endl;
+   // cout << "-------- " << endl;
 
-   // cout << "P total momentum proton " << particle_4mom_proton.P() << endl;
-   // cout << "P total momentum neutron " << particle_4mom_neutron.P() << endl;
+   // // cout << "P total momentum proton " << particle_4mom_proton.P() << endl;
+   // // cout << "P total momentum neutron " << particle_4mom_neutron.P() << endl;
 
-   cout << "proton Pt " << particle_4mom_proton.Pt() << endl;
-   cout << "neutron Pt " << particle_4mom_neutron.Pt() << endl;
-   cout << "Jpsi Pt " << particle_4mom_jpsi.Pt() << endl;
-   cout << "electron Pt " << particle_4mom_electron_prime.Pt() << endl;
-   cout << "-------- " << endl;
+   // cout << "proton Pt " << particle_4mom_proton.Pt() << endl;
+   // cout << "neutron Pt " << particle_4mom_neutron.Pt() << endl;
+   // cout << "Jpsi Pt " << particle_4mom_jpsi.Pt() << endl;
+   // cout << "electron Pt " << particle_4mom_electron_prime.Pt() << endl;
+   // cout << "-------- " << endl;
 
    cout << "Ein - Eout: " <<  total4Mom_incoming.E() - total4Mom_outgoing.E() << endl;
    cout << "pzin - pzout: " << total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() << endl;
 
-   cout << "Jpsi mass = " << particle_4mom_jpsi.M() << endl;
-   cout << "proton mass = " << particle_4mom_proton.M() << endl;
-   cout << "neutron mass = " << particle_4mom_neutron.M() << endl;
+   // cout << "Jpsi mass = " << particle_4mom_jpsi.M() << endl;
+   // cout << "proton mass = " << particle_4mom_proton.M() << endl;
+   // cout << "neutron mass = " << particle_4mom_neutron.M() << endl;
    /**/
 
    energy_corr->Fill(total4Mom_incoming.E() - total4Mom_outgoing.E());
