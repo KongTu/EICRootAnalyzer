@@ -165,10 +165,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       double p_pz = particle_4mom_proton_bKick.Pz();
       double p_E = sqrt(p_px*p_px + p_py*p_py + p_pz*p_pz + MASS_PROTON*MASS_PROTON);
 
-      double p_phi = particle_4mom_proton_bKick.Phi();
-      double p_phi_cal = TMath::ATan(p_py/p_px);
-
-      cout << "phi diff " << p_phi - p_phi_cal << endl; 
 
       //neutron 3 momentum:
       double n_px = particle_4mom_neutron_bKick.Px();
@@ -270,6 +266,12 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
             }
          }
       }
+
+      double p_phi = particle_4mom_proton.Phi();
+      double p_phi_cal = TMath::ATan(particle_4mom_proton.Py()/particle_4mom_proton.Px());
+
+      cout << "phi diff " << p_phi - p_phi_cal << endl; 
+
    
    // cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
    // cout << "E diff: " << E_min <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
