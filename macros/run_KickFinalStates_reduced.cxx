@@ -150,14 +150,24 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
    if( doKick ){
 
-      TF1 *fa = new TF1("fa","[0]*TMath::Exp([1]*x)",0,2);
+      TF1 *fa = new TF1("fa","[0]*TMath::Abs(TMath::Exp([1]*x))",0,2);
       fa->SetParameter(0,1);
       fa->SetParameter(1,-3);
 
-      double kick = fa->GetRandom();
-      // cout << "kick " << kick << endl;
-      double kick_px = kick;
-      double kick_py = kick;
+      double kick_px = 0.;
+      double kick_py = fa->GetRandom();
+
+      TF1 *phiran = new TF1("phiran","[0]*1",-3.1415926,3.1415926);
+      phiran->SetParameter(0,1);
+      double phi_kick = phiran->GetRandom();
+
+      if( phi_kick > 0 ){
+         kick_px = kick_py/TMath::ATan(phi_kick);
+      }
+      else{
+         kick_py = -kick_py;
+         kick_px = kick_py/TMath::ATan(phi_kick);
+      }
 
       //proton 3 momentum:
       double p_px = particle_4mom_proton_bKick.Px();
@@ -213,11 +223,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       int j_min = 0;
       int k_min = 0;
 
-      if(p_px >= 0 ) kick_px = kick;
-      if(p_px < 0 ) kick_px = -kick;
-      if(p_py >= 0 ) kick_py = kick;
-      if(p_py < 0 ) kick_py = -kick;
-
       for(int iter = 0; iter < iteration_2; iter++){//delta
          for(int jter = 0; jter < iteration_1; jter++){//comp
             for(int kter = 0; kter < iteration_2; kter++){//kappa
@@ -267,12 +272,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          }
       }
 
-      double p_phi = particle_4mom_proton.Phi();
-      double p_phi_cal = TMath::ATan(particle_4mom_proton.Py()/particle_4mom_proton.Px());
-
-      cout << "phi diff " << p_phi - p_phi_cal << endl; 
-
-   
    // cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
    // cout << "E diff: " << E_min <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
 
