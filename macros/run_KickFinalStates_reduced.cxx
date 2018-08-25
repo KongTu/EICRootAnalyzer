@@ -266,8 +266,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          }
       }
    
-   cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
-   cout << "E diff: " << E_min <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
+   // cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
+   // cout << "E diff: " << E_min <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
 
    if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 99 || k_min == 9 ) continue;//hit the boundary continue;
 
@@ -275,11 +275,9 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
    total4Mom_outgoing = particle_4mom_proton + particle_4mom_neutron + particle_4mom_jpsi + particle_4mom_electron_prime;
 
-
    /*fill histograms*/
 
    energy_corr->Fill(total4Mom_incoming.E() - total4Mom_outgoing.E());
-   cout << "E diff total " << total4Mom_incoming.E() - total4Mom_outgoing.E() << endl;
    //Jpsi:
    PtDist_Jpsi->Fill( particle_4mom_jpsi.Pt() );
    EtaDist_Jpsi->Fill( particle_4mom_jpsi.Eta() );
