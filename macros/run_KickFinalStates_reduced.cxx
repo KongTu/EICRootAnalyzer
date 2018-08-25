@@ -279,7 +279,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
    /*fill histograms*/
 
    energy_corr->Fill(total4Mom_incoming.E() - total4Mom_outgoing.E());
-
+   cout << "E diff total " << total4Mom_incoming.E() - total4Mom_outgoing.E() << endl;
    //Jpsi:
    PtDist_Jpsi->Fill( particle_4mom_jpsi.Pt() );
    EtaDist_Jpsi->Fill( particle_4mom_jpsi.Eta() );
