@@ -6,6 +6,9 @@ TH1D* energy_corr = new TH1D("energy_corr",";E_{in} - E_{out}",1000,-0.05,0.05);
 
 TH1D* sNN_dist = new TH1D("sNN_dist","s_{_{NN}} ",300,0,30);
 TH2D* deltaEtadeltaPhi = new TH2D("deltaEtadeltaPhi",";#eta;#phi",200,-20,20,30,-7,7);
+TH1D* px_dist = new TH1D("px_dist",";px",1000,-10,10);
+TH1D* py_dist = new TH1D("py_dist",";py",1000,-10,10);
+
 
 void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilename ) {
    
@@ -165,6 +168,9 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          kick_py = -kick_py;
          kick_px = kick_py/TMath::Tan(phi_kick);
       }
+
+      px_dist->Fill( kick_px );
+      py_dist->Fill( kick_py );
 
       //proton 3 momentum:
       double p_px = particle_4mom_proton_bKick.Px();
@@ -362,5 +368,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
    deltaEtadeltaPhi->Write();
    sNN_dist->Write();
    energy_corr->Write();
+   px_dist->Write();
+   py_dist->Write();
+
 
 }
