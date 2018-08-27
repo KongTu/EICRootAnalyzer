@@ -204,10 +204,10 @@ void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_
             cout << "status" << status << endl;
             cout << "index " << index << endl;
             cout << "mass " << particle->GetM() << endl;
-            // cout << "particle_4mom px " << particle_4mom.Px() << endl;
-            // cout << "particle_4mom py " << particle_4mom.Py() << endl;
-            // cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
-            // cout << "particle_4mom E " << particle_4mom.E() << endl;
+            cout << "particle_4mom px " << particle_4mom.Px() << endl;
+            cout << "particle_4mom py " << particle_4mom.Py() << endl;
+            cout << "particle_4mom pz " << particle_4mom.Pz() << endl;
+            cout << "particle_4mom E " << particle_4mom.E() << endl;
             // }
 
             total4Mom_outgoing += particle_4mom;   
