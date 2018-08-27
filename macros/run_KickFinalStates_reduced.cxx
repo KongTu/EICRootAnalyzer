@@ -154,6 +154,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
    
    if( doKick ){
 
+      return;
+
       t = particle_4mom_neutron_bKick + particle_4mom_proton_bKick + particle_4mom_jpsi_bKick;
       k = particle_4mom_neutron + particle_4mom_neutron + particle_4mom_jpsi;
 
@@ -181,7 +183,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       double p_py = particle_4mom_proton_bKick.Py();
       double p_pz = particle_4mom_proton_bKick.Pz();
       double p_E = sqrt(p_px*p_px + p_py*p_py + p_pz*p_pz + MASS_PROTON*MASS_PROTON);
-
 
       //neutron 3 momentum:
       double n_px = particle_4mom_neutron_bKick.Px();
@@ -275,7 +276,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 99 || k_min == 9 ) continue;//hit the boundary continue;
 
-      return;
    }//end of kick
    else{
       //keep it empty
