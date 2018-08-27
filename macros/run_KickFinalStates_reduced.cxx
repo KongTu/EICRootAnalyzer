@@ -9,7 +9,6 @@ TH2D* deltaEtadeltaPhi = new TH2D("deltaEtadeltaPhi",";#eta;#phi",200,-20,20,30,
 
 void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilename ) {
    
-
 	TChain *tree = new TChain("EICTree");
 	tree->Add("../../EICTree/eD_Jpsidiffnodecay_EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
 
@@ -75,13 +74,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       TLorentzVector particle_4mom_photon;
       TLorentzVector particle_4mom_electron_prime;
-      
-      double comp_init = -50;
-      double delta_init = -5;
-      double kappa_init = -5;
-
-      const int iteration_1 = 100;
-      const int iteration_2 = 10;
       
       double E_min = 1.0;
       double comp_min = 0.;
@@ -162,6 +154,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
    
    if( doKick ){
 
+      return;
+      
       t = particle_4mom_neutron_bKick + particle_4mom_proton_bKick + particle_4mom_jpsi_bKick;
       k = particle_4mom_neutron + particle_4mom_neutron + particle_4mom_jpsi;
 
@@ -190,6 +184,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       double p_pz = particle_4mom_proton_bKick.Pz();
       double p_E = sqrt(p_px*p_px + p_py*p_py + p_pz*p_pz + MASS_PROTON*MASS_PROTON);
 
+
       //neutron 3 momentum:
       double n_px = particle_4mom_neutron_bKick.Px();
       double n_py = particle_4mom_neutron_bKick.Py();
@@ -201,6 +196,13 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       double j_py = particle_4mom_jpsi_bKick.Py();
       double j_pz = particle_4mom_jpsi_bKick.Pz();
       double j_E = sqrt(j_px*j_px + j_py*j_py + j_pz*j_pz + MASS_JPSI*MASS_JPSI);
+
+      double comp_init = -50;
+      double delta_init = -5;
+      double kappa_init = -5;
+
+      const int iteration_1 = 100;
+      const int iteration_2 = 10;
 
       double comp[iteration_1];
       double delta[iteration_2];
@@ -273,7 +275,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
    // cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
    // cout << "E diff: " << E_min <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
 
-      //if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 99 || k_min == 9 ) continue;//hit the boundary continue;
+      if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 99 || k_min == 9 ) continue;//hit the boundary continue;
 
    }//end of kick
 
