@@ -222,55 +222,55 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       // int j_min = 0;
       // int k_min = 0;
 //
-      for(int iter = 0; iter < iteration_2; iter++){//delta
-         for(int jter = 0; jter < iteration_1; jter++){//comp
-            for(int kter = 0; kter < iteration_2; kter++){//kappa
+      // for(int iter = 0; iter < iteration_2; iter++){//delta
+      //    for(int jter = 0; jter < iteration_1; jter++){//comp
+      //       for(int kter = 0; kter < iteration_2; kter++){//kappa
 
-            double p_py_prime = p_py + kick_py;
-            double n_py_prime = n_py - kick_py + delta[iter];
-            double j_py_prime = j_py - delta[iter];
+      //       double p_py_prime = p_py + kick_py;
+      //       double n_py_prime = n_py - kick_py + delta[iter];
+      //       double j_py_prime = j_py - delta[iter];
 
-            double p_px_prime = p_px + kick_px; 
-            double n_px_prime = n_px - kick_px + kappa[kter];
-            double j_px_prime = j_px - kappa[kter];
+      //       double p_px_prime = p_px + kick_px; 
+      //       double n_px_prime = n_px - kick_px + kappa[kter];
+      //       double j_px_prime = j_px - kappa[kter];
 
-            double p_pz_prime = p_pz + comp[jter];
-            double n_pz_prime = n_pz - comp[jter];
-            double j_pz_prime = j_pz;
+      //       double p_pz_prime = p_pz + comp[jter];
+      //       double n_pz_prime = n_pz - comp[jter];
+      //       double j_pz_prime = j_pz;
 
-            double p_E_prime = sqrt(p_px_prime*p_px_prime + p_py_prime*p_py_prime + p_pz_prime*p_pz_prime + MASS_PROTON*MASS_PROTON);
-            double n_E_prime = sqrt(n_px_prime*n_px_prime + n_py_prime*n_py_prime + n_pz_prime*n_pz_prime + MASS_NEUTRON*MASS_NEUTRON);
-            double j_E_prime = sqrt(j_px_prime*j_px_prime + j_py_prime*j_py_prime + j_pz_prime*j_pz_prime + MASS_JPSI*MASS_JPSI);
+      //       double p_E_prime = sqrt(p_px_prime*p_px_prime + p_py_prime*p_py_prime + p_pz_prime*p_pz_prime + MASS_PROTON*MASS_PROTON);
+      //       double n_E_prime = sqrt(n_px_prime*n_px_prime + n_py_prime*n_py_prime + n_pz_prime*n_pz_prime + MASS_NEUTRON*MASS_NEUTRON);
+      //       double j_E_prime = sqrt(j_px_prime*j_px_prime + j_py_prime*j_py_prime + j_pz_prime*j_pz_prime + MASS_JPSI*MASS_JPSI);
 
-            p3.SetPxPyPzE(p_px_prime,p_py_prime,p_pz_prime,p_E_prime);
-            p4.SetPxPyPzE(n_px_prime,n_py_prime,n_pz_prime,n_E_prime);
-            p5.SetPxPyPzE(j_px_prime,j_py_prime,j_pz_prime,j_E_prime);
+      //       p3.SetPxPyPzE(p_px_prime,p_py_prime,p_pz_prime,p_E_prime);
+      //       p4.SetPxPyPzE(n_px_prime,n_py_prime,n_pz_prime,n_E_prime);
+      //       p5.SetPxPyPzE(j_px_prime,j_py_prime,j_pz_prime,j_E_prime);
 
-            k = p3+p4+p5;
+      //       k = p3+p4+p5;
 
-            double E_DIFF = t.E() - k.E();
-            double pz_DIFF = t.Pz() - k.Pz();
+      //       double E_DIFF = t.E() - k.E();
+      //       double pz_DIFF = t.Pz() - k.Pz();
 
-               if( fabs(E_DIFF) < fabs(E_min) ) {
+      //          if( fabs(E_DIFF) < fabs(E_min) ) {
 
-                  E_min = E_DIFF;
-                  comp_min = comp[jter];
-                  delta_min = delta[iter];
-                  kappa_min = kappa[kter];
+      //             E_min = E_DIFF;
+      //             comp_min = comp[jter];
+      //             delta_min = delta[iter];
+      //             kappa_min = kappa[kter];
 
-                  i_min = iter;
-                  j_min = jter;
-                  k_min = kter;  
+      //             i_min = iter;
+      //             j_min = jter;
+      //             k_min = kter;  
 
-                  particle_4mom_proton = p3;
-                  particle_4mom_neutron = p4;
-                  particle_4mom_jpsi = p5;
-               }
+      //             particle_4mom_proton = p3;
+      //             particle_4mom_neutron = p4;
+      //             particle_4mom_jpsi = p5;
+      //          }
 
-            }
-         }
-      }
-
+      //       }
+      //    }
+      // }
+//
    // cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
    // cout << "E diff: " << E_min <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
 
