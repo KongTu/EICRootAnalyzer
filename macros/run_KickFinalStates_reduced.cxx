@@ -229,34 +229,18 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          for(int jter = 0; jter < iteration_1; jter++){//comp
             for(int kter = 0; kter < iteration_2; kter++){//kappa
 
-            // if( phi_kick > 0 ){
+            double p_py_prime = p_py + kick_py;
+            double n_py_prime = n_py - kick_py + delta[iter];
+            double j_py_prime = j_py - delta[iter];
 
-            //    double p_py_prime = p_py + kick_py;
-            //    double n_py_prime = n_py - kick_py + delta[iter];
-            //    double j_py_prime = j_py - delta[iter];
+            double p_px_prime = p_px + kick_px; 
+            double n_px_prime = n_px - kick_px + kappa[kter];
+            double j_px_prime = j_px - kappa[kter];
 
-            //    double p_px_prime = p_px + kick_px; 
-            //    double n_px_prime = n_px - kick_px + kappa[kter];
-            //    double j_px_prime = j_px - kappa[kter];
-
-            //    double p_pz_prime = p_pz + comp[jter];
-            //    double n_pz_prime = n_pz - comp[jter];
-            //    double j_pz_prime = j_pz;
-            // }
-            // else{
-               double n_py_prime = n_py + kick_py;
-               double p_py_prime = p_py - kick_py + delta[iter];
-               double j_py_prime = j_py - delta[iter];
-
-               double n_px_prime = n_px + kick_px; 
-               double p_px_prime = p_px - kick_px + kappa[kter];
-               double j_px_prime = j_px - kappa[kter];
-
-               double p_pz_prime = p_pz + comp[jter];
-               double n_pz_prime = n_pz - comp[jter];
-               double j_pz_prime = j_pz;
-            //}
-
+            double p_pz_prime = p_pz + comp[jter];
+            double n_pz_prime = n_pz - comp[jter];
+            double j_pz_prime = j_pz;
+      
             double p_E_prime = sqrt(p_px_prime*p_px_prime + p_py_prime*p_py_prime + p_pz_prime*p_pz_prime + MASS_PROTON*MASS_PROTON);
             double n_E_prime = sqrt(n_px_prime*n_px_prime + n_py_prime*n_py_prime + n_pz_prime*n_pz_prime + MASS_NEUTRON*MASS_NEUTRON);
             double j_E_prime = sqrt(j_px_prime*j_px_prime + j_py_prime*j_py_prime + j_pz_prime*j_pz_prime + MASS_JPSI*MASS_JPSI);
@@ -291,8 +275,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       }
       
       if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 99 || k_min == 9 ) continue;//hit the boundary continue;
-      // cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
-      // cout << "E diff: " << E_min <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
+      cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
+      cout << "E diff: " << E_min <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
 
    }//end of kick
 
