@@ -154,6 +154,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
    
    if( doKick ){
 
+      cout << "what  " << endl;
       if( !doKick ) return;
 
       t = particle_4mom_neutron_bKick + particle_4mom_proton_bKick + particle_4mom_jpsi_bKick;
