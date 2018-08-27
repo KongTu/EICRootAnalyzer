@@ -146,15 +146,17 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       t = particle_4mom_neutron_bKick + particle_4mom_proton_bKick + particle_4mom_jpsi_bKick;
 
-      TF1 *fa_x = new TF1("fa_x","[0]*TMath::Exp(-0.5*((x-[1])/[2])^2)",-3,3);
+      TF1 *fa_x = new TF1("fa_x","[0]*TMath::Exp([3]*((x-[1])/[2])^2)",-3,3);
       fa_x->SetParameter(0,1);
       fa_x->SetParameter(1,0);
-      fa_x->SetParameter(2,-3);
+      fa_x->SetParameter(2,0.5);
+      fa_x->SetParameter(3,-3);
 
-      TF1 *fa_y = new TF1("fa_y","[0]*TMath::Exp(-0.5*((x-[1])/[2])^2)",-3,3);
+      TF1 *fa_y = new TF1("fa_y","[0]*TMath::Exp([3]*((x-[1])/[2])^2)",-3,3);
       fa_y->SetParameter(0,1);
       fa_y->SetParameter(1,0);
-      fa_y->SetParameter(2,-3);
+      fa_y->SetParameter(2,0.5);
+      fa_y->SetParameter(3,-3);
 
       double kick_px = fa_x->GetRandom();
       double kick_py = fa_y->GetRandom();
