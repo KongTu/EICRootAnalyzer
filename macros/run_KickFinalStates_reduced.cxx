@@ -157,9 +157,9 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       double kick_px = fa_x->GetRandom();
       double kick_py = fa_y->GetRandom();
 
-      // TF1 *phiran = new TF1("phiran","[0]*1",-PI,PI);
-      // phiran->SetParameter(0,1);
-      // double phi_kick = phiran->GetRandom();
+      TF1 *phiran = new TF1("phiran","[0]*1",-PI,PI);
+      phiran->SetParameter(0,1);
+      double phi_kick = phiran->GetRandom();
 
       // if( phi_kick >= 0 ){
       //    kick_px = kick_py/TMath::Tan(phi_kick);
@@ -229,17 +229,33 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          for(int jter = 0; jter < iteration_1; jter++){//comp
             for(int kter = 0; kter < iteration_2; kter++){//kappa
 
-            double p_py_prime = p_py + kick_py;
-            double n_py_prime = n_py - kick_py + delta[iter];
-            double j_py_prime = j_py - delta[iter];
+            if( phi_kick > 0 ){
 
-            double p_px_prime = p_px + kick_px; 
-            double n_px_prime = n_px - kick_px + kappa[kter];
-            double j_px_prime = j_px - kappa[kter];
+               double p_py_prime = p_py + kick_py;
+               double n_py_prime = n_py - kick_py + delta[iter];
+               double j_py_prime = j_py - delta[iter];
 
-            double p_pz_prime = p_pz + comp[jter];
-            double n_pz_prime = n_pz - comp[jter];
-            double j_pz_prime = j_pz;
+               double p_px_prime = p_px + kick_px; 
+               double n_px_prime = n_px - kick_px + kappa[kter];
+               double j_px_prime = j_px - kappa[kter];
+
+               double p_pz_prime = p_pz + comp[jter];
+               double n_pz_prime = n_pz - comp[jter];
+               double j_pz_prime = j_pz;
+            }
+            else{
+               double n_py_prime = n_py + kick_py;
+               double p_py_prime = p_py - kick_py + delta[iter];
+               double j_py_prime = j_py - delta[iter];
+
+               double n_px_prime = n_px + kick_px; 
+               double p_px_prime = p_px - kick_px + kappa[kter];
+               double j_px_prime = j_px - kappa[kter];
+
+               double p_pz_prime = p_pz + comp[jter];
+               double n_pz_prime = n_pz - comp[jter];
+               double j_pz_prime = j_pz;
+            }
 
             double p_E_prime = sqrt(p_px_prime*p_px_prime + p_py_prime*p_py_prime + p_pz_prime*p_pz_prime + MASS_PROTON*MASS_PROTON);
             double n_E_prime = sqrt(n_px_prime*n_px_prime + n_py_prime*n_py_prime + n_pz_prime*n_pz_prime + MASS_NEUTRON*MASS_NEUTRON);
