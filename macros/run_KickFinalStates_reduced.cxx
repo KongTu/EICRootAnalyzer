@@ -9,8 +9,7 @@ TH2D* deltaEtadeltaPhi = new TH2D("deltaEtadeltaPhi",";#eta;#phi",200,-20,20,30,
 TH1D* px_dist = new TH1D("px_dist",";px",1000,-10,10);
 TH1D* py_dist = new TH1D("py_dist",";py",1000,-10,10);
 
-void kickit(TLorentzVector particle_4mom_neutron_bKick, TLorentzVector particle_4mom_proton_bKick, TLorentzVector particle_4mom_jpsi_bKick,
-   TLorentzVector particle_4mom_neutron, TLorentzVector particle_4mom_proton, TLorentzVector particle_4mom_jpsi){
+void kickit(TLorentzVector particle_4mom_neutron_bKick, TLorentzVector particle_4mom_proton_bKick, TLorentzVector particle_4mom_jpsi_bKick){
 
    TLorentzVector t,k;
    TLorentzVector p3,p4,p5;
@@ -279,7 +278,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
 	if( nParticles_process != 4 ) continue;
    
-   if( doKick ){ kickit(particle_4mom_neutron_bKick,particle_4mom_proton_bKick,particle_4mom_jpsi_bKick,particle_4mom_neutron,particle_4mom_proton,particle_4mom_jpsi); }//end of kick
+   if( doKick ){ kickit(particle_4mom_neutron_bKick,particle_4mom_proton_bKick,particle_4mom_jpsi_bKick); }//end of kick
 
    total4Mom_outgoing = particle_4mom_proton + particle_4mom_neutron + particle_4mom_jpsi + particle_4mom_electron_prime;
 
