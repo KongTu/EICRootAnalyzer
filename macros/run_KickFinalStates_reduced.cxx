@@ -161,7 +161,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       // fa->SetParameter(1,-3);
 
       double kick_px = 0.;
-      double kick_py = 1.//fa->GetRandom();
+      double kick_py = 1.;//fa->GetRandom();
 
       // TF1 *phiran = new TF1("phiran","[0]*1",-3.1415926,3.1415926);
       // phiran->SetParameter(0,1);
