@@ -98,6 +98,9 @@ TH1D* PtDist_neutron = new TH1D("PtDist_neutron",";PtDist_neutron", 200, 0,10);
 TH1D* PhiDist_neutron = new TH1D("PhiDist_neutron",";PhiDist_neutron", 200, -10,10);
 TH1D* EtaDist_neutron = new TH1D("EtaDist_neutron",";EtaDist_neutron", 2000, -20,20);
 
+TH1D* px_dist = new TH1D("px_dist",";px",1000,-10,10);
+TH1D* py_dist = new TH1D("py_dist",";py",1000,-10,10);
+
 vector<TLorentzVector> kickit(TLorentzVector particle_4mom_neutron_bKick, TLorentzVector particle_4mom_proton_bKick, TLorentzVector particle_4mom_jpsi_bKick){
 
    TLorentzVector t,k;
@@ -235,7 +238,7 @@ vector<TLorentzVector> kickit(TLorentzVector particle_4mom_neutron_bKick, TLoren
    ParticleCollection.push_back( particle_4mom_neutron );
    ParticleCollection.push_back( particle_4mom_jpsi );
    
-   if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 99 || k_min == 9 ) return;//hit the boundary continue;
+   //if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 99 || k_min == 9 ) return ;//hit the boundary continue;
 
    return ParticleCollection;
    // cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
