@@ -74,15 +74,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       TLorentzVector particle_4mom_photon;
       TLorentzVector particle_4mom_electron_prime;
-      
-      double E_min = 1.0;
-      double comp_min = 0.;
-      double delta_min = 0.;
-      double kappa_min = 0.;
-
-      int i_min = 0;
-      int j_min = 0;
-      int k_min = 0;
 
       if( event_process != 91 ) continue;
       
@@ -156,42 +147,51 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       t = particle_4mom_neutron_bKick + particle_4mom_proton_bKick + particle_4mom_jpsi_bKick;
       k = particle_4mom_neutron + particle_4mom_neutron + particle_4mom_jpsi;
 
-      // TF1 *fa = new TF1("fa","[0]*TMath::Abs(TMath::Exp([1]*x))",0,2);
-      // fa->SetParameter(0,1);
-      // fa->SetParameter(1,-3);
+      TF1 *fa = new TF1("fa","[0]*TMath::Abs(TMath::Exp([1]*x))",0,2);
+      fa->SetParameter(0,1);
+      fa->SetParameter(1,-3);
 
       double kick_px = 0.;
-      double kick_py = 1.;//fa->GetRandom();
+      double kick_py = fa->GetRandom();
 
-      // TF1 *phiran = new TF1("phiran","[0]*1",-3.1415926,3.1415926);
-      // phiran->SetParameter(0,1);
-      // double phi_kick = phiran->GetRandom();
+      TF1 *phiran = new TF1("phiran","[0]*1",-3.1415926,3.1415926);
+      phiran->SetParameter(0,1);
+      double phi_kick = phiran->GetRandom();
 
-      // if( phi_kick > 0 ){
-      //    kick_px = kick_py/TMath::ATan(phi_kick);
-      // }
-      // else{
-      //    kick_py = -kick_py;
-      //    kick_px = kick_py/TMath::ATan(phi_kick);
-      // }
+      if( phi_kick > 0 ){
+         kick_px = kick_py/TMath::ATan(phi_kick);
+      }
+      else{
+         kick_py = -kick_py;
+         kick_px = kick_py/TMath::ATan(phi_kick);
+      }
 
-      // //proton 3 momentum:
-      // double p_px = particle_4mom_proton_bKick.Px();
-      // double p_py = particle_4mom_proton_bKick.Py();
-      // double p_pz = particle_4mom_proton_bKick.Pz();
-      // double p_E = sqrt(p_px*p_px + p_py*p_py + p_pz*p_pz + MASS_PROTON*MASS_PROTON);
+      //proton 3 momentum:
+      double p_px = particle_4mom_proton_bKick.Px();
+      double p_py = particle_4mom_proton_bKick.Py();
+      double p_pz = particle_4mom_proton_bKick.Pz();
+      double p_E = sqrt(p_px*p_px + p_py*p_py + p_pz*p_pz + MASS_PROTON*MASS_PROTON);
 
-      // //neutron 3 momentum:
-      // double n_px = particle_4mom_neutron_bKick.Px();
-      // double n_py = particle_4mom_neutron_bKick.Py();
-      // double n_pz = particle_4mom_neutron_bKick.Pz(); 
-      // double n_E = sqrt(n_px*n_px + n_py*n_py + n_pz*n_pz + MASS_NEUTRON*MASS_NEUTRON);
+      //neutron 3 momentum:
+      double n_px = particle_4mom_neutron_bKick.Px();
+      double n_py = particle_4mom_neutron_bKick.Py();
+      double n_pz = particle_4mom_neutron_bKick.Pz(); 
+      double n_E = sqrt(n_px*n_px + n_py*n_py + n_pz*n_pz + MASS_NEUTRON*MASS_NEUTRON);
 
-      // //Jpsi 3 momentum:
-      // double j_px = particle_4mom_jpsi_bKick.Px();
-      // double j_py = particle_4mom_jpsi_bKick.Py();
-      // double j_pz = particle_4mom_jpsi_bKick.Pz();
-      // double j_E = sqrt(j_px*j_px + j_py*j_py + j_pz*j_pz + MASS_JPSI*MASS_JPSI);
+      //Jpsi 3 momentum:
+      double j_px = particle_4mom_jpsi_bKick.Px();
+      double j_py = particle_4mom_jpsi_bKick.Py();
+      double j_pz = particle_4mom_jpsi_bKick.Pz();
+      double j_E = sqrt(j_px*j_px + j_py*j_py + j_pz*j_pz + MASS_JPSI*MASS_JPSI);
+
+      double E_min = 1.0;
+      double comp_min = 0.;
+      double delta_min = 0.;
+      double kappa_min = 0.;
+
+      int i_min = 0;
+      int j_min = 0;
+      int k_min = 0;
 
       double comp_init = -50;
       double delta_init = -5;
