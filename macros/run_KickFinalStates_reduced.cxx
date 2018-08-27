@@ -186,42 +186,42 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       // double j_py = particle_4mom_jpsi_bKick.Py();
       // double j_pz = particle_4mom_jpsi_bKick.Pz();
       // double j_E = sqrt(j_px*j_px + j_py*j_py + j_pz*j_pz + MASS_JPSI*MASS_JPSI);
+//
+      // double comp_init = -50;
+      // double delta_init = -5;
+      // double kappa_init = -5;
 
-      double comp_init = -50;
-      double delta_init = -5;
-      double kappa_init = -5;
+      // const int iteration_1 = 100;
+      // const int iteration_2 = 10;
 
-      const int iteration_1 = 100;
-      const int iteration_2 = 10;
+      // double comp[iteration_1];
+      // double delta[iteration_2];
+      // double kappa[iteration_2];
 
-      double comp[iteration_1];
-      double delta[iteration_2];
-      double kappa[iteration_2];
+      // for(int jter = 0; jter < iteration_1; jter++){
 
-      for(int jter = 0; jter < iteration_1; jter++){
+      //    double temp = comp_init+1.*jter;
+      //    comp[jter] = temp;  
+      // }
 
-         double temp = comp_init+1.*jter;
-         comp[jter] = temp;  
-      }
+      // for(int jter = 0; jter < iteration_2; jter++){
 
-      for(int jter = 0; jter < iteration_2; jter++){
+      //    double temp = delta_init+1.*jter;
+      //    delta[jter] = temp;
 
-         double temp = delta_init+1.*jter;
-         delta[jter] = temp;
+      //    temp = kappa_init+1.*jter;
+      //    kappa[jter] = temp;
+      // }
 
-         temp = kappa_init+1.*jter;
-         kappa[jter] = temp;
-      }
+      // double E_min = 1.0;
+      // double comp_min = 0.;
+      // double delta_min = 0.;
+      // double kappa_min = 0.;
 
-      double E_min = 1.0;
-      double comp_min = 0.;
-      double delta_min = 0.;
-      double kappa_min = 0.;
-
-      int i_min = 0;
-      int j_min = 0;
-      int k_min = 0;
-
+      // int i_min = 0;
+      // int j_min = 0;
+      // int k_min = 0;
+//
       for(int iter = 0; iter < iteration_2; iter++){//delta
          for(int jter = 0; jter < iteration_1; jter++){//comp
             for(int kter = 0; kter < iteration_2; kter++){//kappa
