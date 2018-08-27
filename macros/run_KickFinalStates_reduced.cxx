@@ -13,6 +13,7 @@ void kickit(TLorentzVector particle_4mom_neutron_bKick, TLorentzVector particle_
    TLorentzVector particle_4mom_neutron, TLorentzVector particle_4mom_proton, TLorentzVector particle_4mom_jpsi){
 
    TLorentzVector t,k;
+   TLorentzVector p3,p4,p5;
 
    t = particle_4mom_neutron_bKick + particle_4mom_proton_bKick + particle_4mom_jpsi_bKick;
 
@@ -207,7 +208,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       TLorentzVector particle_4mom_proton;
       TLorentzVector particle_4mom_neutron;
       TLorentzVector particle_4mom_jpsi;
-      TLorentzVector p3,p4,p5;
 
       TLorentzVector particle_4mom_photon;
       TLorentzVector particle_4mom_electron_prime;
