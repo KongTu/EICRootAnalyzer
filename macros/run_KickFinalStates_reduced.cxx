@@ -62,7 +62,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       TLorentzVector particle_4mom;
       TLorentzVector t,k;
-      TLorentzVector p4,p5,p6;
+      TLorentzVector p3,p4,p5;
 
       TLorentzVector particle_4mom_proton_bKick;
       TLorentzVector particle_4mom_neutron_bKick;
