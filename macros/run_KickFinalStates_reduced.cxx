@@ -154,15 +154,21 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       double kick_px = 0.;
       double kick_py = fa->GetRandom();
 
-      TF1 *phiran = new TF1("phiran","[0]*1",-3.1415926,3.1415926);
+      TF1 *phiran = new TF1("phiran","[0]*1",-PI,PI);
       phiran->SetParameter(0,1);
       double phi_kick = phiran->GetRandom();
 
-      if( phi_kick > 0 ){
+      if( phi_kick > 0 && phi_kick < PI/2. ){
          kick_px = kick_py/TMath::ATan(phi_kick);
       }
-      else{
+      else if( phi_kick > PI/2. ){
+         kick_px = -kick_py/TMath::ATan(phi_kick);
+      }
+      else if( phi_kick < 0 && phi_kick > -PI/2. ) {
          kick_py = -kick_py;
+         kick_px = kick_py/TMath::ATan(phi_kick);
+      }
+      else if( phi_kick < -PI/2. ){
          kick_px = kick_py/TMath::ATan(phi_kick);
       }
 
