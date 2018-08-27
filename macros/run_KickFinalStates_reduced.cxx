@@ -9,10 +9,11 @@ TH2D* deltaEtadeltaPhi = new TH2D("deltaEtadeltaPhi",";#eta;#phi",200,-20,20,30,
 TH1D* px_dist = new TH1D("px_dist",";px",1000,-10,10);
 TH1D* py_dist = new TH1D("py_dist",";py",1000,-10,10);
 
-void kickit(TLorentzVector particle_4mom_neutron_bKick, TLorentzVector particle_4mom_proton_bKick, TLorentzVector particle_4mom_jpsi_bKick){
+vector<TLorentzVector> kickit(TLorentzVector particle_4mom_neutron_bKick, TLorentzVector particle_4mom_proton_bKick, TLorentzVector particle_4mom_jpsi_bKick){
 
    TLorentzVector t,k;
    TLorentzVector p3,p4,p5;
+   TLorentzVector particle_4mom_proton,particle_4mom_neutron,particle_4mom_jpsi;
 
    t = particle_4mom_neutron_bKick + particle_4mom_proton_bKick + particle_4mom_jpsi_bKick;
 
@@ -140,6 +141,12 @@ void kickit(TLorentzVector particle_4mom_neutron_bKick, TLorentzVector particle_
       }
    }
 
+   vector<TLorentzVector> temp;
+   temp.push_back( particle_4mom_proton );
+   temp.push_back( particle_4mom_neutron );
+   temp.push_back( particle_4mom_jpsi );
+
+   return temp;
    // cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
    // cout << "E diff: " << E_min <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
    //if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 99 || k_min == 9 ) continue;//hit the boundary continue;
@@ -278,7 +285,14 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
 	if( nParticles_process != 4 ) continue;
    
-   if( doKick ){ kickit(particle_4mom_neutron_bKick,particle_4mom_proton_bKick,particle_4mom_jpsi_bKick); }//end of kick
+   if( doKick ){ 
+
+      vector<TLorentzVector> afterKick = kickit(particle_4mom_neutron_bKick,particle_4mom_proton_bKick,particle_4mom_jpsi_bKick);
+      particle_4mom_proton = afterKick[0];
+      particle_4mom_neutron = afterKick[1];
+      particle_4mom_jpsi = afterKick[2];
+
+   }//end of kick
 
    total4Mom_outgoing = particle_4mom_proton + particle_4mom_neutron + particle_4mom_jpsi + particle_4mom_electron_prime;
 
