@@ -76,6 +76,22 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       TLorentzVector particle_4mom_photon;
       TLorentzVector particle_4mom_electron_prime;
       
+      double comp_init = -50;
+      double delta_init = -5;
+      double kappa_init = -5;
+
+      const int iteration_1 = 100;
+      const int iteration_2 = 10;
+      
+      double E_min = 1.0;
+      double comp_min = 0.;
+      double delta_min = 0.;
+      double kappa_min = 0.;
+
+      int i_min = 0;
+      int j_min = 0;
+      int k_min = 0;
+
       if( event_process != 91 ) continue;
 
       /*E-M Conservation*/
@@ -174,7 +190,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       double p_pz = particle_4mom_proton_bKick.Pz();
       double p_E = sqrt(p_px*p_px + p_py*p_py + p_pz*p_pz + MASS_PROTON*MASS_PROTON);
 
-
       //neutron 3 momentum:
       double n_px = particle_4mom_neutron_bKick.Px();
       double n_py = particle_4mom_neutron_bKick.Py();
@@ -186,13 +201,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       double j_py = particle_4mom_jpsi_bKick.Py();
       double j_pz = particle_4mom_jpsi_bKick.Pz();
       double j_E = sqrt(j_px*j_px + j_py*j_py + j_pz*j_pz + MASS_JPSI*MASS_JPSI);
-
-      double comp_init = -50;
-      double delta_init = -5;
-      double kappa_init = -5;
-
-      const int iteration_1 = 100;
-      const int iteration_2 = 10;
 
       double comp[iteration_1];
       double delta[iteration_2];
@@ -212,15 +220,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          temp = kappa_init+1.*jter;
          kappa[jter] = temp;
       }
-
-      double E_min = 1.0;
-      double comp_min = 0.;
-      double delta_min = 0.;
-      double kappa_min = 0.;
-
-      int i_min = 0;
-      int j_min = 0;
-      int k_min = 0;
 
       for(int iter = 0; iter < iteration_2; iter++){//delta
          for(int jter = 0; jter < iteration_1; jter++){//comp
