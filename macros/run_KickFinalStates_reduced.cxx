@@ -150,7 +150,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       t = particle_4mom_neutron_bKick + particle_4mom_proton_bKick + particle_4mom_jpsi_bKick;
       k = particle_4mom_neutron + particle_4mom_neutron + particle_4mom_jpsi;
 
-      TF1 *fa = new TF1("fa","[0]*TMath::Abs(TMath::Exp([1]*x))",0,2);
+      TF1 *fa = new TF1("fa","[0]*TMath::Abs(TMath::Exp([1]*x))",0,10);
       fa->SetParameter(0,1);
       fa->SetParameter(1,-3);
 
