@@ -134,9 +134,10 @@ vector<TLorentzVector> kickit(TLorentzVector particle_4mom_neutron_bKick, TLoren
    ParticleCollection.push_back( particle_4mom_proton );
    ParticleCollection.push_back( particle_4mom_neutron );
    ParticleCollection.push_back( particle_4mom_jpsi );
+   
+   if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 99 || k_min == 9 ) return;//hit the boundary continue;
 
    return ParticleCollection;
    // cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
    // cout << "E diff: " << E_min <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
-   //if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 99 || k_min == 9 ) continue;//hit the boundary continue;
 }
