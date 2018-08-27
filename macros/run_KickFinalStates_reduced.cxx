@@ -10,7 +10,7 @@ TH2D* deltaEtadeltaPhi = new TH2D("deltaEtadeltaPhi",";#eta;#phi",200,-20,20,30,
 void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilename ) {
    
 	TChain *tree = new TChain("EICTree");
-	tree->Add("../../EICTree/eD_Jpsidiffnodecay_EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_highpf_fixD.root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
+	tree->Add("../../EICTree/eD_Jpsidiffnodecay_EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
 
 	EventPythia* event(NULL);// = new EventPythia;
 
@@ -60,8 +60,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       int nParticles_process = 0;
 
-      cout << "1 " << endl;
-
       TLorentzVector particle_4mom;
       TLorentzVector t,k;
 
@@ -88,8 +86,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       if( event_process != 91 ) continue;
       
-      cout << "2 " << endl;
-
       /*E-M Conservation*/
       double pztarg_1 = 135.290727;
       double pztarg_2 = 135.103537;
@@ -107,8 +103,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
       /*end*/
       
-      cout << "3 " << endl;
-
       for(int j(0); j < nParticles; ++j ) {
          
          const erhic::ParticleMC* particle = event->GetTrack(j);
@@ -155,9 +149,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
 	} // end of particle loop
 
+   cout << "nParticles_process: " << nParticles_process << endl;
 	if( nParticles_process != 4 ) continue;
-
-   cout << "4 " << endl;
 
    
    if( doKick ){
