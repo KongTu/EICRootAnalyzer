@@ -109,7 +109,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          theta = theta*1000.0; //change to mrad;
          double mom = particle->GetP();
 
-         
          statusHist.Fill( status ); 
 
          if( index == 4 ){ //get gamma 4-momentum:
@@ -143,10 +142,11 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
 	if( nParticles_process != 4 ) continue;
 
-   TLorentzVector t = particle_4mom_neutron_bKick + particle_4mom_proton_bKick + particle_4mom_jpsi_bKick;
-   TLorentzVector k = particle_4mom_neutron + particle_4mom_neutron + particle_4mom_jpsi;
-
+   
    if( doKick ){
+
+      TLorentzVector t = particle_4mom_neutron_bKick + particle_4mom_proton_bKick + particle_4mom_jpsi_bKick;
+      TLorentzVector k = particle_4mom_neutron + particle_4mom_neutron + particle_4mom_jpsi;
 
       TF1 *fa = new TF1("fa","[0]*TMath::Abs(TMath::Exp([1]*x))",0,2);
       fa->SetParameter(0,1);
