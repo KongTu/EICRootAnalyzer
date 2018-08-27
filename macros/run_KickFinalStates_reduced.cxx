@@ -146,24 +146,28 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       t = particle_4mom_neutron_bKick + particle_4mom_proton_bKick + particle_4mom_jpsi_bKick;
 
-      TF1 *fa = new TF1("fa","[0]*TMath::Abs(TMath::Exp([1]*x))",0,10);
-      fa->SetParameter(0,1);
-      fa->SetParameter(1,-3);
+      TF1 *fa_x = new TF1("fa_x","[0]*TMath::Abs(TMath::Exp([1]*x))",-3,3);
+      fa_x->SetParameter(0,1);
+      fa_x->SetParameter(1,-3);
 
-      double kick_px = 0.;
-      double kick_py = fa->GetRandom();
+      TF1 *fa_y = new TF1("fa_y","[0]*TMath::Abs(TMath::Exp([1]*x))",-3,3);
+      fa_y->SetParameter(0,1);
+      fa_y->SetParameter(1,-3);
 
-      TF1 *phiran = new TF1("phiran","[0]*1",-PI,PI);
-      phiran->SetParameter(0,1);
-      double phi_kick = phiran->GetRandom();
+      double kick_px = fa_x->GetRandom();
+      double kick_py = fa_y->GetRandom();
 
-      if( phi_kick > 0 ){
-         kick_px = kick_py/TMath::Tan(phi_kick);
-      }
-      else if( phi_kick < 0 ) {
-         kick_py = -kick_py;
-         kick_px = kick_py/TMath::Tan(phi_kick);
-      }
+      // TF1 *phiran = new TF1("phiran","[0]*1",-PI,PI);
+      // phiran->SetParameter(0,1);
+      // double phi_kick = phiran->GetRandom();
+
+      // if( phi_kick > 0 ){
+      //    kick_px = kick_py/TMath::Tan(phi_kick);
+      // }
+      // else if( phi_kick < 0 ) {
+      //    kick_py = -kick_py;
+      //    kick_px = kick_py/TMath::Tan(phi_kick);
+      // }
 
       px_dist->Fill( kick_px );
       py_dist->Fill( kick_py );
