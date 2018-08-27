@@ -60,6 +60,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       int nParticles_process = 0;
 
+      cout << "1 " << endl;
+
       TLorentzVector particle_4mom;
       TLorentzVector t,k;
 
@@ -85,6 +87,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       int k_min = 0;
 
       if( event_process != 91 ) continue;
+      
+      cout << "2 " << endl;
 
       /*E-M Conservation*/
       double pztarg_1 = 135.290727;
@@ -102,6 +106,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
       TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
       /*end*/
+      
+      cout << "3 " << endl;
 
       for(int j(0); j < nParticles; ++j ) {
          
@@ -150,6 +156,8 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	} // end of particle loop
 
 	if( nParticles_process != 4 ) continue;
+
+   cout << "4 " << endl;
 
    
    if( doKick ){
