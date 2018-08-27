@@ -279,7 +279,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
 	if( nParticles_process != 4 ) continue;
    
-   if( doKick ){ kickit(particle_4mom_neutron_bKick,particle_4mom_proton_bKick,particle_4mom_jpsi_bKick,particle_4mom_neutron,particle_4mom_proton,particle_4mom_jpsi) }//end of kick
+   if( doKick ){ kickit(particle_4mom_neutron_bKick,particle_4mom_proton_bKick,particle_4mom_jpsi_bKick,particle_4mom_neutron,particle_4mom_proton,particle_4mom_jpsi); }//end of kick
 
    total4Mom_outgoing = particle_4mom_proton + particle_4mom_neutron + particle_4mom_jpsi + particle_4mom_electron_prime;
 
