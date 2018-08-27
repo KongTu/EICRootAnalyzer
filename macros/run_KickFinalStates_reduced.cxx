@@ -149,9 +149,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
 	} // end of particle loop
 
-   cout << "nParticles_process: " << nParticles_process << endl;
 	if( nParticles_process != 4 ) continue;
-
    
    if( doKick ){
 
