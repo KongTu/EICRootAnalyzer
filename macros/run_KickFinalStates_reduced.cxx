@@ -158,18 +158,12 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       phiran->SetParameter(0,1);
       double phi_kick = phiran->GetRandom();
 
-      if( phi_kick > 0 && phi_kick < PI/2. ){
-         kick_px = kick_py/TMath::ATan(phi_kick);
+      if( phi_kick > 0 ){
+         kick_px = kick_py/TMath::Tan(phi_kick);
       }
-      else if( phi_kick > PI/2. ){
-         kick_px = -kick_py/TMath::ATan(phi_kick);
-      }
-      else if( phi_kick < 0 && phi_kick > -PI/2. ) {
+      else if( phi_kick < 0 ) {
          kick_py = -kick_py;
-         kick_px = kick_py/TMath::ATan(phi_kick);
-      }
-      else if( phi_kick < -PI/2. ){
-         kick_px = kick_py/TMath::ATan(phi_kick);
+         kick_px = kick_py/TMath::Tan(phi_kick);
       }
 
       //proton 3 momentum:
