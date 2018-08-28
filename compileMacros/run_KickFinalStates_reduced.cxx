@@ -304,7 +304,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	t1_dist->Fill( t_proton_squared );
 
 	TLorentzVector t2_proton = particle_4mom_proton - total4Mom_deuteron;//(p'-p)
-	double t_proton_squared = t2_proton.Mag2();
+	t_proton_squared = t2_proton.Mag2();
 
 	t2_dist->Fill( t_proton_squared );
 
