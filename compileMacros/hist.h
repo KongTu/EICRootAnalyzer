@@ -54,6 +54,8 @@
 #define MASS_PB208    193.69769264273208
 // Histograms for our analysis.
 
+using namespace erhic;
+
 TH1D* sNN_dist = new TH1D("sNN_dist","s_{_{NN}} ",300,0,30);
 
 //TH2D DIS kinematics:
