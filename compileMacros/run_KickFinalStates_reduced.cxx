@@ -1,5 +1,8 @@
 #include "hist.h"//define all the histograms
 
+using namespace std;
+using namespace erhic;
+
 void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilename ) {
    
 	TChain *tree = new TChain("EICTree");
