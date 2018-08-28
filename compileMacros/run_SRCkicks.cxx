@@ -40,6 +40,7 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
       double photon_flux = event->GetPhotonFlux();
       Int_t event_process = event->GetProcess();
       
+      cout << "trueQ2: " << event->GetTrueQ2() << endl;
       cout << "event_process: " << event_process << endl;
       cout << "event ntracks: " << event->GetNTracks() << endl;
 
