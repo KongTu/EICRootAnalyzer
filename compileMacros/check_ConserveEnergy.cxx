@@ -36,15 +36,10 @@
 #include "TGraphErrors.h"
 #include "TLorentzVector.h"
 #include "TBranchElement.h"
-// read.cxx
-//
-// Created by TB on 6/13/11.
-// Copyright 2011 BNL. All rights reserved.
-//
-// Example of how to read a file produced by BuildTree for a simple analysis.
-// To run, in ROOT do:
-// root [0] .L /path/to/read.cxx
-// root [1] read("myInputFile.root", 10000 )
+
+using namespace std;
+using namespace erhic;
+
 #define PI            3.1415926
 
 #define MASS_PROTON   0.93827
