@@ -155,11 +155,11 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			px_dist->Fill( kick_px );
 			py_dist->Fill( kick_py );
 
-			double kick_pt = sqrt(kick_px*kick_px + kick_py*kick_py);
-			double Kphi = TMath::ATan(kick_py/kick_px);
+			// double kick_pt = sqrt(kick_px*kick_px + kick_py*kick_py);
+			// double Kphi = TMath::ATan(kick_py/kick_px);
 
 			pt_dist->Fill( kick_pt );
-			phi_dist->Fill( Kphi );
+			phi_dist->Fill( phi_kick );
 
 			//proton 3 momentum:
 			double p_px = particle_4mom_proton_bKick.Px();
