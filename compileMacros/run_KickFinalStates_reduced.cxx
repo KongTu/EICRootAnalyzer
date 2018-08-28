@@ -44,6 +44,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       int event_process = event->GetProcess();
       cout << "event_process: " << event_process << endl;
+      cout << "event ntracks: " << event->GetNTracks() << endl;
 
       Q2VsX->Fill(trueX, trueQ2);
       W2VsFlux->Fill(photon_flux, trueW2);
