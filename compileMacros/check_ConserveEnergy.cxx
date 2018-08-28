@@ -60,7 +60,7 @@
 #define MASS_AU197    183.45406466643374
 #define MASS_PB208    193.69769264273208
 
-void run_test( int nEvents, bool doBoost, TString inputFilename, TString system_name ) {
+void check_ConserveEnergy( int nEvents, bool doBoost, TString inputFilename, TString system_name ) {
    
    // If the analysis solely uses TTree::Draw statements, you don't need to load
    // the shared library. You will receive warnings such as
