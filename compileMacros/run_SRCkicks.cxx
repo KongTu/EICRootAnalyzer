@@ -25,64 +25,110 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 
 	for(int i(0); i < nEvents; ++i ) {
       
-      // Read the next entry from the tree.
-      tree->GetEntry(i);
+		// Read the next entry from the tree.
+		tree->GetEntry(i);
 
-      //event information:
-      double trueQ2 = event->GetTrueQ2();
-      double trueW2 = event->GetTrueW2();
-      double trueX = event->GetTrueX();
-      double trueY = event->GetTrueY();
-      double trueNu = event->GetTrueNu();
-      double s_hat = event->GetHardS();
-      double t_hat = event->GetHardT();
-      double u_hat = event->GetHardU();
-      double photon_flux = event->GetPhotonFlux();
-      int event_process = event->GetProcess();
-      
-      int nParticles = event->GetNTracks();
-      //event t_hat
+		//event information:
+		double trueQ2 = event->GetTrueQ2();
+		double trueW2 = event->GetTrueW2();
+		double trueX = event->GetTrueX();
+		double trueY = event->GetTrueY();
+		double trueNu = event->GetTrueNu();
+		double s_hat = event->GetHardS();
+		double t_hat = event->GetHardT();
+		double u_hat = event->GetHardU();
+		double photon_flux = event->GetPhotonFlux();
+		int event_process = event->GetProcess();
+		int nParticles = event->GetNTracks();
+		//event t_hat
 
-      // We now know the number of particles in the event, so loop over
-      // the particles:
-      int nParticles_process = 0;
+		// We now know the number of particles in the event, so loop over
+		// the particles:
+		int nParticles_process = 0;
 
-      TLorentzVector particle_4mom;
-      TLorentzVector t,k;
-      TLorentzVector p3,p4,p5;
+		TLorentzVector particle_4mom;
+		TLorentzVector t,k;
+		TLorentzVector p3,p4,p5;
 
-      TLorentzVector particle_4mom_proton_bKick;
-      TLorentzVector particle_4mom_neutron_bKick;
-      TLorentzVector particle_4mom_jpsi_bKick;
+		TLorentzVector particle_4mom_proton_bKick;
+		TLorentzVector particle_4mom_neutron_bKick;
+		TLorentzVector particle_4mom_jpsi_bKick;
 
-      TLorentzVector particle_4mom_proton;
-      TLorentzVector particle_4mom_neutron;
-      TLorentzVector particle_4mom_jpsi;
+		TLorentzVector particle_4mom_proton;
+		TLorentzVector particle_4mom_neutron;
+		TLorentzVector particle_4mom_jpsi;
 
-      TLorentzVector particle_4mom_photon;
-      TLorentzVector particle_4mom_electron_prime;
+		TLorentzVector particle_4mom_photon;
+		TLorentzVector particle_4mom_electron_prime;
 
-      //if( event_process != 91 ) continue;
-      
-      /*E-M Conservation*/
-      double pztarg_1 = 135.290727;
-      double pztarg_2 = 135.103537;
-      double pz_total = pztarg_1+pztarg_2;
-      double total_energy = sqrt(pz_total*pz_total + MASS_DEUTERON*MASS_DEUTERON);
-      //electron, neglect electron mass
-      double pz_lepton = branch_pzlep->GetValue(0,0);
-      double electron_mass = 0.00051;
-      double total_lep_energy = sqrt(pz_lepton*pz_lepton + electron_mass*electron_mass);
+		//if( event_process != 91 ) continue;
 
-      TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
-      TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
+		/*E-M Conservation*/
+		double pztarg_1 = 135.290727;
+		double pztarg_2 = 135.103537;
+		double pz_total = pztarg_1+pztarg_2;
+		double total_energy = sqrt(pz_total*pz_total + MASS_DEUTERON*MASS_DEUTERON);
+		//electron, neglect electron mass
+		double pz_lepton = branch_pzlep->GetValue(0,0);
+		double electron_mass = 0.00051;
+		double total_lep_energy = sqrt(pz_lepton*pz_lepton + electron_mass*electron_mass);
 
-      TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
-      TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
-      /*end*/
+		TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
+		TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
 
-      cout << "total energy: " << total4Mom_incoming.E() << endl;
+		TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
+		TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
+		/*end*/
 
-   } // for
+		cout << "total energy: " << total4Mom_incoming.E() << endl;
+
+		for(int j(0); j < nParticles; ++j ) {
+
+			const erhic::ParticleMC* particle = event->GetTrack(j);
+
+			int pdg = particle->id;
+			int status = particle->GetStatus();
+			int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
+			double pt = particle->GetPt();
+			double eta = particle->GetEta();
+			double phi = particle->GetPhi();
+			double mass = particle->GetM();
+			double theta = particle->GetTheta(); 
+			theta = theta*1000.0; //change to mrad;
+			double mom = particle->GetP();
+
+			statusHist.Fill( status ); 
+
+			if( index == 4 ){ //get gamma 4-momentum:
+
+			particle_4mom_photon = particle->Get4Vector(); 
+			}
+			if( index == 3 ){
+			particle_4mom_electron_prime = particle->Get4Vector();
+			}
+			if( status != 1 ) continue; //only stable final-state particles 
+			if( pdg == 443 ){//Jpsi
+
+			particle_4mom_jpsi_bKick = particle->Get4Vector();
+			particle_4mom_jpsi = particle->Get4Vector();
+			}
+			if( pdg == 2212 ){//proton
+
+				//SetPtEtaPhiM(pt,eta,phi,mass);//this won't work if there is no pT 
+			particle_4mom_proton_bKick = particle->Get4Vector();
+			particle_4mom_proton = particle->Get4Vector();
+			}
+			if( pdg == 2112 ){//neutron
+
+			particle_4mom_neutron_bKick = particle->Get4Vector();
+			particle_4mom_neutron = particle->Get4Vector();
+			}
+
+			nParticles_process++;
+
+		} // end of particle loop
+
+		cout << "nParticles_process :" << nParticles_process << endl;
+   } // end of event loop
 
 }
