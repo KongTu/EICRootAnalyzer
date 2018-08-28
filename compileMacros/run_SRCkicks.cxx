@@ -144,13 +144,13 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			double phi_kick = phiran->GetRandom();
 
 			if( prob > 0 ){
-				kick_px = sqrt(kick_pt*kick_pt/(1+TMath::Tan(kick_phi)*TMath::Tan(kick_phi)));
+				kick_px = sqrt(kick_pt*kick_pt/(1+TMath::Tan(phi_kick)*TMath::Tan(phi_kick)));
 			}
 			else{
-				kick_px = -sqrt(kick_pt*kick_pt/(1+TMath::Tan(kick_phi)*TMath::Tan(kick_phi)));
+				kick_px = -sqrt(kick_pt*kick_pt/(1+TMath::Tan(phi_kick)*TMath::Tan(phi_kick)));
 			}
 	
-			kick_py = kick_px*TMath::Tan(kick_phi);
+			kick_py = kick_px*TMath::Tan(phi_kick);
 
 			px_dist->Fill( kick_px );
 			py_dist->Fill( kick_py );
