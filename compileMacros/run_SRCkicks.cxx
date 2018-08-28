@@ -131,21 +131,34 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			fa_y->SetParameter(0,1);
 			fa_y->SetParameter(1,-5);
 
-			TF1 *fa_x = new TF1("fa_x","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",-1,1);
-			fa_x->SetParameter(0,1);
-			fa_x->SetParameter(1,-5);
-
-			double kick_px = fa_x->GetRandom();
+			// TF1 *fa_x = new TF1("fa_x","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",-1,1);
+			// fa_x->SetParameter(0,1);
+			// fa_x->SetParameter(1,-5);
+			
+			//double kick_px = fa_x->GetRandom();
 			double kick_py = fa_y->GetRandom();
 
+			TF1 *phiran = new TF1("phiran","[0]*1",-PI,PI);
+			phiran->SetParameter(0,1);
+			double phi_kick = phiran->GetRandom();
+
+			if( phi_kick > 0 ){
+			 kick_px = kick_py/TMath::Tan(phi_kick);
+			}
+			else if( phi_kick < 0 ) {
+			 kick_py = -kick_py;
+			 kick_px = kick_py/TMath::Tan(phi_kick);
+			}
+
+			
 			px_dist->Fill( kick_px );
 			py_dist->Fill( kick_py );
 
 			double kick_pt = sqrt(kick_px*kick_px + kick_py*kick_py);
-			double kick_phi = TMath::ATan(kick_py/kick_px);
+			double Kphi = TMath::ATan(kick_py/kick_px);
 
 			pt_dist->Fill( kick_pt );
-			phi_dist->Fill( kick_phi );
+			phi_dist->Fill( Kphi );
 
 			//proton 3 momentum:
 			double p_px = particle_4mom_proton_bKick.Px();
