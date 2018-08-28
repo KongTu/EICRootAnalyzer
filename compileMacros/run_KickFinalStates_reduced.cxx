@@ -70,6 +70,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       TLorentzVector particle_4mom_photon;
       TLorentzVector particle_4mom_electron_prime;
+      cout << "1" << endl;
 
       if( event_process != 91 ) continue;
       
@@ -90,6 +91,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
       /*end*/
       
+      cout << "2" << endl;
       for(int j(0); j < nParticles; ++j ) {
          
          const erhic::ParticleMC* particle = event->GetTrack(j);
