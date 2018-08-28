@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 
+#include "eicsmear/erhic/EventBase.h"
 #include "eicsmear/erhic/EventMC.h"
 #include "eicsmear/erhic/EventPythia.h"
 #include "eicsmear/erhic/Particle.h"
