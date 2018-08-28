@@ -135,7 +135,7 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			// fa_x->SetParameter(0,1);
 			// fa_x->SetParameter(1,-5);
 			
-			//double kick_px = fa_x->GetRandom();
+			double kick_px = 0.;
 			double kick_py = fa_y->GetRandom();
 
 			TF1 *phiran = new TF1("phiran","[0]*1",-PI,PI);
