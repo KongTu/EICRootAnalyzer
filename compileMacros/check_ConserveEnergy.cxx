@@ -263,9 +263,6 @@ void check_ConserveEnergy( int nEvents, bool doBoost, TString inputFilename, TSt
       py_corr->Fill( total4Mom_incoming.Py() - total4Mom_outgoing.Py() );
       pz_corr->Fill( total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() );
       
-      cout << "e diff " << energy_diff << endl;
-      cout << "pz diff " << total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() << endl;
-
       //2D histogram:
       energyVsQ2_2Dcorr->Fill(energy_diff, trueQ2);
       energyVsW2_2Dcorr->Fill(energy_diff, trueW2);
