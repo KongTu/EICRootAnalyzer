@@ -214,13 +214,13 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			 kappa[jter] = temp;
 			}
 
+			TF1 *num1 = new TF1("num1","[0]*1",-1,1);
+			num1->SetParameter(0,1);
+			double probb = num1->GetRandom();
+
 			for(int iter = 0; iter < iteration_2; iter++){//delta
 			 for(int jter = 0; jter < iteration_1; jter++){//comp
 			    for(int kter = 0; kter < iteration_2; kter++){//kappa
-
-			    TF1 *num = new TF1("num","[0]*1",-1,1);
-				num->SetParameter(0,1);
-				double prob = num->GetRandom();
 
 				double p_py_prime; 
 				double n_py_prime; 
@@ -232,7 +232,7 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 				double n_pz_prime; 
 				double j_pz_prime; 
 
-				if( prob > 0){
+				if( probb > 0){
 
 					p_py_prime = p_py + kick_py;
 				    n_py_prime = n_py - kick_py + delta[iter];
