@@ -129,10 +129,99 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 
 
 		//fill histograms:
+		total4Mom_outgoing = particle_4mom_proton + particle_4mom_neutron + particle_4mom_jpsi + particle_4mom_electron_prime;
+
+		/*fill histograms*/
+		energy_corr->Fill(total4Mom_incoming.E() - total4Mom_outgoing.E());
+		//Jpsi:
+		PtDist_Jpsi->Fill( particle_4mom_jpsi.Pt() );
+		EtaDist_Jpsi->Fill( particle_4mom_jpsi.Eta() );
+		PhiDist_Jpsi->Fill( particle_4mom_jpsi.Phi() );
+
+		//proton
+		PtDist_proton->Fill( particle_4mom_proton.Pt() );
+		EtaDist_proton->Fill( particle_4mom_proton.Eta() );
+		PhiDist_proton->Fill( particle_4mom_proton.Phi() );
+		AngleVsMom_proton->Fill(particle_4mom_proton.P(), particle_4mom_proton.Theta()*1000.);
+
+		//neutron:
+		PtDist_neutron->Fill( particle_4mom_neutron.Pt() );
+		EtaDist_neutron->Fill( particle_4mom_neutron.Eta() );
+		PhiDist_neutron->Fill( particle_4mom_neutron.Phi() );
+		AngleVsMom_neutron->Fill(particle_4mom_neutron.P(), particle_4mom_neutron.Theta()*1000.);
+
+		//delta eta delta phi:
+		deltaEtadeltaPhi->Fill( particle_4mom_proton.Eta()-particle_4mom_neutron.Eta(), particle_4mom_proton.Phi()-particle_4mom_neutron.Phi());
+
+		//t_hat
+		T_dist->Fill( t_hat );
+
+		//small t, namely the momentum transfer to the struck nucleon (proton)
+		TLorentzVector t1_proton = particle_4mom_proton_bKick - total4Mom_deuteron;//(p'-p)
+		double t_proton_squared = t1_proton.Mag2();
+
+		t1_dist->Fill( t_proton_squared );
+
+		TLorentzVector t2_proton = particle_4mom_proton - total4Mom_deuteron;//(p'-p)
+		t_proton_squared = t2_proton.Mag2();
+
+		t2_dist->Fill( t_proton_squared );
+
+		//T, momentum transfer from photon to Jpsi
+		TLorentzVector T_Jpsi = particle_4mom_jpsi - particle_4mom_photon;//delta
+		double T_Jpsi_squared = T_Jpsi.Mag2();
+
+		T_Jpsi_dist->Fill( T_Jpsi_squared );
+
+		particle_4mom = particle_4mom_proton + particle_4mom_neutron;
+
+		double sNN = particle_4mom.Mag2();//center of mass energy squared
+
+		E_CM->Fill( sqrt(sNN) );
+		//end COM
+		//if( fabs(t_proton_squared)  > 0.5 && fabs(t_proton_squared) < 5.0 && fabs(T_Jpsi_squared) < 0.5 ) 
+		sNN_dist->Fill( sNN );
+
+		//t vs T
+		tVsT->Fill(T_Jpsi_squared, t_proton_squared);
 
 
 
+   	} // end of event loop
 
-   } // end of event loop
+	TString outfilename;
+	if( doKick ) outfilename = "_SRCkicks_eD_kick.root";
+	else outfilename = "_SRCkicks_eD_nokick.root";
+
+   	TFile output("../rootfiles/"+inputFilename+outfilename,"RECREATE");
+
+	T_dist->Write();//T_distribution in the selected range
+	T_Jpsi_dist->Write();
+	t1_dist->Write();//t_distribution in the selected range
+	t2_dist->Write();//t_distribution in the selected range
+
+	PtDist_Jpsi->Write();
+	EtaDist_Jpsi->Write();
+	PhiDist_Jpsi->Write();
+
+	PtDist_proton->Write();
+	EtaDist_proton->Write();
+	PhiDist_proton->Write();
+
+	PtDist_neutron->Write();
+	EtaDist_neutron->Write();
+	PhiDist_neutron->Write();
+
+	AngleVsMom_proton->Write();
+	AngleVsMom_neutron->Write();
+
+	tVsT->Write();
+	deltaEtadeltaPhi->Write();
+	sNN_dist->Write();
+	energy_corr->Write();
+	px_dist->Write();
+	py_dist->Write();
+	pt_dist->Write();
+	phi_dist->Write();
 
 }
