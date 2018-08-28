@@ -38,11 +38,10 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 		double t_hat = event->t_hat;
 		double u_hat = event->GetHardU();
 		double photon_flux = event->GetPhotonFlux();
-		int event_process = event->process;
+		int event_process = event->GetProcess();
 		int nParticles = event->GetNTracks();
-	
-		cout << "t_hat: " << t_hat << endl;
-		cout << "t_hat2: " << event->GetHardT() << endl;
+
+		cout << "event process: " << event_process << endl;
 		// We now know the number of particles in the event, so loop over
 		// the particles:
 		int nParticles_process = 0;
@@ -85,7 +84,7 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 
 			const erhic::ParticleMC* particle = event->GetTrack(j);
 
-			int pdg = particle->id;
+			int pdg = particle->GetPdgCode();
 			int status = particle->GetStatus();
 			int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
 			double pt = particle->GetPt();

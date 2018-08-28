@@ -3,12 +3,12 @@
 #include <sstream>
 #include <string>
 
-#include <EventBase.h>
-#include <EventMC.h>
-#include <EventPythia.h>
-#include <Particle.h>
-#include <ParticleMC.h>
-#include <Pid.h>
+#include <eicsmear/erhic/EventBase.h>
+#include <eicsmear/erhic/EventMC.h>
+#include <eicsmear/erhic/EventPythia.h>
+#include <eicsmear/erhic/Particle.h>
+#include <eicsmear/erhic/ParticleMC.h>
+#include <eicsmear/erhic/Pid.h>
 
 #include "TString.h"
 #include "TF1.h"
