@@ -70,9 +70,9 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       TLorentzVector particle_4mom_photon;
       TLorentzVector particle_4mom_electron_prime;
-      cout << "event_process: " << event_process << endl;
+      //cout << "event_process: " << event_process << endl;
 
-      if( event_process != 91 ) continue;
+      //if( event_process != 91 ) continue;
       
       /*E-M Conservation*/
       double pztarg_1 = 135.290727;
