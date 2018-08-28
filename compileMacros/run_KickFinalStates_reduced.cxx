@@ -43,6 +43,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          photonFlux->Fill( photon_flux );
 
       int event_process = event->GetProcess();
+      cout << "event_process: " << event_process << endl;
 
       Q2VsX->Fill(trueX, trueQ2);
       W2VsFlux->Fill(photon_flux, trueW2);
@@ -70,7 +71,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       TLorentzVector particle_4mom_photon;
       TLorentzVector particle_4mom_electron_prime;
-      //cout << "event_process: " << event_process << endl;
 
       //if( event_process != 91 ) continue;
       
