@@ -35,7 +35,7 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 		double trueY = event->GetTrueY();
 		double trueNu = event->GetTrueNu();
 		double s_hat = event->GetHardS();
-		double t_hat = event->GetHardT();
+		double t_hat = event->t_hat;
 		double u_hat = event->GetHardU();
 		double photon_flux = event->GetPhotonFlux();
 		int event_process = event->process;
