@@ -23,6 +23,28 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 	TBranchElement* branch_pyf = (TBranchElement*) tree->GetBranch("pyf");
 	TBranchElement* branch_pzf = (TBranchElement*) tree->GetBranch("pzf");
 
+	for(int i(0); i < nEvents; ++i ) {
+      
+      // Read the next entry from the tree.
+      tree->GetEntry(i);
 
-	
+      //event information:
+      double trueQ2 = event->GetTrueQ2();
+      double trueW2 = event->GetTrueW2();
+      double trueX = event->GetTrueX();
+      double trueY = event->GetTrueY();
+      double trueNu = event->GetTrueNu();
+      double s_hat = event->GetHardS();
+      double t_hat = event->GetHardT();
+      double u_hat = event->GetHardU();
+      double photon_flux = event->GetPhotonFlux();
+      int event_process = event->GetProcess();
+      
+      cout << "event_process: " << event_process << endl;
+      cout << "event ntracks: " << event->GetNTracks() << endl;
+
+
+
+   } // for
+
 }
