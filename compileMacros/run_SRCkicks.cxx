@@ -38,7 +38,7 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
       double t_hat = event->GetHardT();
       double u_hat = event->GetHardU();
       double photon_flux = event->GetPhotonFlux();
-      int event_process = event->GetProcess();
+      int event_process = event->GetProcess(i);
       
       cout << "event_process: " << event_process << endl;
       cout << "event ntracks: " << event->GetNTracks() << endl;
