@@ -3,6 +3,11 @@
 #include <sstream>
 #include <string>
 
+#include "eicsmear/erhic/EventPythia.h"
+#include "eicsmear/erhic/Particle.h"
+#include "eicsmear/erhic/ParticleMC.h"
+#include "eicsmear/erhic/Pid.h"
+
 #include "TString.h"
 #include "TF1.h"
 #include "TH1.h"
@@ -46,6 +51,8 @@
 #define MASS_PB208    193.69769264273208
 // Histograms for our analysis.
 
+TH1D* sNN_dist = new TH1D("sNN_dist","s_{_{NN}} ",300,0,30);
+
 //TH2D DIS kinematics:
 TH2D* Q2VsX = new TH2D("Q2VsX",";x;Q^{2}",10000,0.00001,1,2000,0,200);
 TH2D* W2VsFlux = new TH2D("W2VsFlux",";#Phi;W^{2}",5000,0,0.1,1000,0,10000);
@@ -73,6 +80,8 @@ TH2D* AngleVsMom_neutron = new TH2D("AngleVsMom_neutron",";p (GeV);#theta (mrad)
 TH2D* AngleVssNN_proton = new TH2D("AngleVssNN_proton",";s_{_{NN}} (GeV^{2});#theta (mrad)",2500,0,10,300,0,30);
 TH2D* AngleVssNN_neutron = new TH2D("AngleVssNN_neutron",";s_{_{NN}} (GeV^{2});#theta (mrad)",2500,0,10,300,0,30);
 
+TH2D* deltaEtadeltaPhi = new TH2D("deltaEtadeltaPhi",";#eta;#phi",200,-20,20,30,-7,7);
+
 //TH1D event variables:
 TH1D* Ntrk_process_all = new TH1D("Ntrk_process_all",";Ntrk_process_all", 100, 0, 100);
 TH1D* Ntrk_process = new TH1D("Ntrk_process",";Ntrk_process", 100, 0, 100);
@@ -84,6 +93,9 @@ TH1D* photonFlux = new TH1D("photonFlux",";#Phi", 5000,0,0.1);
 TH1D* T_dist = new TH1D("T_dist",";T", 200,-5,0);
 TH1D* T_Jpsi_dist = new TH1D("T_Jpsi_dist",";T", 200,-5,0);
 TH1D* t_dist = new TH1D("t_dist",";t", 200,-5,5);
+TH1D* t1_dist = new TH1D("t1_dist",";t1", 200,-5,5);
+TH1D* t2_dist = new TH1D("t2_dist",";t2", 200,-5,5);
+TH1D* energy_corr = new TH1D("energy_corr",";E_{in} - E_{out}",1000,-0.05,0.05);
 
 //TH1D:
 TH1D* PtDist_Jpsi = new TH1D("PtDist_Jpsi",";PtDist_Jpsi", 200, 0,10);
@@ -100,3 +112,5 @@ TH1D* EtaDist_neutron = new TH1D("EtaDist_neutron",";EtaDist_neutron", 2000, -20
 
 TH1D* px_dist = new TH1D("px_dist",";px",1000,-10,10);
 TH1D* py_dist = new TH1D("py_dist",";py",1000,-10,10);
+TH1D* pt_dist = new TH1D("pt_dist","p_{T} (GeV/c) ",300,0,10);
+TH1D* phi_dist = new TH1D("phi_dist","#phi ",300,-PI,PI);

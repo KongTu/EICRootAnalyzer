@@ -1,14 +1,5 @@
 #include "hist.h"//define all the histograms
 
-TH1D* t1_dist = new TH1D("t1_dist",";t1", 200,-5,5);
-TH1D* t2_dist = new TH1D("t2_dist",";t2", 200,-5,5);
-TH1D* energy_corr = new TH1D("energy_corr",";E_{in} - E_{out}",1000,-0.05,0.05);
-
-TH1D* sNN_dist = new TH1D("sNN_dist","s_{_{NN}} ",300,0,30);
-TH2D* deltaEtadeltaPhi = new TH2D("deltaEtadeltaPhi",";#eta;#phi",200,-20,20,30,-7,7);
-TH1D* pt_dist = new TH1D("pt_dist","p_{T} (GeV/c) ",300,0,10);
-TH1D* phi_dist = new TH1D("phi_dist","#phi ",300,-PI,PI);
-
 void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilename ) {
    
 	TChain *tree = new TChain("EICTree");
@@ -100,7 +91,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
          
          const erhic::ParticleMC* particle = event->GetTrack(j);
     
-         int pdg = particle->GetPdgCode();
+         int pdg = particle->id;
          int status = particle->GetStatus();
          int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
          double pt = particle->GetPt();
