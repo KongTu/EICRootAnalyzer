@@ -6,6 +6,8 @@ TH1D* energy_corr = new TH1D("energy_corr",";E_{in} - E_{out}",1000,-0.05,0.05);
 
 TH1D* sNN_dist = new TH1D("sNN_dist","s_{_{NN}} ",300,0,30);
 TH2D* deltaEtadeltaPhi = new TH2D("deltaEtadeltaPhi",";#eta;#phi",200,-20,20,30,-7,7);
+TH1D* pt_dist = new TH1D("pt_dist","p_{T} (GeV/c) ",300,0,10);
+TH1D* phi_dist = new TH1D("phi_dist","#phi ",300,-PI,PI);
 
 void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilename ) {
    
@@ -157,9 +159,9 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       double kick_px = fa_x->GetRandom();
       double kick_py = fa_y->GetRandom();
 
-      TF1 *phiran = new TF1("phiran","[0]*1",-PI,PI);
-      phiran->SetParameter(0,1);
-      double phi_kick = phiran->GetRandom();
+      // TF1 *phiran = new TF1("phiran","[0]*1",-PI,PI);
+      // phiran->SetParameter(0,1);
+      // double phi_kick = phiran->GetRandom();
 
       // if( phi_kick >= 0 ){
       //    kick_px = kick_py/TMath::Tan(phi_kick);
@@ -171,112 +173,118 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 
       px_dist->Fill( kick_px );
       py_dist->Fill( kick_py );
+     
+      double kick_pt = sqrt(kick_px*kick_px + kick_py*kick_py);
+      double kick_phi = TMath::ATan(kick_py/kick_px);
 
-      //proton 3 momentum:
-      double p_px = particle_4mom_proton_bKick.Px();
-      double p_py = particle_4mom_proton_bKick.Py();
-      double p_pz = particle_4mom_proton_bKick.Pz();
-      double p_E = sqrt(p_px*p_px + p_py*p_py + p_pz*p_pz + MASS_PROTON*MASS_PROTON);
+      pt_dist->Fill( kick_pt );
+      phi_dist->Fill( kick_phi );
 
-      //neutron 3 momentum:
-      double n_px = particle_4mom_neutron_bKick.Px();
-      double n_py = particle_4mom_neutron_bKick.Py();
-      double n_pz = particle_4mom_neutron_bKick.Pz(); 
-      double n_E = sqrt(n_px*n_px + n_py*n_py + n_pz*n_pz + MASS_NEUTRON*MASS_NEUTRON);
+      // //proton 3 momentum:
+      // double p_px = particle_4mom_proton_bKick.Px();
+      // double p_py = particle_4mom_proton_bKick.Py();
+      // double p_pz = particle_4mom_proton_bKick.Pz();
+      // double p_E = sqrt(p_px*p_px + p_py*p_py + p_pz*p_pz + MASS_PROTON*MASS_PROTON);
 
-      //Jpsi 3 momentum:
-      double j_px = particle_4mom_jpsi_bKick.Px();
-      double j_py = particle_4mom_jpsi_bKick.Py();
-      double j_pz = particle_4mom_jpsi_bKick.Pz();
-      double j_E = sqrt(j_px*j_px + j_py*j_py + j_pz*j_pz + MASS_JPSI*MASS_JPSI);
+      // //neutron 3 momentum:
+      // double n_px = particle_4mom_neutron_bKick.Px();
+      // double n_py = particle_4mom_neutron_bKick.Py();
+      // double n_pz = particle_4mom_neutron_bKick.Pz(); 
+      // double n_E = sqrt(n_px*n_px + n_py*n_py + n_pz*n_pz + MASS_NEUTRON*MASS_NEUTRON);
 
-      double E_min = 1.0;
-      double comp_min = 0.;
-      double delta_min = 0.;
-      double kappa_min = 0.;
+      // //Jpsi 3 momentum:
+      // double j_px = particle_4mom_jpsi_bKick.Px();
+      // double j_py = particle_4mom_jpsi_bKick.Py();
+      // double j_pz = particle_4mom_jpsi_bKick.Pz();
+      // double j_E = sqrt(j_px*j_px + j_py*j_py + j_pz*j_pz + MASS_JPSI*MASS_JPSI);
 
-      int i_min = 0;
-      int j_min = 0;
-      int k_min = 0;
+      // double E_min = 1.0;
+      // double comp_min = 0.;
+      // double delta_min = 0.;
+      // double kappa_min = 0.;
 
-      double comp_init = -50;
-      double delta_init = -5;
-      double kappa_init = -5;
+      // int i_min = 0;
+      // int j_min = 0;
+      // int k_min = 0;
 
-      const int iteration_1 = 100;
-      const int iteration_2 = 10;
+      // double comp_init = -50;
+      // double delta_init = -5;
+      // double kappa_init = -5;
 
-      double comp[iteration_1];
-      double delta[iteration_2];
-      double kappa[iteration_2];
+      // const int iteration_1 = 100;
+      // const int iteration_2 = 10;
 
-      for(int jter = 0; jter < iteration_1; jter++){
+      // double comp[iteration_1];
+      // double delta[iteration_2];
+      // double kappa[iteration_2];
 
-         double temp = comp_init+1.*jter;
-         comp[jter] = temp;  
-      }
+      // for(int jter = 0; jter < iteration_1; jter++){
 
-      for(int jter = 0; jter < iteration_2; jter++){
+      //    double temp = comp_init+1.*jter;
+      //    comp[jter] = temp;  
+      // }
 
-         double temp = delta_init+1.*jter;
-         delta[jter] = temp;
+      // for(int jter = 0; jter < iteration_2; jter++){
 
-         temp = kappa_init+1.*jter;
-         kappa[jter] = temp;
-      }
+      //    double temp = delta_init+1.*jter;
+      //    delta[jter] = temp;
 
-      for(int iter = 0; iter < iteration_2; iter++){//delta
-         for(int jter = 0; jter < iteration_1; jter++){//comp
-            for(int kter = 0; kter < iteration_2; kter++){//kappa
+      //    temp = kappa_init+1.*jter;
+      //    kappa[jter] = temp;
+      // }
 
-            double p_py_prime = p_py + kick_py;
-            double n_py_prime = n_py - kick_py + delta[iter];
-            double j_py_prime = j_py - delta[iter];
+      // for(int iter = 0; iter < iteration_2; iter++){//delta
+      //    for(int jter = 0; jter < iteration_1; jter++){//comp
+      //       for(int kter = 0; kter < iteration_2; kter++){//kappa
 
-            double p_px_prime = p_px + kick_px; 
-            double n_px_prime = n_px - kick_px + kappa[kter];
-            double j_px_prime = j_px - kappa[kter];
+      //       double p_py_prime = p_py + kick_py;
+      //       double n_py_prime = n_py - kick_py + delta[iter];
+      //       double j_py_prime = j_py - delta[iter];
 
-            double p_pz_prime = p_pz + comp[jter];
-            double n_pz_prime = n_pz - comp[jter];
-            double j_pz_prime = j_pz;
+      //       double p_px_prime = p_px + kick_px; 
+      //       double n_px_prime = n_px - kick_px + kappa[kter];
+      //       double j_px_prime = j_px - kappa[kter];
+
+      //       double p_pz_prime = p_pz + comp[jter];
+      //       double n_pz_prime = n_pz - comp[jter];
+      //       double j_pz_prime = j_pz;
       
-            double p_E_prime = sqrt(p_px_prime*p_px_prime + p_py_prime*p_py_prime + p_pz_prime*p_pz_prime + MASS_PROTON*MASS_PROTON);
-            double n_E_prime = sqrt(n_px_prime*n_px_prime + n_py_prime*n_py_prime + n_pz_prime*n_pz_prime + MASS_NEUTRON*MASS_NEUTRON);
-            double j_E_prime = sqrt(j_px_prime*j_px_prime + j_py_prime*j_py_prime + j_pz_prime*j_pz_prime + MASS_JPSI*MASS_JPSI);
+      //       double p_E_prime = sqrt(p_px_prime*p_px_prime + p_py_prime*p_py_prime + p_pz_prime*p_pz_prime + MASS_PROTON*MASS_PROTON);
+      //       double n_E_prime = sqrt(n_px_prime*n_px_prime + n_py_prime*n_py_prime + n_pz_prime*n_pz_prime + MASS_NEUTRON*MASS_NEUTRON);
+      //       double j_E_prime = sqrt(j_px_prime*j_px_prime + j_py_prime*j_py_prime + j_pz_prime*j_pz_prime + MASS_JPSI*MASS_JPSI);
 
-            p3.SetPxPyPzE(p_px_prime,p_py_prime,p_pz_prime,p_E_prime);
-            p4.SetPxPyPzE(n_px_prime,n_py_prime,n_pz_prime,n_E_prime);
-            p5.SetPxPyPzE(j_px_prime,j_py_prime,j_pz_prime,j_E_prime);
+      //       p3.SetPxPyPzE(p_px_prime,p_py_prime,p_pz_prime,p_E_prime);
+      //       p4.SetPxPyPzE(n_px_prime,n_py_prime,n_pz_prime,n_E_prime);
+      //       p5.SetPxPyPzE(j_px_prime,j_py_prime,j_pz_prime,j_E_prime);
 
-            k = p3+p4+p5;
+      //       k = p3+p4+p5;
 
-            double E_DIFF = t.E() - k.E();
-            double pz_DIFF = t.Pz() - k.Pz();
+      //       double E_DIFF = t.E() - k.E();
+      //       double pz_DIFF = t.Pz() - k.Pz();
 
-               if( fabs(E_DIFF) < fabs(E_min) ) {
+      //          if( fabs(E_DIFF) < fabs(E_min) ) {
 
-                  E_min = E_DIFF;
-                  comp_min = comp[jter];
-                  delta_min = delta[iter];
-                  kappa_min = kappa[kter];
+      //             E_min = E_DIFF;
+      //             comp_min = comp[jter];
+      //             delta_min = delta[iter];
+      //             kappa_min = kappa[kter];
 
-                  i_min = iter;
-                  j_min = jter;
-                  k_min = kter;  
+      //             i_min = iter;
+      //             j_min = jter;
+      //             k_min = kter;  
 
-                  particle_4mom_proton = p3;
-                  particle_4mom_neutron = p4;
-                  particle_4mom_jpsi = p5;
-               }
+      //             particle_4mom_proton = p3;
+      //             particle_4mom_neutron = p4;
+      //             particle_4mom_jpsi = p5;
+      //          }
 
-            }
-         }
-      }
+      //       }
+      //    }
+      // }
       
-      if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 99 || k_min == 9 ) continue;//hit the boundary continue;
-      // cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
-      // cout << "E diff: " << E_min <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
+      // if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 99 || k_min == 9 ) continue;//hit the boundary continue;
+      // // cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
+      // // cout << "E diff: " << E_min <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
 
    }//end of kick
 
@@ -369,6 +377,9 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
    energy_corr->Write();
    px_dist->Write();
    py_dist->Write();
+   pt_dist->Write();
+   phi_dist->Write();
+
 
 
 }
