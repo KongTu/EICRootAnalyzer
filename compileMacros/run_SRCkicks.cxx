@@ -38,10 +38,10 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 		double t_hat = event->GetHardT();
 		double u_hat = event->GetHardU();
 		double photon_flux = event->GetPhotonFlux();
-		int event_process = event->GetProcess();
+		int event_process = event->process;
 		int nParticles = event->GetNTracks();
-		//event t_hat
-
+	
+		cout << "event process: " << event_process << endl;
 		// We now know the number of particles in the event, so loop over
 		// the particles:
 		int nParticles_process = 0;
@@ -61,7 +61,7 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 		TLorentzVector particle_4mom_photon;
 		TLorentzVector particle_4mom_electron_prime;
 
-		//if( event_process != 91 ) continue;
+		if( event_process != 91 ) continue;
 
 		/*E-M Conservation*/
 		double pztarg_1 = 135.290727;
@@ -79,8 +79,6 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 		TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
 		TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
 		/*end*/
-
-		cout << "total energy: " << total4Mom_incoming.E() << endl;
 
 		for(int j(0); j < nParticles; ++j ) {
 
@@ -128,7 +126,13 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 
 		} // end of particle loop
 
-		cout << "nParticles_process :" << nParticles_process << endl;
+
+
+		//fill histograms:
+
+
+
+
    } // end of event loop
 
 }
