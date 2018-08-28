@@ -8,7 +8,7 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
 	TChain *tree = new TChain("EICTree");
 	tree->Add("../../EICTree/eD_Jpsidiffnodecay_EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
 
-	EventPythia* event(NULL);// = new EventPythia;
+	EventBase* event(NULL);// = new EventPythia;
 
 	// EventBase* event(NULL);
 	// EventBeagle* event_beagle(NULL);
@@ -91,7 +91,6 @@ void run_KickFinalStates_reduced( int nEvents, bool doKick, TString inputFilenam
       TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
       /*end*/
       
-      cout << "2" << endl;
       for(int j(0); j < nParticles; ++j ) {
          
          const erhic::ParticleMC* particle = event->GetTrack(j);
