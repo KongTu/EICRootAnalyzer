@@ -127,11 +127,11 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 
 			t = particle_4mom_neutron_bKick + particle_4mom_proton_bKick + particle_4mom_jpsi_bKick;
 
-			TF1 *fa_y = new TF1("fa_y","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",-5,5);
+			TF1 *fa_y = new TF1("fa_y","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",-1,1);
 			fa_y->SetParameter(0,1);
 			fa_y->SetParameter(1,-5);
 
-			TF1 *fa_x = new TF1("fa_x","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",-5,5);
+			TF1 *fa_x = new TF1("fa_x","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",-1,1);
 			fa_x->SetParameter(0,1);
 			fa_x->SetParameter(1,-5);
 
