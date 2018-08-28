@@ -41,7 +41,7 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 		int event_process = event->process;
 		int nParticles = event->GetNTracks();
 	
-		cout << "event process: " << event_process << endl;
+		cout << "t_hat: " << t_hat << endl;
 		// We now know the number of particles in the event, so loop over
 		// the particles:
 		int nParticles_process = 0;
