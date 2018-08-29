@@ -236,9 +236,9 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			 kappa[jter] = temp;
 			}
 
-			for(int iter = 0; iter < iteration_2; iter++){//delta
-			 for(int jter = 0; jter < iteration_1; jter++){//comp
-			    for(int kter = 0; kter < iteration_2; kter++){//kappa
+			// for(int iter = 0; iter < iteration_2; iter++){//delta
+			//  for(int jter = 0; jter < iteration_1; jter++){//comp
+			//     for(int kter = 0; kter < iteration_2; kter++){//kappa
 				
 				if( struck_nucleon == 2212 ){
 
@@ -283,30 +283,30 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			    double E_DIFF = t.E() - k.E();
 			    double pz_DIFF = t.Pz() - k.Pz();
 
-			       if( fabs(E_DIFF) < fabs(E_min) ) {
+			    //    if( fabs(E_DIFF) < fabs(E_min) ) {
 
-			          E_min = E_DIFF;
-			          comp_min = comp[jter];
-			          delta_min = delta[iter];
-			          kappa_min = kappa[kter];
+			    //       E_min = E_DIFF;
+			    //       comp_min = comp[jter];
+			    //       delta_min = delta[iter];
+			    //       kappa_min = kappa[kter];
 
-			          i_min = iter;
-			          j_min = jter;
-			          k_min = kter;  
+			    //       i_min = iter;
+			    //       j_min = jter;
+			    //       k_min = kter;  
 
-			          particle_4mom_proton = p3;
-			          particle_4mom_neutron = p4;
-			          particle_4mom_jpsi = p5;
-			       }
+			    //       particle_4mom_proton = p3;
+			    //       particle_4mom_neutron = p4;
+			    //       particle_4mom_jpsi = p5;
+			    //    }
 
-			    }//loop1
-			}//loop2
-		}//loop3
+		// 	    }//loop1
+		// 	}//loop2
+		// }//loop3
 		  
-		if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 19 || k_min == 9 ) continue;//hit the boundary continue;
+		//if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 19 || k_min == 9 ) continue;//hit the boundary continue;
 		
 		cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
-		cout << "E diff: " << E_min <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
+		cout << "E diff: " << E_DIFF <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
 	
 	}//end of kick
 
