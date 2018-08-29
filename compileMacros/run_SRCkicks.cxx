@@ -212,12 +212,12 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			int k_min = 0;
 			int m_min = 0;
 
-			double comp_init = -50;
+			double comp_init = -1;
 			double delta_init = -5;
 			double kappa_init = -5;
 			double zeta_init = -5;
 
-			const int iteration_1 = 100;
+			const int iteration_1 = 20;
 			const int iteration_2 = 10;
 
 			double comp[iteration_1];
@@ -227,7 +227,7 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 
 			for(int jter = 0; jter < iteration_1; jter++){
 
-			 double temp = comp_init+1.*jter;
+			 double temp = comp_init+0.1*jter;
 			 comp[jter] = temp;  
 			}
 
