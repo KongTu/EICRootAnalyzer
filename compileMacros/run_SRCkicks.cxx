@@ -352,7 +352,7 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 				    double py_DIFF = t.Py() - k.Py();
 				    double pz_DIFF = t.Pz() - k.Pz();
 
-				    cout << "E_DIFF = " << E_DIFF << "px_DIFF = " << px_DIFF << "py_DIFF = " << py_DIFF << "pz_DIFF = " << pz_DIFF << endl;
+				    cout << "E_DIFF = " << E_DIFF << endl;
 					
 				}
 			}	
