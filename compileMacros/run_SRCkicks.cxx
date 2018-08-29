@@ -294,9 +294,9 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			    //       j_min = jter;
 			    //       k_min = kter;  
 
-			    //       particle_4mom_proton = p3;
-			    //       particle_4mom_neutron = p4;
-			    //       particle_4mom_jpsi = p5;
+				          particle_4mom_proton = p3;
+				          particle_4mom_neutron = p4;
+				          particle_4mom_jpsi = p5;
 			    //    }
 
 		// 	    }//loop1

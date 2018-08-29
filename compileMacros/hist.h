@@ -100,7 +100,7 @@ TH1D* T_Jpsi_dist = new TH1D("T_Jpsi_dist",";T", 200,-5,0);
 TH1D* t_dist = new TH1D("t_dist",";t", 200,-5,5);
 TH1D* t1_dist = new TH1D("t1_dist",";t1", 200,-5,5);
 TH1D* t2_dist = new TH1D("t2_dist",";t2", 200,-5,5);
-TH1D* energy_corr = new TH1D("energy_corr",";E_{in} - E_{out}",1000,-0.05,0.05);
+TH1D* energy_corr = new TH1D("energy_corr",";E_{in} - E_{out}",1000,-5,5);
 
 //TH1D:
 TH1D* PtDist_Jpsi = new TH1D("PtDist_Jpsi",";PtDist_Jpsi", 200, 0,10);
