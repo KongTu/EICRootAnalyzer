@@ -74,8 +74,6 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 		TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
 		TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
 
-		PRINT4VECTOR(total4Mom_deuteron,true);
-
 		TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
 		TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
 		/*end*/
@@ -100,7 +98,6 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			if( index == 4 ){ //get gamma 4-momentum:
 
 			particle_4mom_photon = particle->Get4Vector();
-			PRINT4VECTOR(particle_4mom_photon,true);
 			
 			}
 			if( index == 3 ){
@@ -111,17 +108,23 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 
 			particle_4mom_jpsi_bKick = particle->Get4Vector();
 			particle_4mom_jpsi = particle->Get4Vector();
+
+			PRINT4VECTOR(particle_4mom_jpsi,true);
 			}
 			if( pdg == 2212 ){//proton
 
 				//SetPtEtaPhiM(pt,eta,phi,mass);//this won't work if there is no pT 
 			particle_4mom_proton_bKick = particle->Get4Vector();
 			particle_4mom_proton = particle->Get4Vector();
+
+			PRINT4VECTOR(particle_4mom_proton,true);
 			}
 			if( pdg == 2112 ){//neutron
 
 			particle_4mom_neutron_bKick = particle->Get4Vector();
 			particle_4mom_neutron = particle->Get4Vector();
+			
+			PRINT4VECTOR(particle_4mom_neutron,true);
 			}
 
 			nParticles_process++;
