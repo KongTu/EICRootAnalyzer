@@ -134,7 +134,7 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 
 			TF1 *fa_pt = new TF1("fa_pt","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",0,2.0);
 			fa_pt->SetParameter(0,1);
-			fa_pt->SetParameter(1,-5);
+			fa_pt->SetParameter(1,-0.1);
 			double kick_pt = fa_pt->GetRandom();
 
 			TF1 *num = new TF1("num","[0]*1",-1,1);
@@ -156,7 +156,7 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 
 			TF1 *fa_pz = new TF1("fa_pz","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",-2.0,2.0);
 			fa_pz->SetParameter(0,1);
-			fa_pz->SetParameter(1,-0.5);
+			fa_pz->SetParameter(1,-0.1);
 			
 			kick_pz = fa_pz->GetRandom();
 
