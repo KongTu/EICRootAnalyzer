@@ -160,6 +160,10 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			
 			kick_pz = fa_pz->GetRandom();
 
+			kick_px = 0.1;
+			kick_py = 0.1;
+			kick_pz = 0.1;
+
 			px_dist->Fill( kick_px );
 			py_dist->Fill( kick_py );
 			pz_dist->Fill( kick_pz );
@@ -314,7 +318,7 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 
 			for(int jter = 0; jter < 1000; jter++){
 
-				 double temp = 0.0000000001+0.0000000001*jter;
+				 double temp = 0.001*jter;
 				 aa[jter] = temp;  
 				 bb[jter] = temp;
 			}
