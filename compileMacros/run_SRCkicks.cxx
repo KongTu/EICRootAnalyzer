@@ -130,6 +130,7 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			
 			double kick_px = 0.;
 			double kick_py = 0.;
+			double kick_pz = 0.;
 
 			TF1 *fa_pt = new TF1("fa_pt","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",0,1.0);
 			fa_pt->SetParameter(0,1);
@@ -153,8 +154,16 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 	
 			kick_py = kick_px*TMath::Tan(phi_kick);
 
+			TF1 *fa_pz = new TF1("fa_pz","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",-1.0,1.0);
+			fa_pz->SetParameter(0,1);
+			fa_pz->SetParameter(1,-0.5);
+			
+			kick_pz = fa_pz->GetRandom();
+
+
 			px_dist->Fill( kick_px );
 			py_dist->Fill( kick_py );
+			pz_dist->Fill( kick_pz );
 
 			// double kick_pt = sqrt(kick_px*kick_px + kick_py*kick_py);
 			// double Kphi = TMath::ATan(kick_py/kick_px);
@@ -180,18 +189,33 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			double j_pz = particle_4mom_jpsi_bKick.Pz();
 			double j_E = sqrt(j_px*j_px + j_py*j_py + j_pz*j_pz + MASS_JPSI*MASS_JPSI);
 
+			double p_py_prime; 
+			double n_py_prime; 
+			double j_py_prime; 
+
+			double p_px_prime; 
+			double n_px_prime; 
+			double j_px_prime; 
+
+			double p_pz_prime; 
+			double n_pz_prime; 
+			double j_pz_prime; 
+
 			double E_min = 1.0;
 			double comp_min = 0.;
 			double delta_min = 0.;
 			double kappa_min = 0.;
+			double zeta_min = 0.;
 
 			int i_min = 0;
 			int j_min = 0;
 			int k_min = 0;
+			int m_min = 0;
 
 			double comp_init = -50;
 			double delta_init = -5;
 			double kappa_init = -5;
+			double zeta_init = -5;
 
 			const int iteration_1 = 100;
 			const int iteration_2 = 10;
@@ -199,6 +223,7 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			double comp[iteration_1];
 			double delta[iteration_2];
 			double kappa[iteration_2];
+			double zeta[iteration_2];
 
 			for(int jter = 0; jter < iteration_1; jter++){
 
@@ -213,6 +238,9 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 
 			 temp = kappa_init+1.*jter;
 			 kappa[jter] = temp;
+
+			 temp = zeta_init+1.*jter;
+			 zeta[jter] = temp;
 			}
 
 			TF1 *num1 = new TF1("num1","[0]*1",-1,1);
@@ -222,17 +250,8 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			for(int iter = 0; iter < iteration_2; iter++){//delta
 			 for(int jter = 0; jter < iteration_1; jter++){//comp
 			    for(int kter = 0; kter < iteration_2; kter++){//kappa
-
-				double p_py_prime; 
-				double n_py_prime; 
-				double j_py_prime; 
-				double p_px_prime; 
-				double n_px_prime; 
-				double j_px_prime; 
-				double p_pz_prime; 
-				double n_pz_prime; 
-				double j_pz_prime; 
-
+			    for(int mter = 0; mter < iteration_2; mter++){//zeta
+				
 				if( struck_nucleon == 2212 ){
 
 					p_py_prime = p_py + kick_py;
@@ -243,9 +262,9 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 				    n_px_prime = n_px - kick_px + kappa[kter];
 				    j_px_prime = j_px - kappa[kter];
 
-				    p_pz_prime = p_pz + comp[jter];
-				    n_pz_prime = n_pz - comp[jter];
-				    j_pz_prime = j_pz;
+				    p_pz_prime = p_pz + kick_pz;
+				    n_pz_prime = n_pz - kick_pz + comp[jter];
+				    j_pz_prime = j_pz - comp[jter];
 
 				}
 				else{
@@ -292,6 +311,7 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			          particle_4mom_jpsi = p5;
 			       }
 
+			   	}//loop0
 			    }//loop1
 			}//loop2
 		}//loop3
@@ -395,6 +415,7 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 	energy_corr->Write();
 	px_dist->Write();
 	py_dist->Write();
+	pz_dist->Write();
 	pt_dist->Write();
 	phi_dist->Write();
 

@@ -117,5 +117,6 @@ TH1D* EtaDist_neutron = new TH1D("EtaDist_neutron",";EtaDist_neutron", 2000, -20
 
 TH1D* px_dist = new TH1D("px_dist",";px",1000,-10,10);
 TH1D* py_dist = new TH1D("py_dist",";py",1000,-10,10);
+TH1D* pz_dist = new TH1D("pz_dist",";pz",1000,-10,10);
 TH1D* pt_dist = new TH1D("pt_dist","p_{T} (GeV/c) ",300,0,10);
 TH1D* phi_dist = new TH1D("phi_dist","#phi ",300,-PI,PI);
