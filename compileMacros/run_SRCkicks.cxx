@@ -314,7 +314,7 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 
 			for(int jter = 0; jter < 1000; jter++){
 
-				 double temp = 0.001*jter;
+				 double temp = 0.000001+0.000001*jter;
 				 aa[jter] = temp;  
 				 bb[jter] = temp;
 			}
