@@ -233,7 +233,7 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 				double n_pz_prime; 
 				double j_pz_prime; 
 
-				if( struck_nucleon == 2212 ){
+				if( struck_nucleon == 2112 ){
 
 					p_py_prime = p_py + kick_py;
 				    n_py_prime = n_py - kick_py + delta[iter];
