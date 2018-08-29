@@ -189,17 +189,17 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			double j_pz = particle_4mom_jpsi_bKick.Pz();
 			double j_E = sqrt(j_px*j_px + j_py*j_py + j_pz*j_pz + MASS_JPSI*MASS_JPSI);
 
-			double p_py_prime; 
-			double n_py_prime; 
-			double j_py_prime; 
+			double p_py_prime = p_py; 
+			double n_py_prime = n_py; 
+			double j_py_prime = j_py; 
 
-			double p_px_prime; 
-			double n_px_prime; 
-			double j_px_prime; 
+			double p_px_prime = p_px; 
+			double n_px_prime = n_px; 
+			double j_px_prime = j_px; 
 
-			double p_pz_prime; 
-			double n_pz_prime; 
-			double j_pz_prime; 
+			double p_pz_prime = p_pz; 
+			double n_pz_prime = n_pz; 
+			double j_pz_prime = j_pz; 
 
 			double E_min = 1000.0;
 			double comp_min = 0.;
