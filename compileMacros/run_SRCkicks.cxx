@@ -308,34 +308,53 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 		}
 		if( CASE == 2 ){
 
-			double aa = 1.0;
-			double bb = 1.0;
-			double cc = 1.0;
+			double aa[100];
+			double bb[100];
+			double cc[100];
 
-			p_py_prime = aa*(p_py + kick_py);
-		    n_py_prime = bb*(n_py - kick_py);
-		    j_py_prime = cc*j_py;
+			for(int jter = 0; jter < 100; jter++){
 
-		    p_px_prime = aa*(p_px + kick_px); 
-		    n_px_prime = bb*(n_px - kick_px);
-		    j_px_prime = cc*j_px;
+				 double temp = 0.01*jter;
+				 aa[jter] = temp;  
+				 bb[jter] = temp;
+				 cc[jter] = temp;
+			}
 
-		    p_pz_prime = aa*(p_pz + kick_pz);
-		    n_pz_prime = bb*(n_pz - kick_pz);
-		    j_pz_prime = cc*j_pz;
+			for(int iter = 0; iter < 100; iter++){
+				for(int jter = 0; jter < 100; jter++){
+					for(int kter = 0; kter < 100; kter++){
 
-		    double p_E_prime = sqrt(p_px_prime*p_px_prime + p_py_prime*p_py_prime + p_pz_prime*p_pz_prime + MASS_PROTON*MASS_PROTON);
-		    double n_E_prime = sqrt(n_px_prime*n_px_prime + n_py_prime*n_py_prime + n_pz_prime*n_pz_prime + MASS_NEUTRON*MASS_NEUTRON);
-		    double j_E_prime = sqrt(j_px_prime*j_px_prime + j_py_prime*j_py_prime + j_pz_prime*j_pz_prime + MASS_JPSI*MASS_JPSI);
+						p_py_prime = aa[iter]*(p_py + kick_py);
+					    n_py_prime = bb[jter]*(n_py - kick_py);
+					    j_py_prime = cc[kter]*j_py;
 
-		    p3.SetPxPyPzE(p_px_prime,p_py_prime,p_pz_prime,p_E_prime);
-		    p4.SetPxPyPzE(n_px_prime,n_py_prime,n_pz_prime,n_E_prime);
-		    p5.SetPxPyPzE(j_px_prime,j_py_prime,j_pz_prime,j_E_prime);
+					    p_px_prime = aa[iter]*(p_px + kick_px); 
+					    n_px_prime = bb[jter]*(n_px - kick_px);
+					    j_px_prime = cc[kter]*j_px;
 
-		    k = p3+p4+p5;
+					    p_pz_prime = aa[iter]*(p_pz + kick_pz);
+					    n_pz_prime = bb[jter]*(n_pz - kick_pz);
+					    j_pz_prime = cc[kter]*j_pz;
 
-		    double E_DIFF = t.E() - k.E();
-		    double pz_DIFF = t.Pz() - k.Pz();
+					    double p_E_prime = sqrt(p_px_prime*p_px_prime + p_py_prime*p_py_prime + p_pz_prime*p_pz_prime + MASS_PROTON*MASS_PROTON);
+					    double n_E_prime = sqrt(n_px_prime*n_px_prime + n_py_prime*n_py_prime + n_pz_prime*n_pz_prime + MASS_NEUTRON*MASS_NEUTRON);
+					    double j_E_prime = sqrt(j_px_prime*j_px_prime + j_py_prime*j_py_prime + j_pz_prime*j_pz_prime + MASS_JPSI*MASS_JPSI);
+
+					    p3.SetPxPyPzE(p_px_prime,p_py_prime,p_pz_prime,p_E_prime);
+					    p4.SetPxPyPzE(n_px_prime,n_py_prime,n_pz_prime,n_E_prime);
+					    p5.SetPxPyPzE(j_px_prime,j_py_prime,j_pz_prime,j_E_prime);
+
+					    k = p3+p4+p5;
+
+					    double E_DIFF = t.E() - k.E();
+					    double px_DIFF = t.Px() - k.Px();
+					    double py_DIFF = t.Py() - k.Py();
+					    double pz_DIFF = t.Pz() - k.Pz();
+
+					    cout << "E_DIFF = " << E_DIFF << "px_DIFF = " << px_DIFF << "py_DIFF = " << py_DIFF << "pz_DIFF = " << pz_DIFF << endl;
+					}
+				}
+			}	
 
 
 		}
