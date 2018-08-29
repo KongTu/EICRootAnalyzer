@@ -301,10 +301,12 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			          comp_min = comp[jter];
 			          delta_min = delta[iter];
 			          kappa_min = kappa[kter];
+			          zeta_min = zeta[kter];
 
 			          i_min = iter;
 			          j_min = jter;
 			          k_min = kter;  
+			          m_min = mter;
 
 			          particle_4mom_proton = p3;
 			          particle_4mom_neutron = p4;
@@ -317,8 +319,9 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 		}//loop3
 		  
 		if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 99 || k_min == 9 ) continue;//hit the boundary continue;
-		// cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
-		// cout << "E diff: " << E_min <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
+		
+		cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << " mter: " << m_min << endl;
+		cout << "E diff: " << E_min <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << " zeta: " << zeta_min << endl;
 	
 	}//end of kick
 
