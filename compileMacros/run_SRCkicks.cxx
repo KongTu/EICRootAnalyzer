@@ -1,5 +1,5 @@
 #include "hist.h"//define all the histograms
-
+#include "PRINT4VECTOR.h"
 using namespace std;
 using namespace erhic;
 
@@ -74,6 +74,8 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 		TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
 		TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
 
+		PRINT4VECTOR(total4Mom_deuteron,true);
+
 		TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
 		TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
 		/*end*/
@@ -97,7 +99,9 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 
 			if( index == 4 ){ //get gamma 4-momentum:
 
-			particle_4mom_photon = particle->Get4Vector(); 
+			particle_4mom_photon = particle->Get4Vector();
+			PRINT4VECTOR(particle_4mom_photon,true);
+			
 			}
 			if( index == 3 ){
 			particle_4mom_electron_prime = particle->Get4Vector();
@@ -159,10 +163,6 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			fa_pz->SetParameter(1,-1);
 			
 			kick_pz = fa_pz->GetRandom();
-
-			kick_px = 0.1;
-			kick_py = 0.1;
-			kick_pz = 0.1;
 
 			px_dist->Fill( kick_px );
 			py_dist->Fill( kick_py );
