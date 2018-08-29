@@ -102,6 +102,7 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			}
 			if( index == 3 ){
 			particle_4mom_electron_prime = particle->Get4Vector();
+			PRINT4VECTOR(particle_4mom_electron_prime,true);
 			}
 			if( status != 1 ) continue; //only stable final-state particles 
 			if( pdg == 443 ){//Jpsi
@@ -109,7 +110,6 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			particle_4mom_jpsi_bKick = particle->Get4Vector();
 			particle_4mom_jpsi = particle->Get4Vector();
 
-			PRINT4VECTOR(particle_4mom_jpsi,true);
 			}
 			if( pdg == 2212 ){//proton
 
@@ -117,14 +117,12 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			particle_4mom_proton_bKick = particle->Get4Vector();
 			particle_4mom_proton = particle->Get4Vector();
 
-			PRINT4VECTOR(particle_4mom_proton,true);
 			}
 			if( pdg == 2112 ){//neutron
 
 			particle_4mom_neutron_bKick = particle->Get4Vector();
 			particle_4mom_neutron = particle->Get4Vector();
 			
-			PRINT4VECTOR(particle_4mom_neutron,true);
 			}
 
 			nParticles_process++;
