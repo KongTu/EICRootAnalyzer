@@ -3,7 +3,7 @@
 using namespace std;
 using namespace erhic;
 
-void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
+void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add("../../EICTree/eD_Jpsidiffnodecay_EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
@@ -160,13 +160,9 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			
 			kick_pz = fa_pz->GetRandom();
 
-
 			px_dist->Fill( kick_px );
 			py_dist->Fill( kick_py );
 			pz_dist->Fill( kick_pz );
-
-			// double kick_pt = sqrt(kick_px*kick_px + kick_py*kick_py);
-			// double Kphi = TMath::ATan(kick_py/kick_px);
 
 			pt_dist->Fill( kick_pt );
 			phi_dist->Fill( phi_kick );
@@ -201,113 +197,149 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			double n_pz_prime = n_pz; 
 			double j_pz_prime = j_pz; 
 
-			double E_min = 1000.0;
-			double comp_min = 0.;
-			double delta_min = 0.;
-			double kappa_min = 0.;
-
-			int i_min = 0;
-			int j_min = 0;
-			int k_min = 0;
-
-			double comp_init = -1;
-			double delta_init = -5;
-			double kappa_init = -5;
-
-			const int iteration_1 = 20;
-			const int iteration_2 = 10;
-
-			double comp[iteration_1];
-			double delta[iteration_2];
-			double kappa[iteration_2];
-
-			for(int jter = 0; jter < iteration_1; jter++){
-
-			 double temp = comp_init+0.1*jter;
-			 comp[jter] = temp;  
-			}
-
-			for(int jter = 0; jter < iteration_2; jter++){
-
-			 double temp = delta_init+1.*jter;
-			 delta[jter] = temp;
-
-			 temp = kappa_init+1.*jter;
-			 kappa[jter] = temp;
-			}
-
-			// for(int iter = 0; iter < iteration_2; iter++){//delta
-			//  for(int jter = 0; jter < iteration_1; jter++){//comp
-			//     for(int kter = 0; kter < iteration_2; kter++){//kappa
+			if( CASE == 1 ){
 				
-				if( struck_nucleon == 2212 ){
+				double E_min = 1000.0;
+				double comp_min = 0.;
+				double delta_min = 0.;
+				double kappa_min = 0.;
 
-					p_py_prime = p_py + kick_py;
-				    n_py_prime = n_py - kick_py;
-				    j_py_prime = j_py;
+				int i_min = 0;
+				int j_min = 0;
+				int k_min = 0;
 
-				    p_px_prime = p_px + kick_px; 
-				    n_px_prime = n_px - kick_px;
-				    j_px_prime = j_px;
+				double comp_init = -1;
+				double delta_init = -5;
+				double kappa_init = -5;
 
-				    p_pz_prime = p_pz + kick_pz;
-				    n_pz_prime = n_pz - kick_pz;
-				    j_pz_prime = j_pz;
+				const int iteration_1 = 20;
+				const int iteration_2 = 10;
 
+				double comp[iteration_1];
+				double delta[iteration_2];
+				double kappa[iteration_2];
+
+				for(int jter = 0; jter < iteration_1; jter++){
+
+				 double temp = comp_init+0.1*jter;
+				 comp[jter] = temp;  
 				}
-				// else{
 
-				// 	p_py_prime = p_py - kick_py + delta[iter];
-				//     n_py_prime = n_py + kick_py ;
-				//     j_py_prime = j_py - delta[iter];
+				for(int jter = 0; jter < iteration_2; jter++){
 
-				//     p_px_prime = p_px - kick_px + kappa[kter]; 
-				//     n_px_prime = n_px + kick_px;
-				//     j_px_prime = j_px - kappa[kter];
+				 double temp = delta_init+1.*jter;
+				 delta[jter] = temp;
 
-				//     p_pz_prime = p_pz - kick_pz + comp[jter];
-				//     n_pz_prime = n_pz + kick_pz;
-				//     j_pz_prime = j_pz - comp[jter];
-				// }
+				 temp = kappa_init+1.*jter;
+				 kappa[jter] = temp;
+				}
 
-			    double p_E_prime = sqrt(p_px_prime*p_px_prime + p_py_prime*p_py_prime + p_pz_prime*p_pz_prime + MASS_PROTON*MASS_PROTON);
-			    double n_E_prime = sqrt(n_px_prime*n_px_prime + n_py_prime*n_py_prime + n_pz_prime*n_pz_prime + MASS_NEUTRON*MASS_NEUTRON);
-			    double j_E_prime = sqrt(j_px_prime*j_px_prime + j_py_prime*j_py_prime + j_pz_prime*j_pz_prime + MASS_JPSI*MASS_JPSI);
+				for(int iter = 0; iter < iteration_2; iter++){//delta
+				 for(int jter = 0; jter < iteration_1; jter++){//comp
+				    for(int kter = 0; kter < iteration_2; kter++){//kappa
+					
+					if( struck_nucleon == 2212 ){
 
-			    p3.SetPxPyPzE(p_px_prime,p_py_prime,p_pz_prime,p_E_prime);
-			    p4.SetPxPyPzE(n_px_prime,n_py_prime,n_pz_prime,n_E_prime);
-			    p5.SetPxPyPzE(j_px_prime,j_py_prime,j_pz_prime,j_E_prime);
+						p_py_prime = p_py + kick_py;
+					    n_py_prime = n_py - kick_py + delta[iter];
+					    j_py_prime = j_py - delta[iter];
 
-			    k = p3+p4+p5;
+					    p_px_prime = p_px + kick_px; 
+					    n_px_prime = n_px - kick_px + kappa[kter];
+					    j_px_prime = j_px - kappa[kter];
 
-			    double E_DIFF = t.E() - k.E();
-			    double pz_DIFF = t.Pz() - k.Pz();
+					    p_pz_prime = p_pz + kick_pz;
+					    n_pz_prime = n_pz - kick_pz + comp[jter];
+					    j_pz_prime = j_pz - comp[jter];
 
-			    //    if( fabs(E_DIFF) < fabs(E_min) ) {
+					}
+					else{
 
-			    //       E_min = E_DIFF;
-			    //       comp_min = comp[jter];
-			    //       delta_min = delta[iter];
-			    //       kappa_min = kappa[kter];
+						p_py_prime = p_py - kick_py + delta[iter];
+					    n_py_prime = n_py + kick_py ;
+					    j_py_prime = j_py - delta[iter];
 
-			    //       i_min = iter;
-			    //       j_min = jter;
-			    //       k_min = kter;  
+					    p_px_prime = p_px - kick_px + kappa[kter]; 
+					    n_px_prime = n_px + kick_px;
+					    j_px_prime = j_px - kappa[kter];
 
-				          particle_4mom_proton = p3;
-				          particle_4mom_neutron = p4;
-				          particle_4mom_jpsi = p5;
-			    //    }
+					    p_pz_prime = p_pz - kick_pz + comp[jter];
+					    n_pz_prime = n_pz + kick_pz;
+					    j_pz_prime = j_pz - comp[jter];
+					}
 
-		// 	    }//loop1
-		// 	}//loop2
-		// }//loop3
-		  
-		//if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 19 || k_min == 9 ) continue;//hit the boundary continue;
-		
-		// cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
-		// cout << "E diff: " << E_DIFF <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
+				    double p_E_prime = sqrt(p_px_prime*p_px_prime + p_py_prime*p_py_prime + p_pz_prime*p_pz_prime + MASS_PROTON*MASS_PROTON);
+				    double n_E_prime = sqrt(n_px_prime*n_px_prime + n_py_prime*n_py_prime + n_pz_prime*n_pz_prime + MASS_NEUTRON*MASS_NEUTRON);
+				    double j_E_prime = sqrt(j_px_prime*j_px_prime + j_py_prime*j_py_prime + j_pz_prime*j_pz_prime + MASS_JPSI*MASS_JPSI);
+
+				    p3.SetPxPyPzE(p_px_prime,p_py_prime,p_pz_prime,p_E_prime);
+				    p4.SetPxPyPzE(n_px_prime,n_py_prime,n_pz_prime,n_E_prime);
+				    p5.SetPxPyPzE(j_px_prime,j_py_prime,j_pz_prime,j_E_prime);
+
+				    k = p3+p4+p5;
+
+				    double E_DIFF = t.E() - k.E();
+				    double pz_DIFF = t.Pz() - k.Pz();
+
+				       if( fabs(E_DIFF) < fabs(E_min) ) {
+
+				          E_min = E_DIFF;
+				          comp_min = comp[jter];
+				          delta_min = delta[iter];
+				          kappa_min = kappa[kter];
+
+				          i_min = iter;
+				          j_min = jter;
+				          k_min = kter;  
+
+					          particle_4mom_proton = p3;
+					          particle_4mom_neutron = p4;
+					          particle_4mom_jpsi = p5;
+				       }
+
+				    }//loop1
+				}//loop2
+			}//loop3
+			  
+			if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 19 || k_min == 9 ) continue;//hit the boundary continue;
+			// cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
+			// cout << "E diff: " << E_DIFF <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
 	
+		}
+		if( CASE == 2 ){
+
+			double aa = 1.0;
+			double bb = 1.0;
+			double cc = 1.0;
+
+			p_py_prime = aa*(p_py + kick_py);
+		    n_py_prime = bb*(n_py - kick_py);
+		    j_py_prime = cc*j_py;
+
+		    p_px_prime = aa*(p_px + kick_px); 
+		    n_px_prime = bb*(n_px - kick_px);
+		    j_px_prime = cc*j_px;
+
+		    p_pz_prime = aa*(p_pz + kick_pz);
+		    n_pz_prime = bb*(n_pz - kick_pz);
+		    j_pz_prime = cc*j_pz;
+
+		    double p_E_prime = sqrt(p_px_prime*p_px_prime + p_py_prime*p_py_prime + p_pz_prime*p_pz_prime + MASS_PROTON*MASS_PROTON);
+		    double n_E_prime = sqrt(n_px_prime*n_px_prime + n_py_prime*n_py_prime + n_pz_prime*n_pz_prime + MASS_NEUTRON*MASS_NEUTRON);
+		    double j_E_prime = sqrt(j_px_prime*j_px_prime + j_py_prime*j_py_prime + j_pz_prime*j_pz_prime + MASS_JPSI*MASS_JPSI);
+
+		    p3.SetPxPyPzE(p_px_prime,p_py_prime,p_pz_prime,p_E_prime);
+		    p4.SetPxPyPzE(n_px_prime,n_py_prime,n_pz_prime,n_E_prime);
+		    p5.SetPxPyPzE(j_px_prime,j_py_prime,j_pz_prime,j_E_prime);
+
+		    k = p3+p4+p5;
+
+		    double E_DIFF = t.E() - k.E();
+		    double pz_DIFF = t.Pz() - k.Pz();
+
+
+		}
+		
 	}//end of kick
 
 		//fill histograms:
