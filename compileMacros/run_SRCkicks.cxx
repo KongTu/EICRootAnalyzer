@@ -314,7 +314,7 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 
 			for(int jter = 0; jter < 1000; jter++){
 
-				 double temp = 0.000001+0.000001*jter;
+				 double temp = 0.00000001+0.00000001*jter;
 				 aa[jter] = temp;  
 				 bb[jter] = temp;
 			}
@@ -352,7 +352,7 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 				    double py_DIFF = t.Py() - k.Py();
 				    double pz_DIFF = t.Pz() - k.Pz();
 
-				    if(E_DIFF < 1) cout << "E_DIFF = " << E_DIFF << endl;
+				    if(E_DIFF < 0.9) cout << "E_DIFF = " << E_DIFF << endl;
 					
 				}
 			}	
