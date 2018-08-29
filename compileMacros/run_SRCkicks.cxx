@@ -40,6 +40,7 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 		double photon_flux = event->GetPhotonFlux();
 		int event_process = event->GetProcess();
 		int nParticles = event->GetNTracks();
+		int struck_nucleon = event->nucleon;
 		
 		int nParticles_process = 0;
 
@@ -232,7 +233,7 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 				double n_pz_prime; 
 				double j_pz_prime; 
 
-				if( probb > 0){
+				if( struck_nucleon == 2212 ){
 
 					p_py_prime = p_py + kick_py;
 				    n_py_prime = n_py - kick_py + delta[iter];

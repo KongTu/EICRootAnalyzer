@@ -256,10 +256,6 @@ void check_ConserveEnergy( int nEvents, bool doBoost, TString inputFilename, TSt
       pTvsThat->Fill( particle_pt, t_hat );
       Ntrk->Fill(nParticles);
 
-      cout << "incoming: " << total4Mom_incoming.E() << endl;
-      cout << "outgoing: " << total4Mom_outgoing.E() << endl;
-
-      
       double energy_diff = total4Mom_incoming.E() - total4Mom_outgoing.E();
       energy_corr->Fill( energy_diff );
       px_corr->Fill( total4Mom_incoming.Px() - total4Mom_outgoing.Px() );
