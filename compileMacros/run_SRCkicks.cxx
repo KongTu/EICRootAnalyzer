@@ -201,7 +201,7 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			double n_pz_prime; 
 			double j_pz_prime; 
 
-			double E_min = 1.0;
+			double E_min = 1000.0;
 			double comp_min = 0.;
 			double delta_min = 0.;
 			double kappa_min = 0.;
@@ -243,32 +243,32 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 				if( struck_nucleon == 2212 ){
 
 					p_py_prime = p_py + kick_py;
-				    n_py_prime = n_py - kick_py + delta[iter];
-				    j_py_prime = j_py - delta[iter];
+				    n_py_prime = n_py - kick_py;
+				    j_py_prime = j_py;
 
 				    p_px_prime = p_px + kick_px; 
-				    n_px_prime = n_px - kick_px + kappa[kter];
-				    j_px_prime = j_px - kappa[kter];
+				    n_px_prime = n_px - kick_px;
+				    j_px_prime = j_px;
 
 				    p_pz_prime = p_pz + kick_pz;
-				    n_pz_prime = n_pz - kick_pz + comp[jter];
-				    j_pz_prime = j_pz - comp[jter];
+				    n_pz_prime = n_pz - kick_pz;
+				    j_pz_prime = j_pz;
 
 				}
-				else{
+				// else{
 
-					p_py_prime = p_py - kick_py + delta[iter];
-				    n_py_prime = n_py + kick_py ;
-				    j_py_prime = j_py - delta[iter];
+				// 	p_py_prime = p_py - kick_py + delta[iter];
+				//     n_py_prime = n_py + kick_py ;
+				//     j_py_prime = j_py - delta[iter];
 
-				    p_px_prime = p_px - kick_px + kappa[kter]; 
-				    n_px_prime = n_px + kick_px;
-				    j_px_prime = j_px - kappa[kter];
+				//     p_px_prime = p_px - kick_px + kappa[kter]; 
+				//     n_px_prime = n_px + kick_px;
+				//     j_px_prime = j_px - kappa[kter];
 
-				    p_pz_prime = p_pz - kick_pz + comp[jter];
-				    n_pz_prime = n_pz + kick_pz;
-				    j_pz_prime = j_pz - comp[jter];
-				}
+				//     p_pz_prime = p_pz - kick_pz + comp[jter];
+				//     n_pz_prime = n_pz + kick_pz;
+				//     j_pz_prime = j_pz - comp[jter];
+				// }
 
 			    double p_E_prime = sqrt(p_px_prime*p_px_prime + p_py_prime*p_py_prime + p_pz_prime*p_pz_prime + MASS_PROTON*MASS_PROTON);
 			    double n_E_prime = sqrt(n_px_prime*n_px_prime + n_py_prime*n_py_prime + n_pz_prime*n_pz_prime + MASS_NEUTRON*MASS_NEUTRON);
@@ -305,8 +305,8 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 		  
 		if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 19 || k_min == 9 ) continue;//hit the boundary continue;
 		
-		// cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
-		// cout << "E diff: " << E_min <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
+		cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
+		cout << "E diff: " << E_min <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
 	
 	}//end of kick
 
