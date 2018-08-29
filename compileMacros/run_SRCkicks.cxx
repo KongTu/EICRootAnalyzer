@@ -305,8 +305,8 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 		  
 		//if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 19 || k_min == 9 ) continue;//hit the boundary continue;
 		
-		cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
-		cout << "E diff: " << E_DIFF <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
+		// cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
+		// cout << "E diff: " << E_DIFF <<  " comp: " << comp_min << " delta: " << delta_min << " kappa: " << kappa_min << endl;
 	
 	}//end of kick
 
