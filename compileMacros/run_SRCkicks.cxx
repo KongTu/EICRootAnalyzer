@@ -330,12 +330,12 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 				    cc = ((1-aa[iter])*p_px + (1-bb[jter])*n_px + (bb[jter]-aa[iter])*kick_px)/j_px + 1.;
 				    p_px_prime = aa[iter]*(p_px + kick_px); 
 				    n_px_prime = bb[jter]*(n_px - kick_px);
-				    j_px_prime = cc[kter]*j_px;
+				    j_px_prime = cc*j_px;
 
 				    cc = ((1-aa[iter])*p_pz + (1-bb[jter])*n_pz + (bb[jter]-aa[iter])*kick_pz)/j_pz + 1.;
 				    p_pz_prime = aa[iter]*(p_pz + kick_pz);
 				    n_pz_prime = bb[jter]*(n_pz - kick_pz);
-				    j_pz_prime = cc[kter]*j_pz;
+				    j_pz_prime = cc*j_pz;
 
 				    double p_E_prime = sqrt(p_px_prime*p_px_prime + p_py_prime*p_py_prime + p_pz_prime*p_pz_prime + MASS_PROTON*MASS_PROTON);
 				    double n_E_prime = sqrt(n_px_prime*n_px_prime + n_py_prime*n_py_prime + n_pz_prime*n_pz_prime + MASS_NEUTRON*MASS_NEUTRON);
