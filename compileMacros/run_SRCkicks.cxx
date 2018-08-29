@@ -236,15 +236,11 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 			 kappa[jter] = temp;
 			}
 
-			TF1 *num1 = new TF1("num1","[0]*1",-1,1);
-			num1->SetParameter(0,1);
-			double probb = num1->GetRandom();
-
 			for(int iter = 0; iter < iteration_2; iter++){//delta
 			 for(int jter = 0; jter < iteration_1; jter++){//comp
 			    for(int kter = 0; kter < iteration_2; kter++){//kappa
 				
-				//if( struck_nucleon == 2212 ){
+				if( struck_nucleon == 2212 ){
 
 					p_py_prime = p_py + kick_py;
 				    n_py_prime = n_py - kick_py + delta[iter];
@@ -258,21 +254,21 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 				    n_pz_prime = n_pz - kick_pz + comp[jter];
 				    j_pz_prime = j_pz - comp[jter];
 
-				//}
-				// else{
+				}
+				else{
 
-				// 	p_py_prime = p_py + kick_py + delta[iter];
-				//     n_py_prime = n_py - kick_py;
-				//     j_py_prime = j_py - delta[iter];
+					p_py_prime = p_py + kick_py ;
+				    n_py_prime = n_py - kick_py + delta[iter];
+				    j_py_prime = j_py - delta[iter];
 
-				//     p_px_prime = p_px + kick_px + kappa[kter]; 
-				//     n_px_prime = n_px - kick_px;
-				//     j_px_prime = j_px - kappa[kter];
+				    p_px_prime = p_px + kick_px; 
+				    n_px_prime = n_px - kick_px + kappa[kter];
+				    j_px_prime = j_px - kappa[kter];
 
-				//     p_pz_prime = p_pz + comp[jter];
-				//     n_pz_prime = n_pz - comp[jter];
-				//     j_pz_prime = j_pz;
-				// }
+				    p_pz_prime = p_pz + kick_pz;
+				    n_pz_prime = n_pz - kick_pz + comp[jter];
+				    j_pz_prime = j_pz - comp[jter];
+				}
 
 			    double p_E_prime = sqrt(p_px_prime*p_px_prime + p_py_prime*p_py_prime + p_pz_prime*p_pz_prime + MASS_PROTON*MASS_PROTON);
 			    double n_E_prime = sqrt(n_px_prime*n_px_prime + n_py_prime*n_py_prime + n_pz_prime*n_pz_prime + MASS_NEUTRON*MASS_NEUTRON);
