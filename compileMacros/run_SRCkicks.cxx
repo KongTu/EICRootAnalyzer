@@ -257,16 +257,16 @@ void run_SRCkicks(int nEvents, bool doKick, TString inputFilename){
 				}
 				else{
 
-					p_py_prime = p_py + kick_py ;
-				    n_py_prime = n_py - kick_py + delta[iter];
+					p_py_prime = p_py - kick_py + delta[iter];
+				    n_py_prime = n_py + kick_py ;
 				    j_py_prime = j_py - delta[iter];
 
-				    p_px_prime = p_px + kick_px; 
-				    n_px_prime = n_px - kick_px + kappa[kter];
+				    p_px_prime = p_px - kick_px + kappa[kter]; 
+				    n_px_prime = n_px + kick_px;
 				    j_px_prime = j_px - kappa[kter];
 
-				    p_pz_prime = p_pz + kick_pz;
-				    n_pz_prime = n_pz - kick_pz + comp[jter];
+				    p_pz_prime = p_pz - kick_pz + comp[jter];
+				    n_pz_prime = n_pz + kick_pz;
 				    j_pz_prime = j_pz - comp[jter];
 				}
 
