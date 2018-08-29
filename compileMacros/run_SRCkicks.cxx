@@ -308,19 +308,19 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 		}
 		if( CASE == 2 ){
 
-			double aa[100];
-			double bb[100];
+			double aa[1000];
+			double bb[1000];
 			double cc;
 
-			for(int jter = 0; jter < 100; jter++){
+			for(int jter = 0; jter < 1000; jter++){
 
-				 double temp = 0.01*jter;
+				 double temp = 0.001*jter;
 				 aa[jter] = temp;  
 				 bb[jter] = temp;
 			}
 
-			for(int iter = 0; iter < 100; iter++){
-				for(int jter = 0; jter < 100; jter++){
+			for(int iter = 0; iter < 1000; iter++){
+				for(int jter = 0; jter < 1000; jter++){
 
 					cc = ((1-aa[iter])*p_py + (1-bb[jter])*n_py + (bb[jter]-aa[iter])*kick_py)/j_py + 1.;
 					p_py_prime = aa[iter]*(p_py + kick_py);
@@ -352,7 +352,7 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 				    double py_DIFF = t.Py() - k.Py();
 				    double pz_DIFF = t.Pz() - k.Pz();
 
-				    cout << "E_DIFF = " << E_DIFF << endl;
+				    if(E_DIFF < 0.1) cout << "E_DIFF = " << E_DIFF << endl;
 					
 				}
 			}	
