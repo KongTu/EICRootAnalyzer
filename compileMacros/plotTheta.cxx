@@ -9,6 +9,9 @@ TH2D* thetaNeutronVsthetaProton = new TH2D("thetaNeutronVsthetaProton",";#theta_
 TH1D* deltaPhiLAB = new TH1D("deltaPhiLAB",";#phi_{n}#minus#phi_{p}",100,-2*PI-0.3,2*PI+0.3);
 TH1D* deltaPhiION = new TH1D("deltaPhiION",";#phi_{n}#minus#phi_{p}",100,-2*PI-0.3,2*PI+0.3);
 
+
+
+
 void plotTheta(int nEvents, TString inputFilename){
 
 	TChain *tree = new TChain("EICTree");
@@ -144,6 +147,10 @@ void plotTheta(int nEvents, TString inputFilename){
 
 		PRINT4VECTOR(particle_4mom_proton_new, true);
 
+		px_dist->Fill( proton_px );
+		py_dist->Fill( proton_py );
+		pz_dist->Fill( proton_pz );
+
 
  		deltaPhiION->Fill( particle_4mom_neutron.Phi() -  particle_4mom_proton.Phi() );
 
@@ -163,6 +170,9 @@ void plotTheta(int nEvents, TString inputFilename){
    	deltaPhiION->Write();
 
 
+   	px_dist->Write();
+   	py_dist->Write();
+   	pz_dist->Write();
 
 
 }
