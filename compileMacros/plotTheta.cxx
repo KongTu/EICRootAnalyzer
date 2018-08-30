@@ -164,7 +164,7 @@ void plotTheta(int nEvents, TString inputFilename){
 		/*Build 3Vector of new neutron*/
 		mag2 = neutron_v3.Mag2();
 		double neutron_pz = neutron_v3.Mag()*TMath::Cos(bb);
-		double cc = proton_v3.Angle(neutron_v3.Vect());
+		double cc = proton_v3.Angle(neutron_v3);
 		double neutron_py = neutron_v3.Mag()*TMath::Sin(cc);//the perpendicular component to proton 3Vector
 		
 		if( neutron_v3.Dot(y_unit) > 0 ) neutron_py = neutron_py;
