@@ -128,47 +128,57 @@ void plotTheta(int nEvents, TString inputFilename){
 		particle_4mom_photon.Boost(0,0,-bz);
 		particle_4mom_photon.Boost(b);
       
-
-
 		/*begin hand rotation*/
-
 		TVector3 proton_v3 = particle_4mom_proton.Vect();
 		TVector3 neutron_v3 = particle_4mom_neutron.Vect();
 		TVector3 photon_v3 = particle_4mom_photon.Vect();
 
-		double aa = particle_4mom_proton.Angle(photon_v3);
-		double bb = particle_4mom_neutron.Angle(photon_v3);
+		double aa = proton_v3.Angle(photon_v3);
+		double bb = neutron_v3.Angle(photon_v3);
 
+		/*
+		Use the angle between proton and photon, the projection (cos(aa)) is the z component of new proton
+		then force the py = 0, and px > 0
+		*/
 		double mag2 = proton_v3.Mag2();
 		double proton_pz = proton_v3.Mag()*TMath::Cos(aa);
 		double proton_py = 0.0;
 		double proton_px = sqrt(mag2 - proton_pz*proton_pz - proton_py*proton_py);
 
+		/*
+		Build new proton 4Vector
+		*/
 		TVector3 proton_v3_new(proton_px, proton_py, proton_pz);
 		TLorentzVector particle_4mom_proton_new;
 		particle_4mom_proton_new.SetVectM(proton_v3_new, MASS_PROTON);
 		
-		TVector3 y_axis = -proton_v3.Cross(photon_v3);
-		TVector3 x_axis = y_axis.Cross(photon_v3);
 
-		double dd = neutron_v3.Angle(y_axis);
-		double ee = neutron_v3.Angle(x_axis);
+		/*
+		Proton cross photon gives the negative y axis direction, then make it unit vector;
+		Use the y-axis and photon (z) to obtain the x unit vector;
+		*/
+		TVector3 y_axis = proton_v3.Cross(photon_v3);//x CROSS z = -y
+		TVector3 y_unit = -y_axis.Unit(); // flip sign
+		TVector3 x_axis = y_unit.Cross(photon_v3);// y CROSS z = x
+		TVector3 x_unit = x_axis.Unit();
 
+		/*Build 3Vector of new neutron*/
 		mag2 = neutron_v3.Mag2();
 		double neutron_pz = neutron_v3.Mag()*TMath::Cos(bb);
-		double cc = particle_4mom_proton.Angle(particle_4mom_neutron.Vect());
+		double cc = proton_v3.Angle(neutron_v3.Vect());
 		double neutron_py = neutron_v3.Mag()*TMath::Sin(cc);//the perpendicular component to proton 3Vector
 		
-		if( dd > 0 && dd < PI/2 ) neutron_py = neutron_py;
-		else if( dd > PI/2 && dd < PI ) neutron_py = -neutron_py;
+		if( neutron_v3.Dot(y_unit) > 0 ) neutron_py = neutron_py;
+		else if( neutron_v3.Dot(y_unit) < 0 ) neutron_py = -neutron_py;
 		else cout << "wrong angle" << endl;
 
 		double neutron_px = sqrt(mag2 - neutron_pz*neutron_pz - neutron_py*neutron_py);
 		
-		if( ee > 0 && ee < PI/2 ) neutron_px = neutron_px;
-		else if( ee > PI/2 && ee < PI ) neutron_px = -neutron_px;
+		if( neutron_v3.Dot(x_unit) > 0 ) neutron_px = neutron_px;
+		else if( neutron_v3.Dot(x_unit) < 0 ) neutron_px = -neutron_px;
 		else cout << "wrong angle" << endl;
 
+		/*Build new neutron 4Vector*/
 		TVector3 neutron_v3_new(neutron_px, neutron_py, neutron_pz);
 		TLorentzVector particle_4mom_neutron_new;
 		particle_4mom_neutron_new.SetVectM(neutron_v3_new, MASS_NEUTRON);
@@ -177,10 +187,10 @@ void plotTheta(int nEvents, TString inputFilename){
 		py_dist->Fill( neutron_py );
 		pz_dist->Fill( neutron_pz );
 		
-		PhiDist_proton->Fill( particle_4mom_neutron_new.Phi() );
+		PhiDist_proton->Fill( particle_4mom_proton_new.Phi() );
+		PhiDist_neutron->Fill( particle_4mom_neutron_new.Phi() );
 
  		deltaPhiION->Fill( particle_4mom_neutron_new.Phi() -  particle_4mom_proton_new.Phi() );
-
 
 	}
 
