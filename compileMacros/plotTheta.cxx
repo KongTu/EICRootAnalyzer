@@ -128,7 +128,7 @@ void plotTheta(int nEvents, TString inputFilename){
 		TVector3 proton_v3 = particle_4mom_proton.Vect();
 		
 		double mag2 = proton_v3.Mag2();
-		double proton_pz = proton_v3*TMath::Cos(aa);
+		double proton_pz = proton_v3.Mag()*TMath::Cos(aa);
 		double proton_px = proton_v3.X();
 		double proton_py = sqrt(mag2 - proton_pz*proton_pz - proton_px*proton_px);
 
