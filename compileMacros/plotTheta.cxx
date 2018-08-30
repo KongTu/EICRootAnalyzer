@@ -140,7 +140,8 @@ void plotTheta(int nEvents, TString inputFilename){
 		double proton_px = sqrt(mag2 - proton_pz*proton_pz - proton_py*proton_py);
 
 		TVector3 proton_v3_new(proton_px, proton_py, proton_pz);
-		TLorentzVector particle_4mom_proton_new.SetVectM(proton_v3_new, MASS_PROTON);
+		TLorentzVector particle_4mom_proton_new;
+		particle_4mom_proton_new.SetVectM(proton_v3_new, MASS_PROTON);
 		
 		mag2 = neutron_v3.Mag2();
 		double neutron_pz = neutron_v3.Mag()*TMath::Cos(bb);
@@ -148,7 +149,8 @@ void plotTheta(int nEvents, TString inputFilename){
 		double neutron_px = sqrt(mag2 - neutron_pz*neutron_pz - neutron_py*neutron_py);
 
 		TVector3 neutron_v3_new(neutron_px, neutron_py, neutron_pz);
-		TLorentzVector particle_4mom_neutron_new.SetVectM(neutron_v3_new, MASS_NEUTRON);
+		TLorentzVector particle_4mom_neutron_new;
+		particle_4mom_neutron_new.SetVectM(neutron_v3_new, MASS_NEUTRON);
 		
 		px_dist->Fill( proton_px );
 		py_dist->Fill( proton_py );
