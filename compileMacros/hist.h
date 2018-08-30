@@ -85,7 +85,7 @@ TH2D* AngleVsMom_neutron = new TH2D("AngleVsMom_neutron",";p (GeV);#theta (mrad)
 TH2D* AngleVssNN_proton = new TH2D("AngleVssNN_proton",";s_{_{NN}} (GeV^{2});#theta (mrad)",2500,0,10,300,0,30);
 TH2D* AngleVssNN_neutron = new TH2D("AngleVssNN_neutron",";s_{_{NN}} (GeV^{2});#theta (mrad)",2500,0,10,300,0,30);
 
-TH2D* deltaEtadeltaPhi = new TH2D("deltaEtadeltaPhi",";#eta;#phi",200,-20,20,30,-7,7);
+TH2D* deltaEtadeltaPhi = new TH2D("deltaEtadeltaPhi",";#Delta#eta;#Delta#phi",200,-20,20,30,-7,7);
 
 //TH1D event variables:
 TH1D* Ntrk_process_all = new TH1D("Ntrk_process_all",";Ntrk_process_all", 100, 0, 100);
