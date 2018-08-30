@@ -170,12 +170,12 @@ void plotTheta(int nEvents, TString inputFilename){
 		TVector3 y_unit = -y_axis.Unit(); // flip sign
 		TVector3 x_axis = y_unit.Cross(photon_v3);// y CROSS z = x
 		TVector3 x_unit = x_axis.Unit();
-
+		
 		/*Build 3Vector of new neutron*/
 		mag2 = neutron_v3.Mag2();
 		double neutron_pz = neutron_v3.Mag()*TMath::Cos(bb);
-		double cc = proton_v3.Angle(neutron_v3);
-		double neutron_py = neutron_v3.Mag()*TMath::Sin(cc);//the perpendicular component to proton 3Vector
+		double cc = neutron_v3.Angle(y_unit);
+		double neutron_py = neutron_v3.Mag()*TMath::Cos(cc);//the perpendicular component to proton 3Vector
 		
 		if( neutron_v3.Dot(y_unit) > 0 ) neutron_py = neutron_py;
 		else if( neutron_v3.Dot(y_unit) < 0 ) neutron_py = -neutron_py;
