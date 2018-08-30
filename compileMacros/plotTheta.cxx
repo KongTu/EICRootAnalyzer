@@ -139,9 +139,8 @@ void plotTheta(int nEvents, TString inputFilename){
 		TVector3 neutron_v3 = particle_4mom_neutron.Vect();
 		TVector3 photon_v3 = particle_4mom_photon.Vect();
 
-		TVector3 t = proton_v3+neutron_v3;
-		cout << "total mag " << t.Mag() << endl;
-
+		PRINT4VECTOR(particle_4mom_proton, true);
+		PRINT4VECTOR(particle_4mom_neutron, true);
 
 		double aa = proton_v3.Angle(photon_v3);
 		double bb = neutron_v3.Angle(photon_v3);
@@ -196,8 +195,8 @@ void plotTheta(int nEvents, TString inputFilename){
 		TLorentzVector particle_4mom_neutron_new;
 		particle_4mom_neutron_new.SetVectM(neutron_v3_new, MASS_NEUTRON);
 
-		TVector3 k = particle_4mom_proton_new.Vect()+particle_4mom_neutron_new.Vect();
-		cout << "total mag " << k.Mag() << endl;
+		// TVector3 k = particle_4mom_proton_new.Vect()+particle_4mom_neutron_new.Vect();
+		// cout << "total mag " << k.Mag() << endl;
 		
 		px_neutron->Fill( neutron_px );
 		py_neutron->Fill( neutron_py );
