@@ -102,7 +102,6 @@ void plotTheta(int nEvents, TString inputFilename){
 			}
 			if( index == 3 ){
 			particle_4mom_electron_prime = particle->Get4Vector();
-			PRINT4VECTOR(particle_4mom_electron_prime,true);
 			}
 			if( status != 1 ) continue; //only stable final-state particles 
 			if( pdg == 443 ){//Jpsi
