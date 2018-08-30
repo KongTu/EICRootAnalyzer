@@ -124,8 +124,9 @@ void plotTheta(int nEvents, TString inputFilename){
 		// particle_4mom_photon.Boost(0,0,-bz);
 		// particle_4mom_photon.Boost(b);
       
-		double aa = particle_4mom_proton.Angle(particle_4mom_photon.Vect());
+		double aa = particle_4mom_proton.Dot(particle_4mom_photon);
 		cout << "angle " << aa << endl;
+
 
 
  		deltaPhiION->Fill( particle_4mom_neutron.Phi() -  particle_4mom_proton.Phi() );
