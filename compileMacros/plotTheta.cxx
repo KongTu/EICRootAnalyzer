@@ -177,9 +177,9 @@ void plotTheta(int nEvents, TString inputFilename){
 		double cc = neutron_v3.Angle(y_unit);
 		double neutron_py = neutron_v3.Mag()*TMath::Cos(cc);//the perpendicular component to proton 3Vector
 		
-		if( neutron_v3.Dot(y_unit) > 0 ) neutron_py = neutron_py;
-		else if( neutron_v3.Dot(y_unit) < 0 ) neutron_py = -neutron_py;
-		else cout << "wrong angle" << endl;
+		// if( neutron_v3.Dot(y_unit) > 0 ) neutron_py = neutron_py;
+		// else if( neutron_v3.Dot(y_unit) < 0 ) neutron_py = -neutron_py;
+		// else cout << "wrong angle" << endl;
 
 		double neutron_px = sqrt(mag2 - neutron_pz*neutron_pz - neutron_py*neutron_py);
 		
