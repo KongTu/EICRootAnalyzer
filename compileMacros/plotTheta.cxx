@@ -152,7 +152,6 @@ void plotTheta(int nEvents, TString inputFilename){
 		TLorentzVector particle_4mom_proton_new;
 		particle_4mom_proton_new.SetVectM(proton_v3_new, MASS_PROTON);
 		
-
 		/*
 		Proton cross photon gives the negative y axis direction, then make it unit vector;
 		Use the y-axis and photon (z) to obtain the x unit vector;
