@@ -9,7 +9,13 @@ TH2D* thetaNeutronVsthetaProton = new TH2D("thetaNeutronVsthetaProton",";#theta_
 TH1D* deltaPhiLAB = new TH1D("deltaPhiLAB",";#phi_{n}#minus#phi_{p}",100,-2*PI-0.3,2*PI+0.3);
 TH1D* deltaPhiION = new TH1D("deltaPhiION",";#phi_{n}#minus#phi_{p}",100,-2*PI-0.3,2*PI+0.3);
 
+TH1D* px_neutron = new TH1D("px_neutron",";px",1000,-10,10);
+TH1D* py_neutron = new TH1D("py_neutron",";py",1000,-10,10);
+TH1D* pz_neutron = new TH1D("pz_neutron",";pz",1000,-10,10);
 
+TH1D* px_proton = new TH1D("px_proton",";px",1000,-10,10);
+TH1D* py_proton = new TH1D("py_proton",";py",1000,-10,10);
+TH1D* pz_proton = new TH1D("pz_proton",";pz",1000,-10,10);
 
 
 void plotTheta(int nEvents, TString inputFilename){
@@ -152,6 +158,10 @@ void plotTheta(int nEvents, TString inputFilename){
 		TLorentzVector particle_4mom_proton_new;
 		particle_4mom_proton_new.SetVectM(proton_v3_new, MASS_PROTON);
 		
+		px_proton->Fill( proton_px );
+		py_proton->Fill( proton_py );
+		pz_proton->Fill( proton_pz );
+		
 		/*
 		Proton cross photon gives the negative y axis direction, then make it unit vector;
 		Use the y-axis and photon (z) to obtain the x unit vector;
@@ -182,9 +192,9 @@ void plotTheta(int nEvents, TString inputFilename){
 		TLorentzVector particle_4mom_neutron_new;
 		particle_4mom_neutron_new.SetVectM(neutron_v3_new, MASS_NEUTRON);
 		
-		px_dist->Fill( neutron_px );
-		py_dist->Fill( neutron_py );
-		pz_dist->Fill( neutron_pz );
+		px_neutron->Fill( neutron_px );
+		py_neutron->Fill( neutron_py );
+		pz_neutron->Fill( neutron_pz );
 		
 		PhiDist_proton->Fill( particle_4mom_proton_new.Phi() );
 		PhiDist_neutron->Fill( particle_4mom_neutron_new.Phi() );
@@ -192,8 +202,6 @@ void plotTheta(int nEvents, TString inputFilename){
  		deltaPhiION->Fill( particle_4mom_neutron_new.Phi() -  particle_4mom_proton_new.Phi() );
 
 	}
-
-
 
 	TString outfilename;
 	outfilename = "_kinematics_eD.root";
@@ -205,10 +213,15 @@ void plotTheta(int nEvents, TString inputFilename){
    	deltaPhiLAB->Write();
    	deltaPhiION->Write();
 
+   	px_neutron->Write();
+   	py_neutron->Write();
+   	pz_neutron->Write();
 
-   	px_dist->Write();
-   	py_dist->Write();
-   	pz_dist->Write();
+   	px_neutron->Write();
+   	py_neutron->Write();
+   	pz_neutron->Write();
+
+   	PhiDist_neutron->Write();
    	PhiDist_proton->Write();
 
 
