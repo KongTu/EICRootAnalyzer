@@ -128,12 +128,17 @@ void plotTheta(int nEvents, TString inputFilename){
 		particle_4mom_photon.Boost(0,0,-bz);
 		particle_4mom_photon.Boost(b);
       
-		double aa = particle_4mom_proton.Angle(particle_4mom_photon.Vect());
-		double bb = particle_4mom_neutron.Angle(particle_4mom_photon.Vect());
+
+
+		/*begin hand rotation*/
 
 		TVector3 proton_v3 = particle_4mom_proton.Vect();
 		TVector3 neutron_v3 = particle_4mom_neutron.Vect();
-		
+		TVector3 photon_v3 = particle_4mom_photon.Vect();
+
+		double aa = particle_4mom_proton.Angle(photon_v3);
+		double bb = particle_4mom_neutron.Angle(photon_v3);
+
 		double mag2 = proton_v3.Mag2();
 		double proton_pz = proton_v3.Mag()*TMath::Cos(aa);
 		double proton_py = 0.0;
@@ -143,11 +148,26 @@ void plotTheta(int nEvents, TString inputFilename){
 		TLorentzVector particle_4mom_proton_new;
 		particle_4mom_proton_new.SetVectM(proton_v3_new, MASS_PROTON);
 		
+		TVector3 y_axis = -proton_v3.Cross(photon_v3);
+		TVector3 x_axis = y_axis.Cross(photon_v3);
+
+		double dd = neutron_v3.Angle(y_axis);
+		double ee = neutron_v3.Angle(x_axis);
+
 		mag2 = neutron_v3.Mag2();
 		double neutron_pz = neutron_v3.Mag()*TMath::Cos(bb);
 		double cc = particle_4mom_proton.Angle(particle_4mom_neutron.Vect());
 		double neutron_py = neutron_v3.Mag()*TMath::Sin(cc);//the perpendicular component to proton 3Vector
+		
+		if( dd > 0 && dd < PI/2 ) neutron_py = neutron_py;
+		else if( dd > PI/2 && dd < PI ) neutron_py = -neutron_py;
+		else cout << "wrong angle" << endl;
+
 		double neutron_px = sqrt(mag2 - neutron_pz*neutron_pz - neutron_py*neutron_py);
+		
+		if( ee > 0 && ee < PI/2 ) neutron_px = neutron_px;
+		else if( ee > PI/2 && ee < PI ) neutron_px = -neutron_px;
+		else cout << "wrong angle" << endl;
 
 		TVector3 neutron_v3_new(neutron_px, neutron_py, neutron_pz);
 		TLorentzVector particle_4mom_neutron_new;
