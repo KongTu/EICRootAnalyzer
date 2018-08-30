@@ -72,7 +72,7 @@ void plotTheta(int nEvents, TString inputFilename){
 		if( pF2 < 0.3025 || pF2 > 0.36 ) continue;
 		if( event_process != 91 ) continue;
 		if( fabs(t_hat) > 0.1 ) continue;
-		if( struck_nucleon != 2112 ) continue;
+		if( struck_nucleon != 2212 ) continue;
 
 		for(int j(0); j < nParticles; ++j ) {
 
