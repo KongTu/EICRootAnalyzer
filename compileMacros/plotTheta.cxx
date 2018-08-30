@@ -217,9 +217,9 @@ void plotTheta(int nEvents, TString inputFilename){
    	py_neutron->Write();
    	pz_neutron->Write();
 
-   	px_neutron->Write();
-   	py_neutron->Write();
-   	pz_neutron->Write();
+   	px_proton->Write();
+   	py_proton->Write();
+   	pz_proton->Write();
 
    	PhiDist_neutron->Write();
    	PhiDist_proton->Write();
