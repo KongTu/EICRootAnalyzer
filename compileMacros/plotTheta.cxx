@@ -145,18 +145,19 @@ void plotTheta(int nEvents, TString inputFilename){
 		
 		mag2 = neutron_v3.Mag2();
 		double neutron_pz = neutron_v3.Mag()*TMath::Cos(bb);
-		double neutron_py = 0.0;
+		double cc = particle_4mom_proton.Angle(particle_4mom_neutron.Vect());
+		double neutron_py = neutron_v3.Mag()*TMath::Sin(cc);//the perpendicular component to proton 3Vector
 		double neutron_px = sqrt(mag2 - neutron_pz*neutron_pz - neutron_py*neutron_py);
 
 		TVector3 neutron_v3_new(neutron_px, neutron_py, neutron_pz);
 		TLorentzVector particle_4mom_neutron_new;
 		particle_4mom_neutron_new.SetVectM(neutron_v3_new, MASS_NEUTRON);
 		
-		px_dist->Fill( proton_px );
-		py_dist->Fill( proton_py );
-		pz_dist->Fill( proton_pz );
+		px_dist->Fill( neutron_px );
+		py_dist->Fill( neutron_py );
+		pz_dist->Fill( neutron_pz );
 		
-		PhiDist_proton->Fill( particle_4mom_proton_new.Phi() );
+		PhiDist_proton->Fill( particle_4mom_neutron_new.Phi() );
 
  		deltaPhiION->Fill( particle_4mom_neutron_new.Phi() -  particle_4mom_proton_new.Phi() );
 
