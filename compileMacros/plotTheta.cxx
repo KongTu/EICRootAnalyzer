@@ -129,30 +129,34 @@ void plotTheta(int nEvents, TString inputFilename){
 		particle_4mom_photon.Boost(b);
       
 		double aa = particle_4mom_proton.Angle(particle_4mom_photon.Vect());
-		//double bb = particle_4mom_neutron.Angle
+		double bb = particle_4mom_neutron.Angle(particle_4mom_photon.Vect());
 
 		TVector3 proton_v3 = particle_4mom_proton.Vect();
+		TVector3 neutron_v3 = particle_4mom_neutron.Vect();
 		
 		double mag2 = proton_v3.Mag2();
 		double proton_pz = proton_v3.Mag()*TMath::Cos(aa);
-		double proton_px = 0.0;
-		double proton_py = sqrt(mag2 - proton_pz*proton_pz - proton_px*proton_px);
+		double proton_py = 0.0;
+		double proton_px = sqrt(mag2 - proton_pz*proton_pz - proton_py*proton_py);
 
 		TVector3 proton_v3_new(proton_px, proton_py, proton_pz);
-		TLorentzVector particle_4mom_proton_new;
+		TLorentzVector particle_4mom_proton_new.SetVectM(proton_v3_new, MASS_PROTON);
 		
-		particle_4mom_proton_new.SetVectM(proton_v3_new, MASS_PROTON);
+		mag2 = neutron_v3.Mag2();
+		double neutron_pz = neutron_v3.Mag()*TMath::Cos(bb);
+		double neutron_py = 0.0;
+		double neutron_px = sqrt(mag2 - neutron_pz*neutron_pz - neutron_py*neutron_py);
+
+		TVector3 neutron_v3_new(neutron_px, neutron_py, neutron_pz);
+		TLorentzVector particle_4mom_neutron_new.SetVectM(neutron_v3_new, MASS_NEUTRON);
 		
-		cout << "angle " << aa << endl;
-
-		PRINT4VECTOR(particle_4mom_proton_new, true);
-
 		px_dist->Fill( proton_px );
 		py_dist->Fill( proton_py );
 		pz_dist->Fill( proton_pz );
+		
+		PhiDist_proton->Fill( particle_4mom_proton_new.Phi() );
 
-
- 		deltaPhiION->Fill( particle_4mom_neutron.Phi() -  particle_4mom_proton.Phi() );
+ 		deltaPhiION->Fill( particle_4mom_neutron_new.Phi() -  particle_4mom_proton_new.Phi() );
 
 
 	}
@@ -173,6 +177,7 @@ void plotTheta(int nEvents, TString inputFilename){
    	px_dist->Write();
    	py_dist->Write();
    	pz_dist->Write();
+   	PhiDist_proton->Write();
 
 
 }
