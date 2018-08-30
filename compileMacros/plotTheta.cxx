@@ -1,4 +1,5 @@
 #include "hist.h"
+#include "PRINT4VECTOR.h"
 
 using namespace erhic;
 using namespace std;
