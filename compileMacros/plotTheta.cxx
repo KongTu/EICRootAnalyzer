@@ -3,6 +3,11 @@
 using namespace erhic;
 using namespace std;
 
+
+TH2D* thetaNeutronVsthetaProton = new TH2D("thetaNeutronVsthetaProton",";#theta_{proton};#theta_{neutron}",1000,0,0.01,1000,0,0.01);
+TH1D* deltaPhiLAB = new TH1D("deltaPhiLAB",";#phi_{n}#minus#phi_{p}",1000,-2*PI-0.3,2*PI+0.3);
+TH1D* deltaPhiION = new TH1D("deltaPhiION",";#phi_{n}#minus#phi_{p}",1000,-2*PI-0.3,2*PI+0.3);
+
 void plotTheta(int nEvents, TString inputFilename){
 
 	TChain *tree = new TChain("EICTree");
@@ -44,39 +49,21 @@ void plotTheta(int nEvents, TString inputFilename){
 		
 		int nParticles_process = 0;
 
-		TLorentzVector particle_4mom;
-		TLorentzVector t,k;
-		TLorentzVector p3,p4,p5;
-
-		TLorentzVector particle_4mom_proton_bKick;
-		TLorentzVector particle_4mom_neutron_bKick;
-		TLorentzVector particle_4mom_jpsi_bKick;
-
 		TLorentzVector particle_4mom_proton;
 		TLorentzVector particle_4mom_neutron;
 		TLorentzVector particle_4mom_jpsi;
-
 		TLorentzVector particle_4mom_photon;
-		TLorentzVector particle_4mom_electron_prime;
 
+		double pxf = branch_pxf->GetValue(0,0);
+		double pyf = branch_pyf->GetValue(0,0);
+		double pzf = branch_pzf->GetValue(0,0);
+		double pF = pxf*pxf + pyf*pyf + pzf*pzf;
+		
+
+		if( pF < 0.3025 || pF > 0.36 ) continue;
 		if( event_process != 91 ) continue;
-
-		/*E-M Conservation*/
-		double pztarg_1 = 135.290727;
-		double pztarg_2 = 135.103537;
-		double pz_total = pztarg_1+pztarg_2;
-		double total_energy = sqrt(pz_total*pz_total + MASS_DEUTERON*MASS_DEUTERON);
-		//electron, neglect electron mass
-		double pz_lepton = branch_pzlep->GetValue(0,0);
-		double electron_mass = 0.00051;
-		double total_lep_energy = sqrt(pz_lepton*pz_lepton + electron_mass*electron_mass);
-
-		TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
-		TLorentzVector total4Mom_electron(0., 0., pz_lepton, total_lep_energy);
-
-		TLorentzVector total4Mom_outgoing(0.,0.,0.,0.);
-		TLorentzVector total4Mom_incoming = total4Mom_deuteron + total4Mom_electron;
-		/*end*/
+		if( fabs(t_hat) > 0.1 ) continue;
+		if( struck_nucleon != 2112 ) continue;
 
 		for(int j(0); j < nParticles; ++j ) {
 
@@ -85,51 +72,34 @@ void plotTheta(int nEvents, TString inputFilename){
 			int pdg = particle->GetPdgCode();
 			int status = particle->GetStatus();
 			int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
-			double pt = particle->GetPt();
-			double eta = particle->GetEta();
-			double phi = particle->GetPhi();
-			double mass = particle->GetM();
-			double theta = particle->GetTheta(); 
-			theta = theta*1000.0; //change to mrad;
-			double mom = particle->GetP();
-
-			statusHist.Fill( status ); 
 
 			if( index == 4 ){ //get gamma 4-momentum:
 
-			particle_4mom_photon = particle->Get4Vector();
-			
-			}
-			if( index == 3 ){
-			particle_4mom_electron_prime = particle->Get4Vector();
+				particle_4mom_photon = particle->Get4Vector();
 			}
 			if( status != 1 ) continue; //only stable final-state particles 
 			if( pdg == 443 ){//Jpsi
 
-			particle_4mom_jpsi_bKick = particle->Get4Vector();
-			particle_4mom_jpsi = particle->Get4Vector();
-
+				particle_4mom_jpsi = particle->Get4Vector();
 			}
 			if( pdg == 2212 ){//proton
 
-				//SetPtEtaPhiM(pt,eta,phi,mass);//this won't work if there is no pT 
-			particle_4mom_proton_bKick = particle->Get4Vector();
-			particle_4mom_proton = particle->Get4Vector();
-
+				particle_4mom_proton = particle->Get4Vector();
 			}
 			if( pdg == 2112 ){//neutron
 
-			particle_4mom_neutron_bKick = particle->Get4Vector();
-			particle_4mom_neutron = particle->Get4Vector();
-			
+				particle_4mom_neutron = particle->Get4Vector();
 			}
 
 			nParticles_process++;
 
 		} // end of particle loop
 
-	}
 
+		thetaNeutronVsthetaProton->Fill( particle_4mom_proton.Theta(), particle_4mom_neutron.Theta() );
+		deltaPhiLAB->Fill( particle_4mom_neutron.Phi() -  particle_4mom_proton.Phi() );
+	
+	}
 
 
 
@@ -138,7 +108,8 @@ void plotTheta(int nEvents, TString inputFilename){
 
    	TFile output("../rootfiles/"+inputFilename+outfilename,"RECREATE");
 
-
+   	thetaNeutronVsthetaProton->Write();
+   	deltaPhiLAB->Write();
 
 
 
