@@ -133,11 +133,11 @@ void plotTheta(int nEvents, TString inputFilename){
 		double proton_px = proton_v3.X();
 		double proton_py = sqrt(mag2 - proton_pz*proton_pz - proton_px*proton_px);
 
+		TVector3 proton_v3_new(proton_px, proton_py, proton_pz);
 		TLorentzVector particle_4mom_proton_new;
-		particle_4mom_proton_new.SetPxPyPzM(proton_px, proton_py, proton_pz, MASS_PROTON);
 		
-
-
+		particle_4mom_proton_new.SetVectM(proton_v3_new, MASS_PROTON);
+		
 		cout << "angle " << aa << endl;
 
 		PRINT4VECTOR(particle_4mom_proton_new, true);
