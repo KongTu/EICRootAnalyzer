@@ -59,7 +59,6 @@ void plotTheta(int nEvents, TString inputFilename){
 		double pzf = branch_pzf->GetValue(0,0);
 		double pF = pxf*pxf + pyf*pyf + pzf*pzf;
 		
-
 		if( pF < 0.3025 || pF > 0.36 ) continue;
 		if( event_process != 91 ) continue;
 		if( fabs(t_hat) > 0.1 ) continue;
@@ -100,6 +99,31 @@ void plotTheta(int nEvents, TString inputFilename){
 		deltaEtadeltaPhi->Fill(particle_4mom_neutron.Eta() -  particle_4mom_proton.Eta(), particle_4mom_neutron.Phi() -  particle_4mom_proton.Phi());
 		deltaPhiLAB->Fill( particle_4mom_neutron.Phi() -  particle_4mom_proton.Phi() );
 	
+		//Deuteron
+		double pztarg_1 = 135;
+		double pztarg_2 = 135;
+
+		double Atarg = branch_atarg->GetValue(0,0);
+		double pz_total = pztarg_1+pztarg_2;
+		double total_energy = sqrt(pz_total*pz_total + MASS_DEUTERON*MASS_DEUTERON);
+
+		TLorentzVector total4Mom_deuteron(0., 0., pz_total, total_energy);
+
+		/* lorentz boost incoming particle*/
+		double gamma_ion = total_energy/MASS_DEUTERON;
+		double bz = pz_total/(gamma_ion*MASS_DEUTERON);
+
+		TVector3 b;
+
+		particle_4mom_proton.Boost(0,0,-bz);
+		particle_4mom_proton.Boost(b);
+
+		particle_4mom_neutron.Boost(0,0,-bz);
+		particle_4mom_neutron.Boost(b);
+      
+ 		deltaPhiION->Fill( particle_4mom_neutron.Phi() -  particle_4mom_proton.Phi() );
+
+
 	}
 
 
@@ -112,6 +136,7 @@ void plotTheta(int nEvents, TString inputFilename){
    	thetaNeutronVsthetaProton->Write();
    	deltaEtadeltaPhi->Write();
    	deltaPhiLAB->Write();
+   	deltaPhiION->Write();
 
 
 
