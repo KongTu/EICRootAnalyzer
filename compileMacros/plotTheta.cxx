@@ -66,10 +66,10 @@ void plotTheta(int nEvents, TString inputFilename){
 		double pxf = branch_pxf->GetValue(0,0);
 		double pyf = branch_pyf->GetValue(0,0);
 		double pzf = branch_pzf->GetValue(0,0);
-		double pF = pxf*pxf + pyf*pyf + pzf*pzf;
+		double pF2 = pxf*pxf + pyf*pyf + pzf*pzf;
 		
 		/*hard-coded cuts*/
-		if( pF < 0.3025 || pF > 0.36 ) continue;
+		if( pF2 < 0.3025 || pF2 > 0.36 ) continue;
 		if( event_process != 91 ) continue;
 		if( fabs(t_hat) > 0.1 ) continue;
 		if( struck_nucleon != 2112 ) continue;
