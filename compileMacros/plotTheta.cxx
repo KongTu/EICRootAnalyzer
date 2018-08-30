@@ -69,7 +69,7 @@ void plotTheta(int nEvents, TString inputFilename){
 		double pzf = branch_pzf->GetValue(0,0);
 		double pF = pxf*pxf + pyf*pyf + pzf*pzf;
 		
-		//if( pF < 0.3025 || pF > 0.36 ) continue;
+		if( pF < 0.3025 || pF > 0.36 ) continue;
 		if( event_process != 91 ) continue;
 		if( fabs(t_hat) > 0.1 ) continue;
 		if( struck_nucleon != 2112 ) continue;
@@ -138,9 +138,6 @@ void plotTheta(int nEvents, TString inputFilename){
 		TVector3 proton_v3 = particle_4mom_proton.Vect();
 		TVector3 neutron_v3 = particle_4mom_neutron.Vect();
 		TVector3 photon_v3 = particle_4mom_photon.Vect();
-
-		PRINT4VECTOR(particle_4mom_proton, true);
-		PRINT4VECTOR(particle_4mom_neutron, true);
 
 		double aa = proton_v3.Angle(photon_v3);
 		double bb = neutron_v3.Angle(photon_v3);
