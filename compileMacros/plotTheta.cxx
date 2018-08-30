@@ -122,8 +122,8 @@ void plotTheta(int nEvents, TString inputFilename){
 		particle_4mom_neutron.Boost(0,0,-bz);
 		particle_4mom_neutron.Boost(b);
 
-		// particle_4mom_photon.Boost(0,0,-bz);
-		// particle_4mom_photon.Boost(b);
+		particle_4mom_photon.Boost(0,0,-bz);
+		particle_4mom_photon.Boost(b);
       
 		double aa = particle_4mom_proton.Angle(particle_4mom_photon.Vect());
 		TVector3 proton_v3 = particle_4mom_proton.Vect();
