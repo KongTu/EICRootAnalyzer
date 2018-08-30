@@ -4,9 +4,9 @@ using namespace erhic;
 using namespace std;
 
 
-TH2D* thetaNeutronVsthetaProton = new TH2D("thetaNeutronVsthetaProton",";#theta_{proton};#theta_{neutron}",1000,0,0.01,1000,0,0.01);
-TH1D* deltaPhiLAB = new TH1D("deltaPhiLAB",";#phi_{n}#minus#phi_{p}",1000,-2*PI-0.3,2*PI+0.3);
-TH1D* deltaPhiION = new TH1D("deltaPhiION",";#phi_{n}#minus#phi_{p}",1000,-2*PI-0.3,2*PI+0.3);
+TH2D* thetaNeutronVsthetaProton = new TH2D("thetaNeutronVsthetaProton",";#theta_{proton};#theta_{neutron}",100,0,0.01,100,0,0.01);
+TH1D* deltaPhiLAB = new TH1D("deltaPhiLAB",";#phi_{n}#minus#phi_{p}",100,-2*PI-0.3,2*PI+0.3);
+TH1D* deltaPhiION = new TH1D("deltaPhiION",";#phi_{n}#minus#phi_{p}",100,-2*PI-0.3,2*PI+0.3);
 
 void plotTheta(int nEvents, TString inputFilename){
 
@@ -95,8 +95,9 @@ void plotTheta(int nEvents, TString inputFilename){
 
 		} // end of particle loop
 
-
+	 
 		thetaNeutronVsthetaProton->Fill( particle_4mom_proton.Theta(), particle_4mom_neutron.Theta() );
+		deltaEtadeltaPhi->Fill(particle_4mom_neutron.Eta() -  particle_4mom_proton.Eta(), particle_4mom_neutron.Phi() -  particle_4mom_proton.Phi());
 		deltaPhiLAB->Fill( particle_4mom_neutron.Phi() -  particle_4mom_proton.Phi() );
 	
 	}
@@ -109,6 +110,7 @@ void plotTheta(int nEvents, TString inputFilename){
    	TFile output("../rootfiles/"+inputFilename+outfilename,"RECREATE");
 
    	thetaNeutronVsthetaProton->Write();
+   	deltaEtadeltaPhi->Write();
    	deltaPhiLAB->Write();
 
 
