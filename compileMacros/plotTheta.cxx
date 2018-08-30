@@ -124,9 +124,22 @@ void plotTheta(int nEvents, TString inputFilename){
 		// particle_4mom_photon.Boost(0,0,-bz);
 		// particle_4mom_photon.Boost(b);
       
-		double aa = particle_4mom_proton.Dot(particle_4mom_photon);
+		double aa = particle_4mom_proton.Angle(particle_4mom_photon.Vect());
+		TVector3 proton_v3 = particle_4mom_proton.Vect();
+		
+		double mag2 = proton_v3.Mag2();
+		double proton_pz = proton_v3*TMath::Cos(aa);
+		double proton_px = proton_v3.X();
+		double proton_py = sqrt(mag2 - proton_pz*proton_pz - proton_px*proton_px);
+
+		TLorentzVector particle_4mom_proton_new;
+		particle_4mom_proton_new.SetPxPyPzM(proton_px, proton_py, proton_pz, MASS_PROTON);
+		
+
+
 		cout << "angle " << aa << endl;
 
+		PRINT4VECTOR(particle_4mom_proton_new, true);
 
 
  		deltaPhiION->Fill( particle_4mom_neutron.Phi() -  particle_4mom_proton.Phi() );
