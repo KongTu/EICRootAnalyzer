@@ -4,7 +4,6 @@
 using namespace erhic;
 using namespace std;
 
-
 TH2D* thetaNeutronVsthetaProton = new TH2D("thetaNeutronVsthetaProton",";#theta_{proton};#theta_{neutron}",100,0,0.01,100,0,0.01);
 TH1D* deltaPhiLAB = new TH1D("deltaPhiLAB",";#phi_{n}#minus#phi_{p}",100,-2*PI-0.3,2*PI+0.3);
 TH1D* deltaPhiION = new TH1D("deltaPhiION",";#phi_{n}#minus#phi_{p}",100,-2*PI-0.3,2*PI+0.3);
@@ -69,6 +68,7 @@ void plotTheta(int nEvents, TString inputFilename){
 		double pzf = branch_pzf->GetValue(0,0);
 		double pF = pxf*pxf + pyf*pyf + pzf*pzf;
 		
+		/*hard-coded cut*/
 		if( pF < 0.3025 || pF > 0.36 ) continue;
 		if( event_process != 91 ) continue;
 		if( fabs(t_hat) > 0.1 ) continue;
@@ -175,12 +175,7 @@ void plotTheta(int nEvents, TString inputFilename){
 		mag2 = neutron_v3.Mag2();
 		double neutron_pz = neutron_v3.Mag()*TMath::Cos(bb);
 		double cc = neutron_v3.Angle(y_unit);
-		double neutron_py = neutron_v3.Mag()*TMath::Cos(cc);//the perpendicular component to proton 3Vector
-		
-		// if( neutron_v3.Dot(y_unit) > 0 ) neutron_py = neutron_py;
-		// else if( neutron_v3.Dot(y_unit) < 0 ) neutron_py = -neutron_py;
-		// else cout << "wrong angle" << endl;
-
+		double neutron_py = neutron_v3.Mag()*TMath::Cos(cc);//the neutron 3Vector's projection on y unit vector.
 		double neutron_px = sqrt(mag2 - neutron_pz*neutron_pz - neutron_py*neutron_py);
 		
 		if( neutron_v3.Dot(x_unit) > 0 ) neutron_px = neutron_px;
@@ -192,9 +187,6 @@ void plotTheta(int nEvents, TString inputFilename){
 		TLorentzVector particle_4mom_neutron_new;
 		particle_4mom_neutron_new.SetVectM(neutron_v3_new, MASS_NEUTRON);
 
-		// TVector3 k = particle_4mom_proton_new.Vect()+particle_4mom_neutron_new.Vect();
-		// cout << "total mag " << k.Mag() << endl;
-		
 		px_neutron->Fill( neutron_px );
 		py_neutron->Fill( neutron_py );
 		pz_neutron->Fill( neutron_pz );
