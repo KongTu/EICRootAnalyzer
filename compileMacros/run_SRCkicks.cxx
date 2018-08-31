@@ -98,6 +98,11 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 
 			statusHist.Fill( status ); 
 
+			if( pdg == 22 ){
+				TLorentzVector p = particle->Get4Vector();
+				PRINT4VECTOR(p, true);
+			}
+
 			if( index == 4 ){ //get gamma 4-momentum:
 
 			particle_4mom_photon = particle->Get4Vector();
