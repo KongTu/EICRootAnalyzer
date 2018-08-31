@@ -98,7 +98,7 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			if( index == 4 ){ //get gamma 4-momentum:
 
 			particle_4mom_photon = particle->Get4Vector();
-			
+			PRINT4VECTOR(particle_4mom_photon,true);
 			}
 			if( index == 3 ){
 			particle_4mom_electron_prime = particle->Get4Vector();
@@ -109,20 +109,22 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 
 			particle_4mom_jpsi_bKick = particle->Get4Vector();
 			particle_4mom_jpsi = particle->Get4Vector();
-
+			PRINT4VECTOR(particle_4mom_jpsi,true);
 			}
 			if( pdg == 2212 ){//proton
 
 				//SetPtEtaPhiM(pt,eta,phi,mass);//this won't work if there is no pT 
 			particle_4mom_proton_bKick = particle->Get4Vector();
 			particle_4mom_proton = particle->Get4Vector();
+			PRINT4VECTOR(particle_4mom_proton,true);
 
 			}
 			if( pdg == 2112 ){//neutron
 
 			particle_4mom_neutron_bKick = particle->Get4Vector();
 			particle_4mom_neutron = particle->Get4Vector();
-			
+			PRINT4VECTOR(particle_4mom_neutron,true);
+
 			}
 
 			nParticles_process++;
