@@ -158,8 +158,8 @@ void check_ConserveEnergy( int nEvents, bool doBoost, TString inputFilename, TSt
       if( event_process != 91 ) continue;
 
       //Deuteron
-      double pztarg_1 = branch_pz_nucl->GetValue(0,0);
-      double pztarg_2 = 135.1035;
+      double pztarg_1 = 135;
+      double pztarg_2 = 135;
       
       double Atarg = branch_atarg->GetValue(0,0);
       double pz_total = pztarg_1+pztarg_2;
@@ -262,6 +262,12 @@ void check_ConserveEnergy( int nEvents, bool doBoost, TString inputFilename, TSt
       py_corr->Fill( total4Mom_incoming.Py() - total4Mom_outgoing.Py() );
       pz_corr->Fill( total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() );
       
+      cout << "energy_diff: " << energy_diff << endl;
+      cout << "px_diff: " << total4Mom_incoming.Px() - total4Mom_outgoing.Px() << endl;
+      cout << "py_diff: " << total4Mom_incoming.Py() - total4Mom_outgoing.Py() << endl;
+      cout << "pz_diff: " << total4Mom_incoming.Pz() - total4Mom_outgoing.Pz() << endl;
+
+
       //2D histogram:
       energyVsQ2_2Dcorr->Fill(energy_diff, trueQ2);
       energyVsW2_2Dcorr->Fill(energy_diff, trueW2);
