@@ -117,6 +117,7 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			particle_4mom_proton_bKick = particle->Get4Vector();
 			particle_4mom_proton = particle->Get4Vector();
 			PRINT4VECTOR(particle_4mom_proton,true);
+			cout << "Mass proton: " << particle->GetM() << endl;
 
 			}
 			if( pdg == 2112 ){//neutron
@@ -124,6 +125,7 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			particle_4mom_neutron_bKick = particle->Get4Vector();
 			particle_4mom_neutron = particle->Get4Vector();
 			PRINT4VECTOR(particle_4mom_neutron,true);
+			cout << "Mass neutron: " << particle->GetM() << endl;
 
 			}
 
