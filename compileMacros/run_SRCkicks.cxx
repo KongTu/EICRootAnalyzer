@@ -33,7 +33,7 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 		double trueW2 = event->GetTrueW2();
 		double trueX = event->GetTrueX();
 		double trueY = event->GetTrueY();
-		double trueNu = event->GetTrueNu();
+		double trueNu = event->nu;
 		double s_hat = event->GetHardS();
 		double t_hat = event->t_hat;
 		double u_hat = event->GetHardU();
