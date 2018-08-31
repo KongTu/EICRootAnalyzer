@@ -41,6 +41,9 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 		int event_process = event->GetProcess();
 		int nParticles = event->GetNTracks();
 		int struck_nucleon = event->nucleon;
+
+		cout << "trueQ2 " << trueQ2 << endl;
+		cout << "trueNu " << trueNu << endl;
 		
 		int nParticles_process = 0;
 
