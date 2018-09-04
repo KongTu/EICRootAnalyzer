@@ -141,6 +141,11 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 
 		} // end of particle loop
 
+
+		cout << "number of particle : " << nParticles_process << endl;
+		
+
+
 		if( doKick ){ 
 
 			t = particle_4mom_neutron_bKick + particle_4mom_proton_bKick + particle_4mom_jpsi_bKick;
