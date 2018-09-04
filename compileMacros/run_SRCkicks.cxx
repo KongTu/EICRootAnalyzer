@@ -42,14 +42,16 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 		int nParticles = event->GetNTracks();
 		int struck_nucleon = event->nucleon;
 
-		cout << "trueQ2 " << trueQ2 << endl;
-		cout << "trueNu " << trueNu << endl;
-		
 		int nParticles_process = 0;
 
 		TLorentzVector particle_4mom;
 		TLorentzVector t,k;
-		TLorentzVector p3,p4,p5;
+
+		TLorentzVector p1,p2,p3;
+		TLorentzVector k_case2;		
+		TLorentzVector Wfull(0,0,0,0);
+		
+		TLorentzVector p6,p4,p5;
 
 		TLorentzVector particle_4mom_proton_bKick;
 		TLorentzVector particle_4mom_neutron_bKick;
@@ -98,54 +100,31 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 
 			statusHist.Fill( status ); 
 
-			if( pdg == 22 ){
-				TLorentzVector p = particle->Get4Vector();
-				PRINT4VECTOR(p, true);
-			}
-
 			if( index == 4 ){ //get gamma 4-momentum:
-
-			particle_4mom_photon = particle->Get4Vector();
-			PRINT4VECTOR(particle_4mom_photon,true);
+				particle_4mom_photon = particle->Get4Vector();
 			}
 			if( index == 3 ){
-			particle_4mom_electron_prime = particle->Get4Vector();
-			PRINT4VECTOR(particle_4mom_electron_prime,true);
+				particle_4mom_electron_prime = particle->Get4Vector();
 			}
 			if( status != 1 ) continue; //only stable final-state particles 
 			if( pdg == 443 ){//Jpsi
-
-			particle_4mom_jpsi_bKick = particle->Get4Vector();
-			particle_4mom_jpsi = particle->Get4Vector();
-			PRINT4VECTOR(particle_4mom_jpsi,true);
+				particle_4mom_jpsi_bKick = particle->Get4Vector();
+				particle_4mom_jpsi = particle->Get4Vector();
 			}
 			if( pdg == 2212 ){//proton
-
-				//SetPtEtaPhiM(pt,eta,phi,mass);//this won't work if there is no pT 
-			particle_4mom_proton_bKick = particle->Get4Vector();
-			particle_4mom_proton = particle->Get4Vector();
-			PRINT4VECTOR(particle_4mom_proton,true);
-			cout << "Mass proton: " << particle->GetM() << endl;
-
+				particle_4mom_proton_bKick = particle->Get4Vector();
+				particle_4mom_proton = particle->Get4Vector();
 			}
 			if( pdg == 2112 ){//neutron
-
-			particle_4mom_neutron_bKick = particle->Get4Vector();
-			particle_4mom_neutron = particle->Get4Vector();
-			PRINT4VECTOR(particle_4mom_neutron,true);
-			cout << "Mass neutron: " << particle->GetM() << endl;
-
+				particle_4mom_neutron_bKick = particle->Get4Vector();
+				particle_4mom_neutron = particle->Get4Vector();
 			}
 
 			nParticles_process++;
 
 		} // end of particle loop
 
-
-		cout << "number of particle : " << nParticles_process << endl;
 		
-
-
 		if( doKick ){ 
 
 			t = particle_4mom_neutron_bKick + particle_4mom_proton_bKick + particle_4mom_jpsi_bKick;
@@ -207,6 +186,10 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			double j_pz = particle_4mom_jpsi_bKick.Pz();
 			double j_E = sqrt(j_px*j_px + j_py*j_py + j_pz*j_pz + MASS_JPSI*MASS_JPSI);
 
+			p1.SetPxPyPzE(p_px,p_py,p_pz,p_E);
+			p2.SetPxPyPzE(n_px,n_py,n_pz,n_E);
+			p3.SetPxPyPzE(j_px,j_py,j_pz,j_E);
+
 			double p_py_prime = p_py; 
 			double n_py_prime = n_py; 
 			double j_py_prime = j_py; 
@@ -219,109 +202,110 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			double n_pz_prime = n_pz; 
 			double j_pz_prime = j_pz; 
 
-			if( CASE == 1 ){
+
+		if( CASE == 1 ){
+			
+			double E_min = 1000.0;
+			double comp_min = 0.;
+			double delta_min = 0.;
+			double kappa_min = 0.;
+
+			int i_min = 0;
+			int j_min = 0;
+			int k_min = 0;
+
+			double comp_init = -1;
+			double delta_init = -5;
+			double kappa_init = -5;
+
+			const int iteration_1 = 20;
+			const int iteration_2 = 10;
+
+			double comp[iteration_1];
+			double delta[iteration_2];
+			double kappa[iteration_2];
+
+			for(int jter = 0; jter < iteration_1; jter++){
+
+			 double temp = comp_init+0.1*jter;
+			 comp[jter] = temp;  
+			}
+
+			for(int jter = 0; jter < iteration_2; jter++){
+
+			 double temp = delta_init+1.*jter;
+			 delta[jter] = temp;
+
+			 temp = kappa_init+1.*jter;
+			 kappa[jter] = temp;
+			}
+
+			for(int iter = 0; iter < iteration_2; iter++){//delta
+			 for(int jter = 0; jter < iteration_1; jter++){//comp
+			    for(int kter = 0; kter < iteration_2; kter++){//kappa
 				
-				double E_min = 1000.0;
-				double comp_min = 0.;
-				double delta_min = 0.;
-				double kappa_min = 0.;
+				if( struck_nucleon == 2212 ){
 
-				int i_min = 0;
-				int j_min = 0;
-				int k_min = 0;
+					p_py_prime = p_py + kick_py;
+				    n_py_prime = n_py - kick_py + delta[iter];
+				    j_py_prime = j_py - delta[iter];
 
-				double comp_init = -1;
-				double delta_init = -5;
-				double kappa_init = -5;
+				    p_px_prime = p_px + kick_px; 
+				    n_px_prime = n_px - kick_px + kappa[kter];
+				    j_px_prime = j_px - kappa[kter];
 
-				const int iteration_1 = 20;
-				const int iteration_2 = 10;
+				    p_pz_prime = p_pz + kick_pz;
+				    n_pz_prime = n_pz - kick_pz + comp[jter];
+				    j_pz_prime = j_pz - comp[jter];
 
-				double comp[iteration_1];
-				double delta[iteration_2];
-				double kappa[iteration_2];
+				}
+				else{
 
-				for(int jter = 0; jter < iteration_1; jter++){
+					p_py_prime = p_py - kick_py + delta[iter];
+				    n_py_prime = n_py + kick_py ;
+				    j_py_prime = j_py - delta[iter];
 
-				 double temp = comp_init+0.1*jter;
-				 comp[jter] = temp;  
+				    p_px_prime = p_px - kick_px + kappa[kter]; 
+				    n_px_prime = n_px + kick_px;
+				    j_px_prime = j_px - kappa[kter];
+
+				    p_pz_prime = p_pz - kick_pz + comp[jter];
+				    n_pz_prime = n_pz + kick_pz;
+				    j_pz_prime = j_pz - comp[jter];
 				}
 
-				for(int jter = 0; jter < iteration_2; jter++){
+			    double p_E_prime = sqrt(p_px_prime*p_px_prime + p_py_prime*p_py_prime + p_pz_prime*p_pz_prime + MASS_PROTON*MASS_PROTON);
+			    double n_E_prime = sqrt(n_px_prime*n_px_prime + n_py_prime*n_py_prime + n_pz_prime*n_pz_prime + MASS_NEUTRON*MASS_NEUTRON);
+			    double j_E_prime = sqrt(j_px_prime*j_px_prime + j_py_prime*j_py_prime + j_pz_prime*j_pz_prime + MASS_JPSI*MASS_JPSI);
 
-				 double temp = delta_init+1.*jter;
-				 delta[jter] = temp;
+			    p6.SetPxPyPzE(p_px_prime,p_py_prime,p_pz_prime,p_E_prime);
+			    p4.SetPxPyPzE(n_px_prime,n_py_prime,n_pz_prime,n_E_prime);
+			    p5.SetPxPyPzE(j_px_prime,j_py_prime,j_pz_prime,j_E_prime);
 
-				 temp = kappa_init+1.*jter;
-				 kappa[jter] = temp;
-				}
+			    k = p6+p4+p5;
 
-				for(int iter = 0; iter < iteration_2; iter++){//delta
-				 for(int jter = 0; jter < iteration_1; jter++){//comp
-				    for(int kter = 0; kter < iteration_2; kter++){//kappa
-					
-					if( struck_nucleon == 2212 ){
+			    double E_DIFF = t.E() - k.E();
+			    double pz_DIFF = t.Pz() - k.Pz();
 
-						p_py_prime = p_py + kick_py;
-					    n_py_prime = n_py - kick_py + delta[iter];
-					    j_py_prime = j_py - delta[iter];
+			       if( fabs(E_DIFF) < fabs(E_min) ) {
 
-					    p_px_prime = p_px + kick_px; 
-					    n_px_prime = n_px - kick_px + kappa[kter];
-					    j_px_prime = j_px - kappa[kter];
+			          E_min = E_DIFF;
+			          comp_min = comp[jter];
+			          delta_min = delta[iter];
+			          kappa_min = kappa[kter];
 
-					    p_pz_prime = p_pz + kick_pz;
-					    n_pz_prime = n_pz - kick_pz + comp[jter];
-					    j_pz_prime = j_pz - comp[jter];
+			          i_min = iter;
+			          j_min = jter;
+			          k_min = kter;  
 
-					}
-					else{
+				          particle_4mom_proton = p6;
+				          particle_4mom_neutron = p4;
+				          particle_4mom_jpsi = p5;
+			       }
 
-						p_py_prime = p_py - kick_py + delta[iter];
-					    n_py_prime = n_py + kick_py ;
-					    j_py_prime = j_py - delta[iter];
-
-					    p_px_prime = p_px - kick_px + kappa[kter]; 
-					    n_px_prime = n_px + kick_px;
-					    j_px_prime = j_px - kappa[kter];
-
-					    p_pz_prime = p_pz - kick_pz + comp[jter];
-					    n_pz_prime = n_pz + kick_pz;
-					    j_pz_prime = j_pz - comp[jter];
-					}
-
-				    double p_E_prime = sqrt(p_px_prime*p_px_prime + p_py_prime*p_py_prime + p_pz_prime*p_pz_prime + MASS_PROTON*MASS_PROTON);
-				    double n_E_prime = sqrt(n_px_prime*n_px_prime + n_py_prime*n_py_prime + n_pz_prime*n_pz_prime + MASS_NEUTRON*MASS_NEUTRON);
-				    double j_E_prime = sqrt(j_px_prime*j_px_prime + j_py_prime*j_py_prime + j_pz_prime*j_pz_prime + MASS_JPSI*MASS_JPSI);
-
-				    p3.SetPxPyPzE(p_px_prime,p_py_prime,p_pz_prime,p_E_prime);
-				    p4.SetPxPyPzE(n_px_prime,n_py_prime,n_pz_prime,n_E_prime);
-				    p5.SetPxPyPzE(j_px_prime,j_py_prime,j_pz_prime,j_E_prime);
-
-				    k = p3+p4+p5;
-
-				    double E_DIFF = t.E() - k.E();
-				    double pz_DIFF = t.Pz() - k.Pz();
-
-				       if( fabs(E_DIFF) < fabs(E_min) ) {
-
-				          E_min = E_DIFF;
-				          comp_min = comp[jter];
-				          delta_min = delta[iter];
-				          kappa_min = kappa[kter];
-
-				          i_min = iter;
-				          j_min = jter;
-				          k_min = kter;  
-
-					          particle_4mom_proton = p3;
-					          particle_4mom_neutron = p4;
-					          particle_4mom_jpsi = p5;
-				       }
-
-				    }//loop1
-				}//loop2
-			}//loop3
+			    }//loop1
+			}//loop2
+		}//loop3
 			  
 			if( i_min == 0 || j_min == 0 || k_min == 0 || i_min == 9 || j_min == 19 || k_min == 9 ) continue;//hit the boundary continue;
 			// cout << "iter: " << i_min << " jter: " << j_min << " kter: " << k_min << endl;
@@ -329,57 +313,150 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 	
 		}
 		if( CASE == 2 ){
+			
+			/* step 1 boost into ion rest frame*/
+			double gamma_ion = total_energy/MASS_DEUTERON;
+			double ion_z = pz_total/(gamma_ion*MASS_DEUTERON);
 
-			double aa[1000];
-			double bb[1000];
-			double cc;
+			TVector3 b_TO_ION;
 
-			for(int jter = 0; jter < 1000; jter++){
+			p1.Boost(0,0,-ion_z);
+			p1.Boost(b_TO_ION);
 
-				 double temp = 0.001*jter;
-				 aa[jter] = temp;  
-				 bb[jter] = temp;
+			p2.Boost(0,0,-ion_z);
+			p2.Boost(b_TO_ION);
+
+			p3.Boost(0,0,-ion_z);
+			p3.Boost(b_TO_ION);
+
+			total4Mom_deuteron.Boost(0,0,-ion_z);
+			total4Mom_deuteron.Boost(b_TO_ION);
+
+			particle_4mom_photon.Boost(0,0,-ion_z);
+			particle_4mom_photon.Boost(b_TO_ION);
+
+			//total 4Vector before any boost:
+			t = p1+p2+p3;//ion rest frame hadronic 4Vector sum
+			Wfull = total4Mom_deuteron+particle_4mom_photon;//ion rest frame gamma*+D
+			double W2F = Wfull.Mag2();
+
+			/*step 2 boost into gamma*+D rest frame*/
+			TVector3 p1_v3 = p1.Vect();
+			TVector3 p2_v3 = p2.Vect();
+			TVector3 p3_v3 = p3.Vect();
+
+			TVector3 velocity = (1./Wfull.E())*Wfull.Vect();
+			double bx = velocity.X(); double by = velocity.Y(); double bz = velocity.Z();
+
+			TVector3 b;
+
+			p1.Boost(-bx,-by,-bz);
+			p1.Boost(b);
+
+			p2.Boost(-bx,-by,-bz);
+			p2.Boost(b);
+
+			p3.Boost(-bx,-by,-bz);
+			p3.Boost(b);
+
+			total4Mom_deuteron.Boost(-bx,-by,-bz);
+			total4Mom_deuteron.Boost(b);
+			
+			particle_4mom_photon.Boost(-bx,-by,-bz);
+			particle_4mom_photon.Boost(b);
+
+			k_case2 = p1+p2+p3;
+			Wfull = total4Mom_deuteron+particle_4mom_photon;
+			W2F = Wfull.Mag2();
+
+			/*check to see if 3 momentum of p+n+j is zero, 
+			if not, force it to be zero. Now let Jpsi to take
+			any momentum excess in the system*/
+
+			p3.SetPz( p3.Pz() - k_case2.Pz() );
+			p3.SetPy( p3.Py() - k_case2.Py() );
+			p3.SetPx( p3.Px() - k_case2.Px() );
+
+			k_case2 = p1+p2+p3;
+			
+			//after boost 3 vector:
+			TVector3 pp1_v3_boost = p1.Vect();
+			TVector3 pp2_v3_boost = p2.Vect();
+			TVector3 pp3_v3_boost = p3.Vect();
+			TVector3 total_3momentum = pp1_v3_boost + pp2_v3_boost + pp3_v3_boost;
+			
+			cout << "- Now if 3-momentum sum: " << total_3momentum.Mag() << endl;
+			if( total_3momentum.Mag() < 10E-9 ) cout << "- Done! Continue to fix energy!" << endl;
+			else {cout << " 3 momentum sum not zero! Abort! " << endl; return;}
+
+			TLorentzVector pp1_v4_boost;
+			TLorentzVector pp2_v4_boost;
+			TLorentzVector pp3_v4_boost;
+			TLorentzVector Woops;
+
+			int trail = 0;
+			bool success = false;
+			double delta = 0.;
+			double alpha = 1.0;
+			double W2oops = 0.;
+
+			while( success != true && trail < 100 ){
+				
+				/*now modify momenta and check if energy is conserved*/
+				pp1_v3_boost = alpha*pp1_v3_boost;
+				pp2_v3_boost = alpha*pp2_v3_boost;
+				pp3_v3_boost = alpha*pp3_v3_boost;
+
+				pp1_v4_boost.SetVectM(pp1_v3_boost, pMass);
+				pp2_v4_boost.SetVectM(pp2_v3_boost, nMass);
+				pp3_v4_boost.SetVectM(pp3_v3_boost, jMass);
+
+				Woops = pp1_v4_boost + pp2_v4_boost + pp3_v4_boost;
+				W2oops = Woops.Mag2();
+				
+				delta = ( Wfull.E() - Woops.E() ) / (pp1_v4_boost.P()*pp1_v4_boost.P()/pp1_v4_boost.E() + pp2_v4_boost.P()*pp2_v4_boost.P()/pp2_v4_boost.E() + pp3_v4_boost.P()*pp3_v4_boost.P()/pp3_v4_boost.E() );
+				alpha = 1.+delta;
+				
+				if( fabs(W2oops - W2F) < 10E-15 ) success = true;
+				else trail++;
+
 			}
 
-			for(int iter = 0; iter < 1000; iter++){
-				for(int jter = 0; jter < 1000; jter++){
+			if( success == 1 ) cout << "success! Done!";
+			else cout << "Fail! #trails tried: " << trail << endl;
+			/*step 4 boost back to ion rest frame*/
+			TVector3 bb;
 
-					cc = ((1-aa[iter])*p_py + (1-bb[jter])*n_py + (bb[jter]-aa[iter])*kick_py)/j_py + 1.;
-					p_py_prime = aa[iter]*(p_py + kick_py);
-				    n_py_prime = bb[jter]*(n_py - kick_py);
-				    j_py_prime = cc*j_py;
+			pp1_v4_boost.Boost(bx,by,bz);
+			pp1_v4_boost.Boost(bb);
 
-				    cc = ((1-aa[iter])*p_px + (1-bb[jter])*n_px + (bb[jter]-aa[iter])*kick_px)/j_px + 1.;
-				    p_px_prime = aa[iter]*(p_px + kick_px); 
-				    n_px_prime = bb[jter]*(n_px - kick_px);
-				    j_px_prime = cc*j_px;
+			pp2_v4_boost.Boost(bx,by,bz);
+			pp2_v4_boost.Boost(bb);
 
-				    cc = ((1-aa[iter])*p_pz + (1-bb[jter])*n_pz + (bb[jter]-aa[iter])*kick_pz)/j_pz + 1.;
-				    p_pz_prime = aa[iter]*(p_pz + kick_pz);
-				    n_pz_prime = bb[jter]*(n_pz - kick_pz);
-				    j_pz_prime = cc*j_pz;
+			pp3_v4_boost.Boost(bx,by,bz);
+			pp3_v4_boost.Boost(bb);
 
-				    double p_E_prime = sqrt(p_px_prime*p_px_prime + p_py_prime*p_py_prime + p_pz_prime*p_pz_prime + MASS_PROTON*MASS_PROTON);
-				    double n_E_prime = sqrt(n_px_prime*n_px_prime + n_py_prime*n_py_prime + n_pz_prime*n_pz_prime + MASS_NEUTRON*MASS_NEUTRON);
-				    double j_E_prime = sqrt(j_px_prime*j_px_prime + j_py_prime*j_py_prime + j_pz_prime*j_pz_prime + MASS_JPSI*MASS_JPSI);
+			total4Mom_deuteron.Boost(bx,by,bz);
+			total4Mom_deuteron.Boost(bb);
+			
+			/*step 5 boost back to lab frame*/
+			TVector3 b_TO_LAB;
 
-				    p3.SetPxPyPzE(p_px_prime,p_py_prime,p_pz_prime,p_E_prime);
-				    p4.SetPxPyPzE(n_px_prime,n_py_prime,n_pz_prime,n_E_prime);
-				    p5.SetPxPyPzE(j_px_prime,j_py_prime,j_pz_prime,j_E_prime);
+			pp1_v4_boost.Boost(0,0,ion_z);
+			pp1_v4_boost.Boost(b_TO_LAB);
 
-				    k = p3+p4+p5;
+			pp2_v4_boost.Boost(0,0,ion_z);
+			pp2_v4_boost.Boost(b_TO_LAB);
 
-				    double E_DIFF = t.E() - k.E();
-				    double px_DIFF = t.Px() - k.Px();
-				    double py_DIFF = t.Py() - k.Py();
-				    double pz_DIFF = t.Pz() - k.Pz();
+			pp3_v4_boost.Boost(0,0,ion_z);
+			pp3_v4_boost.Boost(b_TO_LAB);
 
-				    if(E_DIFF < 0.7) cout << "E_DIFF = " << E_DIFF << endl;
-					
-				}
-			}	
+			total4Mom_deuteron.Boost(0,0,ion_z);
+			total4Mom_deuteron.Boost(b_TO_LAB);
 
-
+			particle_4mom_proton = pp1_v4_boost;
+			particle_4mom_neutron = pp2_v4_boost;
+			particle_4mom_jpsi = pp3_v4_boost;
 		}
 		
 	}//end of kick
