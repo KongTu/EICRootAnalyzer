@@ -310,12 +310,10 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 				p_px += kick_px;
 				p_py += kick_py;
 				p_pz += kick_pz;
-				p_E = sqrt(p_px*p_px + p_py*p_py + p_pz*p_pz + MASS_PROTON*MASS_PROTON);
 
 				n_px -= kick_px;
 				n_py -= kick_py;
 				n_pz -= kick_pz;
-				n_E = sqrt(n_px*n_px + n_py*n_py + n_pz*n_pz + MASS_NEUTRON*MASS_NEUTRON);
 
 				p1.SetPxPyPzE(p_px,p_py,p_pz,p_E);
 				p2.SetPxPyPzE(n_px,n_py,n_pz,n_E);
