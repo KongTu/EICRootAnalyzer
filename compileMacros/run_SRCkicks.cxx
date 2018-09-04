@@ -133,33 +133,33 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			double kick_py = 0.;
 			double kick_pz = 0.;
 
-			TF1 *fa_pt = new TF1("fa_pt","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",0,2);
-			fa_pt->SetParameter(0,1);
-			fa_pt->SetParameter(1,-3);
-			double kick_pt = fa_pt->GetRandom();
+			// TF1 *fa_pt = new TF1("fa_pt","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",0,2);
+			// fa_pt->SetParameter(0,1);
+			// fa_pt->SetParameter(1,-3);
+			// double kick_pt = fa_pt->GetRandom();
 
-			TF1 *num = new TF1("num","[0]*1",-1,1);
-			num->SetParameter(0,1);
-			double prob = num->GetRandom();
+			// TF1 *num = new TF1("num","[0]*1",-1,1);
+			// num->SetParameter(0,1);
+			// double prob = num->GetRandom();
 
-			TF1 *phiran = new TF1("phiran","[0]*1",-PI,PI);
-			phiran->SetParameter(0,1);
-			double phi_kick = phiran->GetRandom();
+			// TF1 *phiran = new TF1("phiran","[0]*1",-PI,PI);
+			// phiran->SetParameter(0,1);
+			// double phi_kick = phiran->GetRandom();
 
-			if( prob > 0 ){
-				kick_px = sqrt(kick_pt*kick_pt/(1+TMath::Tan(phi_kick)*TMath::Tan(phi_kick)));
-			}
-			else{
-				kick_px = -sqrt(kick_pt*kick_pt/(1+TMath::Tan(phi_kick)*TMath::Tan(phi_kick)));
-			}
+			// if( prob > 0 ){
+			// 	kick_px = sqrt(kick_pt*kick_pt/(1+TMath::Tan(phi_kick)*TMath::Tan(phi_kick)));
+			// }
+			// else{
+			// 	kick_px = -sqrt(kick_pt*kick_pt/(1+TMath::Tan(phi_kick)*TMath::Tan(phi_kick)));
+			// }
 	
-			kick_py = kick_px*TMath::Tan(phi_kick);
+			// kick_py = kick_px*TMath::Tan(phi_kick);
 
-			TF1 *fa_pz = new TF1("fa_pz","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",-2,2);
-			fa_pz->SetParameter(0,1);
-			fa_pz->SetParameter(1,-1);
+			// TF1 *fa_pz = new TF1("fa_pz","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",-2,2);
+			// fa_pz->SetParameter(0,1);
+			// fa_pz->SetParameter(1,-1);
 			
-			kick_pz = fa_pz->GetRandom();
+			// kick_pz = fa_pz->GetRandom();
 
 			px_dist->Fill( kick_px );
 			py_dist->Fill( kick_py );
