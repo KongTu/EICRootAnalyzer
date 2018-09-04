@@ -79,8 +79,8 @@ TH2D* PtVsEta_neutron = new TH2D("PtVsEta_neutron",";#eta;p_{T} (GeV)", 2000, -2
 
 TH2D* PtVsPt_protonVsJpsi = new TH2D("PtVsPt_protonVsJpsi",";p_{T} (GeV);p_{T} (GeV)", 200, 0,10, 200, 0,10);
 
-TH2D* AngleVsMom_proton = new TH2D("AngleVsMom_proton",";p (GeV);#theta (mrad)",2500,0,250,300,0,30);
-TH2D* AngleVsMom_neutron = new TH2D("AngleVsMom_neutron",";p (GeV);#theta (mrad)",2500,0,250,300,0,30);
+TH2D* AngleVsMom_proton = new TH2D("AngleVsMom_proton",";p (GeV);#theta (mrad)",2500,0,500,300,0,100);
+TH2D* AngleVsMom_neutron = new TH2D("AngleVsMom_neutron",";p (GeV);#theta (mrad)",2500,0,500,300,0,100);
 
 TH2D* AngleVssNN_proton = new TH2D("AngleVssNN_proton",";s_{_{NN}} (GeV^{2});#theta (mrad)",2500,0,10,300,0,30);
 TH2D* AngleVssNN_neutron = new TH2D("AngleVssNN_neutron",";s_{_{NN}} (GeV^{2});#theta (mrad)",2500,0,10,300,0,30);
