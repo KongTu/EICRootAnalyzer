@@ -165,8 +165,8 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			py_dist->Fill( kick_py );
 			pz_dist->Fill( kick_pz );
 
-			pt_dist->Fill( kick_pt );
-			phi_dist->Fill( phi_kick );
+			pt_dist->Fill( 0. );
+			phi_dist->Fill( 0. );
 
 			//proton 3 momentum:
 			double p_px = particle_4mom_proton_bKick.Px();
