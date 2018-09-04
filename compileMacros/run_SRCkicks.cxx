@@ -535,7 +535,7 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
    	}// end of event loop
 
 	TString outfilename;
-	if( doKick ) outfilename = "_SRCkicks_eD_kick_"+CASE+".root";
+	if( doKick ) outfilename = "_SRCkicks_eD_kick_"+string(CASE)+".root";
 	else outfilename = "_SRCkicks_eD_nokick.root";
 
    	TFile output("../rootfiles/"+inputFilename+outfilename,"RECREATE");
