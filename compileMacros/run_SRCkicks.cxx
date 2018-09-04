@@ -438,6 +438,9 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 
 			total4Mom_deuteron.Boost(bx,by,bz);
 			total4Mom_deuteron.Boost(bb);
+
+			particle_4mom_photon.Boost(bx,by,bz);
+			particle_4mom_photon.Boost(bb);
 			
 			/*step 5 boost back to lab frame*/
 			TVector3 b_TO_LAB;
@@ -454,6 +457,9 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			total4Mom_deuteron.Boost(0,0,ion_z);
 			total4Mom_deuteron.Boost(b_TO_LAB);
 
+			particle_4mom_photon.Boost(0,0,ion_z);
+			particle_4mom_photon.Boost(b_TO_LAB);
+			
 			particle_4mom_proton = pp1_v4_boost;
 			particle_4mom_neutron = pp2_v4_boost;
 			particle_4mom_jpsi = pp3_v4_boost;
