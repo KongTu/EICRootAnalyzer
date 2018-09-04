@@ -456,6 +456,10 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 
 			if(pp1_v4_boost.Eta() < 0){
 
+				PRINT4VECTOR(particle_4mom_proton_bKick,true);
+				PRINT4VECTOR(particle_4mom_neutron_bKick,true);
+				PRINT4VECTOR(particle_4mom_jpsi_bKick,true);
+
 				PRINT4VECTOR(pp1_v4_boost,true);
 				PRINT4VECTOR(pp2_v4_boost,true);
 				PRINT4VECTOR(pp3_v4_boost,true);
