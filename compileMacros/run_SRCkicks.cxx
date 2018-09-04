@@ -134,7 +134,7 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			double kick_py = 0.;
 			double kick_pz = 0.;
 
-			TF1 *fa_pt = new TF1("fa_pt","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",0,1);
+			TF1 *fa_pt = new TF1("fa_pt","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",0,2);
 			fa_pt->SetParameter(0,1);
 			fa_pt->SetParameter(1,-7);
 			double kick_pt = fa_pt->GetRandom();
@@ -156,7 +156,7 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 	
 			kick_py = kick_px*TMath::Tan(phi_kick);
 
-			TF1 *fa_pz = new TF1("fa_pz","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",-1,1);
+			TF1 *fa_pz = new TF1("fa_pz","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",-2,2);
 			fa_pz->SetParameter(0,1);
 			fa_pz->SetParameter(1,-5);
 			
@@ -310,10 +310,12 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 				p_px += kick_px;
 				p_py += kick_py;
 				p_pz += kick_pz;
+				p_E = sqrt(p_px*p_px + p_py*p_py + p_pz*p_pz + MASS_PROTON*MASS_PROTON);
 
 				n_px -= kick_px;
 				n_py -= kick_py;
 				n_pz -= kick_pz;
+				n_E = sqrt(n_px*n_px + n_py*n_py + n_pz*n_pz + MASS_NEUTRON*MASS_NEUTRON);
 
 				p1.SetPxPyPzE(p_px,p_py,p_pz,p_E);
 				p2.SetPxPyPzE(n_px,n_py,n_pz,n_E);
