@@ -407,9 +407,9 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 				pp2_v3_boost = alpha*pp2_v3_boost;
 				pp3_v3_boost = alpha*pp3_v3_boost;
 
-				pp1_v4_boost.SetVectM(pp1_v3_boost, pMass);
-				pp2_v4_boost.SetVectM(pp2_v3_boost, nMass);
-				pp3_v4_boost.SetVectM(pp3_v3_boost, jMass);
+				pp1_v4_boost.SetVectM(pp1_v3_boost, MASS_PROTON);
+				pp2_v4_boost.SetVectM(pp2_v3_boost, MASS_NEUTRON);
+				pp3_v4_boost.SetVectM(pp3_v3_boost, MASS_JPSI);
 
 				Woops = pp1_v4_boost + pp2_v4_boost + pp3_v4_boost;
 				W2oops = Woops.Mag2();
