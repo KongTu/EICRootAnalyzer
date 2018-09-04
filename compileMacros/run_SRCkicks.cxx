@@ -417,7 +417,7 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 				delta = ( Wfull.E() - Woops.E() ) / (pp1_v4_boost.P()*pp1_v4_boost.P()/pp1_v4_boost.E() + pp2_v4_boost.P()*pp2_v4_boost.P()/pp2_v4_boost.E() + pp3_v4_boost.P()*pp3_v4_boost.P()/pp3_v4_boost.E() );
 				alpha = 1.+delta;
 				
-				if( fabs(W2oops - W2F) < 10E-15 ) success = true;
+				if( fabs(W2oops - W2F) < 10E-9 ) success = true;
 				else trail++;
 
 			}
