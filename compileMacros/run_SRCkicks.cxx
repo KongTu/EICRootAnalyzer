@@ -387,7 +387,7 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			
 			//cout << "- Now if 3-momentum sum: " << total_3momentum.Mag() << endl;
 			if( total_3momentum.Mag() < 10E-9 ){
-				
+
 			} //cout << "- Done! Continue to fix energy!" << endl;
 			else {cout << " 3 momentum sum not zero! Abort! " << endl; return;}
 
@@ -457,6 +457,8 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			pp3_v4_boost.Boost(b_TO_LAB);
 
 			if(pp1_v4_boost.Eta() < 0){
+
+				cout << "struck_nucleon = " << struck_nucleon << endl;
 
 				PRINT4VECTOR(particle_4mom_proton_bKick,true);
 				PRINT4VECTOR(particle_4mom_neutron_bKick,true);
