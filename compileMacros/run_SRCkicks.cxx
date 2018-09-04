@@ -385,8 +385,8 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			TVector3 pp3_v3_boost = p3.Vect();
 			TVector3 total_3momentum = pp1_v3_boost + pp2_v3_boost + pp3_v3_boost;
 			
-			cout << "- Now if 3-momentum sum: " << total_3momentum.Mag() << endl;
-			if( total_3momentum.Mag() < 10E-9 ) cout << "- Done! Continue to fix energy!" << endl;
+			//cout << "- Now if 3-momentum sum: " << total_3momentum.Mag() << endl;
+			if( total_3momentum.Mag() < 10E-9 ) //cout << "- Done! Continue to fix energy!" << endl;
 			else {cout << " 3 momentum sum not zero! Abort! " << endl; return;}
 
 			TLorentzVector pp1_v4_boost;
@@ -422,8 +422,8 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 
 			}
 
-			if( success == 1 ) cout << "success! Done!";
-			else cout << "Fail! #trails tried: " << trail << endl;
+			// if( success == 1 ) cout << "success! Done!";
+			// else cout << "Fail! #trails tried: " << trail << endl;
 			/*step 4 boost back to ion rest frame*/
 			TVector3 bb;
 
