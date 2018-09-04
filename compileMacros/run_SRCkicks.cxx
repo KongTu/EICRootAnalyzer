@@ -454,6 +454,15 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			pp3_v4_boost.Boost(0,0,ion_z);
 			pp3_v4_boost.Boost(b_TO_LAB);
 
+			if(pp1_v4_boost.Eta() < 0){
+
+				PRINT4VECTOR(pp1_v4_boost,true);
+				PRINT4VECTOR(pp2_v4_boost,true);
+				PRINT4VECTOR(pp3_v4_boost,true);
+
+				continue;
+			}
+
 			total4Mom_deuteron.Boost(0,0,ion_z);
 			total4Mom_deuteron.Boost(b_TO_LAB);
 
