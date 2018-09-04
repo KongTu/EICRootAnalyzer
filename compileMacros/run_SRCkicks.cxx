@@ -307,13 +307,13 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			}
 			if( CASE == 2 ){
 
-				// p_px += kick_px;
-				// p_py += kick_py;
-				// p_pz += kick_pz;
+				p_px += kick_px;
+				p_py += kick_py;
+				p_pz += kick_pz;
 
-				// n_px -= kick_px;
-				// n_py -= kick_py;
-				// n_pz -= kick_pz;
+				n_px -= kick_px;
+				n_py -= kick_py;
+				n_pz -= kick_pz;
 
 				p1.SetPxPyPzE(p_px,p_py,p_pz,p_E);
 				p2.SetPxPyPzE(n_px,n_py,n_pz,n_E);
