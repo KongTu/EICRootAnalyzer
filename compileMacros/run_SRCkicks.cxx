@@ -124,6 +124,7 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 
 		} // end of particle loop
 
+		if( nParticles_process != 4 ) continue;
 		
 		if( doKick ){ 
 
