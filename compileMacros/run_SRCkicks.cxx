@@ -134,40 +134,40 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			double kick_py = 0.;
 			double kick_pz = 0.;
 
-			// TF1 *fa_pt = new TF1("fa_pt","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",0,2);
-			// fa_pt->SetParameter(0,1);
-			// fa_pt->SetParameter(1,-3);
-			// double kick_pt = fa_pt->GetRandom();
+			TF1 *fa_pt = new TF1("fa_pt","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",0,2);
+			fa_pt->SetParameter(0,1);
+			fa_pt->SetParameter(1,-3);
+			double kick_pt = fa_pt->GetRandom();
 
-			// TF1 *num = new TF1("num","[0]*1",-1,1);
-			// num->SetParameter(0,1);
-			// double prob = num->GetRandom();
+			TF1 *num = new TF1("num","[0]*1",-1,1);
+			num->SetParameter(0,1);
+			double prob = num->GetRandom();
 
-			// TF1 *phiran = new TF1("phiran","[0]*1",-PI,PI);
-			// phiran->SetParameter(0,1);
-			// double phi_kick = phiran->GetRandom();
+			TF1 *phiran = new TF1("phiran","[0]*1",-PI,PI);
+			phiran->SetParameter(0,1);
+			double phi_kick = phiran->GetRandom();
 
-			// if( prob > 0 ){
-			// 	kick_px = sqrt(kick_pt*kick_pt/(1+TMath::Tan(phi_kick)*TMath::Tan(phi_kick)));
-			// }
-			// else{
-			// 	kick_px = -sqrt(kick_pt*kick_pt/(1+TMath::Tan(phi_kick)*TMath::Tan(phi_kick)));
-			// }
+			if( prob > 0 ){
+				kick_px = sqrt(kick_pt*kick_pt/(1+TMath::Tan(phi_kick)*TMath::Tan(phi_kick)));
+			}
+			else{
+				kick_px = -sqrt(kick_pt*kick_pt/(1+TMath::Tan(phi_kick)*TMath::Tan(phi_kick)));
+			}
 	
-			// kick_py = kick_px*TMath::Tan(phi_kick);
+			kick_py = kick_px*TMath::Tan(phi_kick);
 
-			// TF1 *fa_pz = new TF1("fa_pz","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",-2,2);
-			// fa_pz->SetParameter(0,1);
-			// fa_pz->SetParameter(1,-1);
+			TF1 *fa_pz = new TF1("fa_pz","[0]*TMath::Abs(TMath::Exp([1]*TMath::Abs(x)))",-2,2);
+			fa_pz->SetParameter(0,1);
+			fa_pz->SetParameter(1,-1);
 			
-			// kick_pz = fa_pz->GetRandom();
+			kick_pz = fa_pz->GetRandom();
 
 			px_dist->Fill( kick_px );
 			py_dist->Fill( kick_py );
 			pz_dist->Fill( kick_pz );
 
-			pt_dist->Fill( 0. );
-			phi_dist->Fill( 0. );
+			pt_dist->Fill( kick_pt );
+			phi_dist->Fill( phi_kick );
 
 			//proton 3 momentum:
 			double p_px = particle_4mom_proton_bKick.Px();
@@ -186,6 +186,14 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			double j_py = particle_4mom_jpsi_bKick.Py();
 			double j_pz = particle_4mom_jpsi_bKick.Pz();
 			double j_E = sqrt(j_px*j_px + j_py*j_py + j_pz*j_pz + MASS_JPSI*MASS_JPSI);
+
+			p_px += kick_px;
+			p_py += kick_py;
+			p_pz += kick_pz;
+
+			n_px += kick_px;
+			n_py += kick_py;
+			n_pz += kick_pz;
 
 			p1.SetPxPyPzE(p_px,p_py,p_pz,p_E);
 			p2.SetPxPyPzE(n_px,n_py,n_pz,n_E);
@@ -386,10 +394,11 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 			TVector3 pp3_v3_boost = p3.Vect();
 			TVector3 total_3momentum = pp1_v3_boost + pp2_v3_boost + pp3_v3_boost;
 			
-			//cout << "- Now if 3-momentum sum: " << total_3momentum.Mag() << endl;
+			
 			if( total_3momentum.Mag() < 10E-9 ){
-
-			} //cout << "- Done! Continue to fix energy!" << endl;
+				//cout << "- Now if 3-momentum sum: " << total_3momentum.Mag() << endl;
+				//cout << "- Done! Continue to fix energy!" << endl;
+			} 
 			else {cout << " 3 momentum sum not zero! Abort! " << endl; return;}
 
 			TLorentzVector pp1_v4_boost;
@@ -456,21 +465,6 @@ void run_SRCkicks(int nEvents, bool doKick, int CASE, TString inputFilename){
 
 			pp3_v4_boost.Boost(0,0,ion_z);
 			pp3_v4_boost.Boost(b_TO_LAB);
-
-			if(pp1_v4_boost.Eta() < 0){
-
-				cout << "struck_nucleon = " << struck_nucleon << endl;
-
-				PRINT4VECTOR(particle_4mom_proton_bKick,true);
-				PRINT4VECTOR(particle_4mom_neutron_bKick,true);
-				PRINT4VECTOR(particle_4mom_jpsi_bKick,true);
-
-				PRINT4VECTOR(pp1_v4_boost,true);
-				PRINT4VECTOR(pp2_v4_boost,true);
-				PRINT4VECTOR(pp3_v4_boost,true);
-
-				continue;
-			}
 
 			total4Mom_deuteron.Boost(0,0,ion_z);
 			total4Mom_deuteron.Boost(b_TO_LAB);
