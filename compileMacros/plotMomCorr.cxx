@@ -195,7 +195,7 @@ void plotMomCorr(int nEvents, TString inputFilename){
 		double proton_px = proton_v3.Mag()*TMath::Cos(dd);//similar to px
 		
 		/*Build new proton 4Vector*/
-		TVector3 neutron_v3_new(proton_px, proton_py, proton_pz);
+		TVector3 proton_v3_new(proton_px, proton_py, proton_pz);
 		TLorentzVector particle_4mom_proton_new;
 		particle_4mom_proton_new.SetVectM(proton_v3_new, MASS_PROTON);
 
