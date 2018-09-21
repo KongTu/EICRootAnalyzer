@@ -16,6 +16,10 @@ TH1D* px_proton = new TH1D("px_proton",";px",1000,-10,10);
 TH1D* py_proton = new TH1D("py_proton",";py",1000,-10,10);
 TH1D* pz_proton = new TH1D("pz_proton",";pz",1000,-10,10);
 
+TH2D* pxVspxF_nucleon = new TH2D("pxVspxF_nucleon",";px",1000,-10,10);
+TH2D* pyVspyF_nucleon = new TH2D("pyVspyF_nucleon",";py",1000,-10,10);
+TH2D* pzVspzF_nucleon = new TH2D("pzVspzF_nucleon",";pz",1000,-10,10);
+
 
 void plotTheta(int nEvents, TString inputFilename){
 
@@ -196,6 +200,13 @@ void plotTheta(int nEvents, TString inputFilename){
 
  		deltaPhiION->Fill( particle_4mom_neutron_new.Phi() -  particle_4mom_proton_new.Phi() );
 
+ 		/*correlation between spectator momentum and pF*/
+
+ 		pxVspxF_nucleon->Fill( particle_4mom_proton_new.Px(), -pxf);
+ 		pyVspyF_nucleon->Fill( particle_4mom_proton_new.Py(), -pyf);
+ 		pzVspzF_nucleon->Fill( particle_4mom_proton_new.Pz(), -pzf);
+
+
 	}
 
 	TString outfilename;
@@ -218,6 +229,11 @@ void plotTheta(int nEvents, TString inputFilename){
 
    	PhiDist_neutron->Write();
    	PhiDist_proton->Write();
+
+   	pxVspxF_nucleon->Write();
+   	pyVspyF_nucleon->Write();
+   	pzVspzF_nucleon->Write();
+
 
 
 }
