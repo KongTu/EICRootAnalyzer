@@ -28,6 +28,12 @@ TH2D* pxVspxF_spectator = new TH2D("pxVspxF_spectator",";px;pxf",1000,-2,2,1000,
 TH2D* pyVspyF_spectator = new TH2D("pyVspyF_spectator",";py;pyf",1000,-2,2,1000,-2,2);
 TH2D* pzVspzF_spectator = new TH2D("pzVspzF_spectator",";pz;pzf",1000,-2,2,1000,-2,2);
 
+TH1D* pt_spectator = new TH1D("pt_spectator",";px",500,0,5);
+TH1D* phi_spectator = new TH1D("phi_spectator",";py",500,-2*PI,2*PI);
+
+TH1D* pt_nucleon = new TH1D("pt_nucleon",";px",500,0,5);
+TH1D* phi_nucleon = new TH1D("phi_nucleon",";py",500,-2*PI,2*PI);
+
 
 void plotMomCorr(int nEvents, TString inputFilename){
 
@@ -240,6 +246,12 @@ void plotMomCorr(int nEvents, TString inputFilename){
  		pyVspyF_nucleon->Fill( particle_4mom_neutron_new.Py(), pyf);
  		pzVspzF_nucleon->Fill( particle_4mom_neutron_new.Pz(), pzf);
 
+ 		pt_spectator->Fill( particle_4mom_proton_new.Pt() );
+ 		phi_spectator->Fill( particle_4mom_proton_new.Phi() );
+
+		pt_nucleon->Fill( particle_4mom_neutron_new.Pt() );
+ 		phi_nucleon->Fill( particle_4mom_neutron_new.Phi() );
+
 
 	}
 
@@ -275,6 +287,12 @@ void plotMomCorr(int nEvents, TString inputFilename){
    	pxVspxF_spectator->Write();
    	pyVspyF_spectator->Write();
    	pzVspzF_spectator->Write();
+
+   	pt_spectator->Write();
+   	phi_spectator->Write();
+
+	pt_nucleon->Write();
+   	phi_nucleon->Write();
 
 
 }
