@@ -16,9 +16,9 @@ TH1D* px_proton = new TH1D("px_proton",";px",1000,-10,10);
 TH1D* py_proton = new TH1D("py_proton",";py",1000,-10,10);
 TH1D* pz_proton = new TH1D("pz_proton",";pz",1000,-10,10);
 
-TH2D* pxVspxF_nucleon = new TH2D("pxVspxF_nucleon",";px",1000,-1,1,1000,-1,1);
-TH2D* pyVspyF_nucleon = new TH2D("pyVspyF_nucleon",";py",1000,-1,1,1000,-1,1);
-TH2D* pzVspzF_nucleon = new TH2D("pzVspzF_nucleon",";pz",1000,-1,1,1000,-1,1);
+TH2D* pxVspxF_nucleon = new TH2D("pxVspxF_nucleon",";px;pxf",1000,-1,1,1000,-1,1);
+TH2D* pyVspyF_nucleon = new TH2D("pyVspyF_nucleon",";py;pyf",1000,-1,1,1000,-1,1);
+TH2D* pzVspzF_nucleon = new TH2D("pzVspzF_nucleon",";pz;pzf",1000,-1,1,1000,-1,1);
 
 
 void plotTheta(int nEvents, TString inputFilename){
@@ -73,9 +73,9 @@ void plotTheta(int nEvents, TString inputFilename){
 		double pF2 = pxf*pxf + pyf*pyf + pzf*pzf;
 		
 		/*hard-coded cuts*/
-		if( pF2 < 0.3025 || pF2 > 0.36 ) continue;
+		//if( pF2 < 0.3025 || pF2 > 0.36 ) continue;
 		if( event_process != 91 ) continue;
-		if( fabs(t_hat) > 0.1 ) continue;
+		//if( fabs(t_hat) > 0.1 ) continue;
 		if( struck_nucleon != 2112 ) continue;
 
 		for(int j(0); j < nParticles; ++j ) {
