@@ -237,9 +237,9 @@ void plotMomCorr(int nEvents, TString inputFilename){
  		deltaPhiION->Fill( particle_4mom_neutron_new.Phi() -  particle_4mom_proton_new.Phi() );
 
  		/*correlation between spectator momentum and pF*/
- 		pxVspxF_spectator->Fill( particle_4mom_proton_new.Px(), pxf);
- 		pyVspyF_spectator->Fill( particle_4mom_proton_new.Py(), pyf);
- 		pzVspzF_spectator->Fill( particle_4mom_proton_new.Pz(), pzf);
+ 		pxVspxF_spectator->Fill( particle_4mom_proton_new.Px(), -pxf);
+ 		pyVspyF_spectator->Fill( particle_4mom_proton_new.Py(), -pyf);
+ 		pzVspzF_spectator->Fill( particle_4mom_proton_new.Pz(), -pzf);
 
  		/*correlation between struck momentum and pF*/
  		pxVspxF_nucleon->Fill( particle_4mom_neutron_new.Px(), pxf);
