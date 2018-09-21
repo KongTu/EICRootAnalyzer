@@ -16,9 +16,9 @@ TH1D* px_proton = new TH1D("px_proton",";px",1000,-10,10);
 TH1D* py_proton = new TH1D("py_proton",";py",1000,-10,10);
 TH1D* pz_proton = new TH1D("pz_proton",";pz",1000,-10,10);
 
-TH2D* pxVspxF_nucleon = new TH2D("pxVspxF_nucleon",";px",1000,-10,10);
-TH2D* pyVspyF_nucleon = new TH2D("pyVspyF_nucleon",";py",1000,-10,10);
-TH2D* pzVspzF_nucleon = new TH2D("pzVspzF_nucleon",";pz",1000,-10,10);
+TH2D* pxVspxF_nucleon = new TH2D("pxVspxF_nucleon",";px",1000,-1,1,1000,-1,1);
+TH2D* pyVspyF_nucleon = new TH2D("pyVspyF_nucleon",";py",1000,-1,1,1000,-1,1);
+TH2D* pzVspzF_nucleon = new TH2D("pzVspzF_nucleon",";pz",1000,-1,1,1000,-1,1);
 
 
 void plotTheta(int nEvents, TString inputFilename){
