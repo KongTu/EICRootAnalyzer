@@ -8,9 +8,9 @@ TH2D* thetaNeutronVsthetaProton = new TH2D("thetaNeutronVsthetaProton",";#theta_
 TH1D* deltaPhiLAB = new TH1D("deltaPhiLAB",";#phi_{n}#minus#phi_{p}",100,-2*PI-0.3,2*PI+0.3);
 TH1D* deltaPhiION = new TH1D("deltaPhiION",";#phi_{n}#minus#phi_{p}",100,-2*PI-0.3,2*PI+0.3);
 
-TH1D* px_electron = new TH1D("px_electron",";px",1000,-10,10);
-TH1D* py_electron = new TH1D("py_electron",";py",1000,-10,10);
-TH1D* pz_electron = new TH1D("pz_electron",";pz",1000,-10,10);
+TH1D* px_electron = new TH1D("px_electron",";px",1000,-100,100);
+TH1D* py_electron = new TH1D("py_electron",";py",1000,-100,100);
+TH1D* pz_electron = new TH1D("pz_electron",";pz",1000,-100,100);
 
 TH1D* px_neutron = new TH1D("px_neutron",";px",1000,-10,10);
 TH1D* py_neutron = new TH1D("py_neutron",";py",1000,-10,10);
@@ -194,6 +194,10 @@ void plotMomCorr(int nEvents, TString inputFilename){
 		dd = proton_v3.Angle(x_unit);
 		double proton_px = proton_v3.Mag()*TMath::Cos(dd);//similar to px
 		
+		px_proton->Fill( proton_px );
+		py_proton->Fill( proton_py );
+		pz_proton->Fill( proton_pz );
+
 		/*Build new proton 4Vector*/
 		TVector3 proton_v3_new(proton_px, proton_py, proton_pz);
 		TLorentzVector particle_4mom_proton_new;
@@ -206,6 +210,10 @@ void plotMomCorr(int nEvents, TString inputFilename){
 		dd = neutron_v3.Angle(x_unit);
 		double neutron_px = neutron_v3.Mag()*TMath::Cos(dd);//similar to px
 		
+		px_neutron->Fill( neutron_px );
+		py_neutron->Fill( neutron_py );
+		pz_neutron->Fill( neutron_pz );
+
 		/*Build new neutron 4Vector*/
 		TVector3 neutron_v3_new(neutron_px, neutron_py, neutron_pz);
 		TLorentzVector particle_4mom_neutron_new;
