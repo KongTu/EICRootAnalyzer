@@ -164,6 +164,7 @@ void plotMomCorr(int nEvents, TString inputFilename){
 		*/
 		double mag2 = electron_v3.Mag2();
 		double electron_pz = electron_v3.Mag()*TMath::Cos(aa);
+		cout << "electron_pz " << electron_pz << endl;
 		double electron_py = 0.0;
 		double electron_px = sqrt(mag2 - electron_pz*electron_pz - electron_py*electron_py);
 
