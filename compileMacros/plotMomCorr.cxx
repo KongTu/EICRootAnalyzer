@@ -20,13 +20,13 @@ TH1D* px_proton = new TH1D("px_proton",";px",500,-5,5);
 TH1D* py_proton = new TH1D("py_proton",";py",500,-5,5);
 TH1D* pz_proton = new TH1D("pz_proton",";pz",500,-5,5);
 
-TH2D* pxVspxF_nucleon = new TH2D("pxVspxF_nucleon",";px;pxf",1000,-2,2,1000,-2,2);
-TH2D* pyVspyF_nucleon = new TH2D("pyVspyF_nucleon",";py;pyf",1000,-2,2,1000,-2,2);
-TH2D* pzVspzF_nucleon = new TH2D("pzVspzF_nucleon",";pz;pzf",1000,-2,2,1000,-2,2);
+TH2D* pxFVspx_nucleon = new TH2D("pxFVspx_nucleon",";px;pxf",1000,-2,2,1000,-2,2);
+TH2D* pyFVspy_nucleon = new TH2D("pyFVspy_nucleon",";py;pyf",1000,-2,2,1000,-2,2);
+TH2D* pzFVspz_nucleon = new TH2D("pzFVspz_nucleon",";pz;pzf",1000,-2,2,1000,-2,2);
 
-TH2D* pxVspxF_spectator = new TH2D("pxVspxF_spectator",";px;pxf",1000,-2,2,1000,-2,2);
-TH2D* pyVspyF_spectator = new TH2D("pyVspyF_spectator",";py;pyf",1000,-2,2,1000,-2,2);
-TH2D* pzVspzF_spectator = new TH2D("pzVspzF_spectator",";pz;pzf",1000,-2,2,1000,-2,2);
+TH2D* pxFVspx_spectator = new TH2D("pxFVspx_spectator",";px;-pxf",1000,-2,2,1000,-2,2);
+TH2D* pyFVspy_spectator = new TH2D("pyFVspy_spectator",";py;-pyf",1000,-2,2,1000,-2,2);
+TH2D* pzFVspz_spectator = new TH2D("pzFVspz_spectator",";pz;-pzf",1000,-2,2,1000,-2,2);
 
 TH1D* pt_spectator = new TH1D("pt_spectator",";px",500,0,5);
 TH1D* phi_spectator = new TH1D("phi_spectator",";py",500,-2*PI,2*PI);
@@ -230,21 +230,20 @@ void plotMomCorr(int nEvents, TString inputFilename){
 		particle_4mom_neutron_new.SetVectM(neutron_v3_new, MASS_NEUTRON);
 
 		//done with ratation;
-
 		PhiDist_proton->Fill( particle_4mom_proton_new.Phi() );
 		PhiDist_neutron->Fill( particle_4mom_neutron_new.Phi() );
 
  		deltaPhiION->Fill( particle_4mom_neutron_new.Phi() -  particle_4mom_proton_new.Phi() );
 
  		/*correlation between spectator momentum and pF*/
- 		pxVspxF_spectator->Fill( particle_4mom_proton_new.Px(), -pxf);
- 		pyVspyF_spectator->Fill( particle_4mom_proton_new.Py(), -pyf);
- 		pzVspzF_spectator->Fill( particle_4mom_proton_new.Pz(), -pzf);
+ 		pxFVspx_spectator->Fill( particle_4mom_proton_new.Px(), -pxf);
+ 		pyFVspy_spectator->Fill( particle_4mom_proton_new.Py(), -pyf);
+ 		pzFVspz_spectator->Fill( particle_4mom_proton_new.Pz(), -pzf);
 
  		/*correlation between struck momentum and pF*/
- 		pxVspxF_nucleon->Fill( particle_4mom_neutron_new.Px(), pxf);
- 		pyVspyF_nucleon->Fill( particle_4mom_neutron_new.Py(), pyf);
- 		pzVspzF_nucleon->Fill( particle_4mom_neutron_new.Pz(), pzf);
+ 		pxFVspx_nucleon->Fill( particle_4mom_neutron_new.Px(), pxf);
+ 		pyFVspy_nucleon->Fill( particle_4mom_neutron_new.Py(), pyf);
+ 		pzFVspz_nucleon->Fill( particle_4mom_neutron_new.Pz(), pzf);
 
  		pt_spectator->Fill( particle_4mom_proton_new.Pt() );
  		phi_spectator->Fill( particle_4mom_proton_new.Phi() );
@@ -280,13 +279,13 @@ void plotMomCorr(int nEvents, TString inputFilename){
    	PhiDist_neutron->Write();
    	PhiDist_proton->Write();
 
-   	pxVspxF_nucleon->Write();
-   	pyVspyF_nucleon->Write();
-   	pzVspzF_nucleon->Write();
+   	pxFVspx_nucleon->Write();
+   	pyFVspy_nucleon->Write();
+   	pzFVspz_nucleon->Write();
 
-   	pxVspxF_spectator->Write();
-   	pyVspyF_spectator->Write();
-   	pzVspzF_spectator->Write();
+   	pxFVspx_spectator->Write();
+   	pyFVspy_spectator->Write();
+   	pzFVspz_spectator->Write();
 
    	pt_spectator->Write();
    	phi_spectator->Write();
