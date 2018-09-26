@@ -262,9 +262,9 @@ void plotMomCorr(int nEvents, TString inputFilename, double pFmin_, double pFmax
 
 	double number_in_double = pFmin_;
 
-	std::ostringstream output;
+	std::ostringstream outputstring;
 
-	number_in_string = (dynamic_cast< std::ostringstream*>(&(output << number_in_double <<
+	number_in_string = (dynamic_cast< std::ostringstream*>(&(outputstring << number_in_double <<
 
 	std::endl)))->str();
 
