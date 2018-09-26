@@ -258,11 +258,11 @@ void plotMomCorr(int nEvents, TString inputFilename, double pFmin_, double pFmax
 	TString outfilename;
 	outfilename = "_kinematics_eD.root";
 
-	std::string pFmin_string, pFmax_string;
-	std::ostringstream outputstring;
-
-	pFmin_string = (dynamic_cast< std::ostringstream*>(&(outputstring << pFmin_ << std::endl)))->str();
-	pFmax_string = (dynamic_cast< std::ostringstream*>(&(outputstring << pFmax_ << std::endl)))->str();
+	std::stringstream ss,nn;
+	ss << pFmin_;
+	string pFmin_string = ss >> pFmin_;
+	nn << pFmax_;
+	string pFmax_string = nn >> pFmax_;
 
    	TFile output("../rootfiles/"+inputFilename+"_"+pFmin_string+"_"+pFmax_string+outfilename,"RECREATE");
 
