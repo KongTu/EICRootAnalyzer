@@ -260,9 +260,9 @@ void plotMomCorr(int nEvents, TString inputFilename, double pFmin_, double pFmax
 
 	std::stringstream ss,nn;
 	ss << pFmin_;
-	string pFmin_string = ss >> pFmin_;
+	std::string pFmin_string = ss >> pFmin_;
 	nn << pFmax_;
-	string pFmax_string = nn >> pFmax_;
+	std::string pFmax_string = nn >> pFmax_;
 
    	TFile output("../rootfiles/"+inputFilename+"_"+pFmin_string+"_"+pFmax_string+outfilename,"RECREATE");
 
