@@ -258,19 +258,13 @@ void plotMomCorr(int nEvents, TString inputFilename, double pFmin_, double pFmax
 	TString outfilename;
 	outfilename = "_kinematics_eD.root";
 
-	std::string number_in_string;
-
-	double number_in_double = pFmin_;
-
+	std::string pFmin_string, pFmax_string;
 	std::ostringstream outputstring;
 
-	number_in_string = (dynamic_cast< std::ostringstream*>(&(outputstring << number_in_double <<
+	pFmin_string = (dynamic_cast< std::ostringstream*>(&(outputstring << pFmin_ << std::endl)))->str();
+	pFmax_string = (dynamic_cast< std::ostringstream*>(&(outputstring << pFmax_ << std::endl)))->str();
 
-	std::endl)))->str();
-
-
-
-   	TFile output("../rootfiles/"+inputFilename+"_"+number_in_string+outfilename,"RECREATE");
+   	TFile output("../rootfiles/"+inputFilename+"_"+pFmin_string+"_"+pFmax_string+outfilename,"RECREATE");
 
    	thetaNeutronVsthetaProton->Write();
    	deltaEtadeltaPhi->Write();
