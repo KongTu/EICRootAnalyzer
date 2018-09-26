@@ -1,6 +1,5 @@
 #include "hist.h"
 #include "PRINT4VECTOR.h"
-#include <strtk.hpp>
 
 using namespace erhic;
 using namespace std;
@@ -259,7 +258,7 @@ void plotMomCorr(int nEvents, TString inputFilename, double pFmin_, double pFmax
 	TString outfilename;
 	outfilename = "_kinematics_eD.root";
 
-   	TFile output("../rootfiles/"+inputFilename+"_"+strtk::type_to_string<double>( pFmin_ )+"_"+strtk::type_to_string<double>( pFmax_ )+outfilename,"RECREATE");
+   	TFile output("../rootfiles/"+inputFilename+"_"+to_string(pFmin_)+"_"+to_string(pFmax_)+outfilename,"RECREATE");
 
    	thetaNeutronVsthetaProton->Write();
    	deltaEtadeltaPhi->Write();
