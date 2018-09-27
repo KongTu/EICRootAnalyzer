@@ -87,12 +87,13 @@ void plotMomCorr(int nEvents, TString inputFilename, double pFmin_, double pFmax
 		double pzf = branch_pzf->GetValue(0,0);
 		double pF = sqrt(pxf*pxf + pyf*pyf + pzf*pzf);
 
-		cout << "pzf: " << pzf << endl;
 		
 		/*hard-coded cuts*/
-		// if( event_process != 91 ) continue;
+		if( event_process != 91 ) continue;
 		// if( pF < pFmin_ || pF > pFmax_ ) continue;
-		// if( struck_nucleon != 2112 ) continue;
+		if( struck_nucleon != 2112 ) continue;
+		
+		cout << "pzf: " << pzf << endl;
 
 		for(int j(0); j < nParticles; ++j ) {
 
