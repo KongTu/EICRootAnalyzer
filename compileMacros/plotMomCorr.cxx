@@ -92,8 +92,6 @@ void plotMomCorr(int nEvents, TString inputFilename, double pFmin_, double pFmax
 		if( event_process != 91 ) continue;
 		// if( pF < pFmin_ || pF > pFmax_ ) continue;
 		if( struck_nucleon != 2112 ) continue;
-		
-		cout << "pzf: " << pzf << endl;
 
 		for(int j(0); j < nParticles; ++j ) {
 
@@ -260,9 +258,11 @@ void plotMomCorr(int nEvents, TString inputFilename, double pFmin_, double pFmax
 
 
  		if( -pzf - particle_4mom_proton_new.Pz() > 0.05 ){
- 		cout << "------ event " << i << " --------" << endl;
- 		PRINT4VECTOR(particle_4mom_proton_new,true);
- 		PRINT4VECTOR(particle_4mom_neutron_new,true);
+
+			cout << "-pzf: " << -pzf << endl;
+	 		cout << "------ event " << i << " --------" << endl;
+	 		PRINT4VECTOR(particle_4mom_proton_new,true);
+	 		PRINT4VECTOR(particle_4mom_neutron_new,true);
  		}
 	}
 
