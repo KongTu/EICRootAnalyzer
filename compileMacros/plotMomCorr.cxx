@@ -259,6 +259,8 @@ void plotMomCorr(int nEvents, TString inputFilename, double pFmin_, double pFmax
 
  		if( -pzf - particle_4mom_proton_new.Pz() > 0.001 ){
 
+			cout << "-pxf: " << -pxf << endl;
+			cout << "-pyf: " << -pyf << endl;
 			cout << "-pzf: " << -pzf << endl;
 	 		cout << "------ event " << i << " --------" << endl;
 	 		PRINT4VECTOR(particle_4mom_proton_new,true);
