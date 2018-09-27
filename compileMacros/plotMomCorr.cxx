@@ -257,7 +257,7 @@ void plotMomCorr(int nEvents, TString inputFilename, double pFmin_, double pFmax
  		phi_nucleon->Fill( particle_4mom_neutron_new.Phi() );
 
 
- 		if( fabs(-pzf - particle_4mom_proton_new.Pz()) < 0.00001 ){
+ 		if( fabs(-pzf - particle_4mom_proton_new.Pz()) > 0.05 ){
 
 			cout << "-pxf: " << -pxf << endl;
 			cout << "-pyf: " << -pyf << endl;
