@@ -109,7 +109,7 @@ void plotMomCorr(int nEvents, TString inputFilename, double pFmin_, double pFmax
 			if( index == 4 ){ //get gamma 4-momentum:
 
 				particle_4mom_photon = particle->Get4Vector();
-				PRINT4VECTOR(particle_4mom_photon,true);
+				//PRINT4VECTOR(particle_4mom_photon,true);
 			}
 			if( status != 1 ) continue; //only stable final-state particles 
 			if( pdg == 443 ){//Jpsi
@@ -162,7 +162,7 @@ void plotMomCorr(int nEvents, TString inputFilename, double pFmin_, double pFmax
 		particle_4mom_photon.Boost(0,0,-bz);
 		particle_4mom_photon.Boost(b);
 
-		PRINT4VECTOR(particle_4mom_photon,true);
+		//PRINT4VECTOR(particle_4mom_photon,true);
       
 		/*begin hand rotation*/
 		TVector3 electron_v3 = particle_4mom_electron.Vect();
@@ -257,8 +257,12 @@ void plotMomCorr(int nEvents, TString inputFilename, double pFmin_, double pFmax
 		pt_nucleon->Fill( particle_4mom_neutron_new.Pt() );
  		phi_nucleon->Fill( particle_4mom_neutron_new.Phi() );
 
+
+ 		if( -pzf - particle_4mom_proton_new.Pz() > 0.05 ){
+ 		cout << "------ event " << i << " --------" << endl;
  		PRINT4VECTOR(particle_4mom_proton_new,true);
  		PRINT4VECTOR(particle_4mom_neutron_new,true);
+ 		}
 	}
 
 	TString outfilename;
