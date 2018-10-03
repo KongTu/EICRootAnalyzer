@@ -92,6 +92,7 @@ void plotMomCorr(int nEvents, TString inputFilename, double pFmin_, double pFmax
 		if( event_process != 91 ) continue;
 		if( pF < pFmin_ || pF > pFmax_ ) continue;
 		if( struck_nucleon != 2112 ) continue;
+		if( fabs(t_hat) > 0.1 ) continue;
 
 		for(int j(0); j < nParticles; ++j ) {
 
@@ -259,7 +260,7 @@ void plotMomCorr(int nEvents, TString inputFilename, double pFmin_, double pFmax
 	}
 
 	TString outfilename;
-	outfilename = "_kinematics_eD.root";
+	outfilename = "_with_t_hat_cut_kinematics_eD.root";
 
 	std::stringstream ss,nn;
 	ss << pFmin_;
