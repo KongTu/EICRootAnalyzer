@@ -3,7 +3,7 @@
 using namespace std;
 using namespace erhic;
 
-void run_SRCkicks(int nEvents, TString inputFilename){
+void checkFermi(){
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/k-new_v1.root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
@@ -24,24 +24,5 @@ void run_SRCkicks(int nEvents, TString inputFilename){
 	tree->Draw("pxf>>hist_pzf");
 
 	hist_pxf->Draw();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
