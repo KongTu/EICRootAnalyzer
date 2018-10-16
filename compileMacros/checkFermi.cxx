@@ -38,4 +38,6 @@ void checkFermi(){
 	}
 	hist_k->Draw();
 
+
+	hist_pzf->Fit("expo","",0,0.1);
 }
