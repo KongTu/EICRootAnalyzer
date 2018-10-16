@@ -19,10 +19,23 @@ void checkFermi(){
 	TH1D* hist_pyf = new TH1D("hist_pyf","",1000,0,1);
 	TH1D* hist_pzf = new TH1D("hist_pzf","",1000,0,1);
 
+	TH1D* hist_k = new TH1D("hist_k","",1000,0,1);
+
 	tree->Draw("pxf>>hist_pxf");
 	tree->Draw("pxf>>hist_pyf");
 	tree->Draw("pxf>>hist_pzf");
 
-	hist_pxf->Draw();
+	for(int i = 0; i < 40000; i++){
+
+		double px = hist_pxf->GetRandom();
+		double py = hist_pyf->GetRandom();
+		double pz = hist_pzf->GetRandom();
+
+		double p = sqrt(px*px + py*py + pz*pz);
+
+
+		hist_k->Fill( p );
+	}
+	hist_k->Draw();
 
 }
