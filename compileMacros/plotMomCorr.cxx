@@ -38,8 +38,8 @@ TH1D* phi_nucleon = new TH1D("phi_nucleon",";py",500,-2*PI,2*PI);
 void plotMomCorr(int nEvents, TString inputFilename, double pFmin_, double pFmax_ ){
 
 	TChain *tree = new TChain("EICTree");
-	tree->Add("../../EICTree/eD_Jpsidiffnodecay_EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
-
+	//tree->Add("../../EICTree/eD_Jpsidiffnodecay_EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
+	tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/k-new_v11.root" );
 	EventPythia* event(NULL);// = new EventPythia;
 
 	// EventBase* event(NULL);
