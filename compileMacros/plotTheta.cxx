@@ -24,7 +24,8 @@ TH2D* pzVspzF_nucleon = new TH2D("pzVspzF_nucleon",";pz;pzf",1000,-1,1,1000,-1,1
 void plotTheta(int nEvents, TString inputFilename){
 
 	TChain *tree = new TChain("EICTree");
-	tree->Add("../../EICTree/eD_Jpsidiffnodecay_EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
+	// tree->Add("../../EICTree/eD_Jpsidiffnodecay_EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
+	tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/k-new_v11.root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
 
 	EventPythia* event(NULL);// = new EventPythia;
 
