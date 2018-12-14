@@ -215,7 +215,7 @@ void plotTheta(int nEvents, TString inputFilename){
 	
 		TLorentzVector s = particle_4mom_proton_new + particle_4mom_neutron_new;
 		double s_NN = s.Mag2();
-		s_NN_nucleon->Fill( s_NN );
+		sNN_nucleon->Fill( s_NN );
 	}
 
 	TString outfilename;
@@ -245,7 +245,7 @@ void plotTheta(int nEvents, TString inputFilename){
 
    	relativePz_nucleon->Write();
    	relativePxPy_nucleon->Write();
-   	s_NN_nucleon->Write();
+   	sNN_nucleon->Write();
 
 
 
