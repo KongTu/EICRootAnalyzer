@@ -28,7 +28,7 @@ void plotTheta(int nEvents, TString inputFilename){
 
 	TChain *tree = new TChain("EICTree");
 	// tree->Add("../../EICTree/eD_Jpsidiffnodecay_EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
-	tree->Add("/eicdata/eic0003/ztu/eA-BeAGLE/eD_shd1_INC.root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
+	tree->Add("/eicdata/eic0003/ztu/EICTree/eD_FSI/eD_shd1_INC.root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
 
 	EventPythia* event(NULL);// = new EventPythia;
 
