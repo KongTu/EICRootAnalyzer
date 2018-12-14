@@ -20,6 +20,9 @@ TH2D* pxVspxF_nucleon = new TH2D("pxVspxF_nucleon",";px;pxf",1000,-1,1,1000,-1,1
 TH2D* pyVspyF_nucleon = new TH2D("pyVspyF_nucleon",";py;pyf",1000,-1,1,1000,-1,1);
 TH2D* pzVspzF_nucleon = new TH2D("pzVspzF_nucleon",";pz;pzf",1000,-1,1,1000,-1,1);
 
+TH2D* relativePxPy_nucleon = new TH2D("relativePxPy_nucleon",";px;py",1000,-3,3,1000,-3,3);
+TH1D* relativePz_nucleon = new TH1D("relativePz_nucleon",";pz",1000,-3,3);
+TH1D* sNN_nucleon = new TH1D("sNN_nucleon",";s_{NN}",1000,0,15);
 
 void plotTheta(int nEvents, TString inputFilename){
 
@@ -207,7 +210,12 @@ void plotTheta(int nEvents, TString inputFilename){
  		pyVspyF_nucleon->Fill( particle_4mom_proton_new.Py(), -pyf);
  		pzVspzF_nucleon->Fill( particle_4mom_proton_new.Pz(), -pzf);
 
-
+ 		relativePz_nucleon->Fill( particle_4mom_proton_new.Pz() - particle_4mom_neutron_new.Pz() );
+ 		relativePxPy_nucleon->Fill( particle_4mom_proton_new.Px() - particle_4mom_neutron_new.Px(), particle_4mom_proton_new.Py() - particle_4mom_neutron_new.Py() );
+	
+		TLorentzVector s = particle_4mom_proton_new + particle_4mom_neutron_new;
+		double s_NN = s.Mag2();
+		s_NN_nucleon->Fill( s_NN );
 	}
 
 	TString outfilename;
@@ -234,6 +242,10 @@ void plotTheta(int nEvents, TString inputFilename){
    	pxVspxF_nucleon->Write();
    	pyVspyF_nucleon->Write();
    	pzVspzF_nucleon->Write();
+
+   	relativePz_nucleon->Write();
+   	relativePxPy_nucleon->Write();
+   	s_NN_nucleon->Write();
 
 
 
