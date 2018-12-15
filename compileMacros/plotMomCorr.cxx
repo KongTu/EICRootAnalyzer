@@ -28,6 +28,10 @@ TH2D* pxFVspx_spectator = new TH2D("pxFVspx_spectator",";px;-pxf",1000,-2,2,1000
 TH2D* pyFVspy_spectator = new TH2D("pyFVspy_spectator",";py;-pyf",1000,-2,2,1000,-2,2);
 TH2D* pzFVspz_spectator = new TH2D("pzFVspz_spectator",";pz;-pzf",1000,-2,2,1000,-2,2);
 
+TH2D* relativePxPy_nucleon = new TH2D("relativePxPy_nucleon",";px;py",1000,-3,3,1000,-3,3);
+TH1D* relativePz_nucleon = new TH1D("relativePz_nucleon",";pz",1000,-3,3);
+TH1D* sNN_nucleon = new TH1D("sNN_nucleon",";s_{NN}",1000,0,15);
+
 TH1D* pt_spectator = new TH1D("pt_spectator",";px",500,0,5);
 TH1D* phi_spectator = new TH1D("phi_spectator",";py",500,-2*PI,2*PI);
 
@@ -39,7 +43,9 @@ void plotMomCorr(int nEvents, TString inputFilename, double pFmin_, double pFmax
 
 	TChain *tree = new TChain("EICTree");
 	//tree->Add("../../EICTree/eD_Jpsidiffnodecay_EICTree/eD_18x135_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd1_ShdFac=1.32_Jpsidiffnodecay_test40k_"+inputFilename+".root" ); // Wild cards are allowed e.g. tree.Add("*.root" );
-	tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/k-new_v11.root" );
+	//tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/k-new_v11.root" );
+	tree->Add("/eicdata/eic0003/ztu/EICTree/eD_FSI/"+inputFilename+".root" );
+
 	EventPythia* event(NULL);// = new EventPythia;
 
 	// EventBase* event(NULL);
@@ -251,6 +257,13 @@ void plotMomCorr(int nEvents, TString inputFilename, double pFmin_, double pFmax
  		pyFVspy_nucleon->Fill( particle_4mom_neutron_new.Py(), pyf);
  		pzFVspz_nucleon->Fill( particle_4mom_neutron_new.Pz(), pzf);
 
+ 		relativePz_nucleon->Fill( particle_4mom_proton_new.Pz() - particle_4mom_neutron_new.Pz() );
+ 		relativePxPy_nucleon->Fill( particle_4mom_proton_new.Px() - particle_4mom_neutron_new.Px(), particle_4mom_proton_new.Py() - particle_4mom_neutron_new.Py() );
+	
+		TLorentzVector s = particle_4mom_proton_new + particle_4mom_neutron_new;
+		double s_NN = s.Mag2();
+		sNN_nucleon->Fill( s_NN );
+
  		pt_spectator->Fill( particle_4mom_proton_new.Pt() );
  		phi_spectator->Fill( particle_4mom_proton_new.Phi() );
 
@@ -299,6 +312,10 @@ void plotMomCorr(int nEvents, TString inputFilename, double pFmin_, double pFmax
    	pxFVspx_spectator->Write();
    	pyFVspy_spectator->Write();
    	pzFVspz_spectator->Write();
+
+   	relativePz_nucleon->Write();
+   	relativePxPy_nucleon->Write();
+   	sNN_nucleon->Write();
 
    	pt_spectator->Write();
    	phi_spectator->Write();
