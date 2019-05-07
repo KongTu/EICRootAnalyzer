@@ -66,7 +66,7 @@ void makeComparisonE665(const int nEvents = 40000){
 		
 		if( event_process != 99 ) continue;
 		if( trueQ2 < 1. ) continue;
-		if( trueW2 > 30*30 || trueW2 < 8*8 ) continue;
+		if( trueW2 > 14*14 || trueW2 < 8*8 ) continue;
 		if( trueX < 0.002 ) continue;
 		if( trueY > 0.85 || trueY < 0.1 ) continue;
 
@@ -90,12 +90,10 @@ void makeComparisonE665(const int nEvents = 40000){
 			if( index == 3 ) {
 				mu_scattered.SetPtEtaPhiM(pt,eta,phi,mass);
 			}
-
 			if( status != 1 ) continue;
 			if( mom < 0.2 || mom > 10. ) continue;
 			if( fabs(pdg) != 211 && fabs(pdg) != 321 && pdg != 2212 ) continue;
 			
-
 			TLorentzRotation boost_MC_HCM = BoostToHCM(mu_beam,p_beam,mu_scattered);	
 			TLorentzVector h = particle->Get4Vector();
 			TLorentzVector hStar = boost_MC_HCM*h;
