@@ -44,15 +44,15 @@ void makeComparisonE665(const int nEvents = 40000){
 		tree->GetEntry(i);
 
 		//event information:
-		double trueQ2 = event->GetTrueQ2();
-		double trueW2 = event->GetTrueW2();
-		double trueX = event->GetTrueX();
-		double trueY = event->GetTrueY();
-		double trueNu = event->nu;
-		double s_hat = event->GetHardS();
-		double t_hat = event->t_hat;
-		double u_hat = event->GetHardU();
-		double photon_flux = event->GetPhotonFlux();
+		// double trueQ2 = event->GetTrueQ2();
+		// double trueW2 = event->GetTrueW2();
+		// double trueX = event->GetTrueX();
+		// double trueY = event->GetTrueY();
+		// double trueNu = event->nu;
+		// double s_hat = event->GetHardS();
+		// double t_hat = event->t_hat;
+		// double u_hat = event->GetHardU();
+		// double photon_flux = event->GetPhotonFlux();
 		int event_process = event->GetProcess();
 		int nParticles = event->GetNTracks();
 		int struck_nucleon = event->nucleon;
