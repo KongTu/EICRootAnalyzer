@@ -10,6 +10,7 @@ TH1D* dNdetaStar = new TH1D("dNdetaStar","dNdetaStar",100,-10,10);
 TH1D* dNdetaStar_p = new TH1D("dNdetaStar_p","dNdetaStar_p",100,-10,10);
 TH1D* dNdetaStar_m = new TH1D("dNdetaStar_m","dNdetaStar_m",100,-10,10);
 TH1D* dNdeta = new TH1D("dNdeta","dNdeta",100,-10,10);
+TH1D* h_trk = new TH1D("h_trk","h_trk",4000,0,4000);
 
 TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
                             TLorentzVector const &pBeam_lab,
@@ -108,6 +109,8 @@ void makeComparisonE665(const int nEvents = 40000){
 
 		} // end of particle loop
 
+		h_trk->Fill( nParticles_process );
+
 	}
 
 	TFile output("../rootfiles/E665_Beagle.root","RECREATE");
@@ -115,6 +118,7 @@ void makeComparisonE665(const int nEvents = 40000){
 	dNdetaStar_p->Write();
 	dNdetaStar_m->Write();
 	dNdeta->Write();
+	h_trk->Write();
 
 
 
