@@ -92,18 +92,18 @@ void makeComparisonE665(const int nEvents = 40000){
 			}
 			if( status != 1 ) continue;
 			if( mom < 0.2 || mom > 10. ) continue;
-			if( fabs(pdg) != 211 && fabs(pdg) != 321 && pdg != 2212 ) continue;
+			if( fabs(pdg) != 211 && fabs(pdg) != 321 && fabs(pdg) != 2212 ) continue;
 			
 			TLorentzRotation boost_MC_HCM = BoostToHCM(mu_beam,p_beam,mu_scattered);	
 			TLorentzVector h = particle->Get4Vector();
 			TLorentzVector hStar = boost_MC_HCM*h;
 
-			dNdetaStar->Fill( hStar.Eta() );
+			dNdetaStar->Fill( hStar.Rapidity() );
 			dNdeta->Fill( eta );
 			nParticles_process++;
 
-			if(	pdg > 0 ) dNdetaStar_p->Fill( hStar.Eta() );
-			if(	pdg < 0 ) dNdetaStar_m->Fill( hStar.Eta() );
+			if(	pdg > 0 ) dNdetaStar_p->Fill( hStar.Rapidity() );
+			if(	pdg < 0 ) dNdetaStar_m->Fill( hStar.Rapidity() );
 
 		} // end of particle loop
 
