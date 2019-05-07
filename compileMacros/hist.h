@@ -10,7 +10,6 @@
 #include <eicsmear/erhic/ParticleMC.h>
 #include <eicsmear/erhic/Pid.h>
 
-
 #include "TString.h"
 #include "TF1.h"
 #include "TH1.h"
