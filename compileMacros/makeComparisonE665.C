@@ -43,7 +43,7 @@ void makeComparisonE665(const int nEvents = 40000){
 		double pztarg = event->pztarg;
 
 		TLorentzVector mu_beam(0.,0.,pzlep,sqrt(pzlep*pzlep+MASS_MUON*MASS_MUON));
-		TLorentzVector p_beam(0.,0.,pztarg,sqrt(pztarg*pztarg+MASS_PROTON*MASS_PROTON));
+		TLorentzVector p_beam(0.,0.,0.,sqrt(pztarg*pztarg+MASS_PROTON*MASS_PROTON));
 		TLorentzVector mu_scattered(0.,0.,0.,0.);
 
 		//event information:
