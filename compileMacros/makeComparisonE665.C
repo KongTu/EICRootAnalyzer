@@ -33,16 +33,15 @@ void makeComparisonE665(const int nEvents = 40000){
 	// tree->SetBranchAddress("event", &event );
 
 	//Using the TBranchElement is a hack to access the BeAGLE information.       
-	double pzlep = event->pzlep;
-	double pztarg = event->pztarg;
-
-	cout << "pzlep " << pzlep << endl;
+	
 
 	for(int i(0); i < nEvents; ++i ) {
       
 		// Read the next entry from the tree.
 		tree->GetEntry(i);
-
+		double pzlep = event->pzlep;
+		double pztarg = event->pztarg;
+		cout << "pzlep " << pzlep << endl;
 		//event information:
 		// double trueQ2 = event->GetTrueQ2();
 		// double trueW2 = event->GetTrueW2();
