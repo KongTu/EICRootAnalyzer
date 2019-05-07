@@ -36,6 +36,8 @@ void makeComparisonE665(){
 	TBranchElement* branch_pyf = (TBranchElement*) tree->GetBranch("pyf");
 	TBranchElement* branch_pzf = (TBranchElement*) tree->GetBranch("pzf");
 
+	int nEvents = tree->GetEntires();
+
 	for(int i(0); i < nEvents; ++i ) {
       
 		// Read the next entry from the tree.
@@ -56,7 +58,7 @@ void makeComparisonE665(){
 		int struck_nucleon = event->nucleon;
 		if( event_process != 91 ) continue;
 
-
+		int nParticles_process = 0;
 		for(int j(0); j < nParticles; ++j ) {
 
 			const erhic::ParticleMC* particle = event->GetTrack(j);
