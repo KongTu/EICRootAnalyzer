@@ -6,7 +6,7 @@ using namespace erhic;
 
 #define MASS_MUON  0.1056
 
-TH1D* dNdetaStar = new TH1D("dNdetaStar","dNdetaStar",100,-5,5);
+TH1D* dNdetaStar = new TH1D("dNdetaStar","dNdetaStar",100,-10,10);
 
 TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
                             TLorentzVector const &pBeam_lab,
@@ -84,11 +84,13 @@ void makeComparisonE665(const int nEvents = 40000){
 			double mom = particle->GetP();
 
 			if( index == 3 ) {
-				cout << "This particle is " << pdg << endl;
 				mu_scattered.SetPtEtaPhiM(pt,eta,phi,mass);
 			}
 
+			if( status != 1 ) continue;
 			if( mom < 0.2 || mom > 10. ) continue;
+			if( fabs(pdg) != 211 && fabs(pdg) != 321 && fabs(pdg) != 2212 ) continue;
+
 			TLorentzRotation boost_MC_HCM = BoostToHCM(mu_beam,p_beam,mu_scattered);	
 			TLorentzVector h = particle->Get4Vector();
 			TLorentzVector hStar = boost_MC_HCM*h;
