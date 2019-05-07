@@ -7,6 +7,7 @@ using namespace erhic;
 #define MASS_MUON  0.1056
 
 TH1D* dNdetaStar = new TH1D("dNdetaStar","dNdetaStar",100,-10,10);
+TH1D* dNdeta = new TH1D("dNdeta","dNdeta",100,-10,10);
 
 TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
                             TLorentzVector const &pBeam_lab,
@@ -43,7 +44,7 @@ void makeComparisonE665(const int nEvents = 40000){
 		double pztarg = event->pztarg;
 
 		TLorentzVector mu_beam(0.,0.,pzlep,sqrt(pzlep*pzlep+MASS_MUON*MASS_MUON));
-		TLorentzVector p_beam(0.,0.,0.,sqrt(pztarg*pztarg+MASS_PROTON*MASS_PROTON));
+		TLorentzVector p_beam(0.,0.,0.,sqrt(MASS_PROTON*MASS_PROTON));
 		TLorentzVector mu_scattered(0.,0.,0.,0.);
 
 		//event information:
@@ -96,7 +97,7 @@ void makeComparisonE665(const int nEvents = 40000){
 			TLorentzVector hStar = boost_MC_HCM*h;
 
 			dNdetaStar->Fill( hStar.Eta() );
-
+			dNdeta->Fill( eta );
 			nParticles_process++;
 
 		} // end of particle loop
@@ -105,6 +106,7 @@ void makeComparisonE665(const int nEvents = 40000){
 
 	TFile output("../rootfiles/E665_Beagle.root","RECREATE");
 	dNdetaStar->Write();
+	dNdeta->Write();
 
 
 
