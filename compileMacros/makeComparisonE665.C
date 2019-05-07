@@ -4,6 +4,8 @@
 using namespace std;
 using namespace erhic;
 
+#define MASS_MUON  0.1056
+
 TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
                             TLorentzVector const &pBeam_lab,
                             TLorentzVector const &eScat_lab) {
@@ -29,12 +31,10 @@ void makeComparisonE665(const int nEvents = 40000){
 	tree->SetBranchAddress("event", &event );
 
 	//Using the TBranchElement is a hack to access the BeAGLE information.       
-	TBranchElement* branch_atarg = (TBranchElement*) tree->GetBranch("Atarg");
-	TBranchElement* branch_pz = (TBranchElement*) tree->GetBranch("pztarg");
-	TBranchElement* branch_pzlep = (TBranchElement*) tree->GetBranch("pzlep");
-	TBranchElement* branch_pxf = (TBranchElement*) tree->GetBranch("pxf");
-	TBranchElement* branch_pyf = (TBranchElement*) tree->GetBranch("pyf");
-	TBranchElement* branch_pzf = (TBranchElement*) tree->GetBranch("pzf");
+	double pzlep = event->pzlep;
+	double pztarg = event->pztarg;
+
+	cout << "pzlep " << pzlep << endl;
 
 	for(int i(0); i < nEvents; ++i ) {
       
