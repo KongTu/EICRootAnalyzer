@@ -20,7 +20,7 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
    return boost;
 }
 
-void makeComparisonE665(){
+void makeComparisonE665(const int nEvents = 40000){
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/gpfs/mnt/gpfs02/eic/wanchang/BeAGLE/muXe/muXe_490x0_Q2_1_100_y_0.1_0.85_tau_7_Shd3_trigcut_US0_40k.root" );
@@ -35,8 +35,6 @@ void makeComparisonE665(){
 	TBranchElement* branch_pxf = (TBranchElement*) tree->GetBranch("pxf");
 	TBranchElement* branch_pyf = (TBranchElement*) tree->GetBranch("pyf");
 	TBranchElement* branch_pzf = (TBranchElement*) tree->GetBranch("pzf");
-
-	int nEvents = tree->GetEntires();
 
 	for(int i(0); i < nEvents; ++i ) {
       
