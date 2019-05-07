@@ -7,6 +7,8 @@ using namespace erhic;
 #define MASS_MUON  0.1056
 
 TH1D* dNdetaStar = new TH1D("dNdetaStar","dNdetaStar",100,-10,10);
+TH1D* dNdetaStar_p = new TH1D("dNdetaStar_p","dNdetaStar_p",100,-10,10);
+TH1D* dNdetaStar_m = new TH1D("dNdetaStar_m","dNdetaStar_m",100,-10,10);
 TH1D* dNdeta = new TH1D("dNdeta","dNdeta",100,-10,10);
 
 TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
@@ -83,7 +85,6 @@ void makeComparisonE665(const int nEvents = 40000){
 			double theta = particle->GetTheta(); 
 			theta = theta*1000.0; //change to mrad;
 			double mom = particle->GetP();
-			double charge = particle->GetCharge();
 
 			if( index == 3 ) {
 				mu_scattered.SetPtEtaPhiM(pt,eta,phi,mass);
@@ -92,7 +93,7 @@ void makeComparisonE665(const int nEvents = 40000){
 			if( status != 1 ) continue;
 			if( mom < 0.2 || mom > 10. ) continue;
 			if( fabs(pdg) != 211 && fabs(pdg) != 321 && pdg != 2212 ) continue;
-			if(	charge == 0 ) continue;
+			
 
 			TLorentzRotation boost_MC_HCM = BoostToHCM(mu_beam,p_beam,mu_scattered);	
 			TLorentzVector h = particle->Get4Vector();
@@ -102,12 +103,17 @@ void makeComparisonE665(const int nEvents = 40000){
 			dNdeta->Fill( eta );
 			nParticles_process++;
 
+			if(	pdg > 0 ) dNdetaStar_p->Fill( hStar.Eta() );
+			if(	pdg < 0 ) dNdetaStar_m->Fill( hStar.Eta() );
+
 		} // end of particle loop
 
 	}
 
 	TFile output("../rootfiles/E665_Beagle.root","RECREATE");
 	dNdetaStar->Write();
+	dNdetaStar_p->Write();
+	dNdetaStar_m->Write();
 	dNdeta->Write();
 
 
