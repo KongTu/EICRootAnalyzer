@@ -9,6 +9,7 @@
 #include <eicsmear/erhic/Particle.h>
 #include <eicsmear/erhic/ParticleMC.h>
 #include <eicsmear/erhic/Pid.h>
+#include <eicsmear/erhic/EventBeAGLE.h>
 
 #include "TString.h"
 #include "TF1.h"
