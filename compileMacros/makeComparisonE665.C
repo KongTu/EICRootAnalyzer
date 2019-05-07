@@ -83,6 +83,7 @@ void makeComparisonE665(const int nEvents = 40000){
 			double theta = particle->GetTheta(); 
 			theta = theta*1000.0; //change to mrad;
 			double mom = particle->GetP();
+			double charge = particle->GetCharge();
 
 			if( index == 3 ) {
 				mu_scattered.SetPtEtaPhiM(pt,eta,phi,mass);
@@ -91,6 +92,7 @@ void makeComparisonE665(const int nEvents = 40000){
 			if( status != 1 ) continue;
 			if( mom < 0.2 || mom > 10. ) continue;
 			if( fabs(pdg) != 211 && fabs(pdg) != 321 && pdg != 2212 ) continue;
+			if(	charge == 0 ) continue;
 
 			TLorentzRotation boost_MC_HCM = BoostToHCM(mu_beam,p_beam,mu_scattered);	
 			TLorentzVector h = particle->Get4Vector();
