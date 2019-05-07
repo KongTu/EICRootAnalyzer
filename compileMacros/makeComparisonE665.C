@@ -27,8 +27,10 @@ void makeComparisonE665(const int nEvents = 40000){
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/gpfs/mnt/gpfs02/eic/wanchang/BeAGLE/muXe/muXe_490x0_Q2_1_100_y_0.1_0.85_tau_7_Shd3_trigcut_US0_40k.root" );
 	
-	EventPythia* event(NULL);
-	tree->SetBranchAddress("event", &event );
+	EventBeAGLE* event(NULL);
+	tree->SetBranchAddress("event", &event)
+	// EventPythia* event(NULL);
+	// tree->SetBranchAddress("event", &event );
 
 	//Using the TBranchElement is a hack to access the BeAGLE information.       
 	double pzlep = event->pzlep;
