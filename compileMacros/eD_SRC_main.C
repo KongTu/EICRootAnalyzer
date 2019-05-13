@@ -69,6 +69,8 @@ void eD_SRC_main(const int nEvents = 40000){
 		if( event_process != 91 ) continue;
 		if( trueQ2 < 1. ) continue;
 		if( trueY > 0.85 || trueY < 0.05 ) continue;
+		bool struckproton = false;
+		if( struck_nucleon == 2212 ) struckproton = true;
 
 		that->Fill( fabs(t_hat) );
 
@@ -112,7 +114,16 @@ void eD_SRC_main(const int nEvents = 40000){
 		tjpsi->Fill( pt2-trueQ2 );
 		h_trk->Fill( nParticles_process );
 		
-		if( pt2 < 0.2) sPN->Fill( (p_4vect+n_4vect).Mag2() );
+		if( struckproton ){
+			TLorentzVector n_partner_4vect;
+			n_partner_4vect.SetPxPyPzE(-n_4vect.Px(), -n_4vect.Py(), -n_4vect.Pz(), sqrt(n_4vect.P()*n_4vect.P()+MASS_PROTON*MASS_PROTON) );
+			sPN->Fill( (n_partner_4vect+n_4vect).Mag2() );
+		} 
+		else{
+			TLorentzVector p_partner_4vect;
+			p_partner_4vect.SetPxPyPzE(-p_4vect.Px(), -p_4vect.Py(), -p_4vect.Pz(), sqrt(p_4vect.P()*p_4vect.P()+MASS_NEUTRON*MASS_NEUTRON) );
+			sPN->Fill( (p_partner_4vect+p_4vect).Mag2() );
+		}
 
 	}
 
