@@ -101,6 +101,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,mass);
 			}
 			if( status != 1 ) continue;
+			//photon 4vector
+			TLorentzVector q = e_beam-e_scattered;
+			TLorentzVector q_irf = q;
 			
 			TLorentzVector ppart = particle->Get4Vector();
 			if(pdg == 443 ) j_4vect = ppart;
@@ -113,6 +116,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 			if(pdg == 443 ) j_4vect_irf = ppart;
 			if(pdg == 2212) p_4vect_irf = ppart;
 			if(pdg == 2112) n_4vect_irf = ppart; 
+
+			q_irf.Boost(0,0,-boostv);
+			q_irf.Boost(b);
 
 			nParticles_process++;
 
@@ -139,12 +145,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 
 		//inclusive J/psi measurement, convolution of exp and intrinsic n(k)
 		sPN_Jpsi->Fill( (p_4vect_irf+n_4vect_irf).Mag2() );
-
-		if( (p_4vect_irf+n_4vect_irf).Mag2() < 2. ){
-			PRINT4VECTOR(j_4vect,true);
-			PRINT4VECTOR(p_4vect,true);
-			PRINT4VECTOR(n_4vect,true);
-		}
+		//remove dependence of Q2 and Jpsi production
+		sPN_Jpsi_fix->Fill( (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2() );
 	}
 
 	TFile output("../rootfiles/eD_SRC_main_Beagle.root","RECREATE");
@@ -153,6 +155,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 	sPN->Write();
 	sPN_4pt2->Write();
 	sPN_Jpsi->Write();
+	sPN_Jpsi_fix->Write();
 	h_trk->Write();
 
 
