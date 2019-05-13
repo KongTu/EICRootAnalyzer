@@ -1,4 +1,5 @@
 #include "hist.h"//define all the histograms
+#include "PRINT4VECTOR.h"
 #include "TLorentzVector.h"
 #include "TLorentzRotation.h"
 using namespace std;
@@ -139,6 +140,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 		//inclusive J/psi measurement, convolution of exp and intrinsic n(k)
 		sPN_Jpsi->Fill( (p_4vect_irf+n_4vect_irf).Mag2() );
 
+		if( (p_4vect_irf+n_4vect_irf).Mag2() < 2. ){
+			PRINT4VECTOR(j_4vect,true);
+			PRINT4VECTOR(p_4vect,true);
+			PRINT4VECTOR(n_4vect,true);
+		}
 	}
 
 	TFile output("../rootfiles/eD_SRC_main_Beagle.root","RECREATE");
