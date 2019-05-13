@@ -109,7 +109,7 @@ void eD_SRC_main(const int nEvents = 40000){
 		} // end of particle loop
 
 		double pt2 = j_4vect.Pt()*j_4vect.Pt();
-		tjpsi->Fill( pt2 );
+		tjpsi->Fill( pt2-trueQ2 );
 		h_trk->Fill( nParticles_process );
 		
 		if( pt2 < 0.2) sPN->Fill( (p_4vect+n_4vect).Mag2() );
