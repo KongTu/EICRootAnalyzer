@@ -92,7 +92,7 @@ void eD_SRC_main(const int nEvents = 40000){
 			if( status != 1 ) continue;
 			
 			TLorentzVector ppart = particle->Get4Vector();
-			ppart.Boost(0,0,-bootsv);
+			ppart.Boost(0,0,-boostv);
 			ppart.Boost(b);
 
 			if(pdg == 2212) p_4vect = ppart;
