@@ -117,6 +117,8 @@ void eD_SRC_main(const int nEvents = 40000){
 	}
 
 	TFile output("../rootfiles/eD_SRC_main_Beagle.root","RECREATE");
+	that->Write();
+	tjpsi->Write();
 	sPN->Write();
 	h_trk->Write();
 
