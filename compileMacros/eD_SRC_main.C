@@ -79,8 +79,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 		that->Fill( fabs(t_hat) );
 
 		int nParticles_process = 0;
-		TLorentzVector p_4vect, n_4vect,j_4vect;
-		TLorentzVector p_4vect_irf, n_4vect_irf,j_4vect_irf;
+		TLorentzVector p_4vect, n_4vect,j_4vect,q;
+		TLorentzVector p_4vect_irf, n_4vect_irf,j_4vect_irf,q_irf;
 		for(int j(0); j < nParticles; ++j ) {
 
 			const erhic::ParticleMC* particle = event->GetTrack(j);
@@ -102,8 +102,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 			}
 			if( status != 1 ) continue;
 			//photon 4vector
-			TLorentzVector q = e_beam-e_scattered;
-			TLorentzVector q_irf = q;
+			q = e_beam-e_scattered;
+			q_irf = q;
 			
 			TLorentzVector ppart = particle->Get4Vector();
 			if(pdg == 443 ) j_4vect = ppart;
