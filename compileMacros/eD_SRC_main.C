@@ -27,10 +27,10 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
    return boost;
 }
 
-void eD_SRC_main(const int nEvents = 40000){
+void eD_SRC_main(const int nEvents = 40000, TString filename){
 
 	TChain *tree = new TChain("EICTree");
-	tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/eD_src_1.root" );
+	tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/"+filename+".root" );
 	
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
