@@ -103,7 +103,7 @@ void eD_SRC_main(const int nEvents = 40000){
 		} // end of particle loop
 
 		h_trk->Fill( nParticles_process );
-		sPN->Fill( (p_4vect+n_4vect).Mag() );
+		sPN->Fill( (p_4vect+n_4vect).Mag2() );
 
 	}
 
