@@ -8,7 +8,10 @@ using namespace erhic;
 
 TH1D* that = new TH1D("that","that",200,0,10);
 TH1D* tjpsi = new TH1D("tjpsi","tjpsi",200,0,10);
-TH1D* sPN = new TH1D("sPN","sPN",1000,2,14);
+TH1D* sPN = new TH1D("sPN","sPN",200,0,14);
+TH1D* sPN_4pt2 = new TH1D("sPN_4pt2","sPN_4pt2",200,0,14);
+TH1D* sPN_Jpsi = new TH1D("sPN_Jpsi","sPN_Jpsi",200,0,14);
+TH1D* sPN_Jpsi_fix = new TH1D("sPN_Jpsi_fix","sPN_Jpsi_fix",200,0,14);
 TH1D* h_trk = new TH1D("h_trk","h_trk",50,0,50);
 
 TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
@@ -76,6 +79,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 
 		int nParticles_process = 0;
 		TLorentzVector p_4vect, n_4vect,j_4vect;
+		TLorentzVector p_4vect_irf, n_4vect_irf,j_4vect_irf;
 		for(int j(0); j < nParticles; ++j ) {
 
 			const erhic::ParticleMC* particle = event->GetTrack(j);
@@ -99,12 +103,15 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 			
 			TLorentzVector ppart = particle->Get4Vector();
 			if(pdg == 443 ) j_4vect = ppart;
+			if(pdg == 2212) p_4vect = ppart;
+			if(pdg == 2112) n_4vect = ppart;
 
 			ppart.Boost(0,0,-boostv);
 			ppart.Boost(b);
 
-			if(pdg == 2212) p_4vect = ppart;
-			if(pdg == 2112) n_4vect = ppart;
+			if(pdg == 443 ) j_4vect_irf = ppart;
+			if(pdg == 2212) p_4vect_irf = ppart;
+			if(pdg == 2112) n_4vect_irf = ppart; 
 
 			nParticles_process++;
 
@@ -115,15 +122,22 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 		h_trk->Fill( nParticles_process );
 		
 		if( struckproton ){
-			TLorentzVector n_partner_4vect;
-			n_partner_4vect.SetPxPyPzE(-n_4vect.Px(), -n_4vect.Py(), -n_4vect.Pz(), sqrt(n_4vect.P()*n_4vect.P()+MASS_PROTON*MASS_PROTON) );
-			sPN->Fill( (n_partner_4vect+n_4vect).Mag2() );
+			TLorentzVector n_partner_4vect_irf;
+			n_partner_4vect_irf.SetPxPyPzE(-n_4vect_irf.Px(), -n_4vect_irf.Py(), -n_4vect_irf.Pz(), sqrt(n_4vect_irf.P()*n_4vect_irf.P()+MASS_PROTON*MASS_PROTON) );
+			//intrinsic Beagle n(k) distribution -> SNN distribution
+			sPN->Fill( (n_partner_4vect_irf+n_4vect_irf).Mag2() );
+			//approximation by spectator nucleon pt in the lab frame
+			sPN_4pt2->Fill( 4*n_4vect.Pt()*n_4vect.Pt() );
 		} 
 		else{
-			TLorentzVector p_partner_4vect;
-			p_partner_4vect.SetPxPyPzE(-p_4vect.Px(), -p_4vect.Py(), -p_4vect.Pz(), sqrt(p_4vect.P()*p_4vect.P()+MASS_NEUTRON*MASS_NEUTRON) );
-			sPN->Fill( (p_partner_4vect+p_4vect).Mag2() );
+			TLorentzVector p_partner_4vect_irf;
+			p_partner_4vect_irf.SetPxPyPzE(-p_4vect_irf.Px(), -p_4vect_irf.Py(), -p_4vect_irf.Pz(), sqrt(p_4vect_irf.P()*p_4vect_irf.P()+MASS_NEUTRON*MASS_NEUTRON) );
+			sPN->Fill( (p_partner_4vect_irf+p_4vect_irf).Mag2() );
+			sPN_4pt2->Fill( 4*p_4vect.Pt()*p_4vect.Pt() );
 		}
+
+		//inclusive J/psi measurement, convolution of exp and intrinsic n(k)
+		sPN_Jpsi->Fill( (p_4vect_irf+n_4vect_irf).Mag2() );
 
 	}
 
@@ -131,6 +145,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 	that->Write();
 	tjpsi->Write();
 	sPN->Write();
+	sPN_4pt2->Write();
+	sPN_Jpsi->Write();
 	h_trk->Write();
 
 
