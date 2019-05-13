@@ -6,8 +6,10 @@ using namespace erhic;
 
 #define MASS_MUON  0.1056
 
+TH1D* that = new TH1D("that","that",200,0,10);
+TH1D* tjpsi = new TH1D("tjpsi","tjpsi",200,0,10);
 TH1D* sPN = new TH1D("sPN","sPN",1000,2,14);
-TH1D* h_trk = new TH1D("h_trk","h_trk",4000,0,4000);
+TH1D* h_trk = new TH1D("h_trk","h_trk",50,0,50);
 
 TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
                             TLorentzVector const &pBeam_lab,
@@ -68,8 +70,10 @@ void eD_SRC_main(const int nEvents = 40000){
 		if( trueQ2 < 1. ) continue;
 		if( trueY > 0.85 || trueY < 0.05 ) continue;
 
+		that->Fill( fabs(t_hat) );
+
 		int nParticles_process = 0;
-		TLorentzVector p_4vect, n_4vect;
+		TLorentzVector p_4vect, n_4vect,j_4vect;
 		for(int j(0); j < nParticles; ++j ) {
 
 			const erhic::ParticleMC* particle = event->GetTrack(j);
@@ -92,6 +96,8 @@ void eD_SRC_main(const int nEvents = 40000){
 			if( status != 1 ) continue;
 			
 			TLorentzVector ppart = particle->Get4Vector();
+			if(pdg == 443 ) j_4vect = ppart;
+
 			ppart.Boost(0,0,-boostv);
 			ppart.Boost(b);
 
@@ -102,8 +108,11 @@ void eD_SRC_main(const int nEvents = 40000){
 
 		} // end of particle loop
 
+		double pt2 = j_4vect.Pt()*j_4vect.Pt();
+		tjpsi->Fill( pt2 );
 		h_trk->Fill( nParticles_process );
-		sPN->Fill( (p_4vect+n_4vect).Mag2() );
+		
+		if( pt2 < 0.2) sPN->Fill( (p_4vect+n_4vect).Mag2() );
 
 	}
 
