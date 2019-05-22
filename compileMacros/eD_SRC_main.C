@@ -13,6 +13,7 @@ TH1D* sPN = new TH1D("sPN","sPN",200,0,14);
 TH1D* sPN_4pt2 = new TH1D("sPN_4pt2","sPN_4pt2",200,0,14);
 TH1D* sPN_Jpsi = new TH1D("sPN_Jpsi","sPN_Jpsi",200,0,14);
 TH1D* sPN_Jpsi_fix = new TH1D("sPN_Jpsi_fix","sPN_Jpsi_fix",200,0,14);
+TH1D* nucleon_diff = new TH1D("nucleon_diff","nucleon_diff",2000,-10,10);
 TH1D* h_trk = new TH1D("h_trk","h_trk",50,0,50);
 
 TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
@@ -147,6 +148,14 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 		sPN_Jpsi->Fill( (p_4vect_irf+n_4vect_irf).Mag2() );
 		//remove dependence of Q2 and Jpsi production
 		sPN_Jpsi_fix->Fill( (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2() );
+
+		TLorentzVector n_4vect_cal; 
+		n_4vect_cal = q_irf - j_4vect_irf - p_4vect_irf;
+		nucleon_diff->Fill( n_4vect_cal.E() - n_4vect_irf.E() );
+
+
+
+
 	}
 
 	TFile output("../rootfiles/eD_SRC_main_Beagle.root","RECREATE");
@@ -156,6 +165,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 	sPN_4pt2->Write();
 	sPN_Jpsi->Write();
 	sPN_Jpsi_fix->Write();
+	nucleon_diff->Write();
 	h_trk->Write();
 
 
