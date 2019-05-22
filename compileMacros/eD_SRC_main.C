@@ -14,7 +14,6 @@ TH1D* sPN_4pt2 = new TH1D("sPN_4pt2","sPN_4pt2",200,0,14);
 TH1D* sPN_Jpsi = new TH1D("sPN_Jpsi","sPN_Jpsi",200,0,14);
 TH1D* sPN_Jpsi_fix = new TH1D("sPN_Jpsi_fix","sPN_Jpsi_fix",200,0,14);
 TH1D* sPN_Jpsi_fix_oneTagged = new TH1D("sPN_Jpsi_fix_oneTagged","sPN_Jpsi_fix_oneTagged",200,0,14);
-TH1D* nucleon_diff = new TH1D("nucleon_diff","nucleon_diff",2000,-10,10);
 TH1D* h_trk = new TH1D("h_trk","h_trk",50,0,50);
 
 TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
