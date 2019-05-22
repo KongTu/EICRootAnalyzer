@@ -152,8 +152,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 
 		TLorentzVector n_4vect_cal; 
 		n_4vect_cal = q_irf - j_4vect_irf - p_4vect_irf;
-		nucleon_diff->Fill( n_4vect_cal.E() - n_4vect_irf.E() );
-
+		//this one doesn't work, because we loose the information of how relative pn moves.
+		//therefore by definition, this is going to be zero. 
 		sPN_Jpsi_fix_oneTagged->Fill( (p_4vect_irf+n_4vect_cal+j_4vect_irf-q_irf).Mag2() );
 
 	}
@@ -166,7 +166,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 	sPN_Jpsi->Write();
 	sPN_Jpsi_fix->Write();
 	sPN_Jpsi_fix_oneTagged->Write();
-	nucleon_diff->Write();
 	h_trk->Write();
 
 
