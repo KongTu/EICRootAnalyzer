@@ -154,8 +154,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 		//this one doesn't work, because we loose the information of how relative pn moves.
 		//therefore by definition, this is going to be zero. 
 		sPN_Jpsi_fix_oneTagged->Fill( (p_4vect_irf+n_4vect_cal+j_4vect_irf-q_irf).Mag2() );
-
-		cout << "test ~ " << (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Pz() << endl;
 	}
 
 	TFile output("../rootfiles/eD_SRC_main_Beagle.root","RECREATE");
