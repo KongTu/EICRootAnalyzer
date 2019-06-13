@@ -50,7 +50,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TF1* smear_e = new TF1("smear_e","gaus(0)",-30,30);
 	smear_e->SetParameter(0,1);
 	smear_e->SetParameter(1,0);
-	smear_e->SetParameter(2,0.01*sqrt(135.));
+	smear_e->SetParameter(2,0.5*sqrt(135.));
 
 	TF1* smear_theta = new TF1("smear_theta","gaus(0)",-0.001,0.001);
 	smear_theta->SetParameter(0,1);
@@ -159,7 +159,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 						E_n = E_n + delta_E;
 						double delta_Theta = 0.;
 						angle = angle + delta_Theta;
-						double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(angle));
+						double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(angle)*TMath::Sin(angle));
 						double Pz_n = sqrt(Pz_n2);
 						double Pt_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON - Pz_n2);
 						double Pt_n = sqrt(Pt_n2);
