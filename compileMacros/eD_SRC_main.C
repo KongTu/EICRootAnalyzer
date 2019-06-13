@@ -159,8 +159,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 						E_n = E_n + delta_E;
 						double delta_Theta = smear_theta->GetRandom();
 						angle = angle + delta_Theta;
-						cout << "delta_Theta_first ~ " << delta_Theta <<endl;
-
 						double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(angle));
 						double Pz_n = sqrt(Pz_n2);
 						double Pt_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON - Pz_n2);
@@ -169,6 +167,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 						double Py_n = Pt_n*TMath::Sin(ppart.Phi());
 
 						n_4vect.SetPxPyPzE(Px_n, Py_n, Pz_n, E_n);
+
+						cout << "delta_Theta_first ~ " << n_4vect.Theta() - ppart.Theta() <<endl;
+
 					}
 				}
 			}
