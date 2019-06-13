@@ -52,7 +52,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	smear_e->SetParameter(1,0);
 	smear_e->SetParameter(2,0.5*sqrt(135.));
 
-	TF1* smear_theta = new TF1("smear_theta","gaus(0)",-30,30);
+	TF1* smear_theta = new TF1("smear_theta","gaus(0)",-0.001,0.001);
 	smear_theta->SetParameter(0,1);
 	smear_theta->SetParameter(1,0);
 	smear_theta->SetParameter(2,0.00025);
