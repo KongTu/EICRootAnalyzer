@@ -159,7 +159,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 						E_n = E_n + delta_E;
 						double delta_Theta = 0.;
 						angle = angle + delta_Theta;
-						double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(angle));
+						double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(angle)*TMath::Sin(angle));
 						double Pz_n = sqrt(Pz_n2);
 						double Pt_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON - Pz_n2);
 						double Pt_n = sqrt(Pt_n2);
