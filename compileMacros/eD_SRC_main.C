@@ -12,7 +12,7 @@ int sPN_nBins = sizeof(sPN_bins)/sizeof(sPN_bins[0]) -1;
 
 TH1D* that = new TH1D("that","that",200,0,10);
 TH1D* tjpsi = new TH1D("tjpsi","tjpsi",200,0,10);
-TH2D* nRes = new TH2D("nRes","",200,-30,30,200,-0.001,0.001);
+TH2D* nRes = new TH2D("nRes","",200,-30,30,200,-0.1,0.1);
 TH1D* nucleon_t = new TH1D("nucleon_t","nucleon_t",200,0,10);
 TH2D* sPN_t = new TH2D("sPN_t",";t;s",200,0,10,sPN_nBins,sPN_bins);
 TH1D* sPN = new TH1D("sPN","sPN",sPN_nBins,sPN_bins);
