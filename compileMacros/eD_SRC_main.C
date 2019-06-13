@@ -12,6 +12,7 @@ int sPN_nBins = sizeof(sPN_bins)/sizeof(sPN_bins[0]) -1;
 
 TH1D* that = new TH1D("that","that",200,0,10);
 TH1D* tjpsi = new TH1D("tjpsi","tjpsi",200,0,10);
+TH2D* nRes = new TH2D("nRes","",200,-30,30,200,-0.001,0.001);
 TH1D* nucleon_t = new TH1D("nucleon_t","nucleon_t",200,0,10);
 TH2D* sPN_t = new TH2D("sPN_t",";t;s",200,0,10,sPN_nBins,sPN_bins);
 TH1D* sPN = new TH1D("sPN","sPN",sPN_nBins,sPN_bins);
@@ -38,13 +39,23 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
    return boost;
 }
 
-void eD_SRC_main(const int nEvents = 40000, TString filename=""){
+void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false){
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/"+filename+".root" );
 	
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
+
+	TF1* smear_e = new TF1("smear_e","gaus(0)",-30,30);
+	smear_e->SetParameter(0,1);
+	smear_e->SetParameter(1,0);
+	smear_e->SetParameter(2,0.5*sqrt(135.));
+
+	TF1* smear_theta = new TF1("smear_theta","gaus(0)",-30,30);
+	smear_theta->SetParameter(0,1);
+	smear_theta->SetParameter(1,0);
+	smear_theta->SetParameter(2,0.00025);
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -59,6 +70,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep));//neglecting e mass
 		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
+
+		smear_e->SetParameter(2,0.5*sqrt(pztarg));
+
 
 		TVector3 b = d_beam.BoostVector();
 
@@ -85,6 +99,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 		that->Fill( fabs(t_hat) );
 
 		int nParticles_process = 0;
+		TLorentzVector n_4vect_unsmear;
 		TLorentzVector p_4vect, n_4vect,j_4vect,q;
 		TLorentzVector p_4vect_irf, n_4vect_irf,j_4vect_irf,q_irf,d_beam_irf;
 		for(int j(0); j < nParticles; ++j ) {
@@ -107,6 +122,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,mass);
 			}
 			if( status != 1 ) continue;
+
 			//photon 4vector
 			q = e_beam-e_scattered;
 			q_irf = q;
@@ -116,6 +132,33 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 			if(pdg == 443 ) j_4vect = ppart;
 			if(pdg == 2212) p_4vect = ppart;
 			if(pdg == 2112) n_4vect = ppart;
+
+			/*
+			- do energy and scattering angle smearing 
+			- together with acceptance cuts
+			*/
+			n_4vect_unsmear = n_4vect;
+			if(doSmear_){
+				double proton_angle = p_4vect.Theta();
+				double neutron_angle = n_4vect_unsmear.Theta();
+				//acceptance cuts
+				if( (proton_angle > 0.005 && proton_angle < 0.007) || proton_angle > 0.022 ) continue;
+				if( neutron_angle > 0.004 ) continue;
+				
+				//smearing neutron
+				double E_n = n_4vect_unsmear.E();
+				E_n += smear_e->GetRandom();
+				neutron_angle += smear_theta->GetRandom();
+				double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(neutron_angle));
+				double Pz_n = sqrt(Pz_n2);
+				double Pt_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON - Pz_n2);
+				double Pt_n = sqrt(Pt_n2);
+				double Px_n = Pt_n*TMath::Cos(n_4vect_unsmear.Phi());
+				double Py_n = Pt_n*TMath::Sin(n_4vect_unsmear.Phi());
+
+				n_4vect.SetPxPyPzE(Px_n, Py_n, Pz_n, E_n);
+		
+			}
 
 			ppart.Boost(-b);
 
@@ -133,6 +176,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 		double pt2 = j_4vect.Pt()*j_4vect.Pt();
 		tjpsi->Fill( pt2-trueQ2 );
 		h_trk->Fill( nParticles_process );
+		nRes->Fill( n_4vect_unsmear.E()-n_4vect.E(), n_4vect_unsmear.Theta()-n_4vect.Theta() );
 		
 		if( struckproton ){
 			TLorentzVector n_partner_4vect_irf;
@@ -162,6 +206,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 	TFile output("../rootfiles/eD_SRC_main_Beagle.root","RECREATE");
 	that->Write();
 	tjpsi->Write();
+	nRes->Write();
 	sPN->Write();
 	sPN_4pt2->Write();
 	sPN_Jpsi->Write();
