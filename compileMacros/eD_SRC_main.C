@@ -7,16 +7,19 @@ using namespace erhic;
 
 #define MASS_MUON  0.1056
 
+double sPN_bins[]={0.,1.0,2.0,3.0,3.5,3.6,3.7,3.8,3.9,4.0,4.1,4.2,4.3,4.4,4.5,4.7,5.0,5.5,6.0,7.0,8.0,9.0,10.0,12.0,15.0};
+int sPN_nBins = sizeof(sPN_bins)/sizeof(sPN_bins[0]) -1;
+
 TH1D* that = new TH1D("that","that",200,0,10);
 TH1D* tjpsi = new TH1D("tjpsi","tjpsi",200,0,10);
 TH1D* nucleon_t = new TH1D("nucleon_t","nucleon_t",200,0,10);
-TH2D* sPN_t = new TH2D("sPN_t",";t;s",200,0,10,200,0,14);
-TH1D* sPN = new TH1D("sPN","sPN",200,0,14);
-TH1D* sPN_4pt2 = new TH1D("sPN_4pt2","sPN_4pt2",200,0,14);
-TH1D* sPN_Jpsi = new TH1D("sPN_Jpsi","sPN_Jpsi",200,0,14);
-TH1D* sPN_Jpsi_fix = new TH1D("sPN_Jpsi_fix","sPN_Jpsi_fix",200,0,14);
-TH1D* sPN_Jpsi_fix_oneTagged = new TH1D("sPN_Jpsi_fix_oneTagged","sPN_Jpsi_fix_oneTagged",200,0,14);
-TH1D* sPN_Jpsi_fix_noMass = new TH1D("sPN_Jpsi_fix_noMass","sPN_Jpsi_fix_noMass",200,0,14);
+TH2D* sPN_t = new TH2D("sPN_t",";t;s",200,0,10,sPN_nBins,sPN_bins);
+TH1D* sPN = new TH1D("sPN","sPN",sPN_nBins,sPN_bins);
+TH1D* sPN_4pt2 = new TH1D("sPN_4pt2","sPN_4pt2",sPN_nBins,sPN_bins);
+TH1D* sPN_Jpsi = new TH1D("sPN_Jpsi","sPN_Jpsi",sPN_nBins,sPN_bins);
+TH1D* sPN_Jpsi_fix = new TH1D("sPN_Jpsi_fix","sPN_Jpsi_fix",sPN_nBins,sPN_bins);
+TH1D* sPN_Jpsi_fix_oneTagged = new TH1D("sPN_Jpsi_fix_oneTagged","sPN_Jpsi_fix_oneTagged",sPN_nBins,sPN_bins);
+TH1D* sPN_Jpsi_fix_noMass = new TH1D("sPN_Jpsi_fix_noMass","sPN_Jpsi_fix_noMass",sPN_nBins,sPN_bins);
 TH1D* h_trk = new TH1D("h_trk","h_trk",50,0,50);
 
 TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
