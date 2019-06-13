@@ -71,7 +71,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
 
-		smear_e->SetParameter(2,0.5*sqrt(pztarg));
+		smear_e->SetParameter(2,0.05*sqrt(pztarg));
 
 
 		TVector3 b = d_beam.BoostVector();
@@ -192,9 +192,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		double pt2 = j_4vect.Pt()*j_4vect.Pt();
 		tjpsi->Fill( pt2-trueQ2 );
 		h_trk->Fill( nParticles_process );
-		cout << "delta_E ~ " << n_4vect_unsmear.E()-n_4vect.E() <<endl;
-		cout << "delta_Theta ~ " << n_4vect_unsmear.Theta()-n_4vect.Theta() <<endl;
-
 		nRes->Fill( n_4vect_unsmear.E()-n_4vect.E(), n_4vect_unsmear.Theta()-n_4vect.Theta() );
 		
 		if( struckproton ){
