@@ -9,6 +9,7 @@ using namespace erhic;
 
 TH1D* that = new TH1D("that","that",200,0,10);
 TH1D* tjpsi = new TH1D("tjpsi","tjpsi",200,0,10);
+TH1D* nucleon_t = new TH1D("nucleon_t","nucleon_t",200,0,10);
 TH1D* sPN = new TH1D("sPN","sPN",200,0,14);
 TH1D* sPN_4pt2 = new TH1D("sPN_4pt2","sPN_4pt2",200,0,14);
 TH1D* sPN_Jpsi = new TH1D("sPN_Jpsi","sPN_Jpsi",200,0,14);
@@ -55,8 +56,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
 
-		double boostv =  d_beam.Pz()/d_beam.E();
-		TVector3 b;
+		TVector3 b = d_beam.BoostVector();
 
 		//event information:
 		double trueQ2 = event->GetTrueQ2();
@@ -82,7 +82,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 
 		int nParticles_process = 0;
 		TLorentzVector p_4vect, n_4vect,j_4vect,q;
-		TLorentzVector p_4vect_irf, n_4vect_irf,j_4vect_irf,q_irf;
+		TLorentzVector p_4vect_irf, n_4vect_irf,j_4vect_irf,q_irf,d_beam_irf;
 		for(int j(0); j < nParticles; ++j ) {
 
 			const erhic::ParticleMC* particle = event->GetTrack(j);
@@ -106,21 +106,21 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 			//photon 4vector
 			q = e_beam-e_scattered;
 			q_irf = q;
+			d_beam_irf = d_beam;
 			
 			TLorentzVector ppart = particle->Get4Vector();
 			if(pdg == 443 ) j_4vect = ppart;
 			if(pdg == 2212) p_4vect = ppart;
 			if(pdg == 2112) n_4vect = ppart;
 
-			ppart.Boost(0,0,-boostv);
-			ppart.Boost(b);
+			ppart.Boost(-b);
 
 			if(pdg == 443 ) j_4vect_irf = ppart;
 			if(pdg == 2212) p_4vect_irf = ppart;
 			if(pdg == 2112) n_4vect_irf = ppart; 
 
-			q_irf.Boost(0,0,-boostv);
-			q_irf.Boost(b);
+			q_irf.Boost(-b);
+			d_beam_irf.Boost(-b);
 
 			nParticles_process++;
 
@@ -137,36 +137,34 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 			sPN->Fill( (n_partner_4vect_irf+n_4vect_irf).Mag2() );
 			//approximation by spectator nucleon pt in the lab frame
 			sPN_4pt2->Fill( 4*n_4vect.Pt()*n_4vect.Pt() );
+			nucleon_t->Fill( (p_4vect_irf - d_beam_irf).Mag2() );
+
 		} 
 		else{
 			TLorentzVector p_partner_4vect_irf;
 			p_partner_4vect_irf.SetPxPyPzE(-p_4vect_irf.Px(), -p_4vect_irf.Py(), -p_4vect_irf.Pz(), sqrt(p_4vect_irf.P()*p_4vect_irf.P()+MASS_NEUTRON*MASS_NEUTRON) );
 			sPN->Fill( (p_partner_4vect_irf+p_4vect_irf).Mag2() );
 			sPN_4pt2->Fill( 4*p_4vect.Pt()*p_4vect.Pt() );
+			nucleon_t->Fill( (n_4vect_irf - d_beam_irf).Mag2() );
+
 		}
 
 		//inclusive J/psi measurement, convolution of exp and intrinsic n(k)
 		sPN_Jpsi->Fill( (p_4vect_irf+n_4vect_irf).Mag2() );
 		//remove dependence of Q2 and Jpsi production
 		sPN_Jpsi_fix->Fill( (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2() );
-
-		TLorentzVector n_4vect_cal; 
-		n_4vect_cal = q_irf - j_4vect_irf - p_4vect_irf;
-		//this one doesn't work, because we loose the information of how relative pn moves.
-		//therefore by definition, this is going to be zero. 
-		sPN_Jpsi_fix_oneTagged->Fill( (p_4vect_irf+n_4vect_cal+j_4vect_irf-q_irf).Mag2() );
-
+		//remove mass dependence
 		sPN_Jpsi_fix_noMass->Fill( (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2() - (MASS_NEUTRON+MASS_PROTON)*(MASS_NEUTRON+MASS_PROTON) );
 	}
 
 	TFile output("../rootfiles/eD_SRC_main_Beagle.root","RECREATE");
 	that->Write();
 	tjpsi->Write();
+	nucleon_t->Write();
 	sPN->Write();
 	sPN_4pt2->Write();
 	sPN_Jpsi->Write();
 	sPN_Jpsi_fix->Write();
-	sPN_Jpsi_fix_oneTagged->Write();
 	sPN_Jpsi_fix_noMass->Write();
 	h_trk->Write();
 
