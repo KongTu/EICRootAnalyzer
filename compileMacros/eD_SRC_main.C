@@ -131,33 +131,35 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			TLorentzVector ppart = particle->Get4Vector();
 			if(pdg == 443 ) j_4vect = ppart;
 			if(pdg == 2212) p_4vect = ppart;
-			if(pdg == 2112) n_4vect = ppart;
+			if(pdg == 2112) {n_4vect = ppart; n_4vect_unsmear = n_4vect;}
 
 			/*
 			- do energy and scattering angle smearing 
 			- together with acceptance cuts
 			*/
-			n_4vect_unsmear = n_4vect;
+			
 			if(doSmear_){
-				double proton_angle = p_4vect.Theta();
-				double neutron_angle = n_4vect_unsmear.Theta();
-				//acceptance cuts
-				if( (proton_angle > 0.005 && proton_angle < 0.007) || proton_angle > 0.022 ) continue;
-				if( neutron_angle > 0.004 ) continue;
-				
-				//smearing neutron
-				double E_n = n_4vect_unsmear.E();
-				E_n += smear_e->GetRandom();
-				neutron_angle += smear_theta->GetRandom();
-				double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(neutron_angle));
-				double Pz_n = sqrt(Pz_n2);
-				double Pt_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON - Pz_n2);
-				double Pt_n = sqrt(Pt_n2);
-				double Px_n = Pt_n*TMath::Cos(n_4vect_unsmear.Phi());
-				double Py_n = Pt_n*TMath::Sin(n_4vect_unsmear.Phi());
+				double angle = ppart.Theta();
+				//acceptance cuts for proton
+				if( pdg == 2212 ){
+					if( (angle > 0.005 && angle < 0.007) || angle > 0.022 ) continue;
+				}
+				//acceptance cuts for neutron
+				if( pdg == 2112 ){
+					if( angle > 0.004 ) continue;
+					//smearing neutron
+					double E_n = ppart.E();
+					E_n += smear_e->GetRandom();
+					neutron_angle += smear_theta->GetRandom();
+					double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(neutron_angle));
+					double Pz_n = sqrt(Pz_n2);
+					double Pt_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON - Pz_n2);
+					double Pt_n = sqrt(Pt_n2);
+					double Px_n = Pt_n*TMath::Cos(ppart.Phi());
+					double Py_n = Pt_n*TMath::Sin(ppart.Phi());
 
-				n_4vect.SetPxPyPzE(Px_n, Py_n, Pz_n, E_n);
-		
+					n_4vect.SetPxPyPzE(Px_n, Py_n, Pz_n, E_n);
+				}
 			}
 
 			ppart.Boost(-b);
