@@ -150,8 +150,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 					//smearing neutron
 					double E_n = ppart.E();
 					E_n += smear_e->GetRandom();
-					neutron_angle += smear_theta->GetRandom();
-					double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(neutron_angle));
+					angle += smear_theta->GetRandom();
+					double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(angle));
 					double Pz_n = sqrt(Pz_n2);
 					double Pt_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON - Pz_n2);
 					double Pt_n = sqrt(Pt_n2);
