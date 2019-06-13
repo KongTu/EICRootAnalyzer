@@ -142,23 +142,28 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 				double angle = ppart.Theta();
 				//acceptance cuts for proton
 				if( pdg == 2212 ){
-					if( (angle > 0.005 && angle < 0.007) || angle > 0.022 ) continue;
+					if( (angle > 0.005 && angle < 0.007) || angle > 0.022 ) p_4vect.SetPxPyPzE(0.,0.,0.,0.);
+
 				}
 				//acceptance cuts for neutron
 				if( pdg == 2112 ){
-					if( angle > 0.004 ) continue;
-					//smearing neutron
-					double E_n = ppart.E();
-					E_n += smear_e->GetRandom();
-					angle += smear_theta->GetRandom();
-					double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(angle));
-					double Pz_n = sqrt(Pz_n2);
-					double Pt_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON - Pz_n2);
-					double Pt_n = sqrt(Pt_n2);
-					double Px_n = Pt_n*TMath::Cos(ppart.Phi());
-					double Py_n = Pt_n*TMath::Sin(ppart.Phi());
+					if( angle > 0.004 ) {
+						n_4vect.SetPxPyPzE(0.,0.,0.,0.);
+					}
+					else{
+						//smearing neutron
+						double E_n = ppart.E();
+						E_n += smear_e->GetRandom();
+						angle += smear_theta->GetRandom();
+						double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(angle));
+						double Pz_n = sqrt(Pz_n2);
+						double Pt_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON - Pz_n2);
+						double Pt_n = sqrt(Pt_n2);
+						double Px_n = Pt_n*TMath::Cos(ppart.Phi());
+						double Py_n = Pt_n*TMath::Sin(ppart.Phi());
 
-					n_4vect.SetPxPyPzE(Px_n, Py_n, Pz_n, E_n);
+						n_4vect.SetPxPyPzE(Px_n, Py_n, Pz_n, E_n);
+					}
 				}
 			}
 
@@ -174,6 +179,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			nParticles_process++;
 
 		} // end of particle loop
+
+		if( p_4vect.E() == 0 || n_4vect.E() == 0 ) continue;
 
 		double pt2 = j_4vect.Pt()*j_4vect.Pt();
 		tjpsi->Fill( pt2-trueQ2 );
