@@ -138,24 +138,20 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 			sPN->Fill( (n_partner_4vect_irf+n_4vect_irf).Mag2() );
 			//approximation by spectator nucleon pt in the lab frame
 			sPN_4pt2->Fill( 4*n_4vect.Pt()*n_4vect.Pt() );
-			nucleon_t->Fill( (p_4vect_irf - d_beam_irf).Mag2() );
-			sPN_t->Fill((p_4vect_irf - d_beam_irf).Mag2(), (n_partner_4vect_irf+n_4vect_irf).Mag2());
-
 		} 
 		else{
 			TLorentzVector p_partner_4vect_irf;
 			p_partner_4vect_irf.SetPxPyPzE(-p_4vect_irf.Px(), -p_4vect_irf.Py(), -p_4vect_irf.Pz(), sqrt(p_4vect_irf.P()*p_4vect_irf.P()+MASS_NEUTRON*MASS_NEUTRON) );
 			sPN->Fill( (p_partner_4vect_irf+p_4vect_irf).Mag2() );
 			sPN_4pt2->Fill( 4*p_4vect.Pt()*p_4vect.Pt() );
-			nucleon_t->Fill( (n_4vect_irf - d_beam_irf).Mag2() );
-			sPN_t->Fill((n_4vect_irf - d_beam_irf).Mag2(), (p_partner_4vect_irf+p_4vect_irf).Mag2());
-
 		}
 
 		//inclusive J/psi measurement, convolution of exp and intrinsic n(k)
 		sPN_Jpsi->Fill( (p_4vect_irf+n_4vect_irf).Mag2() );
 		//remove dependence of Q2 and Jpsi production
 		sPN_Jpsi_fix->Fill( (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2() );
+		nucleon_t->Fill( (p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2() );
+		sPN_t->Fill((p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2(), (n_partner_4vect_irf+n_4vect_irf).Mag2());
 		//remove mass dependence
 		sPN_Jpsi_fix_noMass->Fill( (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2() - (MASS_NEUTRON+MASS_PROTON)*(MASS_NEUTRON+MASS_PROTON) );
 	}
@@ -163,12 +159,12 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 	TFile output("../rootfiles/eD_SRC_main_Beagle.root","RECREATE");
 	that->Write();
 	tjpsi->Write();
-	sPN_t->Write();
-	nucleon_t->Write();
 	sPN->Write();
 	sPN_4pt2->Write();
 	sPN_Jpsi->Write();
 	sPN_Jpsi_fix->Write();
+	sPN_t->Write();
+	nucleon_t->Write();
 	sPN_Jpsi_fix_noMass->Write();
 	h_trk->Write();
 
