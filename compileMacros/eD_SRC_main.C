@@ -151,7 +151,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 		//remove dependence of Q2 and Jpsi production
 		sPN_Jpsi_fix->Fill( (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2() );
 		nucleon_t->Fill( (p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2() );
-		sPN_t->Fill((p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2(), (n_partner_4vect_irf+n_4vect_irf).Mag2());
+		sPN_t->Fill((p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2(), (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2());
 		//remove mass dependence
 		sPN_Jpsi_fix_noMass->Fill( (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2() - (MASS_NEUTRON+MASS_PROTON)*(MASS_NEUTRON+MASS_PROTON) );
 	}
