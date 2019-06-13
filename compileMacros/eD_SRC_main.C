@@ -102,6 +102,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		TLorentzVector n_4vect_unsmear;
 		TLorentzVector p_4vect, n_4vect,j_4vect,q;
 		TLorentzVector p_4vect_irf, n_4vect_irf,j_4vect_irf,q_irf,d_beam_irf;
+
+		d_beam_irf = d_beam;
+
 		for(int j(0); j < nParticles; ++j ) {
 
 			const erhic::ParticleMC* particle = event->GetTrack(j);
@@ -126,7 +129,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			//photon 4vector
 			q = e_beam-e_scattered;
 			q_irf = q;
-			d_beam_irf = d_beam;
 			
 			TLorentzVector ppart = particle->Get4Vector();
 			if(pdg == 443 ) j_4vect = ppart;
@@ -155,7 +157,10 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 						double E_n = ppart.E();
 						double delta_E = smear_e->GetRandom();
 						E_n = E_n + delta_E;
-						angle = angle + smear_theta->GetRandom();
+						double delta_Theta = smear_theta->GetRandom();
+						angle = angle + delta_Theta;
+						cout << "delta_Theta_first ~ " << delta_Theta <<endl;
+
 						double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(angle));
 						double Pz_n = sqrt(Pz_n2);
 						double Pt_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON - Pz_n2);
@@ -168,20 +173,23 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 				}
 			}
 
-			ppart.Boost(-b);
+			if(pdg == 443 ) j_4vect_irf = j_4vect;
+			if(pdg == 2212) p_4vect_irf = p_4vect;
+			if(pdg == 2112) n_4vect_irf = n_4vect; 
 
-			if(pdg == 443 ) j_4vect_irf = ppart;
-			if(pdg == 2212) p_4vect_irf = ppart;
-			if(pdg == 2112) n_4vect_irf = ppart; 
-
-			q_irf.Boost(-b);
-			d_beam_irf.Boost(-b);
-
+		
 			nParticles_process++;
 
 		} // end of particle loop
 
 		if( p_4vect.E() == 0 || n_4vect.E() == 0 ) continue;
+
+		//boost
+		j_4vect_irf.Boost(-b);
+		p_4vect_irf.Boot(-b);
+		n_4vect_irf.Boost(-b);
+		q_irf.Boost(-b);
+		d_beam_irf.Boost(-b);
 
 		double pt2 = j_4vect.Pt()*j_4vect.Pt();
 		tjpsi->Fill( pt2-trueQ2 );
