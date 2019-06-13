@@ -155,7 +155,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 						double E_n = ppart.E();
 						double delta_E = smear_e->GetRandom();
 						E_n = E_n + delta_E;
-						cout << "delta_E ~ "<< delta_E <<endl;
 						angle = angle + smear_theta->GetRandom();
 						double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(angle));
 						double Pz_n = sqrt(Pz_n2);
@@ -187,6 +186,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		double pt2 = j_4vect.Pt()*j_4vect.Pt();
 		tjpsi->Fill( pt2-trueQ2 );
 		h_trk->Fill( nParticles_process );
+		cout << "delta_E ~ " << n_4vect_unsmear.E()-n_4vect.E() <<endl;
+		cout << "delta_Theta ~ " << n_4vect_unsmear.Theta()-n_4vect.Theta() <<endl;
+
 		nRes->Fill( n_4vect_unsmear.E()-n_4vect.E(), n_4vect_unsmear.Theta()-n_4vect.Theta() );
 		
 		if( struckproton ){
