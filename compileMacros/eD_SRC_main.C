@@ -186,7 +186,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 		//boost
 		j_4vect_irf.Boost(-b);
-		p_4vect_irf.Boot(-b);
+		p_4vect_irf.Boost(-b);
 		n_4vect_irf.Boost(-b);
 		q_irf.Boost(-b);
 		d_beam_irf.Boost(-b);
