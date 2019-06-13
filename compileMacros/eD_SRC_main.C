@@ -10,6 +10,7 @@ using namespace erhic;
 TH1D* that = new TH1D("that","that",200,0,10);
 TH1D* tjpsi = new TH1D("tjpsi","tjpsi",200,0,10);
 TH1D* nucleon_t = new TH1D("nucleon_t","nucleon_t",200,0,10);
+TH2D* sPN_t = new TH2D("sPN_t",";t;s",200,0,10,200,0,14);
 TH1D* sPN = new TH1D("sPN","sPN",200,0,14);
 TH1D* sPN_4pt2 = new TH1D("sPN_4pt2","sPN_4pt2",200,0,14);
 TH1D* sPN_Jpsi = new TH1D("sPN_Jpsi","sPN_Jpsi",200,0,14);
@@ -138,6 +139,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 			//approximation by spectator nucleon pt in the lab frame
 			sPN_4pt2->Fill( 4*n_4vect.Pt()*n_4vect.Pt() );
 			nucleon_t->Fill( (p_4vect_irf - d_beam_irf).Mag2() );
+			sPN_t->Fill((p_4vect_irf - d_beam_irf).Mag2(), (n_partner_4vect_irf+n_4vect_irf).Mag2());
 
 		} 
 		else{
@@ -146,6 +148,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 			sPN->Fill( (p_partner_4vect_irf+p_4vect_irf).Mag2() );
 			sPN_4pt2->Fill( 4*p_4vect.Pt()*p_4vect.Pt() );
 			nucleon_t->Fill( (n_4vect_irf - d_beam_irf).Mag2() );
+			sPN_t->Fill((n_4vect_irf - d_beam_irf).Mag2(), (p_partner_4vect_irf+p_4vect_irf).Mag2());
 
 		}
 
@@ -160,6 +163,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename=""){
 	TFile output("../rootfiles/eD_SRC_main_Beagle.root","RECREATE");
 	that->Write();
 	tjpsi->Write();
+	sPN_t->Write();
 	nucleon_t->Write();
 	sPN->Write();
 	sPN_4pt2->Write();
