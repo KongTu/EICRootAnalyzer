@@ -18,17 +18,17 @@ TH1D* h_trk = new TH1D("h_trk","h_trk",4000,0,4000);
 TH1D* h_neutE = new TH1D("h_neutE","E (GeV)", 100,0,10000);
 TH1D* h_nNeutrons = new TH1D("h_nNeutrons","h_nNeutrons", 100,0,100);
 
-TH2D* h_NpevapVsNnevap = new TH2D("h_NpevapVsNnevap",";Nnevap;Npevap",40,0,40,15,0,15);
-TH2D* h_NnevapVsb = new TH2D("h_NnevapVsb",";Nnevap;b",40,0,40,100,0,10);
-TH2D* h_NnevapVsTb = new TH2D("h_NnevapVsTb",";Nnevap;Tb",40,0,40,100,0,10);
-TH2D* h_bVsTb = new TH2D("h_bVsTb",";b (fm);Tb (fm)", 100,0,10,100,0,10);
+TH2D* h_NpevapVsNnevap = new TH2D("h_NpevapVsNnevap",";Nnevap;Npevap",40,0,40,10,0,10);
+TH2D* h_NnevapVsb = new TH2D("h_NnevapVsb",";Nnevap;b",40,0,40,100,0,15);
+TH2D* h_NnevapVsTb = new TH2D("h_NnevapVsTb",";Nnevap;Tb",40,0,40,100,0,15);
+TH2D* h_bVsTb = new TH2D("h_bVsTb",";b (fm);Tb (fm)", 100,0,10,100,0,15);
 
-TH2D* h_neutEVsb = new TH2D("h_neutEVsb",";neutE;b",100,0,10000,100,0,10);
-TH2D* h_neutEVsTb = new TH2D("h_neutEVsTb",";neutE;Tb",100,0,10000,100,0,10);
+TH2D* h_neutEVsb = new TH2D("h_neutEVsb",";neutE;b",100,0,10000,100,0,15);
+TH2D* h_neutEVsTb = new TH2D("h_neutEVsTb",";neutE;Tb",100,0,10000,100,0,15);
 
-TH1D* h_particleE = new TH1D("h_particleE","E (GeV)", 100,0,10000);
-TH2D* h_particleEVsb = new TH2D("h_particleEVsb",";particleE;b",100,0,10000,100,0,10);
-TH2D* h_particleEVsTb = new TH2D("h_particleEVsTb",";particleE;Tb",100,0,10000,100,0,10);
+TH1D* h_particleE = new TH1D("h_particleE","E (GeV)", 100,0,100);
+TH2D* h_particleEVsb = new TH2D("h_particleEVsb",";particleE;b",100,0,100,100,0,15);
+TH2D* h_particleEVsTb = new TH2D("h_particleEVsTb",";particleE;Tb",100,0,100,100,0,15);
 
 TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
                             TLorentzVector const &pBeam_lab,
