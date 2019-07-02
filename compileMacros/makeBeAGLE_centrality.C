@@ -67,7 +67,7 @@ void makeBeAGLE_centrality(const int nEvents = 40000){
 		int event_process = event->GetProcess();
 		int nParticles = event->GetNTracks();
 		
-		// if( event_process != 99 ) continue;
+		if( event_process != 99 ) continue;
 		if( trueQ2 < 1. || trueQ2 > 20. ) continue;
 		if( trueY > 0.95 || trueY < 0.1 ) continue;
 
