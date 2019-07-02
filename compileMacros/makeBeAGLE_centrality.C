@@ -134,7 +134,7 @@ void makeBeAGLE_centrality(const int nEvents = 40000){
 					sumChargeParticleEnergy += sqrt(mom*mom + mass*mass);
 				}
 			}
-			
+
 			if( mom < 0.2 || mom > 10. ) continue;
 			if( fabs(pdg) != 211 && fabs(pdg) != 321 && fabs(pdg) != 2212 ) continue;
 			
@@ -152,13 +152,13 @@ void makeBeAGLE_centrality(const int nEvents = 40000){
 		} // end of particle loop
 
 		h_neutEVsb->Fill( sumNeutronEnergy, impact_parameter );
-		h_neutEvsTb->Fill( sumNeutronEnergy, Tb );
+		h_neutEVsTb->Fill( sumNeutronEnergy, Tb );
 		h_neutE->Fill( sumNeutronEnergy );
 		h_nNeutrons->Fill( nNeutrons );
 		
 		h_particleE->Fill( sumChargeParticleEnergy );
 		h_particleEVsb->Fill( sumChargeParticleEnergy, impact_parameter );
-		h_particleEvsTb->Fill( sumChargeParticleEnergy, Tb );
+		h_particleEVsTb->Fill( sumChargeParticleEnergy, Tb );
 
 
 		h_trk->Fill( nParticles_process );
@@ -179,9 +179,9 @@ void makeBeAGLE_centrality(const int nEvents = 40000){
 	h_NnevapVsTb->Write();
 	h_bVsTb->Write();
 	h_neutEVsb->Write();
-	h_neutEvsTb->Write();
+	h_neutEVsTb->Write();
 	h_particleEVsb->Write();
-	h_particleEvsTb->Write();
+	h_particleEVsTb->Write();
 
 
 }
