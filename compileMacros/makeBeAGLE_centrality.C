@@ -66,7 +66,6 @@ void makeBeAGLE_centrality(const int nEvents = 40000){
 		double photon_flux = event->GetPhotonFlux();
 		int event_process = event->GetProcess();
 		int nParticles = event->GetNTracks();
-		int struck_nucleon = event->nucleon;
 		
 		// if( event_process != 99 ) continue;
 		if( trueQ2 < 1. || trueQ2 > 20. ) continue;
