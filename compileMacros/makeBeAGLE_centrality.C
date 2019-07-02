@@ -18,6 +18,18 @@ TH1D* h_trk = new TH1D("h_trk","h_trk",4000,0,4000);
 TH1D* h_neutE = new TH1D("h_neutE","E (GeV)", 100,0,10000);
 TH1D* h_nNeutrons = new TH1D("h_nNeutrons","h_nNeutrons", 100,0,100);
 
+TH2D* h_NpevapVsNnevap = new TH2D("h_NpevapVsNnevap",";Nnevap;Npevap",40,0,40,15,0,15);
+TH2D* h_NnevapVsb = new TH2D("h_NnevapVsb",";Nnevap;b",40,0,40,100,0,10);
+TH2D* h_NnevapVsTb = new TH2D("h_NnevapVsTb",";Nnevap;Tb",40,0,40,100,0,10);
+TH2D* h_bVsTb = new TH2D("h_bVsTb",";b (fm);Tb (fm)", 100,0,10,100,0,10);
+
+TH2D* h_neutEVsb = new TH2D("h_neutEVsb",";neutE;b",100,0,10000,100,0,10);
+TH2D* h_neutEVsTb = new TH2D("h_neutEVsTb",";neutE;Tb",100,0,10000,100,0,10);
+
+TH1D* h_particleE = new TH1D("h_particleE","E (GeV)", 100,0,10000);
+TH2D* h_particleEVsb = new TH2D("h_particleEVsb",";particleE;b",100,0,10000,100,0,10);
+TH2D* h_particleEVsTb = new TH2D("h_particleEVsTb",";particleE;Tb",100,0,10000,100,0,10);
+
 TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
                             TLorentzVector const &pBeam_lab,
                             TLorentzVector const &eScat_lab) {
@@ -70,13 +82,24 @@ void makeBeAGLE_centrality(const int nEvents = 40000){
 		int event_process = event->GetProcess();
 		int nParticles = event->GetNTracks();
 		
+		double impact_parameter = event->b;
+		double Tb = event->Thickness;
+		int N_nevap = event->Nnevap;
+		int N_pevap = event->Npevap;
+
 		if( event_process != 99 ) continue;
 		if( trueQ2 < 1. || trueQ2 > 20. ) continue;
 		if( trueY > 0.95 || trueY < 0.1 ) continue;
 
+		h_NpevapVsNnevap->Fill(N_nevap,N_pevap);
+		h_NnevapVsb->Fill(N_nevap,impact_parameter);
+		h_NnevapVsTb->Fill(N_nevap,Tb);
+		h_bVsTb->Fill(Tb,impact_parameter);
+
 		int nParticles_process = 0;
 		int nNeutrons = 0;
 		double sumNeutronEnergy = 0.;
+		double sumChargeParticleEnergy = 0.;
 		for(int j(0); j < nParticles; ++j ) {
 
 			const erhic::ParticleMC* particle = event->GetTrack(j);
@@ -105,7 +128,13 @@ void makeBeAGLE_centrality(const int nEvents = 40000){
 					sumNeutronEnergy += sqrt(mom*mom + mass*mass);
 				}
 			}
-
+			//central detector total energy
+			if( fabs(pdg) == 211 || fabs(pdg) == 321 || fabs(pdg) == 2212 ){
+				if( pt > 0.2 && fabs(eta) < 4.0 ){
+					sumChargeParticleEnergy += sqrt(mom*mom + mass*mass);
+				}
+			}
+			
 			if( mom < 0.2 || mom > 10. ) continue;
 			if( fabs(pdg) != 211 && fabs(pdg) != 321 && fabs(pdg) != 2212 ) continue;
 			
@@ -122,8 +151,16 @@ void makeBeAGLE_centrality(const int nEvents = 40000){
 
 		} // end of particle loop
 
+		h_neutEVsb->Fill( sumNeutronEnergy, impact_parameter );
+		h_neutEvsTb->Fill( sumNeutronEnergy, Tb );
 		h_neutE->Fill( sumNeutronEnergy );
 		h_nNeutrons->Fill( nNeutrons );
+		
+		h_particleE->Fill( sumChargeParticleEnergy );
+		h_particleEVsb->Fill( sumChargeParticleEnergy, impact_parameter );
+		h_particleEvsTb->Fill( sumChargeParticleEnergy, Tb );
+
+
 		h_trk->Fill( nParticles_process );
 
 	}
@@ -135,8 +172,16 @@ void makeBeAGLE_centrality(const int nEvents = 40000){
 	dNdeta->Write();
 	h_trk->Write();
 	h_neutE->Write();
+	h_particleE->Write();
 	h_nNeutrons->Write();
-
+	h_NpevapVsNnevap->Write();
+	h_NnevapVsb->Write();
+	h_NnevapVsTb->Write();
+	h_bVsTb->Write();
+	h_neutEVsb->Write();
+	h_neutEvsTb->Write();
+	h_particleEVsb->Write();
+	h_particleEvsTb->Write();
 
 
 }
