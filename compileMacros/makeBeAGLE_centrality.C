@@ -15,6 +15,9 @@ TH1D* dNdetaStar_m = new TH1D("dNdetaStar_m","dNdetaStar_m",100,-10,10);
 TH1D* dNdeta = new TH1D("dNdeta","dNdeta",100,-10,10);
 TH1D* h_trk = new TH1D("h_trk","h_trk",4000,0,4000);
 
+TH1D* h_neutE = new TH1D("h_neutE","E (GeV)", 100,0,10000);
+TH1D* h_nNeutrons = new TH1D("h_nNeutrons","h_nNeutrons", 100,0,100);
+
 TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
                             TLorentzVector const &pBeam_lab,
                             TLorentzVector const &eScat_lab) {
@@ -72,6 +75,8 @@ void makeBeAGLE_centrality(const int nEvents = 40000){
 		if( trueY > 0.95 || trueY < 0.1 ) continue;
 
 		int nParticles_process = 0;
+		int nNeutrons = 0;
+		double sumNeutronEnergy = 0.;
 		for(int j(0); j < nParticles; ++j ) {
 
 			const erhic::ParticleMC* particle = event->GetTrack(j);
@@ -92,6 +97,15 @@ void makeBeAGLE_centrality(const int nEvents = 40000){
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,mass);
 			}
 			if( status != 1 ) continue;
+			
+			//ZDC neutron selection
+			if( pdg == 2112 ){
+				if( TMath::Abs(theta) < 4.0 ){
+					nNeutrons++;
+					sumNeutronEnergy += sqrt(mom*mom + mass*mass);
+				}
+			}
+
 			if( mom < 0.2 || mom > 10. ) continue;
 			if( fabs(pdg) != 211 && fabs(pdg) != 321 && fabs(pdg) != 2212 ) continue;
 			
@@ -108,6 +122,8 @@ void makeBeAGLE_centrality(const int nEvents = 40000){
 
 		} // end of particle loop
 
+		h_neutE->Fill( sumNeutronEnergy );
+		h_nNeutrons->Fill( nNeutrons );
 		h_trk->Fill( nParticles_process );
 
 	}
