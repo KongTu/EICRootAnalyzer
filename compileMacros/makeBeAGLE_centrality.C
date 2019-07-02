@@ -134,6 +134,8 @@ void makeBeAGLE_centrality(const int nEvents = 40000){
 	dNdetaStar_m->Write();
 	dNdeta->Write();
 	h_trk->Write();
+	h_neutE->Write();
+	h_nNeutrons->Write();
 
 
 
