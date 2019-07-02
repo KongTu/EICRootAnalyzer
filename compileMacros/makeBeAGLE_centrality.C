@@ -15,20 +15,24 @@ TH1D* dNdetaStar_m = new TH1D("dNdetaStar_m","dNdetaStar_m",100,-10,10);
 TH1D* dNdeta = new TH1D("dNdeta","dNdeta",100,-10,10);
 TH1D* h_trk = new TH1D("h_trk","h_trk",4000,0,4000);
 
-TH1D* h_neutE = new TH1D("h_neutE","E (GeV)", 100,0,10000);
 TH1D* h_nNeutrons = new TH1D("h_nNeutrons","h_nNeutrons", 100,0,100);
-
 TH2D* h_NpevapVsNnevap = new TH2D("h_NpevapVsNnevap",";Nnevap;Npevap",40,0,40,10,0,10);
 TH2D* h_NnevapVsb = new TH2D("h_NnevapVsb",";Nnevap;b",40,0,40,100,0,15);
 TH2D* h_NnevapVsTb = new TH2D("h_NnevapVsTb",";Nnevap;Tb",40,0,40,100,0,15);
+TH2D* h_NnevapVsd = new TH2D("h_NnevapVsd",";Nnevap;d",40,0,40,100,0,15);
 TH2D* h_bVsTb = new TH2D("h_bVsTb",";b (fm);Tb (fm)", 100,0,15,100,0,15);
+TH2D* h_bVsd = new TH2D("h_bVsd",";b (fm);d (fm)", 100,0,15,100,0,15);
+TH2D* h_TbVsd = new TH2D("h_TbVsd",";Tb (fm);d (fm)", 100,0,15,100,0,15);
 
+TH1D* h_neutE = new TH1D("h_neutE","E (GeV)", 100,0,10000);
 TH2D* h_neutEVsb = new TH2D("h_neutEVsb",";neutE;b",100,0,10000,100,0,15);
 TH2D* h_neutEVsTb = new TH2D("h_neutEVsTb",";neutE;Tb",100,0,10000,100,0,15);
+TH2D* h_neutEVsd = new TH2D("h_neutEVsd",";neutE;d",100,0,10000,100,0,15);
 
 TH1D* h_particleE = new TH1D("h_particleE","E (GeV)", 100,0,100);
 TH2D* h_particleEVsb = new TH2D("h_particleEVsb",";particleE;b",100,0,100,100,0,15);
 TH2D* h_particleEVsTb = new TH2D("h_particleEVsTb",";particleE;Tb",100,0,100,100,0,15);
+TH2D* h_particleEVsd = new TH2D("h_particleEVsd",";particleE;d",100,0,100,100,0,15);
 
 TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
                             TLorentzVector const &pBeam_lab,
@@ -84,6 +88,7 @@ void makeBeAGLE_centrality(const int nEvents = 40000){
 		
 		double impact_parameter = event->b;
 		double Tb = event->Thickness;
+		double distance = event->d1st;
 		int N_nevap = event->Nnevap;
 		int N_pevap = event->Npevap;
 
@@ -94,7 +99,10 @@ void makeBeAGLE_centrality(const int nEvents = 40000){
 		h_NpevapVsNnevap->Fill(N_nevap,N_pevap);
 		h_NnevapVsb->Fill(N_nevap,impact_parameter);
 		h_NnevapVsTb->Fill(N_nevap,Tb);
-		h_bVsTb->Fill(Tb,impact_parameter);
+		h_NnevapVsd->Fill(N_nevap,distance);
+		h_bVsTb->Fill(impact_parameter,Tb);
+		h_bVsd->Fill(impact_parameter,distance);
+		h_TbVsd->Fill(Tb,distance);
 
 		int nParticles_process = 0;
 		int nNeutrons = 0;
@@ -153,16 +161,16 @@ void makeBeAGLE_centrality(const int nEvents = 40000){
 
 		h_neutEVsb->Fill( sumNeutronEnergy, impact_parameter );
 		h_neutEVsTb->Fill( sumNeutronEnergy, Tb );
+		h_neutEVsd->Fill( sumNeutronEnergy, distance );
 		h_neutE->Fill( sumNeutronEnergy );
 		h_nNeutrons->Fill( nNeutrons );
 		
 		h_particleE->Fill( sumChargeParticleEnergy );
 		h_particleEVsb->Fill( sumChargeParticleEnergy, impact_parameter );
 		h_particleEVsTb->Fill( sumChargeParticleEnergy, Tb );
-
+		h_particleEVsd->Fill( sumChargeParticleEnergy, distance );
 
 		h_trk->Fill( nParticles_process );
-
 	}
 
 	TFile output("../rootfiles/ePb_18x135_centrality.root","RECREATE");
@@ -177,11 +185,16 @@ void makeBeAGLE_centrality(const int nEvents = 40000){
 	h_NpevapVsNnevap->Write();
 	h_NnevapVsb->Write();
 	h_NnevapVsTb->Write();
+	h_NnevapVsd->Write();
 	h_bVsTb->Write();
+	h_bVsd->Write();
+	h_TbVsd->Write();
 	h_neutEVsb->Write();
 	h_neutEVsTb->Write();
+	h_neutEVsd->Write();
 	h_particleEVsb->Write();
 	h_particleEVsTb->Write();
+	h_particleEVsd->Write();
 
 
 }
