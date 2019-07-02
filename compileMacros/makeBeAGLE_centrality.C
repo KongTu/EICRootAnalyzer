@@ -161,7 +161,7 @@ void makeBeAGLE_centrality(const int nEvents = 40000){
 
 		} // end of particle loop
 
-		h_NnevapVsNeutE->Fill( N_nevap, sumNeutronEnergy);
+		h_NnevapVsNeutE->Fill( sumNeutronEnergy, N_nevap);
 
 		h_neutEVsb->Fill( sumNeutronEnergy, impact_parameter );
 		h_neutEVsTb->Fill( sumNeutronEnergy, Tb );
