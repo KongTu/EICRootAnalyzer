@@ -55,8 +55,8 @@ void eC_src(const int nEvents = 40000, TString filename=""){
 		double bincenter = nk->GetBinCenter(j+1);
 		double error = nk->GetBinError(j+1);
 
-		nk->SetBinContent(j+1,  value/(width*bincenter*bincenter) );
-		nk->SetBinError(j+1, error/(width*bincenter*bincenter) );
+		nk->SetBinContent(j+1,  (value/(width))*(bincenter*bincenter) );
+		nk->SetBinError(j+1, (error/(width))*(bincenter*bincenter) );
 	}
 
 	TFile output("../rootfiles/eC_src_Beagle.root","RECREATE");
