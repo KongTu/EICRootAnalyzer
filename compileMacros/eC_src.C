@@ -45,8 +45,18 @@ void eC_src(const int nEvents = 40000, TString filename=""){
 		double pzf = event->pzf;
 
 		double k = sqrt(pxf*pxf+pyf*pyf+pzf*pzf);
-		nk->Fill( k, 1/(k*k) );
+		nk->Fill( k );
 
+	}
+
+	for(int j = 0; j < nk->GetNbinsX(); j++){
+		double value = nk->GetBinContent(j+1);
+		double width = nk->GetBinWidth(j+1);
+		double bincenter = nk->GetBinCenter(j+1);
+		double error = nk->GetBinError(j+1);
+
+		nk->SetBinContent( value/(width*bincenter*bincenter) );
+		nk->SetBinError( error/(width*bincenter*bincenter) );
 	}
 
 	TFile output("../rootfiles/eC_src_Beagle.root","RECREATE");
