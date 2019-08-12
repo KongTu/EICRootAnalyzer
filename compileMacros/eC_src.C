@@ -28,7 +28,7 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
    return boost;
 }
 
-void eC_src(const int nEvents = 40000, TString filename="", const bool doSmear_ = false){
+void eC_src(const int nEvents = 40000, TString filename=""){
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/"+filename+".root" );
@@ -44,8 +44,8 @@ void eC_src(const int nEvents = 40000, TString filename="", const bool doSmear_ 
 		double pyf = event->pyf;
 		double pzf = event->pzf;
 
-		double n3 = sqrt(pxf*pxf+pyf*pyf+pzf*pzf);
-		nk->Fill( n3, pxf*pxf+pyf*pyf+pzf*pzf);
+		double k = sqrt(pxf*pxf+pyf*pyf+pzf*pzf);
+		nk->Fill( k );
 
 	}
 
