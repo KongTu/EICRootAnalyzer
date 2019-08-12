@@ -10,7 +10,7 @@ using namespace erhic;
 double sPN_bins[]={0.,1.0,2.0,3.0,3.5,3.6,3.7,3.8,3.9,4.0,4.1,4.2,4.3,4.4,4.5,4.7,5.0,5.5,6.0,7.0,8.0,9.0,10.0,12.0,15.0};
 int sPN_nBins = sizeof(sPN_bins)/sizeof(sPN_bins[0]) -1;
 
-TH1D* nk = new TH1D("nk","n(k)",200,0,10);
+TH1D* nk = new TH1D("nk","n(k)",200,0,2);
 
 TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
                             TLorentzVector const &pBeam_lab,
