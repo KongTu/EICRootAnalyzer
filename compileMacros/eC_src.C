@@ -45,7 +45,7 @@ void eC_src(const int nEvents = 40000, TString filename=""){
 		double pzf = event->pzf;
 
 		double k = sqrt(pxf*pxf+pyf*pyf+pzf*pzf);
-		nk->Fill( k );
+		nk->Fill( k, k*k );
 
 	}
 
