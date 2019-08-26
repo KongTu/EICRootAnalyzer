@@ -50,7 +50,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TF1* smear_e = new TF1("smear_e","gaus(0)",-30,30);
 	smear_e->SetParameter(0,1);
 	smear_e->SetParameter(1,0);
-	smear_e->SetParameter(2,0.5*sqrt(135.));
+	smear_e->SetParameter(2, sqrt( (0.5/sqrt(135.))*(0.5/sqrt(135.)) + 0.05*0.05 )*135. );
 
 	TF1* smear_theta = new TF1("smear_theta","gaus(0)",-0.001,0.001);
 	smear_theta->SetParameter(0,1);
@@ -71,8 +71,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
 
-		smear_e->SetParameter(2,0.05*sqrt(pztarg));
-
+		smear_e->SetParameter(2, sqrt( (0.5/sqrt(pztarg))*(0.5/sqrt(pztarg)) + 0.05*0.05 )*pztarg );
 
 		TVector3 b = d_beam.BoostVector();
 
@@ -155,9 +154,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 					else{
 						//smearing neutron
 						double E_n = ppart.E();
-						double delta_E = 0.;
+						double delta_E = smear_e->GetRandom();
 						E_n = E_n + delta_E;
-						double delta_Theta = smear_theta->GetRandom();
+						double delta_Theta = 0.;
 						angle = angle + delta_Theta;
 						double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(angle)*TMath::Sin(angle));
 						double Pz_n = sqrt(Pz_n2);
