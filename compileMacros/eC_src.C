@@ -31,7 +31,7 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
 void eC_src(const int nEvents = 40000, TString filename=""){
 
 	TChain *tree = new TChain("EICTree");
-	tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/"+filename+".root" );
+	tree->Add("/eicdata/eic0003/ztu/BeAGLE_Packages/"+filename+".root" );
 	
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
@@ -60,7 +60,7 @@ void eC_src(const int nEvents = 40000, TString filename=""){
 	}
 
 	nk->SetMarkerStyle(20);
-	TFile output("../rootfiles/eC_src_Beagle.root","RECREATE");
+	TFile output("../rootfiles/"+filename+"_src_Beagle.root","RECREATE");
 	nk->Write();
 
 
