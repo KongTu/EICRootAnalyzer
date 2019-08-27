@@ -49,15 +49,15 @@ void eC_src(const int nEvents = 40000, TString filename=""){
 
 	}
 
-	// for(int j = 0; j < nk->GetNbinsX(); j++){
-	// 	double value = nk->GetBinContent(j+1);
-	// 	double width = nk->GetBinWidth(j+1);
-	// 	double bincenter = nk->GetBinCenter(j+1);
-	// 	double error = nk->GetBinError(j+1);
+	for(int j = 0; j < nk->GetNbinsX(); j++){
+		double value = nk->GetBinContent(j+1);
+		double width = nk->GetBinWidth(j+1);
+		double bincenter = nk->GetBinCenter(j+1);
+		double error = nk->GetBinError(j+1);
 
-	// 	nk->SetBinContent(j+1,  (value/(width*bincenter*bincenter)) );
-	// 	nk->SetBinError(j+1, (error/(width*bincenter*bincenter)) );
-	// }
+		nk->SetBinContent(j+1,  (value/(4*PI*width*bincenter*bincenter)) );
+		nk->SetBinError(j+1, (error/(4*PI*width*bincenter*bincenter)) );
+	}
 
 	nk->SetMarkerStyle(20);
 	TFile output("../rootfiles/"+filename+"_src_Beagle.root","RECREATE");
