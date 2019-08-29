@@ -42,6 +42,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* sPN_Jpsi_fix_noMass = new TH1D("sPN_Jpsi_fix_noMass","sPN_Jpsi_fix_noMass",sPN_nBins,sPN_bins);
 
 	TH1D* nk_spectator = new TH1D("nk_spectator",";k (GeV/c)", 100, 0,3);
+	TH1D* nk_spectator_pt = new TH1D("nk_spectator_pt",";k (GeV/c)", 100, 0,3);
 	TH1D* nk_allfinalstate = new TH1D("nk_allfinalstate",";k (GeV/c)", 100, 0,3);
 	TH1D* d_k = new TH1D("d_k","d_k",100,-1,1);
 
@@ -207,6 +208,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 			//use spectator only:
 			nk_spectator->Fill( n_4vect_irf.P() );
+			//use pt of the lab frame particle to determine k
+			TLorentzVector n;
+			n.SetPtEtaPhiM( n_4vect.Pt(), n_4vect.Eta(), n_4vect.Phi(), MASS_NEUTRON);
+			n.Boost(-b);
+			nk_spectator_pt->Fill( n.P() );
 			
 		} 
 		else{
@@ -216,6 +222,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			sPN_4pt2->Fill( 4*p_4vect.Pt()*p_4vect.Pt() );
 
 			nk_spectator->Fill( p_4vect.P() );
+			//use pt of the lab frame particle to determine k
+			TLorentzVector p;
+			p.SetPtEtaPhiM( p_4vect.Pt(), p_4vect.Eta(), p_4vect.Phi(), MASS_PROTON);
+			p.Boost(-b);
+			nk_spectator_pt->Fill( p.P() );
 
 		}
 
