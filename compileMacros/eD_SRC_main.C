@@ -44,6 +44,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* nk_truth = new TH1D("nk_truth","k (GeV/c)", 100,0,3);
 	TH1D* nk_spectator = new TH1D("nk_spectator",";k (GeV/c)", 100, 0,3);
 	TH1D* nk_spectator_pt = new TH1D("nk_spectator_pt",";k (GeV/c)", 100, 0,3);
+	TH1D* nk_allfinalstate_truth = new TH1D("nk_allfinalstate_truth",";k (GeV/c)", 100, 0,3);
 	TH1D* nk_allfinalstate = new TH1D("nk_allfinalstate",";k (GeV/c)", 100, 0,3);
 	TH1D* d_k = new TH1D("d_k","d_k",100,-1,1);
 
@@ -245,8 +246,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		//use all final state particles:
 		TLorentzVector pn = p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf;
 		double Epn = pn.E();
+		double EpnRed2 = Epn*Epn - MASS_NEUTRON*MASS_NEUTRON - MASS_PROTON*MASS_PROTON; 
 		double k = sqrt( Epn*Epn/4. - MASS_NEUTRON*MASS_NEUTRON );//use proton mass to simplify
 		nk_allfinalstate->Fill( k );
+		k = sqrt( (0.25*EpnRed2*EpnRed2 - MASS_NEUTRON*MASS_NEUTRON*MASS_PROTON*MASS_PROTON) / (MASS_NEUTRON*MASS_NEUTRON + MASS_PROTON*MASS_PROTON + EpnRed2) );
+		nk_allfinalstate_truth->Fill( k );
 		d_k->Fill( pn.P() ); //cross check with net zero momentum in the IRF.
 
 	}
