@@ -215,12 +215,12 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			sPN_4pt2->Fill( 4*n_4vect.Pt()*n_4vect.Pt() );
 
 			//use spectator only:
-			nk_spectator->Fill( n_4vect_irf.P() );
+			//nk_spectator->Fill( n_4vect_irf.P() );
 			//use pt of the lab frame particle to determine k
 			TLorentzVector n;
 			n.SetPtEtaPhiM( n_4vect.Pt(), n_4vect.Eta(), n_4vect.Phi(), MASS_NEUTRON);
 			n.Boost(-b);
-			nk_spectator_pt->Fill( n.P() );
+			//nk_spectator_pt->Fill( n.P() );
 			
 		} 
 		else{
