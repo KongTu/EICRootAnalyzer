@@ -10,17 +10,21 @@ using namespace erhic;
 double sPN_bins[]={0.,1.0,2.0,3.0,3.5,3.6,3.7,3.8,3.9,4.0,4.1,4.2,4.3,4.4,4.5,4.7,5.0,5.5,6.0,7.0,8.0,9.0,10.0,12.0,15.0};
 int sPN_nBins = sizeof(sPN_bins)/sizeof(sPN_bins[0]) -1;
 
+TH1D* h_trk = new TH1D("h_trk","h_trk",50,0,50);
 TH1D* that = new TH1D("that","that",200,0,10);
 TH1D* tjpsi = new TH1D("tjpsi","tjpsi",200,0,10);
 TH2D* nRes = new TH2D("nRes","",60,-30,30,20,-0.1,0.1);
 TH1D* nucleon_t = new TH1D("nucleon_t","nucleon_t",200,0,10);
 TH2D* sPN_t = new TH2D("sPN_t",";t;s",200,0,10,sPN_nBins,sPN_bins);
 TH1D* sPN = new TH1D("sPN","sPN",sPN_nBins,sPN_bins);
-TH1D* sPN_4pt2 = new TH1D("sPN_4pt2","sPN_4pt2",sPN_nBins,sPN_bins);
+TH1D* sPN_4pt2 = new TH1D("sPN_4pt2","sPN_4pt2",200,0,10);
 TH1D* sPN_Jpsi = new TH1D("sPN_Jpsi","sPN_Jpsi",sPN_nBins,sPN_bins);
 TH1D* sPN_Jpsi_fix = new TH1D("sPN_Jpsi_fix","sPN_Jpsi_fix",sPN_nBins,sPN_bins);
 TH1D* sPN_Jpsi_fix_noMass = new TH1D("sPN_Jpsi_fix_noMass","sPN_Jpsi_fix_noMass",sPN_nBins,sPN_bins);
-TH1D* h_trk = new TH1D("h_trk","h_trk",50,0,50);
+
+TH1D* nk_spectator = new TH1D("nk_spectator",";k (GeV/c)", 100, 0,3);
+TH1D* nk_allfinalstate = new TH1D("nk_allfinalstate",";k (GeV/c)", 100, 0,3);
+TH1D* d_k = new TH1D("d_k","d_k",100,-1,1);
 
 TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
                             TLorentzVector const &pBeam_lab,
@@ -201,12 +205,20 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			sPN->Fill( (n_partner_4vect_irf+n_4vect_irf).Mag2() );
 			//approximation by spectator nucleon pt in the lab frame
 			sPN_4pt2->Fill( 4*n_4vect.Pt()*n_4vect.Pt() );
+
+			//use spectator only:
+			nk_spectator->Fill( n_4vect.P() );
+			//use all final state particles:
+			
 		} 
 		else{
 			TLorentzVector p_partner_4vect_irf;
 			p_partner_4vect_irf.SetPxPyPzE(-p_4vect_irf.Px(), -p_4vect_irf.Py(), -p_4vect_irf.Pz(), sqrt(p_4vect_irf.P()*p_4vect_irf.P()+MASS_NEUTRON*MASS_NEUTRON) );
 			sPN->Fill( (p_partner_4vect_irf+p_4vect_irf).Mag2() );
 			sPN_4pt2->Fill( 4*p_4vect.Pt()*p_4vect.Pt() );
+
+			nk_spectator->Fill( p_4vect.P() );
+
 		}
 
 		//inclusive J/psi measurement, convolution of exp and intrinsic n(k)
@@ -216,6 +228,13 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		nucleon_t->Fill( (p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2() );
 		sPN_t->Fill((p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2(), (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2());
 		//remove mass dependence
+
+		TLorentzVector pn = p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf;
+		double Epn = pn.E();
+		double k = sqrt( Epn*Epn/4. - MASS_PROTON*MASS_PROTON );
+		nk_allfinalstate->Fill( k );
+		d_k->Fill( pn.P() ); //cross check with net zero momentum in the IRF.
+
 	}
 
 	output->Write();
