@@ -202,6 +202,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		d_beam_irf.Boost(-b);
 
 		double pt2 = j_4vect.Pt()*j_4vect.Pt();
+		if( pt2 > 0.1 ) continue;
 		tjpsi->Fill( pt2 );
 		h_trk->Fill( nParticles_process );
 		nRes->Fill( n_4vect_unsmear.E()-n_4vect.E(), n_4vect_unsmear.Theta()-n_4vect.Theta() );
