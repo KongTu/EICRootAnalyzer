@@ -26,7 +26,7 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
    return boost;
 }
 
-void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false, const bool doAcceptance_ = false){
+void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 1.){
 
 	TFile * output = new TFile("../rootfiles/eD_SRC_main_Beagle.root","recreate");
 	TH1D* h_trk = new TH1D("h_trk","h_trk",50,0,50);
@@ -54,7 +54,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
 
-	double energy_resolution = 1.;//50%
+	double energy_resolution = rZDC;//50%
 	TF1* smear_e = new TF1("smear_e","gaus(0)",-30,30);
 	smear_e->SetParameter(0,1);
 	smear_e->SetParameter(1,0);
@@ -202,7 +202,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		d_beam_irf.Boost(-b);
 
 		double pt2 = j_4vect.Pt()*j_4vect.Pt();
-		if( pt2 > 0.1 ) continue;
 		tjpsi->Fill( pt2 );
 		h_trk->Fill( nParticles_process );
 		nRes->Fill( n_4vect_unsmear.E()-n_4vect.E(), n_4vect_unsmear.Theta()-n_4vect.Theta() );
