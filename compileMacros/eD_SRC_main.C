@@ -28,7 +28,7 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
 
 void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 1.){
 
-	TFile * output = new TFile("../rootfiles/eD_SRC_main_Beagle.root","recreate");
+	TFile * output = new TFile("../rootfiles/"+filename+"_main_Beagle.root","recreate");
 	TH1D* h_trk = new TH1D("h_trk","h_trk",50,0,50);
 	TH1D* that = new TH1D("that","that",200,0,10);
 	TH1D* tjpsi = new TH1D("tjpsi","tjpsi",200,0,10);
