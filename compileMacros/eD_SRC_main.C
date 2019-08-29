@@ -206,6 +206,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			sPN_4pt2->Fill( 4*n_4vect.Pt()*n_4vect.Pt() );
 
 			//use spectator only:
+			cout << "momentum ~ " << n_4vect.P() << endl;
 			nk_spectator->Fill( n_4vect.P() );
 			//use all final state particles:
 			
