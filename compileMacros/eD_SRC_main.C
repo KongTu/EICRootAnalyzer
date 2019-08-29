@@ -26,7 +26,7 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
    return boost;
 }
 
-void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false){
+void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false, const bool doAcceptance_ = false){
 
 	TFile * output = new TFile("../rootfiles/eD_SRC_main_Beagle.root","recreate");
 	TH1D* h_trk = new TH1D("h_trk","h_trk",50,0,50);
@@ -150,7 +150,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			- together with acceptance cuts
 			*/
 			
-			if(doSmear_){
+			if( doAcceptance_ ){
 				double angle = ppart.Theta();
 				//acceptance cuts for proton
 				if( pdg == 2212 ){
@@ -161,23 +161,23 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 					if( angle > 0.004 ) {
 						n_4vect.SetPxPyPzE(0.,0.,0.,0.);
 					}
-					else{
-						//smearing neutron
-						double E_n = ppart.E();
-						double delta_E = smear_e->GetRandom();
-						E_n = E_n + delta_E;
-						double delta_Theta = 0.;
-						angle = angle + delta_Theta;
-						double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(angle)*TMath::Sin(angle));
-						double Pz_n = sqrt(Pz_n2);
-						double Pt_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON - Pz_n2);
-						double Pt_n = sqrt(Pt_n2);
-						double Px_n = Pt_n*TMath::Cos(ppart.Phi());
-						double Py_n = Pt_n*TMath::Sin(ppart.Phi());
-
-						n_4vect.SetPxPyPzE(Px_n, Py_n, Pz_n, E_n);
-					}
 				}
+				if( doSmear_ ){
+					//smearing neutron
+					double E_n = ppart.E();
+					double delta_E = smear_e->GetRandom();
+					E_n = E_n + delta_E;
+					double delta_Theta = 0.;
+					angle = angle + delta_Theta;
+					double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(angle)*TMath::Sin(angle));
+					double Pz_n = sqrt(Pz_n2);
+					double Pt_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON - Pz_n2);
+					double Pt_n = sqrt(Pt_n2);
+					double Px_n = Pt_n*TMath::Cos(ppart.Phi());
+					double Py_n = Pt_n*TMath::Sin(ppart.Phi());
+
+					n_4vect.SetPxPyPzE(Px_n, Py_n, Pz_n, E_n);
+				}	
 			}
 
 			if(pdg == 443 ) j_4vect_irf = j_4vect;
@@ -189,10 +189,10 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 		} // end of particle loop
 
+		nk_truth->Fill( sqrt(pxf*pxf+pyf*pyf+pzf*pzf) );
+
 		if( p_4vect.E() == 0 || n_4vect.E() == 0 ) continue;
 
-		nk_truth->Fill( sqrt(pxf*pxf+pyf*pyf+pzf*pzf) );
-		
 		//boost
 		j_4vect_irf.Boost(-b);
 		p_4vect_irf.Boost(-b);
