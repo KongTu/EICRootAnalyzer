@@ -77,8 +77,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		double pyf = event->pyf;
 		double pzf = event->pzf;
 
-		nk_truth->Fill( sqrt(pxf*pxf+pyf*pyf+pzf*pzf) );
-
 		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep));//neglecting e mass
 		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
@@ -106,6 +104,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		if( trueY > 0.85 || trueY < 0.05 ) continue;
 		bool struckproton = false;
 		if( struck_nucleon == 2212 ) struckproton = true;
+
+		nk_truth->Fill( sqrt(pxf*pxf+pyf*pyf+pzf*pzf) );
 
 		that->Fill( fabs(t_hat) );
 
