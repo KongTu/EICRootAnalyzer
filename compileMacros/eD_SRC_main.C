@@ -206,9 +206,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			sPN_4pt2->Fill( 4*n_4vect.Pt()*n_4vect.Pt() );
 
 			//use spectator only:
-			cout << "momentum ~ " << n_4vect.P() << endl;
-			nk_spectator->Fill( n_4vect.P() );
-			//use all final state particles:
+			nk_spectator->Fill( n_4vect_irf.P() );
 			
 		} 
 		else{
@@ -227,8 +225,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		sPN_Jpsi_fix->Fill( (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2() );
 		nucleon_t->Fill( (p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2() );
 		sPN_t->Fill((p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2(), (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2());
-		//remove mass dependence
-
+		//use all final state particles:
 		TLorentzVector pn = p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf;
 		double Epn = pn.E();
 		double k = sqrt( Epn*Epn/4. - MASS_PROTON*MASS_PROTON );
