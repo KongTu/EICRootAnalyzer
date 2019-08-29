@@ -228,7 +228,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		//use all final state particles:
 		TLorentzVector pn = p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf;
 		double Epn = pn.E();
-		double k = sqrt( Epn*Epn/4. - MASS_PROTON*MASS_PROTON );
+		double k = sqrt( Epn*Epn/4. - MASS_NEUTRON*MASS_NEUTRON );//use proton mass to simplify
 		nk_allfinalstate->Fill( k );
 		d_k->Fill( pn.P() ); //cross check with net zero momentum in the IRF.
 
