@@ -41,12 +41,12 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* sPN_Jpsi_fix = new TH1D("sPN_Jpsi_fix","sPN_Jpsi_fix",sPN_nBins,sPN_bins);
 	TH1D* sPN_Jpsi_fix_noMass = new TH1D("sPN_Jpsi_fix_noMass","sPN_Jpsi_fix_noMass",sPN_nBins,sPN_bins);
 
-	TH1D* nk_truth = new TH1D("nk_truth","k (GeV/c)", 100,0,3);
-	TH1D* nk_spectator = new TH1D("nk_spectator",";k (GeV/c)", 100, 0,3);
-	TH1D* nk_spectator_pt = new TH1D("nk_spectator_pt",";k (GeV/c)", 100, 0,3);
-	TH1D* nk_allfinalstate_truth = new TH1D("nk_allfinalstate_truth",";k (GeV/c)", 100, 0,3);
-	TH1D* nk_allfinalstate = new TH1D("nk_allfinalstate",";k (GeV/c)", 100, 0,3);
-	TH1D* d_k = new TH1D("d_k","d_k",100,-1,1);
+	TH1D* nk_truth = new TH1D("nk_truth","k (GeV/c)", 300,0,3);
+	TH1D* nk_spectator = new TH1D("nk_spectator",";k (GeV/c)", 300, 0,3);
+	TH1D* nk_spectator_pt = new TH1D("nk_spectator_pt",";k (GeV/c)", 300, 0,3);
+	TH1D* nk_allfinalstate_truth = new TH1D("nk_allfinalstate_truth",";k (GeV/c)", 300, 0,3);
+	TH1D* nk_allfinalstate = new TH1D("nk_allfinalstate",";k (GeV/c)", 300, 0,3);
+	TH1D* d_k = new TH1D("d_k","d_k",300,-1,1);
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/"+filename+".root" );
