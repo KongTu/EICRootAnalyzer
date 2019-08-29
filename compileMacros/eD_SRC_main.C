@@ -215,12 +215,12 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			sPN_4pt2->Fill( 4*n_4vect.Pt()*n_4vect.Pt() );
 
 			//use spectator only:
-			//nk_spectator->Fill( n_4vect_irf.P() );
+			nk_spectator->Fill( n_4vect_irf.P() );
 			//use pt of the lab frame particle to determine k
 			TLorentzVector n;
 			n.SetPtEtaPhiM( n_4vect.Pt(), n_4vect.Eta(), n_4vect.Phi(), MASS_NEUTRON);
 			n.Boost(-b);
-			//nk_spectator_pt->Fill( n.P() );
+			nk_spectator_pt->Fill( n.P() );
 			
 		} 
 		else{
@@ -229,12 +229,12 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			sPN->Fill( (p_partner_4vect_irf+p_4vect_irf).Mag2() );
 			sPN_4pt2->Fill( 4*p_4vect.Pt()*p_4vect.Pt() );
 
-			nk_spectator->Fill( p_4vect_irf.P() );
+			//nk_spectator->Fill( p_4vect_irf.P() );
 			//use pt of the lab frame particle to determine k
 			TLorentzVector p;
 			p.SetPtEtaPhiM( p_4vect.Pt(), p_4vect.Eta(), p_4vect.Phi(), MASS_PROTON);
 			p.Boost(-b);
-			nk_spectator_pt->Fill( p.P() );
+			//nk_spectator_pt->Fill( p.P() );
 
 		}
 
