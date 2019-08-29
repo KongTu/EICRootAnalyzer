@@ -19,7 +19,6 @@ TH1D* sPN = new TH1D("sPN","sPN",sPN_nBins,sPN_bins);
 TH1D* sPN_4pt2 = new TH1D("sPN_4pt2","sPN_4pt2",sPN_nBins,sPN_bins);
 TH1D* sPN_Jpsi = new TH1D("sPN_Jpsi","sPN_Jpsi",sPN_nBins,sPN_bins);
 TH1D* sPN_Jpsi_fix = new TH1D("sPN_Jpsi_fix","sPN_Jpsi_fix",sPN_nBins,sPN_bins);
-TH1D* sPN_Jpsi_fix_oneTagged = new TH1D("sPN_Jpsi_fix_oneTagged","sPN_Jpsi_fix_oneTagged",sPN_nBins,sPN_bins);
 TH1D* sPN_Jpsi_fix_noMass = new TH1D("sPN_Jpsi_fix_noMass","sPN_Jpsi_fix_noMass",sPN_nBins,sPN_bins);
 TH1D* h_trk = new TH1D("h_trk","h_trk",50,0,50);
 
@@ -41,16 +40,19 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
 
 void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false){
 
+	TFile * output = new TFile("../rootfiles/eD_SRC_main_Beagle.root","RECREATE");
+
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/"+filename+".root" );
 	
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
 
+	double energy_resolution = 0.5;//50%
 	TF1* smear_e = new TF1("smear_e","gaus(0)",-30,30);
 	smear_e->SetParameter(0,1);
 	smear_e->SetParameter(1,0);
-	smear_e->SetParameter(2, sqrt( (0.5/sqrt(135.))*(0.5/sqrt(135.)) + 0.05*0.05 )*135. );
+	smear_e->SetParameter(2, sqrt( (energy_resolution/sqrt(135.))*(energy_resolution/sqrt(135.)) + 0.05*0.05 )*135. );
 
 	TF1* smear_theta = new TF1("smear_theta","gaus(0)",-0.001,0.001);
 	smear_theta->SetParameter(0,1);
@@ -71,7 +73,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
 
-		smear_e->SetParameter(2, sqrt( (0.5/sqrt(pztarg))*(0.5/sqrt(pztarg)) + 0.05*0.05 )*pztarg );
+		smear_e->SetParameter(2, sqrt( (energy_resolution/sqrt(pztarg))*(energy_resolution/sqrt(pztarg)) + 0.05*0.05 )*pztarg );
 
 		TVector3 b = d_beam.BoostVector();
 
@@ -144,7 +146,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 				//acceptance cuts for proton
 				if( pdg == 2212 ){
 					if( (angle > 0.005 && angle < 0.007) || angle > 0.022 ) p_4vect.SetPxPyPzE(0.,0.,0.,0.);
-
 				}
 				//acceptance cuts for neutron
 				if( pdg == 2112 ){
@@ -189,7 +190,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		d_beam_irf.Boost(-b);
 
 		double pt2 = j_4vect.Pt()*j_4vect.Pt();
-		tjpsi->Fill( pt2-trueQ2 );
+		tjpsi->Fill( pt2 );
 		h_trk->Fill( nParticles_process );
 		nRes->Fill( n_4vect_unsmear.E()-n_4vect.E(), n_4vect_unsmear.Theta()-n_4vect.Theta() );
 		
@@ -215,21 +216,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		nucleon_t->Fill( (p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2() );
 		sPN_t->Fill((p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2(), (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2());
 		//remove mass dependence
-		sPN_Jpsi_fix_noMass->Fill( (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2() - (MASS_NEUTRON+MASS_PROTON)*(MASS_NEUTRON+MASS_PROTON) );
 	}
 
-	TFile output("../rootfiles/eD_SRC_main_Beagle.root","RECREATE");
-	that->Write();
-	tjpsi->Write();
-	nRes->Write();
-	sPN->Write();
-	sPN_4pt2->Write();
-	sPN_Jpsi->Write();
-	sPN_Jpsi_fix->Write();
-	sPN_t->Write();
-	nucleon_t->Write();
-	sPN_Jpsi_fix_noMass->Write();
-	h_trk->Write();
+	output->Write();
+	output->Close();
+
 
 
 
