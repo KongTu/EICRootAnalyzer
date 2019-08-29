@@ -106,8 +106,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		bool struckproton = false;
 		if( struck_nucleon == 2212 ) struckproton = true;
 
-		nk_truth->Fill( sqrt(pxf*pxf+pyf*pyf+pzf*pzf) );
-
 		that->Fill( fabs(t_hat) );
 
 		int nParticles_process = 0;
@@ -193,6 +191,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 		if( p_4vect.E() == 0 || n_4vect.E() == 0 ) continue;
 
+		nk_truth->Fill( sqrt(pxf*pxf+pyf*pyf+pzf*pzf) );
+		
 		//boost
 		j_4vect_irf.Boost(-b);
 		p_4vect_irf.Boost(-b);
