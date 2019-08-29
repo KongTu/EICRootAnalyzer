@@ -41,6 +41,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* sPN_Jpsi_fix = new TH1D("sPN_Jpsi_fix","sPN_Jpsi_fix",sPN_nBins,sPN_bins);
 	TH1D* sPN_Jpsi_fix_noMass = new TH1D("sPN_Jpsi_fix_noMass","sPN_Jpsi_fix_noMass",sPN_nBins,sPN_bins);
 
+	TH1D* nk_truth = new TH1D("nk_truth","k (GeV/c)", 100,0,3);
 	TH1D* nk_spectator = new TH1D("nk_spectator",";k (GeV/c)", 100, 0,3);
 	TH1D* nk_spectator_pt = new TH1D("nk_spectator_pt",";k (GeV/c)", 100, 0,3);
 	TH1D* nk_allfinalstate = new TH1D("nk_allfinalstate",";k (GeV/c)", 100, 0,3);
@@ -72,6 +73,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		double pztarg = event->pztarg;
 		double Atarg = event->Atarg;
 		double pztarg_total = pztarg*Atarg;
+		double pfx = event->pfx;
+		double pfy = event->pfy;
+		double pfz = event->pfz;
+
+		nk_truth->Fill( sqrt(pfx*pfx+pfy*pfy+pfz*pfz) );
 
 		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep));//neglecting e mass
 		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
