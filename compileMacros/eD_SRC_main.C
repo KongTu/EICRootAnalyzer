@@ -54,7 +54,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
 
-	double energy_resolution = 0.5;//50%
+	double energy_resolution = 1.;//50%
 	TF1* smear_e = new TF1("smear_e","gaus(0)",-30,30);
 	smear_e->SetParameter(0,1);
 	smear_e->SetParameter(1,0);
@@ -229,12 +229,12 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			sPN->Fill( (p_partner_4vect_irf+p_4vect_irf).Mag2() );
 			sPN_4pt2->Fill( 4*p_4vect.Pt()*p_4vect.Pt() );
 
-			//nk_spectator->Fill( p_4vect_irf.P() );
+			nk_spectator->Fill( p_4vect_irf.P() );
 			//use pt of the lab frame particle to determine k
 			TLorentzVector p;
 			p.SetPtEtaPhiM( p_4vect.Pt(), p_4vect.Eta(), p_4vect.Phi(), MASS_PROTON);
 			p.Boost(-b);
-			//nk_spectator_pt->Fill( p.P() );
+			nk_spectator_pt->Fill( p.P() );
 
 		}
 
