@@ -10,6 +10,15 @@ using namespace erhic;
 double sPN_bins[]={0.,1.0,2.0,3.0,3.5,3.6,3.7,3.8,3.9,4.0,4.1,4.2,4.3,4.4,4.5,4.7,5.0,5.5,6.0,7.0,8.0,9.0,10.0,12.0,15.0};
 int sPN_nBins = sizeof(sPN_bins)/sizeof(sPN_bins[0]) -1;
 
+double nk_bins[]={0.,0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09,0.1,
+					0.11,0.12,0.13,0.14,0.15,0.16,0.17,0.18,0.19,0.2,
+					0.21,0.22,0.23,0.24,0.25,0.26,0.27,0.28,0.29,0.3,
+					0.31,0.32,0.33,0.34,0.35,0.36,0.37,0.38,0.39,0.4,
+					0.41,0.42,0.43,0.44,0.45,0.46,0.47,0.48,0.49,0.5,
+					0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,1.0};
+
+int nk_nBins = sizeof(nk_bins)/sizeof(nk_bins[0]) -1;
+
 TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
                             TLorentzVector const &pBeam_lab,
                             TLorentzVector const &eScat_lab) {
@@ -41,10 +50,10 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* sPN_Jpsi_fix = new TH1D("sPN_Jpsi_fix","sPN_Jpsi_fix",sPN_nBins,sPN_bins);
 	TH1D* sPN_Jpsi_fix_noMass = new TH1D("sPN_Jpsi_fix_noMass","sPN_Jpsi_fix_noMass",sPN_nBins,sPN_bins);
 
-	TH1D* nk_truth = new TH1D("nk_truth","k (GeV/c)", 300,0,3);
-	TH1D* nk_spectator = new TH1D("nk_spectator",";k (GeV/c)", 300, 0,3);
-	TH1D* nk_spectator_pt = new TH1D("nk_spectator_pt",";k (GeV/c)", 300, 0,3);
-	TH1D* nk_allfinalstate = new TH1D("nk_allfinalstate",";k (GeV/c)", 300, 0,3);
+	TH1D* nk_truth = new TH1D("nk_truth","k (GeV/c)", nk_nBins, nk_bins);
+	TH1D* nk_spectator = new TH1D("nk_spectator",";k (GeV/c)", nk_nBins, nk_bins);
+	TH1D* nk_spectator_pt = new TH1D("nk_spectator_pt",";k (GeV/c)", nk_nBins, nk_bins);
+	TH1D* nk_allfinalstate = new TH1D("nk_allfinalstate",";k (GeV/c)", nk_nBins, nk_bins);
 	TH1D* d_k = new TH1D("d_k","d_k",300,-1,1);
 
 	TChain *tree = new TChain("EICTree");
