@@ -37,7 +37,7 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
 
 void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 1.){
 
-	TString settings = (TString) to_string((int)doSmear_);
+	TString settings = (TString) to_string((int) doSmear_);
 	settings += (TString) to_string((int) doAcceptance_);
 	settings += (TString) to_string((double) rZDC);
 
