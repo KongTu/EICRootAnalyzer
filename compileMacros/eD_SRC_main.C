@@ -2,6 +2,9 @@
 #include "PRINT4VECTOR.h"
 #include "TLorentzVector.h"
 #include "TLorentzRotation.h"
+#include <iostream>
+#include <string>
+
 using namespace std;
 using namespace erhic;
 
