@@ -2,7 +2,7 @@
 #include "PRINT4VECTOR.h"
 #include "TLorentzVector.h"
 #include "TLorentzRotation.h"
-#include <iostream>
+#include <sstream>
 #include <string>
 
 using namespace std;
@@ -40,8 +40,12 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
 
 void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 1.){
 
-	TString settings = (TString) doSmear_;
-	settings += (TString) doAcceptance_;
+	std::ostringstream os;
+	os << (int) doSmear_;
+	os << (int) doAcceptance_;
+	os << (double) rZDC;
+	std::string str = os.str();
+	TString settings = (TString) str;
 
 	TFile * output = new TFile("../rootfiles/"+filename+"_"+settings+"_main_Beagle.root","recreate");
 	
