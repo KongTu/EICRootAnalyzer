@@ -42,7 +42,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 	TString settings = (TString) doSmear_;
 	settings += (TString) doAcceptance_;
-	settings += (TString) rZDC;
+	auto str = to_string(rZDC);
+	settings += (TString) str;
 
 	TFile * output = new TFile("../rootfiles/"+filename+"_"+settings+"_main_Beagle.root","recreate");
 	
