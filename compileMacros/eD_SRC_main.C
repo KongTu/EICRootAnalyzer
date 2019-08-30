@@ -43,7 +43,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	std::ostringstream os;
 	os << (int) doSmear_;
 	os << (int) doAcceptance_;
-	os << "_ZDC_"(double) rZDC;
+	os << "_ZDC_" << (double) rZDC;
 	std::string str = os.str();
 	TString settings = (TString) str;
 
