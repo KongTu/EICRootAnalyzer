@@ -271,6 +271,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		//overwrite with exact solution:
 		k = sqrt( (0.25*EpnRed2*EpnRed2 - MASS_NEUTRON*MASS_NEUTRON*MASS_PROTON*MASS_PROTON) / (MASS_NEUTRON*MASS_NEUTRON + MASS_PROTON*MASS_PROTON + EpnRed2) );
 		nk_allfinalstate->Fill( k );
+		cout << "k ~ " << k << endl;
 		d_k->Fill( pn.P() ); //cross check with net zero momentum in the IRF.
 
 	}
