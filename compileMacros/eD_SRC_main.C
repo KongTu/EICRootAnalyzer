@@ -257,8 +257,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			p.Boost(-b);
 			nk_spectator_pt->Fill( p.P() );
 		
-			cout << "k using spectator proton ~ " << p.P() << endl;
-
 		}
 
 		//inclusive J/psi measurement, convolution of exp and intrinsic n(k)
@@ -270,7 +268,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		//use all final state particles:
 		TLorentzVector pn = p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf;
 		double Epn = pn.E();
-		cout << "Epn ~ " << Epn << endl;
+		PRINT4VECTOR(p_4vect_irf,1);
+		PRINT4VECTOR(n_4vect_irf,1);
+		PRINT4VECTOR(j_4vect_irf,1);
+		PRINT4VECTOR(q_irf,1);
+
 		double EpnRed2 = Epn*Epn - MASS_NEUTRON*MASS_NEUTRON - MASS_PROTON*MASS_PROTON; 
 		double k = sqrt( Epn*Epn/4. - MASS_NEUTRON*MASS_NEUTRON );//use proton mass to simplify
 		//overwrite with exact solution:
