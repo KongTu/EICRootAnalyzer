@@ -240,6 +240,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			n.SetPtEtaPhiM( n_4vect.Pt(), n_4vect.Eta(), n_4vect.Phi(), MASS_NEUTRON);
 			n.Boost(-b);
 			nk_spectator_pt->Fill( n.P() );
+
+			cout << "k using spectator neutron ~ " << n.P() << endl;
 			
 		} 
 		else{
@@ -254,6 +256,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			p.SetPtEtaPhiM( p_4vect.Pt(), p_4vect.Eta(), p_4vect.Phi(), MASS_PROTON);
 			p.Boost(-b);
 			nk_spectator_pt->Fill( p.P() );
+		
+			cout << "k using spectator proton ~ " << p.P() << endl;
 
 		}
 
