@@ -240,8 +240,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			n.SetPtEtaPhiM( n_4vect.Pt(), n_4vect.Eta(), n_4vect.Phi(), MASS_NEUTRON);
 			n.Boost(-b);
 			nk_spectator_pt->Fill( n.P() );
-
-			cout << "k using spectator neutron ~ " << n.P() << endl;
 			
 		} 
 		else{
@@ -268,17 +266,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		//use all final state particles:
 		TLorentzVector pn = p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf;
 		double Epn = pn.E();
-		PRINT4VECTOR(p_4vect_irf,1);
-		PRINT4VECTOR(n_4vect_irf,1);
-		PRINT4VECTOR(j_4vect_irf,1);
-		PRINT4VECTOR(q_irf,1);
-
 		double EpnRed2 = Epn*Epn - MASS_NEUTRON*MASS_NEUTRON - MASS_PROTON*MASS_PROTON; 
 		double k = sqrt( Epn*Epn/4. - MASS_NEUTRON*MASS_NEUTRON );//use proton mass to simplify
 		//overwrite with exact solution:
 		k = sqrt( (0.25*EpnRed2*EpnRed2 - MASS_NEUTRON*MASS_NEUTRON*MASS_PROTON*MASS_PROTON) / (MASS_NEUTRON*MASS_NEUTRON + MASS_PROTON*MASS_PROTON + EpnRed2) );
 		nk_allfinalstate->Fill( k );
-		cout << "k ~ " << k << endl;
 		d_k->Fill( pn.P() ); //cross check with net zero momentum in the IRF.
 
 	}
