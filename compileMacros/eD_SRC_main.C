@@ -38,34 +38,12 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
    return boost;
 }
 
+//mathematica one of the two solutions are physical.
 Double_t getCorrJz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Double_t px, Double_t py){
 
 	double Md = MASS_DEUTERON;
 	double Mp = MASS_PROTON;
 	double Mj = MASS_JPSI;
-
-	// double finalJz = (qzkz*(TMath::Power(jx,2) + TMath::Power(jy,2) + TMath::Power(Mj,2) - TMath::Power(Mp,2) + TMath::Power(Md + numn,2) - 
- //        TMath::Power(px,2) - TMath::Power(py,2) - TMath::Power(qzkz,2)) + 
- //     sqrt(TMath::Power(Md + numn,2)*(TMath::Power(jx,4) + TMath::Power(jy,4) + TMath::Power(Md,4) - 
- //         2*TMath::Power(Md,2)*TMath::Power(Mj,2) + TMath::Power(Mj,4) - 2*TMath::Power(Md,2)*TMath::Power(Mp,2) - 
- //         2*TMath::Power(Mj,2)*TMath::Power(Mp,2) + TMath::Power(Mp,4) + 4*TMath::Power(Md,3)*numn - 
- //         4*Md*TMath::Power(Mj,2)*numn - 4*Md*TMath::Power(Mp,2)*numn + 
- //         6*TMath::Power(Md,2)*TMath::Power(numn,2) - 2*TMath::Power(Mj,2)*TMath::Power(numn,2) - 
- //         2*TMath::Power(Mp,2)*TMath::Power(numn,2) + 4*Md*TMath::Power(numn,3) + TMath::Power(numn,4) - 
- //         2*TMath::Power(Md,2)*TMath::Power(px,2) - 2*TMath::Power(Mj,2)*TMath::Power(px,2) + 
- //         2*TMath::Power(Mp,2)*TMath::Power(px,2) - 4*Md*numn*TMath::Power(px,2) - 
- //         2*TMath::Power(numn,2)*TMath::Power(px,2) + TMath::Power(px,4) - 2*TMath::Power(Md,2)*TMath::Power(py,2) - 
- //         2*TMath::Power(Mj,2)*TMath::Power(py,2) + 2*TMath::Power(Mp,2)*TMath::Power(py,2) - 
- //         4*Md*numn*TMath::Power(py,2) - 2*TMath::Power(numn,2)*TMath::Power(py,2) + 
- //         2*TMath::Power(px,2)*TMath::Power(py,2) + TMath::Power(py,4) + 
- //         2*(TMath::Power(Mj,2) + TMath::Power(Mp,2) - TMath::Power(Md + numn,2) + TMath::Power(px,2) + 
- //            TMath::Power(py,2))*TMath::Power(qzkz,2) + TMath::Power(qzkz,4) - 
- //         2*TMath::Power(jy,2)*(-TMath::Power(Mj,2) + TMath::Power(Mp,2) + TMath::Power(Md + numn,2) + 
- //            TMath::Power(px,2) + TMath::Power(py,2) - TMath::Power(qzkz,2)) + 
- //         2*TMath::Power(jx,2)*(TMath::Power(jy,2) + TMath::Power(Mj,2) - TMath::Power(Mp,2) - 
- //            TMath::Power(Md + numn,2) - TMath::Power(px,2) - TMath::Power(py,2) + TMath::Power(qzkz,2)))))/
- //   (2.*(Md + numn - qzkz)*(Md + numn + qzkz));
-
 
 	double finalJz = (qzkz*(TMath::Power(jx,2) + TMath::Power(jy,2) + TMath::Power(Mj,2) - TMath::Power(Mp,2) + TMath::Power(Md + numn,2) - 
         TMath::Power(px,2) - TMath::Power(py,2) - TMath::Power(qzkz,2)) - 
@@ -90,6 +68,37 @@ Double_t getCorrJz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Doubl
    (2.*(Md + numn - qzkz)*(Md + numn + qzkz));
 
    return finalJz;
+}
+
+Double_t getCorrPz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Double_t px, Double_t py){
+
+	double Md = MASS_DEUTERON;
+	double Mp = MASS_PROTON;
+	double Mj = MASS_JPSI;
+
+	double finalPz = (qzkz*(-Power(jx,2) - Power(jy,2) - Power(Mj,2) + Power(Mp,2) + Power(Md + numn,2) + 
+        Power(px,2) + Power(py,2) - Power(qzkz,2)) + 
+     Sqrt(Power(Md + numn,2)*(Power(jx,4) + Power(jy,4) + Power(Md,4) - 
+         2*Power(Md,2)*Power(Mj,2) + Power(Mj,4) - 2*Power(Md,2)*Power(Mp,2) - 
+         2*Power(Mj,2)*Power(Mp,2) + Power(Mp,4) + 4*Power(Md,3)*numn - 
+         4*Md*Power(Mj,2)*numn - 4*Md*Power(Mp,2)*numn + 
+         6*Power(Md,2)*Power(numn,2) - 2*Power(Mj,2)*Power(numn,2) - 
+         2*Power(Mp,2)*Power(numn,2) + 4*Md*Power(numn,3) + Power(numn,4) - 
+         2*Power(Md,2)*Power(px,2) - 2*Power(Mj,2)*Power(px,2) + 
+         2*Power(Mp,2)*Power(px,2) - 4*Md*numn*Power(px,2) - 
+         2*Power(numn,2)*Power(px,2) + Power(px,4) - 2*Power(Md,2)*Power(py,2) - 
+         2*Power(Mj,2)*Power(py,2) + 2*Power(Mp,2)*Power(py,2) - 
+         4*Md*numn*Power(py,2) - 2*Power(numn,2)*Power(py,2) + 
+         2*Power(px,2)*Power(py,2) + Power(py,4) + 
+         2*(Power(Mj,2) + Power(Mp,2) - Power(Md + numn,2) + Power(px,2) + 
+            Power(py,2))*Power(qzkz,2) + Power(qzkz,4) - 
+         2*Power(jy,2)*(-Power(Mj,2) + Power(Mp,2) + Power(Md + numn,2) + 
+            Power(px,2) + Power(py,2) - Power(qzkz,2)) + 
+         2*Power(jx,2)*(Power(jy,2) + Power(Mj,2) - Power(Mp,2) - 
+            Power(Md + numn,2) - Power(px,2) - Power(py,2) + Power(qzkz,2)))))/
+   (2.*(Md + numn - qzkz)*(Md + numn + qzkz));
+
+   return finalPz;
 }
 
 void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 1.){
@@ -325,8 +334,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			cout << "Compare Jz between BeAGLE and Kong's analytic solution ~ "<< endl;
 			cout << "Jz BeAGLE = " << j_4vect_irf.Pz() << endl;
 			cout << "Jz Kong = " << jz << endl;
-
-
+			cout << "--------- Pz -------------- " << endl;
+			double pz = getCorrPz(qzkz,numn,jx,jy,px,py);
+			cout << "Compare Pz between BeAGLE and Kong's analytic solution ~ "<< endl;
+			cout << "Pz BeAGLE = " << p_4vect_irf.Pz() << endl;
+			cout << "Pz Kong = " << pz << endl;
 		} 
 		else{
 			TLorentzVector p_partner_4vect_irf;
