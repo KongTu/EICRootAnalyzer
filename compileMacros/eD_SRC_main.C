@@ -233,6 +233,19 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			if(pdg == 2212) p_4vect = ppart;
 			if(pdg == 2112) {n_4vect = ppart; n_4vect_unsmear = n_4vect;}
 
+			if( struckproton ) {
+				
+				if(pdg != 443 && pdg != 2212 && pdg != 2112) {
+					cout << "what else is left in this event?"<<endl;
+					cout << "pdg ~ " << pdg << endl;
+					PRINT4VECTOR(ppart, 1);
+				}
+				else{
+					cout << "Nothing's left"<<endl;
+				}
+
+			}
+
 			/*
 			- do energy and scattering angle smearing 
 			- together with acceptance cuts
