@@ -38,6 +38,37 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
    return boost;
 }
 
+Double_t getCorrJz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Double_t px, Double_t py){
+
+	double Md = MASS_DEUTERON;
+	double Mp = MASS_PROTON;
+	double Mj = MASS_JPSI;
+
+	double finalJz = (qzkz*(TMath::Power(jx,2) + TMath::Power(jy,2) + TMath::Power(Mj,2) - TMath::Power(Mp,2) + TMath::Power(Md + numn,2) - 
+        TMath::Power(px,2) - TMath::Power(py,2) - TMath::Power(qzkz,2)) + 
+     sqrt(TMath::Power(Md + numn,2)*(TMath::Power(jx,4) + TMath::Power(jy,4) + TMath::Power(Md,4) - 
+         2*TMath::Power(Md,2)*TMath::Power(Mj,2) + TMath::Power(Mj,4) - 2*TMath::Power(Md,2)*TMath::Power(Mp,2) - 
+         2*TMath::Power(Mj,2)*TMath::Power(Mp,2) + TMath::Power(Mp,4) + 4*TMath::Power(Md,3)*numn - 
+         4*Md*TMath::Power(Mj,2)*numn - 4*Md*TMath::Power(Mp,2)*numn + 
+         6*TMath::Power(Md,2)*TMath::Power(numn,2) - 2*TMath::Power(Mj,2)*TMath::Power(numn,2) - 
+         2*TMath::Power(Mp,2)*TMath::Power(numn,2) + 4*Md*TMath::Power(numn,3) + TMath::Power(numn,4) - 
+         2*TMath::Power(Md,2)*TMath::Power(px,2) - 2*TMath::Power(Mj,2)*TMath::Power(px,2) + 
+         2*TMath::Power(Mp,2)*TMath::Power(px,2) - 4*Md*numn*TMath::Power(px,2) - 
+         2*TMath::Power(numn,2)*TMath::Power(px,2) + TMath::Power(px,4) - 2*TMath::Power(Md,2)*TMath::Power(py,2) - 
+         2*TMath::Power(Mj,2)*TMath::Power(py,2) + 2*TMath::Power(Mp,2)*TMath::Power(py,2) - 
+         4*Md*numn*TMath::Power(py,2) - 2*TMath::Power(numn,2)*TMath::Power(py,2) + 
+         2*TMath::Power(px,2)*TMath::Power(py,2) + TMath::Power(py,4) + 
+         2*(TMath::Power(Mj,2) + TMath::Power(Mp,2) - TMath::Power(Md + numn,2) + TMath::Power(px,2) + 
+            TMath::Power(py,2))*TMath::Power(qzkz,2) + TMath::Power(qzkz,4) - 
+         2*TMath::Power(jy,2)*(-TMath::Power(Mj,2) + TMath::Power(Mp,2) + TMath::Power(Md + numn,2) + 
+            TMath::Power(px,2) + TMath::Power(py,2) - TMath::Power(qzkz,2)) + 
+         2*TMath::Power(jx,2)*(TMath::Power(jy,2) + TMath::Power(Mj,2) - TMath::Power(Mp,2) - 
+            TMath::Power(Md + numn,2) - TMath::Power(px,2) - TMath::Power(py,2) + TMath::Power(qzkz,2)))))/
+   (2.*(Md + numn - qzkz)*(Md + numn + qzkz));
+
+   return finalJz;
+}
+
 void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 1.){
 
 	std::ostringstream os;
@@ -258,6 +289,20 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			TLorentzVector testp = q_irf+d_beam_irf-j_4vect_irf-p_4vect_irf-n_4vect_irf;
 			cout << "total change q+d-j-p'-n' should be 0: " << endl;
 			PRINT4VECTOR(testp,1);
+
+			cout <<" Beginning analytic solution ~ here " << endl;
+			double qzkz = q_irf.Pz() - (-pzf); //pzf is the pz of struck nucleon in the IRF, spectator is -pzf 
+			double numn = q_irf.E() - sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf );
+			double jx = j_4vect_irf.Px();
+			double jy = j_4vect_irf.Py();
+			double px = p_4vect_irf.Px();
+			double py = p_4vect_irf.Py();
+
+			double jz = getCorrJz(qzkz,numn,jx,jy,px,py);
+			cout << "Compare Jz between BeAGLE and Kong's analytic solution ~ "<< endl;
+			cout << "Jz BeAGLE = " << j_4vect_irf.Pz() << endl;
+			cout << "Jz Kong = " << jz << endl;
+
 
 		} 
 		else{
