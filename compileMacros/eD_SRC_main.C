@@ -326,7 +326,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 			cout <<" Beginning analytic solution ~ here " << endl;
 			double qzkz = q_irf.Pz() - (pzf);
-			double numn = q_irf.E() - sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf );
+			double numn = q_irf.E() - n_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
 			double jx = j_4vect_irf.Px();
 			double jy = j_4vect_irf.Py();
 			double px = p_4vect_irf.Px();
