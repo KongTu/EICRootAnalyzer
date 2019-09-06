@@ -399,6 +399,33 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			p.SetPtEtaPhiM( p_4vect.Pt(), p_4vect.Eta(), p_4vect.Phi(), MASS_PROTON);
 			p.Boost(-b);
 			nk_spectator_pt->Fill( p.P() );
+
+			//starting the fix
+			double qzkz = q_irf.Pz() - (p_4vect_irf.Pz());
+			double numn = q_irf.E() - p_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
+			double jx = j_4vect_irf.Px();
+			double jy = j_4vect_irf.Py();
+			double px = n_4vect_irf.Px();
+			double py = n_4vect_irf.Py();
+
+			double jz = getCorrJz(qzkz,numn,jx,jy,px,py);
+			double pz = getCorrPz(qzkz,numn,jx,jy,px,py);
+		
+			TLorentzVector pnew;
+			double px_new = n_4vect_irf.Px();
+			double py_new = n_4vect_irf.Py();
+			double pz_new = pz;
+			pnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( MASS_NEUTRON*MASS_NEUTRON + px_new*px_new + py_new*py_new + pz_new*pz_new));
+			
+			TLorentzVector jnew;
+			double jx_new = j_4vect_irf.Px();
+			double jy_new = j_4vect_irf.Py();
+			double jz_new = jz;
+			jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
+	
+			TLorentzVector testnew = q_irf+d_beam_irf-jnew-pnew-p_4vect_irf;
+			
+			EvsPzFix->Fill(testnew.Pz(), testnew.E());
 		
 		}
 
