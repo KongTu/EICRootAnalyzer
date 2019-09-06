@@ -339,6 +339,24 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			cout << "Compare Pz between BeAGLE and Kong's analytic solution ~ "<< endl;
 			cout << "Pz BeAGLE = " << p_4vect_irf.Pz() << endl;
 			cout << "Pz Kong = " << pz << endl;
+
+			TLorentzVector pnew;
+			double px_new = p_4vect_irf.Px();
+			double py_new = p_4vect_irf.Py();
+			double pz_new = pz;
+			pnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( MASS_PROTON*MASS_PROTON + px_new*px_new + py_new*py_new + pz_new*pz_new));
+			
+			TLorentzVector jnew;
+			double jx_new = j_4vect_irf.Px();
+			double jy_new = j_4vect_irf.Py();
+			double jz_new = jz;
+			jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
+	
+
+			TLorentzVector testnew = q_irf+d_beam_irf-jnew-pnew-n_4vect_irf;
+			cout << "check momentum conservation again, total change q+d-j-p'-n' should be 0 now: " << endl;
+			PRINT4VECTOR(testnew,1);
+
 		} 
 		else{
 			TLorentzVector p_partner_4vect_irf;
