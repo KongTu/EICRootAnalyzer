@@ -39,11 +39,7 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
 }
 
 //mathematica one of the two solutions are physical.
-Double_t getCorrJz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Double_t px, Double_t py){
-
-	double Md = MASS_DEUTERON;
-	double Mp = MASS_PROTON;
-	double Mj = MASS_JPSI;
+Double_t getCorrJz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Double_t px, Double_t py, Double_t Md, Double_t Mp, Double_t Mj){
 
 	double finalJz = (qzkz*(TMath::Power(jx,2) + TMath::Power(jy,2) + TMath::Power(Mj,2) - TMath::Power(Mp,2) + TMath::Power(Md + numn,2) - 
         TMath::Power(px,2) - TMath::Power(py,2) - TMath::Power(qzkz,2)) - 
@@ -70,11 +66,7 @@ Double_t getCorrJz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Doubl
    return finalJz;
 }
 
-Double_t getCorrPz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Double_t px, Double_t py){
-
-	double Md = MASS_DEUTERON;
-	double Mp = MASS_PROTON;
-	double Mj = MASS_JPSI;
+Double_t getCorrPz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Double_t px, Double_t py,Double_t Md, Double_t Mp, Double_t Mj){
 
 	double finalPz = (qzkz*(-TMath::Power(jx,2) - TMath::Power(jy,2) - TMath::Power(Mj,2) + TMath::Power(Mp,2) + TMath::Power(Md + numn,2) + 
         TMath::Power(px,2) + TMath::Power(py,2) - TMath::Power(qzkz,2)) + 
@@ -330,12 +322,12 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			double px = p_4vect_irf.Px();
 			double py = p_4vect_irf.Py();
 
-			double jz = getCorrJz(qzkz,numn,jx,jy,px,py);
+			double jz = getCorrJz(qzkz,numn,jx,jy,px,py,MASS_DEUTERON,p_4vect_irf.M(),j_4vect_irf.M());
 			cout << "Compare Jz between BeAGLE and Kong's analytic solution ~ "<< endl;
 			cout << "Jz BeAGLE = " << j_4vect_irf.Pz() << endl;
 			cout << "Jz Kong = " << jz << endl;
 			cout << "--------- Pz -------------- " << endl;
-			double pz = getCorrPz(qzkz,numn,jx,jy,px,py);
+			double pz = getCorrPz(qzkz,numn,jx,jy,px,py,MASS_DEUTERON,p_4vect_irf.M(),j_4vect_irf.M());
 			cout << "Compare Pz between BeAGLE and Kong's analytic solution ~ "<< endl;
 			cout << "Pz BeAGLE = " << p_4vect_irf.Pz() << endl;
 			cout << "Pz Kong = " << pz << endl;
