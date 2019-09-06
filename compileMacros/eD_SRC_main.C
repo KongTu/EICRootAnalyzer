@@ -39,10 +39,9 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
 }
 
 //mathematica one of the two solutions are physical.
-Double_t getCorrJz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Double_t px, Double_t py){
+Double_t getCorrJz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Double_t px, Double_t py, Double_t Mp){
 
 	double Md = MASS_DEUTERON;
-	double Mp = MASS_PROTON;
 	double Mj = MASS_JPSI;
 
 	double finalJz = (qzkz*(TMath::Power(jx,2) + TMath::Power(jy,2) + TMath::Power(Mj,2) - TMath::Power(Mp,2) + TMath::Power(Md + numn,2) - 
@@ -70,10 +69,9 @@ Double_t getCorrJz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Doubl
    return finalJz;
 }
 
-Double_t getCorrPz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Double_t px, Double_t py){
+Double_t getCorrPz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Double_t px, Double_t py, Double_t Mp){
 
 	double Md = MASS_DEUTERON;
-	double Mp = MASS_PROTON;
 	double Mj = MASS_JPSI;
 
 	double finalPz = (qzkz*(-TMath::Power(jx,2) - TMath::Power(jy,2) - TMath::Power(Mj,2) + TMath::Power(Mp,2) + TMath::Power(Md + numn,2) + 
@@ -337,12 +335,12 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			double px = p_4vect_irf.Px();
 			double py = p_4vect_irf.Py();
 
-			double jz = getCorrJz(qzkz,numn,jx,jy,px,py);
+			double jz = getCorrJz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
 			cout << "Compare Jz between BeAGLE and Kong's analytic solution ~ "<< endl;
 			cout << "Jz BeAGLE = " << j_4vect_irf.Pz() << endl;
 			cout << "Jz Kong = " << jz << endl;
 			cout << "--------- Pz -------------- " << endl;
-			double pz = getCorrPz(qzkz,numn,jx,jy,px,py);
+			double pz = getCorrPz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
 			cout << "Compare Pz between BeAGLE and Kong's analytic solution ~ "<< endl;
 			cout << "Pz BeAGLE = " << p_4vect_irf.Pz() << endl;
 			cout << "Pz Kong = " << pz << endl;
@@ -401,21 +399,21 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			nk_spectator_pt->Fill( p.P() );
 
 			//starting the fix
-			double qzkz = q_irf.Pz() - (p_4vect_irf.Pz());
-			double numn = q_irf.E() - p_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
+			double qzkz = q_irf.Pz() - ( p_4vect_irf.Pz() );
+			double numn = q_irf.E() - p_4vect_irf.E(); //sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
 			double jx = j_4vect_irf.Px();
 			double jy = j_4vect_irf.Py();
-			double px = n_4vect_irf.Px();
-			double py = n_4vect_irf.Py();
+			double nx = n_4vect_irf.Px();
+			double ny = n_4vect_irf.Py();
 
-			double jz = getCorrJz(qzkz,numn,jx,jy,px,py);
-			double pz = getCorrPz(qzkz,numn,jx,jy,px,py);
+			double jz = getCorrJz(qzkz,numn,jx,jy,nx,ny,MASS_NEUTRON);
+			double nz = getCorrPz(qzkz,numn,jx,jy,nx,ny,MASS_NEUTRON);
 		
-			TLorentzVector pnew;
-			double px_new = n_4vect_irf.Px();
-			double py_new = n_4vect_irf.Py();
-			double pz_new = pz;
-			pnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( MASS_NEUTRON*MASS_NEUTRON + px_new*px_new + py_new*py_new + pz_new*pz_new));
+			TLorentzVector nnew;
+			double nx_new = n_4vect_irf.Px();
+			double ny_new = n_4vect_irf.Py();
+			double nz_new = nz;
+			nnew.SetPxPyPzE(nx_new,ny_new,nz_new, sqrt( MASS_NEUTRON*MASS_NEUTRON + nx_new*nx_new + ny_new*ny_new + nz_new*nz_new));
 			
 			TLorentzVector jnew;
 			double jx_new = j_4vect_irf.Px();
@@ -423,7 +421,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			double jz_new = jz;
 			jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 	
-			TLorentzVector testnew = q_irf+d_beam_irf-jnew-pnew-p_4vect_irf;
+			TLorentzVector testnew = q_irf+d_beam_irf-jnew-nnew-p_4vect_irf;
 			
 			EvsPzFix->Fill(testnew.Pz(), testnew.E());
 		
