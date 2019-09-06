@@ -366,8 +366,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 			cout << "New pz calculation: " << qzkz - jz << endl;
 
-			EvsPz->Fill(testp.Pz, testp.E());
-			EvsPzFix->Fill(testnew.Pz, testnew.E());
+			EvsPz->Fill(testp.Pz(), testp.E());
+			EvsPzFix->Fill(testnew.Pz(), testnew.E());
 
 		} 
 		else{
