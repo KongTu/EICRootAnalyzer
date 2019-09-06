@@ -393,7 +393,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		nucleon_t->Fill( (p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2() );
 		sPN_t->Fill((p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2(), (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2());
 		
-
 		//use all final state particles:
 		TLorentzVector pn;
 		if( struckproton ){
@@ -403,6 +402,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			pn = p_4vect_irf+nnew+jnew-q_irf;
 		}
 		double Epn = pn.E();
+		cout << "Epn ~ " << Epn << endl;
 		double EpnRed2 = Epn*Epn - MASS_NEUTRON*MASS_NEUTRON - MASS_PROTON*MASS_PROTON; 
 		double k = sqrt( Epn*Epn/4. - MASS_NEUTRON*MASS_NEUTRON );//use proton mass to simplify
 		//overwrite with exact solution:
