@@ -429,6 +429,22 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			Evsk->Fill(nk_event, testnew.E());
 			Pzvsk->Fill(nk_event, testnew.Pz());
 
+			cout << "Let's compare different kinematics method:" << endl;
+			cout << "proton old"<<endl;
+			PRINT4VECTOR(p_4vect_irf,1);
+			cout << "proton new"<<endl;
+			PRINT4VECTOR(pnew,1);
+			cout << "proton new lf"<<endl;
+			PRINT4VECTOR(lfpnew,1);
+			cout << "jpsi old"<<endl;
+			PRINT4VECTOR(j_4vect_irf,1);
+			cout << "jpsi new"<<endl;
+			PRINT4VECTOR(jnew,1);
+			cout << "jpsi new lf"<<endl;
+			PRINT4VECTOR(lfjnew,1);
+	
+
+
 
 		} 
 		else{
