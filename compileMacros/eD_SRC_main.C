@@ -129,8 +129,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* nk_spectator_pt = new TH1D("nk_spectator_pt",";k (GeV/c)", nk_nBins, nk_bins);
 	TH1D* nk_allfinalstate = new TH1D("nk_allfinalstate",";k (GeV/c)", nk_nBins, nk_bins);
 	TH1D* d_k = new TH1D("d_k","d_k",300,-1,1);
-	TH2D* EvsPz = new TH2D("EvsPz",";pz;E",1000,-0.01,0.01,1000,-0.01,0.01);
-	TH2D* EvsPzFix = new TH2D("EvsPzFix",";pz;E",1000,-0.01,0.01,1000,-0.01,0.01);
+	TH2D* EvsPz = new TH2D("EvsPz",";pz;E",100,-0.01,0.01,100,-0.01,0.01);
+	TH2D* EvsPzFix = new TH2D("EvsPzFix",";pz;E",100,-0.01,0.01,100,-0.01,0.01);
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/"+filename+".root" );
@@ -190,6 +190,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		if( trueY > 0.85 || trueY < 0.05 ) continue;
 		bool struckproton = false;
 		if( struck_nucleon == 2212 ) struckproton = true;
+		if( sqrt(pxf*pxf+pyf*pyf+pzf*pzf) < 0.3 ) continue;
 
 		that->Fill( fabs(t_hat) );
 
