@@ -131,6 +131,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* d_k = new TH1D("d_k","d_k",300,-1,1);
 	TH2D* EvsPz = new TH2D("EvsPz",";pz;E",100,-0.01,0.01,100,-0.01,0.01);
 	TH2D* EvsPzFix = new TH2D("EvsPzFix",";pz;E",100,-0.01,0.01,100,-0.01,0.01);
+	TH2D* Evsk = new TH2D("Evsk",";k;E",100,0,1,100,-0.01,0.01);
+	TH2D* Pzvsk = new TH2D("Pzvsk",";k;Pz",100,0,1,100,-0.01,0.01);
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/"+filename+".root" );
@@ -184,6 +186,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		int event_process = event->GetProcess();
 		int nParticles = event->GetNTracks();
 		int struck_nucleon = event->nucleon;
+		double nk_event = sqrt(pxf*pxf+pyf*pyf+pzf*pzf);
 		
 		if( event_process != 91 ) continue;
 		if( trueQ2 < 1. ) continue;
@@ -369,6 +372,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 			EvsPz->Fill(testp.Pz(), testp.E());
 			EvsPzFix->Fill(testnew.Pz(), testnew.E());
+			Evsk->Fill(nk_event, testnew.E());
+			Pzvsk->Fill(nk_event, testnew.Pz());
+
 
 		} 
 		else{
