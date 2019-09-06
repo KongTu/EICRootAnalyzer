@@ -330,7 +330,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			PRINT4VECTOR(testp,1);
 
 			cout <<" Beginning analytic solution ~ here " << endl;
-			double qzkz = q_irf.Pz() - (pzf);
+			double qzkz = q_irf.Pz() - (n_4vect_irf.Pz());
 			double numn = q_irf.E() - n_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
 			double jx = j_4vect_irf.Px();
 			double jy = j_4vect_irf.Py();
