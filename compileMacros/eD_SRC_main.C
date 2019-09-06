@@ -218,9 +218,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			double theta = particle->GetTheta(); 
 			theta = theta*1000.0; //change to mrad;
 			double mom = particle->GetP();
+			TLorentzVector ppart = particle->Get4Vector();
 
 			if( index == 3 ) {
-				e_scattered.SetPtEtaPhiM(pt,eta,phi,mass);
+				//e_scattered.SetPtEtaPhiM(pt,eta,phi,mass);
+				e_scattered = ppart;
 			}
 			if( status != 1 ) continue;
 
@@ -228,23 +230,10 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			q = e_beam-e_scattered;
 			q_irf = q;
 			
-			TLorentzVector ppart = particle->Get4Vector();
+			
 			if(pdg == 443 ) j_4vect = ppart;
 			if(pdg == 2212) p_4vect = ppart;
 			if(pdg == 2112) {n_4vect = ppart; n_4vect_unsmear = n_4vect;}
-
-			if( struckproton ) {
-				
-				if(pdg != 443 && pdg != 2212 && pdg != 2112) {
-					cout << "what else is left in this event?"<<endl;
-					cout << "pdg ~ " << pdg << endl;
-					PRINT4VECTOR(ppart, 1);
-				}
-				else{
-					cout << "Nothing's left"<<endl;
-				}
-
-			}
 
 			/*
 			- do energy and scattering angle smearing 
