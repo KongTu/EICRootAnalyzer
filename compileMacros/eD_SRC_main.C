@@ -39,9 +39,11 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
 }
 
 //mathematica one of the two solutions are physical.
-Double_t getCorrJz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Double_t px, Double_t py, Double_t Mp, Double_t Mj){
+Double_t getCorrJz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Double_t px, Double_t py){
 
 	double Md = MASS_DEUTERON;
+	double Mp = MASS_PROTON;
+	double Mj = MASS_JPSI;
 
 	double finalJz = (qzkz*(TMath::Power(jx,2) + TMath::Power(jy,2) + TMath::Power(Mj,2) - TMath::Power(Mp,2) + TMath::Power(Md + numn,2) - 
         TMath::Power(px,2) - TMath::Power(py,2) - TMath::Power(qzkz,2)) - 
@@ -68,9 +70,11 @@ Double_t getCorrJz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Doubl
    return finalJz;
 }
 
-Double_t getCorrPz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Double_t px, Double_t py, Double_t Mp, Double_t Mj){
+Double_t getCorrPz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Double_t px, Double_t py){
 
 	double Md = MASS_DEUTERON;
+	double Mp = MASS_PROTON;
+	double Mj = MASS_JPSI;
 
 	double finalPz = (qzkz*(-TMath::Power(jx,2) - TMath::Power(jy,2) - TMath::Power(Mj,2) + TMath::Power(Mp,2) + TMath::Power(Md + numn,2) + 
         TMath::Power(px,2) + TMath::Power(py,2) - TMath::Power(qzkz,2)) + 
@@ -320,18 +324,18 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 			cout <<" Beginning analytic solution ~ here " << endl;
 			double qzkz = q_irf.Pz() - (pzf);
-			double numn = q_irf.E() - sqrt( n_4vect_irf.M()*n_4vect_irf.M() + pxf*pxf+pyf*pyf+pzf*pzf );
+			double numn = q_irf.E() - sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf );
 			double jx = j_4vect_irf.Px();
 			double jy = j_4vect_irf.Py();
 			double px = p_4vect_irf.Px();
 			double py = p_4vect_irf.Py();
 
-			double jz = getCorrJz(qzkz,numn,jx,jy,px,py,p_4vect_irf.M(),j_4vect_irf.M());
+			double jz = getCorrJz(qzkz,numn,jx,jy,px,py);
 			cout << "Compare Jz between BeAGLE and Kong's analytic solution ~ "<< endl;
 			cout << "Jz BeAGLE = " << j_4vect_irf.Pz() << endl;
 			cout << "Jz Kong = " << jz << endl;
 			cout << "--------- Pz -------------- " << endl;
-			double pz = getCorrPz(qzkz,numn,jx,jy,px,py,p_4vect_irf.M(),j_4vect_irf.M());
+			double pz = getCorrPz(qzkz,numn,jx,jy,px,py);
 			cout << "Compare Pz between BeAGLE and Kong's analytic solution ~ "<< endl;
 			cout << "Pz BeAGLE = " << p_4vect_irf.Pz() << endl;
 			cout << "Pz Kong = " << pz << endl;
@@ -340,13 +344,13 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			double px_new = p_4vect_irf.Px();
 			double py_new = p_4vect_irf.Py();
 			double pz_new = pz;
-			pnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( p_4vect_irf.M()*p_4vect_irf.M() + px_new*px_new + py_new*py_new + pz_new*pz_new));
+			pnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( MASS_PROTON*MASS_PROTON + px_new*px_new + py_new*py_new + pz_new*pz_new));
 			
 			TLorentzVector jnew;
 			double jx_new = j_4vect_irf.Px();
 			double jy_new = j_4vect_irf.Py();
 			double jz_new = jz;
-			jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( j_4vect_irf.M()*j_4vect_irf.M() + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
+			jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 	
 
 			TLorentzVector testnew = q_irf+d_beam_irf-jnew-pnew-n_4vect_irf;
