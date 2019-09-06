@@ -193,8 +193,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		if( trueY > 0.85 || trueY < 0.05 ) continue;
 		bool struckproton = false;
 		if( struck_nucleon == 2212 ) struckproton = true;
-		if( sqrt(pxf*pxf+pyf*pyf+pzf*pzf) < 0.3 ) continue;
-
+		
 		that->Fill( fabs(t_hat) );
 
 		int nParticles_process = 0;
