@@ -377,6 +377,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			cout << "New pz calculation 4vector: " << q_irf.Pz()+d_beam_irf.Pz()-jnew.Pz()-pnew.Pz()-n_4vect_irf.Pz() << endl;
 			cout << "New qzkz calculation: " << qzkz << endl;
 			cout << "New qzkz calculation 4vector: " << q_irf.Pz()+d_beam_irf.Pz()-n_4vect_irf.Pz() << endl;
+			cout << "k: " << pzf << endl;
+			cout << "new k: " << n_4vect_irf.Pz() << endl;
 
 			EvsPz->Fill(testp.Pz(), testp.E());
 			EvsPzFix->Fill(testnew.Pz(), testnew.E());
