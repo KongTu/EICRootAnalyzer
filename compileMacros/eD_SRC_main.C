@@ -357,6 +357,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			cout << "check momentum conservation again, total change q+d-j-p'-n' should be 0 now: " << endl;
 			PRINT4VECTOR(testnew,1);
 
+			cout << "Print out proton and Jpsi new 4 vectors again ~ " << endl;
+			cout << "New Proton: " << endl;
+			PRINT4VECTOR(pnew,1);
+			cout << "New Jpsi: " << endl;
+			PRINT4VECTOR(jnew,1);
 		} 
 		else{
 			TLorentzVector p_partner_4vect_irf;
