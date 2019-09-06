@@ -213,6 +213,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 		if( p_4vect.E() == 0 || n_4vect.E() == 0 ) continue;
 
+		cout << " Event ~ " << i << endl;
+
 		//boost
 		j_4vect_irf.Boost(-b);
 		p_4vect_irf.Boost(-b);
