@@ -374,6 +374,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			PRINT4VECTOR(q_irf,1);
 
 			cout << "New pz calculation: " << qzkz - jz - pz << endl;
+			cout << "New pz calculation 4vector: " << q_irf.Pz()+d_beam_irf.Pz()-jnew.Pz()-pnew.Pz()-n_4vect_irf.Pz() << endl;
 
 			EvsPz->Fill(testp.Pz(), testp.E());
 			EvsPzFix->Fill(testnew.Pz(), testnew.E());
