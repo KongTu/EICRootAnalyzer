@@ -240,7 +240,23 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			n.SetPtEtaPhiM( n_4vect.Pt(), n_4vect.Eta(), n_4vect.Phi(), MASS_NEUTRON);
 			n.Boost(-b);
 			nk_spectator_pt->Fill( n.P() );
-			
+
+			cout << "Test momentum conservation ~ here" << endl;
+			cout << "Proton: " << endl;
+			PRINT4VECTOR(p_4vect_irf,1);
+			cout << "neutron: " << endl;
+			PRINT4VECTOR(n_4vect_irf,1);
+			cout << "Jpsi: " << endl;
+			PRINT4VECTOR(j_4vect_irf,1);
+			cout << "photon: " << endl;
+			PRINT4VECTOR(q_irf,1);
+			cout << "d beam: " << endl;
+			PRINT4VECTOR(d_beam_irf,1);
+
+			TLorentzVector testp = q_irf+d_beam_irf-j_4vect_irf-p_4vect_irf-n_4vect_irf;
+			cout << "total change q+d-j-p'-n' should be 0: " << endl;
+			PRINT4VECTOR(testp,1);
+
 		} 
 		else{
 			TLorentzVector p_partner_4vect_irf;
