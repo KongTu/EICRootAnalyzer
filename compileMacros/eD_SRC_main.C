@@ -198,7 +198,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		TLorentzVector n_4vect_unsmear;
 		TLorentzVector p_4vect, n_4vect,j_4vect,q;
 		TLorentzVector p_4vect_irf, n_4vect_irf,j_4vect_irf,q_irf,d_beam_irf;
-
+		TLorentzVector jnew,pnew,nnew;
 		d_beam_irf = d_beam;
 
 		for(int j(0); j < nParticles; ++j ) {
@@ -311,23 +311,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			n.Boost(-b);
 			nk_spectator_pt->Fill( n.P() );
 
-			cout << "Test momentum conservation ~ here" << endl;
-			cout << "Proton: " << endl;
-			PRINT4VECTOR(p_4vect_irf,1);
-			cout << "neutron: " << endl;
-			PRINT4VECTOR(n_4vect_irf,1);
-			cout << "Jpsi: " << endl;
-			PRINT4VECTOR(j_4vect_irf,1);
-			cout << "photon: " << endl;
-			PRINT4VECTOR(q_irf,1);
-			cout << "d beam: " << endl;
-			PRINT4VECTOR(d_beam_irf,1);
-
+			//fixing deuteron momentum nonconservation:
 			TLorentzVector testp = q_irf+d_beam_irf-j_4vect_irf-p_4vect_irf-n_4vect_irf;
 			cout << "total change q+d-j-p'-n' should be 0: " << endl;
 			PRINT4VECTOR(testp,1);
 
-			cout <<" Beginning analytic solution ~ here " << endl;
 			double qzkz = q_irf.Pz() - (n_4vect_irf.Pz());
 			double numn = q_irf.E() - n_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
 			double jx = j_4vect_irf.Px();
@@ -336,22 +324,13 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			double py = p_4vect_irf.Py();
 
 			double jz = getCorrJz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
-			cout << "Compare Jz between BeAGLE and Kong's analytic solution ~ "<< endl;
-			cout << "Jz BeAGLE = " << j_4vect_irf.Pz() << endl;
-			cout << "Jz Kong = " << jz << endl;
-			cout << "--------- Pz -------------- " << endl;
 			double pz = getCorrPz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
-			cout << "Compare Pz between BeAGLE and Kong's analytic solution ~ "<< endl;
-			cout << "Pz BeAGLE = " << p_4vect_irf.Pz() << endl;
-			cout << "Pz Kong = " << pz << endl;
 
-			TLorentzVector pnew;
 			double px_new = p_4vect_irf.Px();
 			double py_new = p_4vect_irf.Py();
 			double pz_new = pz;
 			pnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( MASS_PROTON*MASS_PROTON + px_new*px_new + py_new*py_new + pz_new*pz_new));
 			
-			TLorentzVector jnew;
 			double jx_new = j_4vect_irf.Px();
 			double jy_new = j_4vect_irf.Py();
 			double jz_new = jz;
@@ -360,23 +339,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			TLorentzVector testnew = q_irf+d_beam_irf-jnew-pnew-n_4vect_irf;
 			cout << "check momentum conservation again, total change q+d-j-p'-n' should be 0 now: " << endl;
 			PRINT4VECTOR(testnew,1);
-
-			cout << "Print out proton and Jpsi new 4 vectors again ~ " << endl;
-			cout << "New Proton: " << endl;
-			PRINT4VECTOR(pnew,1);
-			cout << "New Jpsi: " << endl;
-			PRINT4VECTOR(jnew,1);
-			cout << "New Neutron: " << endl;
-			PRINT4VECTOR(n_4vect_irf,1);
-			cout << "New photon: " << endl;
-			PRINT4VECTOR(q_irf,1);
-
-			cout << "New pz calculation: " << qzkz - jz - pz << endl;
-			cout << "New pz calculation 4vector: " << q_irf.Pz()+d_beam_irf.Pz()-jnew.Pz()-pnew.Pz()-n_4vect_irf.Pz() << endl;
-			cout << "New qzkz calculation: " << qzkz << endl;
-			cout << "New qzkz calculation 4vector: " << q_irf.Pz()+d_beam_irf.Pz()-n_4vect_irf.Pz() << endl;
-			cout << "k: " << pzf << endl;
-			cout << "new k: " << n_4vect_irf.Pz() << endl;
 
 			EvsPz->Fill(testp.Pz(), testp.E());
 			EvsPzFix->Fill(testnew.Pz(), testnew.E());
@@ -409,20 +371,17 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			double jz = getCorrJz(qzkz,numn,jx,jy,nx,ny,MASS_NEUTRON);
 			double nz = getCorrPz(qzkz,numn,jx,jy,nx,ny,MASS_NEUTRON);
 		
-			TLorentzVector nnew;
 			double nx_new = n_4vect_irf.Px();
 			double ny_new = n_4vect_irf.Py();
 			double nz_new = nz;
 			nnew.SetPxPyPzE(nx_new,ny_new,nz_new, sqrt( MASS_NEUTRON*MASS_NEUTRON + nx_new*nx_new + ny_new*ny_new + nz_new*nz_new));
 			
-			TLorentzVector jnew;
 			double jx_new = j_4vect_irf.Px();
 			double jy_new = j_4vect_irf.Py();
 			double jz_new = jz;
 			jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 	
 			TLorentzVector testnew = q_irf+d_beam_irf-jnew-nnew-p_4vect_irf;
-			
 			EvsPzFix->Fill(testnew.Pz(), testnew.E());
 		
 		}
@@ -433,8 +392,16 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		sPN_Jpsi_fix->Fill( (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2() );
 		nucleon_t->Fill( (p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2() );
 		sPN_t->Fill((p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2(), (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2());
+		
+
 		//use all final state particles:
-		TLorentzVector pn = p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf;
+		TLorentzVector pn;
+		if( struckproton ){
+			pn = pnew+n_4vect_irf+jnew-q_irf;
+		}
+		else{
+			pn = p_4vect_irf+nnew+jnew-q_irf;
+		}
 		double Epn = pn.E();
 		double EpnRed2 = Epn*Epn - MASS_NEUTRON*MASS_NEUTRON - MASS_PROTON*MASS_PROTON; 
 		double k = sqrt( Epn*Epn/4. - MASS_NEUTRON*MASS_NEUTRON );//use proton mass to simplify
