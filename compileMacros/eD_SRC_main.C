@@ -341,7 +341,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			TLorentzVector jnew;
 			double jx_new = j_4vect_irf.Px();
 			double jy_new = j_4vect_irf.Py();
-			double jz_new = jz;
+			double jz_new = j_4vect_irf.Pz();
 			jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( j_4vect_irf.M()*j_4vect_irf.M() + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 	
 
