@@ -368,8 +368,12 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			PRINT4VECTOR(pnew,1);
 			cout << "New Jpsi: " << endl;
 			PRINT4VECTOR(jnew,1);
+			cout << "New Neutron: " << endl;
+			PRINT4VECTOR(n_4vect_irf,1);
+			cout << "New photon: " << endl;
+			PRINT4VECTOR(q_irf,1);
 
-			cout << "New pz calculation: " << qzkz - jz << endl;
+			cout << "New pz calculation: " << qzkz - jz - pz << endl;
 
 			EvsPz->Fill(testp.Pz(), testp.E());
 			EvsPzFix->Fill(testnew.Pz(), testnew.E());
