@@ -386,19 +386,19 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			double px = p_4vect_irf.Px()-n_4vect_irf.Px();
 			double py = p_4vect_irf.Py()-n_4vect_irf.Py();
 			//end solution 1 variables
+			double jz = getCorrJz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
+			double pz = getCorrPz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
 
 			//solution 2 variables
+			double px = p_4vect_irf.Px();
+			double py = p_4vect_irf.Py();
 			double Ennz = n_4vect_irf.E() + n_4vect_irf.Pz();
 			double Ennz2 = n_4vect_irf.E() - n_4vect_irf.Pz();
 			double nuqzmd = q_irf.E()+q_irf.Pz()+MASS_DEUTERON;
 			double nuqzmd2 = q_irf.E()-q_irf.Pz()+MASS_DEUTERON;
 			//end solution 2 variables
-			
 			double lfpz = getCorrPzLF(Ennz,Ennz2,nuqzmd,nuqzmd2,jx,jy,px,py,MASS_PROTON);
 			double lfjz = getCorrJzLF(Ennz,Ennz2,nuqzmd,nuqzmd2,jx,jy,px,py,MASS_PROTON);
-
-			double jz = getCorrJz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
-			double pz = getCorrPz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
 
 			double px_new = p_4vect_irf.Px();
 			double py_new = p_4vect_irf.Py();
