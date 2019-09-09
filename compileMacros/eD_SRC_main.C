@@ -193,6 +193,10 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH2D* Pzvsk_old = new TH2D("Pzvsk_old",";k;Pz",100,0,1,500,-2,2);
 	TH2D* Evsk = new TH2D("Evsk",";k;E",100,0,1,500,-4,4);
 	TH2D* Pzvsk = new TH2D("Pzvsk",";k;Pz",100,0,1,500,-4,4);
+	TH1D* Pp_old = new TH1D("Pp_old",500,0,5);
+	TH1D* Pp_new = new TH1D("Pp_new",500,0,5);
+	TH1D* Pp_new2 = new TH1D("Pp_new2",500,0,5);
+
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/"+filename+".root" );
@@ -494,7 +498,10 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			PRINT4VECTOR(lfjnew,1);
 			cout << "jpsi new 2"<<endl;
 			PRINT4VECTOR(jnew2,1);
-	
+
+			Pp_old->Fill( p_4vect_irf.P() );
+			Pp_new->Fill( pnew.P() );
+			Pp_new2->Fill( pnew2.P() );
 		} 
 		else{
 			TLorentzVector p_partner_4vect_irf;
