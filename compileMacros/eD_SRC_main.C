@@ -450,21 +450,21 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			double Ppx = Poff4vector.Px() - n_4vect_irf.Px();
 			double Ppy = Poff4vector.Py() - n_4vect_irf.Py();
 			double Ppz = Poff4vector.Pz() - n_4vect_irf.Pz();
-			Poff4vector.SetPxPyPzE(Ppx,Ppy,Ppz,sqrt(Ppx*Ppx+Ppy*Ppy+Ppz*Ppz+MASS_PROTON*MASS_PROTON) );
+			Pon4vectorNew.SetPxPyPzE(Ppx,Ppy,Ppz,sqrt(Ppx*Ppx+Ppy*Ppy+Ppz*Ppz+MASS_PROTON*MASS_PROTON) );
 
 			//solution 1 variables
 			qzkz = q_irf.Pz() - (n_4vect_irf.Pz());//qz-kz
 			numn = q_irf.E() - n_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
 			jx = j_4vect_irf.Px()+n_4vect_irf.Px()-(Ppx-p_4vect_irf.Px());
 			jy = j_4vect_irf.Py()+n_4vect_irf.Py()-(Ppy-p_4vect_irf.Py());
-			px = Ppx;
-			py = Ppy;
+			px = Pon4vectorNew.Px();
+			py = Pon4vectorNew.Py();
 			//end solution 1 variables
 			jz = getCorrJz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
 			pz = getCorrPz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
 
-			px_new = Ppx;
-			py_new = Ppy;
+			px_new = px;
+			py_new = py;
 			pz_new = pz;
 			pnew2.SetPxPyPzE(px_new,py_new,pz_new, sqrt( MASS_PROTON*MASS_PROTON + px_new*px_new + py_new*py_new + pz_new*pz_new));
 			
