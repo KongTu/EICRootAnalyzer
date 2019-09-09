@@ -432,8 +432,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 			EvsPz->Fill(testp.Pz(), testp.E());
 			EvsPzFix->Fill(testnew.Pz(), testnew.E());
-			Evsk->Fill(nk_event, testnew.E());
-			Pzvsk->Fill(nk_event, testnew.Pz());
+			Evsk->Fill(nk_event, pnew.E());
+			Pzvsk->Fill(nk_event, pnew.Pz());
 
 			cout << "Let's compare different kinematics method:" << endl;
 			cout << "proton old"<<endl;
