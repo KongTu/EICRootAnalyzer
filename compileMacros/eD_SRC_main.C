@@ -383,8 +383,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			double numn = q_irf.E() - n_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
 			double jx = j_4vect_irf.Px();
 			double jy = j_4vect_irf.Py();
-			double px = p_4vect_irf.Px();
-			double py = p_4vect_irf.Py();
+			double px = p_4vect_irf.Px()-n_4vect_irf.Px();
+			double py = p_4vect_irf.Py()-n_4vect_irf.Py();
 			//end solution 1 variables
 
 			//solution 2 variables
@@ -419,7 +419,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			TLorentzVector testnew = q_irf+d_beam_irf-jnew-pnew-n_4vect_irf;
 			cout << "check momentum conservation again, total change q+d-j-p'-n' should be 0 now: " << endl;
 			PRINT4VECTOR(testnew,1);
-
+		
 			TLorentzVector testlfnew = q_irf+d_beam_irf-lfjnew-lfpnew-n_4vect_irf;
 			cout << "check momentum conservation again in LF kinematics, total change q+d-j-p'-n' should be 0 too: " << endl;
 			PRINT4VECTOR(testlfnew,1);
@@ -443,9 +443,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			cout << "jpsi new lf"<<endl;
 			PRINT4VECTOR(lfjnew,1);
 	
-
-
-
 		} 
 		else{
 			TLorentzVector p_partner_4vect_irf;
