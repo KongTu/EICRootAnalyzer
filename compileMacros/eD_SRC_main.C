@@ -400,8 +400,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			double lfpz = getCorrPzLF(Ennz,Ennz2,nuqzmd,nuqzmd2,jx,jy,px,py,MASS_PROTON);
 			double lfjz = getCorrJzLF(Ennz,Ennz2,nuqzmd,nuqzmd2,jx,jy,px,py,MASS_PROTON);
 
-			double px_new = p_4vect_irf.Px();
-			double py_new = p_4vect_irf.Py();
+			double px_new = p_4vect_irf.Px()-n_4vect_irf.Px();
+			double py_new = p_4vect_irf.Py()-n_4vect_irf.Py();
 			double pz_new = pz;
 			pnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( MASS_PROTON*MASS_PROTON + px_new*px_new + py_new*py_new + pz_new*pz_new));
 			
