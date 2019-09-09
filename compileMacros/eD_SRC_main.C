@@ -381,8 +381,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			//solution 1 variables
 			double qzkz = q_irf.Pz() - (n_4vect_irf.Pz());
 			double numn = q_irf.E() - n_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
-			double jx = j_4vect_irf.Px();
-			double jy = j_4vect_irf.Py();
+			double jx = j_4vect_irf.Px()+n_4vect_irf.Px();
+			double jy = j_4vect_irf.Py()+n_4vect_irf.Py();
 			double px = p_4vect_irf.Px()-n_4vect_irf.Px();
 			double py = p_4vect_irf.Py()-n_4vect_irf.Py();
 			//end solution 1 variables
@@ -390,6 +390,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			double pz = getCorrPz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
 
 			//solution 2 variables
+			jx = j_4vect_irf.Px();
+			jy = j_4vect_irf.Py();
 			px = p_4vect_irf.Px();
 			py = p_4vect_irf.Py();
 			double Ennz = n_4vect_irf.E() + n_4vect_irf.Pz();
@@ -405,8 +407,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			double pz_new = pz;
 			pnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( MASS_PROTON*MASS_PROTON + px_new*px_new + py_new*py_new + pz_new*pz_new));
 			
-			double jx_new = j_4vect_irf.Px();
-			double jy_new = j_4vect_irf.Py();
+			double jx_new = j_4vect_irf.Px()+n_4vect_irf.Px();
+			double jy_new = j_4vect_irf.Py()+n_4vect_irf.Py();
 			double jz_new = jz;
 			jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 	
