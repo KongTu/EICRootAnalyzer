@@ -193,9 +193,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH2D* Pzvsk_old = new TH2D("Pzvsk_old",";k;Pz",100,0,1,500,-2,2);
 	TH2D* Evsk = new TH2D("Evsk",";k;E",100,0,1,500,-4,4);
 	TH2D* Pzvsk = new TH2D("Pzvsk",";k;Pz",100,0,1,500,-4,4);
-	TH1D* Pp_old = new TH1D("Pp_old",500,0,5);
-	TH1D* Pp_new = new TH1D("Pp_new",500,0,5);
-	TH1D* Pp_new2 = new TH1D("Pp_new2",500,0,5);
+	TH1D* Pp_old = new TH1D("Pp_old","",500,0,5);
+	TH1D* Pp_new = new TH1D("Pp_new","",500,0,5);
+	TH1D* Pp_new2 = new TH1D("Pp_new2","",500,0,5);
 
 
 	TChain *tree = new TChain("EICTree");
