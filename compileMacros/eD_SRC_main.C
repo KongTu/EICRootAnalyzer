@@ -410,6 +410,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			double jz_new = jz;
 			jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 	
+			px_new = p_4vect_irf.Px();
+			py_new = p_4vect_irf.Py();
 			pz_new = lfpz;
 			lfpnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( MASS_PROTON*MASS_PROTON + px_new*px_new + py_new*py_new + pz_new*pz_new));
 			
