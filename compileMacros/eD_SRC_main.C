@@ -381,7 +381,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			// PRINT4VECTOR(testp,1);
 
 			//solution 1 variables
-			double qzkz = q_irf.Pz() - (n_4vect_irf.Pz());
+			double qzkz = q_irf.Pz() - (n_4vect_irf.Pz());//qz-kz
 			double numn = q_irf.E() - n_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
 			double jx = j_4vect_irf.Px()+n_4vect_irf.Px();
 			double jy = j_4vect_irf.Py()+n_4vect_irf.Py();
@@ -392,10 +392,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			double pz = getCorrPz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
 
 			//solution 2 variables
-			// jx = j_4vect_irf.Px();
-			// jy = j_4vect_irf.Py();
-			// px = p_4vect_irf.Px();
-			// py = p_4vect_irf.Py();
 			double Ennz = n_4vect_irf.E() + n_4vect_irf.Pz();
 			double Ennz2 = n_4vect_irf.E() - n_4vect_irf.Pz();
 			double nuqzmd = q_irf.E()+q_irf.Pz()+MASS_DEUTERON;
@@ -429,8 +425,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			PRINT4VECTOR(testnew,1);
 		
 			TLorentzVector testlfnew = q_irf+d_beam_irf-lfjnew-lfpnew-n_4vect_irf;
-			// cout << "check momentum conservation again in LF kinematics, total change q+d-j-p'-n' should be 0 too: " << endl;
-			// PRINT4VECTOR(testlfnew,1);
+			cout << "check momentum conservation again in LF kinematics, total change q+d-j-p'-n' should be 0 too: " << endl;
+			PRINT4VECTOR(testlfnew,1);
 
 			EvsPz->Fill(testp.Pz(), testp.E());
 			EvsPzFix->Fill(testnew.Pz(), testnew.E());
@@ -439,19 +435,67 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			Evsk_old->Fill(nk_event, p_4vect_irf.E());
 			Pzvsk_old->Fill(nk_event, p_4vect_irf.Pz());
 
-			// cout << "Let's compare different kinematics method:" << endl;
-			// cout << "proton old"<<endl;
-			// PRINT4VECTOR(p_4vect_irf,1);
-			// cout << "proton new"<<endl;
-			// PRINT4VECTOR(pnew,1);
-			// cout << "proton new lf"<<endl;
-			// PRINT4VECTOR(lfpnew,1);
-			// cout << "jpsi old"<<endl;
-			// PRINT4VECTOR(j_4vect_irf,1);
-			// cout << "jpsi new"<<endl;
-			// PRINT4VECTOR(jnew,1);
-			// cout << "jpsi new lf"<<endl;
-			// PRINT4VECTOR(lfjnew,1);
+			
+
+
+			/*
+			- Start trying off-shell intermediate conditions
+			- Assume same proton and neutron mass. 
+			*/
+			double kmag = n_4vect_irf.P();
+			double MnuclOff = sqrt(0.25*MASS_DEUTERON*MASS_DEUTERON - kmag*kmag);
+			double PpOff = sqrt( MASS_PROTON*MASS_PROTON - MnuclOff*MnuclOff + p_4vect_irf.P()*p_4vect_irf.P() );
+			double Ptheta = p_4vect_irf.Theta();
+			double Pnewpt = PpOff*TMath::Sin(Ptheta);
+			TLorentzVector Poff4vector;Poff4vector.SetPtEtaPhiM(Pnewpt,p_4vect_irf.Eta(),p_4vect_irf.Phi(),MnuclOff);
+			TLorentzVector Pon4vectorNew; 
+			double Ppx = Poff4vector.Px() - n_4vect_irf.Px();
+			double Ppy = Poff4vector.Py() - n_4vect_irf.Py();
+			double Ppz = Poff4vector.Pz() - n_4vect_irf.Pz();
+			Poff4vector.SetPxPyPzE(Ppx,Ppy,Ppz,sqrt(Ppx*Ppx+Ppy*Ppy+Ppz*Ppz+MASS_PROTON*MASS_PROTON) );
+
+			//solution 1 variables
+			qzkz = q_irf.Pz() - (n_4vect_irf.Pz());//qz-kz
+			numn = q_irf.E() - n_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
+			jx = j_4vect_irf.Px()+n_4vect_irf.Px()-(Ppx-p_4vect_irf.Px());
+			jy = j_4vect_irf.Py()+n_4vect_irf.Py()-(Ppy-p_4vect_irf.Py());
+			px = Ppx;
+			py = Ppy;
+			//end solution 1 variables
+			jz = getCorrJz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
+			pz = getCorrPz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
+
+			px_new = Ppx;
+			py_new = Ppy;
+			pz_new = pz;
+			pnew2.SetPxPyPzE(px_new,py_new,pz_new, sqrt( MASS_PROTON*MASS_PROTON + px_new*px_new + py_new*py_new + pz_new*pz_new));
+			
+			double jx_new = jx;
+			double jy_new = jy;
+			double jz_new = jz;
+			jnew2.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
+	
+			TLorentzVector testnew2 = q_irf+d_beam_irf-jnew2-pnew2-n_4vect_irf;
+			cout << "check momentum conservation with off-shell intermediate states, total change q+d-j-p'-n' should be 0 now: " << endl;
+			PRINT4VECTOR(testnew2,1);
+
+			cout << "Let's compare different kinematics method:" << endl;
+			cout << "proton old"<<endl;
+			PRINT4VECTOR(p_4vect_irf,1);
+			cout << "proton new"<<endl;
+			PRINT4VECTOR(pnew,1);
+			cout << "proton new lf"<<endl;
+			PRINT4VECTOR(lfpnew,1);
+			cout << "proton new 2"<<endl;
+			PRINT4VECTOR(pnew2,1);
+			cout << "jpsi old"<<endl;
+			PRINT4VECTOR(j_4vect_irf,1);
+			cout << "jpsi new"<<endl;
+			PRINT4VECTOR(jnew,1);
+			cout << "jpsi new lf"<<endl;
+			PRINT4VECTOR(lfjnew,1);
+			cout << "jpsi new 2"<<endl;
+			PRINT4VECTOR(jnew2,1);
 	
 		} 
 		else{
