@@ -189,9 +189,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* d_k = new TH1D("d_k","d_k",300,-1,1);
 	TH2D* EvsPz = new TH2D("EvsPz",";pz;E",500,-0.01,0.01,500,-0.01,0.01);
 	TH2D* EvsPzFix = new TH2D("EvsPzFix",";pz;E",500,-0.01,0.01,500,-0.01,0.01);
-	TH2D* Evsk_old = new TH2D("Evsk_old",";k;E",100,0,1,500,0,2);
+	TH2D* Evsk_old = new TH2D("Evsk_old",";k;E",100,0,1,500,0,4);
 	TH2D* Pzvsk_old = new TH2D("Pzvsk_old",";k;Pz",100,0,1,500,-2,2);
-	TH2D* Evsk = new TH2D("Evsk",";k;E",100,0,1,500,0,2);
+	TH2D* Evsk = new TH2D("Evsk",";k;E",100,0,1,500,0,4);
 	TH2D* Pzvsk = new TH2D("Pzvsk",";k;Pz",100,0,1,500,-2,2);
 
 	TChain *tree = new TChain("EICTree");
@@ -434,9 +434,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 			EvsPz->Fill(testp.Pz(), testp.E());
 			EvsPzFix->Fill(testnew.Pz(), testnew.E());
-			Evsk->Fill(nk_event, pnew.E());
+			Evsk->Fill(nk_event, pnew.P());
 			Pzvsk->Fill(nk_event, pnew.Pz());
-			Evsk_old->Fill(nk_event, p_4vect_irf.E());
+			Evsk_old->Fill(nk_event, p_4vect_irf.P());
 			Pzvsk_old->Fill(nk_event, p_4vect_irf.Pz());
 
 			// cout << "Let's compare different kinematics method:" << endl;
