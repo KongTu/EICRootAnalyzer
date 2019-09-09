@@ -390,8 +390,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			double pz = getCorrPz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
 
 			//solution 2 variables
-			double px = p_4vect_irf.Px();
-			double py = p_4vect_irf.Py();
+			px = p_4vect_irf.Px();
+			py = p_4vect_irf.Py();
 			double Ennz = n_4vect_irf.E() + n_4vect_irf.Pz();
 			double Ennz2 = n_4vect_irf.E() - n_4vect_irf.Pz();
 			double nuqzmd = q_irf.E()+q_irf.Pz()+MASS_DEUTERON;
