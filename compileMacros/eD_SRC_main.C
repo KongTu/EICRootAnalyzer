@@ -262,6 +262,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		TLorentzVector p_4vect_irf, n_4vect_irf,j_4vect_irf,q_irf,d_beam_irf;
 		TLorentzVector jnew,pnew,nnew;
 		TLorentzVector lfjnew,lfpnew,lfnnew;
+		TLorentzVector jnew2,pnew2;
 
 		d_beam_irf = d_beam;
 
@@ -435,9 +436,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			Evsk_old->Fill(nk_event, p_4vect_irf.E());
 			Pzvsk_old->Fill(nk_event, p_4vect_irf.Pz());
 
-			
-
-
 			/*
 			- Start trying off-shell intermediate conditions
 			- Assume same proton and neutron mass. 
@@ -470,9 +468,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			pz_new = pz;
 			pnew2.SetPxPyPzE(px_new,py_new,pz_new, sqrt( MASS_PROTON*MASS_PROTON + px_new*px_new + py_new*py_new + pz_new*pz_new));
 			
-			double jx_new = jx;
-			double jy_new = jy;
-			double jz_new = jz;
+			jx_new = jx;
+			jy_new = jy;
+			jz_new = jz;
 			jnew2.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 	
 			TLorentzVector testnew2 = q_irf+d_beam_irf-jnew2-pnew2-n_4vect_irf;
