@@ -455,8 +455,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			//solution 1 variables
 			qzkz = q_irf.Pz() - (n_4vect_irf.Pz());//qz-kz
 			numn = q_irf.E() - n_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
-			jx = j_4vect_irf.Px()+n_4vect_irf.Px()-(Ppx-p_4vect_irf.Px());
-			jy = j_4vect_irf.Py()+n_4vect_irf.Py()-(Ppy-p_4vect_irf.Py());
+			jx = j_4vect_irf.Px()+n_4vect_irf.Px()-(Poff4vector.Px()-p_4vect_irf.Px());
+			jy = j_4vect_irf.Py()+n_4vect_irf.Py()-(Poff4vector.Py()-p_4vect_irf.Py());
 			px = Pon4vectorNew.Px();
 			py = Pon4vectorNew.Py();
 			//end solution 1 variables
