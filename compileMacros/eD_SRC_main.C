@@ -179,15 +179,10 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH2D* sPN_k = new TH2D("sPN_k",";t;s",200,0,1,sPN_nBins,sPN_bins);
 	TH1D* sPN = new TH1D("sPN","sPN",sPN_nBins,sPN_bins);
 	TH1D* sPN_4pt2 = new TH1D("sPN_4pt2","sPN_4pt2",200,0,10);
-	TH1D* sPN_Jpsi = new TH1D("sPN_Jpsi","sPN_Jpsi",sPN_nBins,sPN_bins);
 	TH1D* sPN_Jpsi_fix = new TH1D("sPN_Jpsi_fix","sPN_Jpsi_fix",sPN_nBins,sPN_bins);
-	TH1D* sPN_Jpsi_fix_noMass = new TH1D("sPN_Jpsi_fix_noMass","sPN_Jpsi_fix_noMass",sPN_nBins,sPN_bins);
 
 	TH1D* nk_truth = new TH1D("nk_truth","k (GeV/c)", nk_nBins, nk_bins);
 	TH1D* nk_spectator = new TH1D("nk_spectator",";k (GeV/c)", nk_nBins, nk_bins);
-	TH1D* nk_spectator_pt = new TH1D("nk_spectator_pt",";k (GeV/c)", nk_nBins, nk_bins);
-	TH1D* nk_allfinalstate = new TH1D("nk_allfinalstate",";k (GeV/c)", nk_nBins, nk_bins);
-	TH1D* d_k = new TH1D("d_k","d_k",300,-1,1);
 	TH2D* EvsPz = new TH2D("EvsPz",";pz;E",500,-0.01,0.01,500,-0.01,0.01);
 	TH2D* EvsPzFix = new TH2D("EvsPzFix",";pz;E",500,-0.01,0.01,500,-0.01,0.01);
 	TH1D* Pp_old = new TH1D("Pp_old","",500,0,5);
@@ -362,202 +357,158 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		h_trk->Fill( nParticles_process );
 		nRes->Fill( n_4vect_unsmear.E()-n_4vect.E(), n_4vect_unsmear.Theta()-n_4vect.Theta() );
 		
-		if( struckproton ){
-			TLorentzVector n_partner_4vect_irf;
-			n_partner_4vect_irf.SetPxPyPzE(-n_4vect_irf.Px(), -n_4vect_irf.Py(), -n_4vect_irf.Pz(), sqrt(n_4vect_irf.P()*n_4vect_irf.P()+MASS_PROTON*MASS_PROTON) );
-			//intrinsic Beagle n(k) distribution -> SNN distribution
-			sPN->Fill( (n_partner_4vect_irf+n_4vect_irf).Mag2() );
-			//approximation by spectator nucleon pt in the lab frame
-			sPN_4pt2->Fill( 4*n_4vect.Pt()*n_4vect.Pt() );
 
-			//use spectator only:
-			nk_spectator->Fill( n_4vect_irf.P() );
-			//use pt of the lab frame particle to determine k
-			TLorentzVector n;
-			n.SetPtEtaPhiM( n_4vect.Pt(), n_4vect.Eta(), n_4vect.Phi(), MASS_NEUTRON);
-			n.Boost(-b);
-			nk_spectator_pt->Fill( n.P() );
-
-			/*
-			fixing deuteron momentum nonconservation:
-			*/
-
-			TLorentzVector testp = q_irf+d_beam_irf-j_4vect_irf-p_4vect_irf-n_4vect_irf;
-	
-			//solution 1 variables
-			double qzkz = q_irf.Pz() - (n_4vect_irf.Pz());//qz-kz
-			double numn = q_irf.E() - n_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
-			double jx = j_4vect_irf.Px();
-			double jy = j_4vect_irf.Py();
-			double px = p_4vect_irf.Px();
-			double py = p_4vect_irf.Py();
-
-			//end solution 1 variables
-			double jz = getCorrJz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
-			double pz = getCorrPz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
-
-			double px_new = p_4vect_irf.Px();
-			double py_new = p_4vect_irf.Py();
-			double pz_new = pz;
-			pnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( MASS_PROTON*MASS_PROTON + px_new*px_new + py_new*py_new + pz_new*pz_new));
-			
-			double jx_new = j_4vect_irf.Px();
-			double jy_new = j_4vect_irf.Py();
-			double jz_new = jz;
-			jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
-		
-			TLorentzVector testnew1 = q_irf+d_beam_irf-jnew-pnew-n_4vect_irf;
-			cout << "check momentum conservation approach 1, total change q+d-j-p'-n' should be 0 now: " << endl;
-			PRINT4VECTOR(testnew1,1);
-
-			//solution 2 variables
-			double Ennz = n_4vect_irf.E() + n_4vect_irf.Pz();
-			double Ennz2 = n_4vect_irf.E() - n_4vect_irf.Pz();
-			double nuqzmd = q_irf.E()+q_irf.Pz()+MASS_DEUTERON;
-			double nuqzmd2 = q_irf.E()-q_irf.Pz()+MASS_DEUTERON;
-			jx = j_4vect_irf.Px()+n_4vect_irf.Px();
-			jy = j_4vect_irf.Py()+n_4vect_irf.Py();
-			px = p_4vect_irf.Px()-n_4vect_irf.Px();
-			py = p_4vect_irf.Py()-n_4vect_irf.Py();
-			//end solution 2 variables
-			double lfpz = getCorrPzLF(Ennz,Ennz2,nuqzmd,nuqzmd2,jx,jy,px,py,MASS_PROTON);
-			double lfjz = getCorrJzLF(Ennz,Ennz2,nuqzmd,nuqzmd2,jx,jy,px,py,MASS_PROTON);
-			//lightfront method, the same as the previous one
-			px_new = p_4vect_irf.Px()-n_4vect_irf.Px();
-			py_new = p_4vect_irf.Py()-n_4vect_irf.Py();
-			pz_new = lfpz;
-			lfpnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( MASS_PROTON*MASS_PROTON + px_new*px_new + py_new*py_new + pz_new*pz_new));
-			
-			jx_new = j_4vect_irf.Px()+n_4vect_irf.Px();
-			jy_new = j_4vect_irf.Py()+n_4vect_irf.Py();
-			jz_new = lfjz;
-			lfjnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
-
-			TLorentzVector testnew2 = q_irf+d_beam_irf-lfjnew-lfpnew-n_4vect_irf;
-			cout << "check momentum conservation approach 2, total change q+d-j-p'-n' should be 0 now: " << endl;
-			PRINT4VECTOR(testnew2,1);
-
-			EvsPz->Fill(testp.Pz(), testp.E());
-			EvsPzFix->Fill(testnew2.Pz(), testnew2.E());
-
-			/*
-			- Start trying off-shell intermediate conditions
-			- Assume same proton and neutron mass. 
-			*/
-			double kmag = n_4vect_irf.P();
-			double MnuclOff = sqrt(0.25*MASS_DEUTERON*MASS_DEUTERON - kmag*kmag);
-			double PpOff = sqrt( MASS_PROTON*MASS_PROTON - MnuclOff*MnuclOff + p_4vect_irf.P()*p_4vect_irf.P() );
-			double Ptheta = p_4vect_irf.Theta();
-			double Pnewpt = PpOff*TMath::Sin(Ptheta);
-			TLorentzVector Poff4vector;Poff4vector.SetPtEtaPhiM(Pnewpt,p_4vect_irf.Eta(),p_4vect_irf.Phi(),MnuclOff);
-			TLorentzVector Pon4vectorNew; 
-			double Ppx = Poff4vector.Px() - n_4vect_irf.Px();
-			double Ppy = Poff4vector.Py() - n_4vect_irf.Py();
-			double Ppz = Poff4vector.Pz() - n_4vect_irf.Pz();
-			Pon4vectorNew.SetPxPyPzE(Ppx,Ppy,Ppz,sqrt(Ppx*Ppx+Ppy*Ppy+Ppz*Ppz+MASS_PROTON*MASS_PROTON) );
-
-			//solution 1 variables
-			qzkz = q_irf.Pz() - (n_4vect_irf.Pz());//qz-kz
-			numn = q_irf.E() - n_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
-			jx = j_4vect_irf.Px()+n_4vect_irf.Px()-(Poff4vector.Px()-p_4vect_irf.Px());
-			jy = j_4vect_irf.Py()+n_4vect_irf.Py()-(Poff4vector.Py()-p_4vect_irf.Py());
-			px = Pon4vectorNew.Px();
-			py = Pon4vectorNew.Py();
-			//end solution 1 variables
-			jz = getCorrJz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
-			pz = getCorrPz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
-
-			px_new = px;
-			py_new = py;
-			pz_new = pz;
-			pnew2.SetPxPyPzE(px_new,py_new,pz_new, sqrt( MASS_PROTON*MASS_PROTON + px_new*px_new + py_new*py_new + pz_new*pz_new));
-			
-			jx_new = jx;
-			jy_new = jy;
-			jz_new = jz;
-			jnew2.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
-	
-			TLorentzVector testnew3 = q_irf+d_beam_irf-jnew2-pnew2-n_4vect_irf;
-			cout << "check momentum conservation approach 3, total change q+d-j-p'-n' should be 0 now: " << endl;
-			PRINT4VECTOR(testnew3,1);
-
-			cout << "Let's compare different kinematics method:" << endl;
-			cout << "proton old"<<endl;
-			PRINT4VECTOR(p_4vect_irf,1);
-			cout << "proton new"<<endl;
-			PRINT4VECTOR(pnew,1);
-			cout << "proton new lf"<<endl;
-			PRINT4VECTOR(lfpnew,1);
-			cout << "proton new 2"<<endl;
-			PRINT4VECTOR(pnew2,1);
-			cout << "jpsi old"<<endl;
-			PRINT4VECTOR(j_4vect_irf,1);
-			cout << "jpsi new"<<endl;
-			PRINT4VECTOR(jnew,1);
-			cout << "jpsi new lf"<<endl;
-			PRINT4VECTOR(lfjnew,1);
-			cout << "jpsi new 2"<<endl;
-			PRINT4VECTOR(jnew2,1);
-
-			Pp_old->Fill( p_4vect_irf.P() );
-			Pp_new->Fill( pnew.P() );
-			Pp_new1->Fill( lfpnew.P() );
-			Pp_new2->Fill( pnew2.P() );
-		} 
+		TLorentzVector struck_4vect_irf, spectator_4vect_irf;
+		double struck_mass = MASS_PROTON;
+		double spectator_mass = MASS_NEUTRON;
+		if( struckproton ) {
+			struck_4vect_irf = p_4vect_irf;
+			spectator_4vect_irf = n_4vect_irf;
+			struck_mass = MASS_PROTON;
+			spectator_mass = MASS_NEUTRON;
+		}
 		else{
-			TLorentzVector p_partner_4vect_irf;
-			p_partner_4vect_irf.SetPxPyPzE(-p_4vect_irf.Px(), -p_4vect_irf.Py(), -p_4vect_irf.Pz(), sqrt(p_4vect_irf.P()*p_4vect_irf.P()+MASS_NEUTRON*MASS_NEUTRON) );
-			sPN->Fill( (p_partner_4vect_irf+p_4vect_irf).Mag2() );
-			sPN_4pt2->Fill( 4*p_4vect.Pt()*p_4vect.Pt() );
-
-			nk_spectator->Fill( p_4vect_irf.P() );
-			//use pt of the lab frame particle to determine k
-			TLorentzVector p;
-			p.SetPtEtaPhiM( p_4vect.Pt(), p_4vect.Eta(), p_4vect.Phi(), MASS_PROTON);
-			p.Boost(-b);
-			nk_spectator_pt->Fill( p.P() );
-
-			//starting the fix
-			double qzkz = q_irf.Pz() - ( p_4vect_irf.Pz() );
-			double numn = q_irf.E() - p_4vect_irf.E(); //sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
-			double jx = j_4vect_irf.Px();
-			double jy = j_4vect_irf.Py();
-			double nx = n_4vect_irf.Px();
-			double ny = n_4vect_irf.Py();
-
-			double jz = getCorrJz(qzkz,numn,jx,jy,nx,ny,MASS_NEUTRON);
-			double nz = getCorrPz(qzkz,numn,jx,jy,nx,ny,MASS_NEUTRON);
-		
-			double nx_new = n_4vect_irf.Px();
-			double ny_new = n_4vect_irf.Py();
-			double nz_new = nz;
-			nnew.SetPxPyPzE(nx_new,ny_new,nz_new, sqrt( MASS_NEUTRON*MASS_NEUTRON + nx_new*nx_new + ny_new*ny_new + nz_new*nz_new));
-			
-			double jx_new = j_4vect_irf.Px();
-			double jy_new = j_4vect_irf.Py();
-			double jz_new = jz;
-			jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
-	
-			TLorentzVector testnew = q_irf+d_beam_irf-jnew-nnew-p_4vect_irf;
-			EvsPzFix->Fill(testnew.Pz(), testnew.E());
-		
+			struck_4vect_irf = n_4vect_irf;
+			spectator_4vect_irf = p_4vect_irf;
+			struck_mass = MASS_NEUTRON;
+			spectator_mass = MASS_PROTON;
 		}
 
-		//inclusive J/psi measurement, convolution of exp and intrinsic n(k)
-		sPN_Jpsi->Fill( (p_4vect_irf+n_4vect_irf).Mag2() );
-		//remove dependence of Q2 and Jpsi production
-		sPN_Jpsi_fix->Fill( (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2() );
-		nucleon_t->Fill( (p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2() );
-		sPN_t->Fill((p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2(), (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2());
-		sPN_k->Fill(nk_event, (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2());
-
+		//use spectator only:
+		nk_spectator->Fill( spectator_4vect_irf.P() );
 		
+		/*
+		fixing deuteron momentum nonconservation:
+		*/
+
+		TLorentzVector testp = q_irf+d_beam_irf-j_4vect_irf-struck_4vect_irf-spectator_4vect_irf;
+
+		//approach 1
+		double qzkz = q_irf.Pz() - (spectator_4vect_irf.Pz());//qz-kz
+		double numn = q_irf.E() - spectator_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
+		double jx = j_4vect_irf.Px();
+		double jy = j_4vect_irf.Py();
+		double px = struck_4vect_irf.Px();
+		double py = struck_4vect_irf.Py();
+
+		double jz = getCorrJz(qzkz,numn,jx,jy,px,py,struck_mass);
+		double pz = getCorrPz(qzkz,numn,jx,jy,px,py,struck_mass);
+
+		double px_new = struck_4vect_irf.Px();
+		double py_new = struck_4vect_irf.Py();
+		double pz_new = pz;
+		pnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( struck_mass*struck_mass + px_new*px_new + py_new*py_new + pz_new*pz_new));
+		
+		double jx_new = j_4vect_irf.Px();
+		double jy_new = j_4vect_irf.Py();
+		double jz_new = jz;
+		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
+	
+		//approach 2
+		double Ennz = spectator_4vect_irf.E() + spectator_4vect_irf.Pz();
+		double Ennz2 = spectator_4vect_irf.E() - spectator_4vect_irf.Pz();
+		double nuqzmd = q_irf.E()+q_irf.Pz()+MASS_DEUTERON;
+		double nuqzmd2 = q_irf.E()-q_irf.Pz()+MASS_DEUTERON;
+		jx = j_4vect_irf.Px()+spectator_4vect_irf.Px();
+		jy = j_4vect_irf.Py()+spectator_4vect_irf.Py();
+		px = struck_4vect_irf.Px()-spectator_4vect_irf.Px();
+		py = struck_4vect_irf.Py()-spectator_4vect_irf.Py();
+
+		double lfpz = getCorrPzLF(Ennz,Ennz2,nuqzmd,nuqzmd2,jx,jy,px,py,struck_mass);
+		double lfjz = getCorrJzLF(Ennz,Ennz2,nuqzmd,nuqzmd2,jx,jy,px,py,struck_mass);
+
+		px_new = struck_4vect_irf.Px()-spectator_4vect_irf.Px();
+		py_new = struck_4vect_irf.Py()-spectator_4vect_irf.Py();
+		pz_new = lfpz;
+		lfpnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( struck_mass*struck_mass + px_new*px_new + py_new*py_new + pz_new*pz_new));
+		
+		jx_new = j_4vect_irf.Px()+spectator_4vect_irf.Px();
+		jy_new = j_4vect_irf.Py()+spectator_4vect_irf.Py();
+		jz_new = lfjz;
+		lfjnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
+
+		TLorentzVector testnew2 = q_irf+d_beam_irf-lfjnew-lfpnew-spectator_4vect_irf;
+		cout << "check momentum conservation approach 2, total change q+d-j-p'-n' should be 0 now: " << endl;
+		PRINT4VECTOR(testnew2,1);
+
+		EvsPz->Fill(testp.Pz(), testp.E());
+		EvsPzFix->Fill(testnew2.Pz(), testnew2.E());
+
+		//approach 3
+
+		/*
+		- Start trying off-shell intermediate conditions
+		- Assume same proton and neutron mass. 
+		*/
+		double kmag = spectator_4vect_irf.P();
+		double MnuclOff = sqrt(0.25*MASS_DEUTERON*MASS_DEUTERON - kmag*kmag);
+		double PpOff = sqrt( struck_mass*struck_mass - MnuclOff*MnuclOff + struck_4vect_irf.P()*struck_4vect_irf.P() );
+		double Ptheta = struck_4vect_irf.Theta();
+		double Pnewpt = PpOff*TMath::Sin(Ptheta);
+		TLorentzVector Poff4vector;Poff4vector.SetPtEtaPhiM(Pnewpt,struck_4vect_irf.Eta(),struck_4vect_irf.Phi(),MnuclOff);
+		TLorentzVector Pon4vectorNew; 
+		double Ppx = Poff4vector.Px() - spectator_4vect_irf.Px();
+		double Ppy = Poff4vector.Py() - spectator_4vect_irf.Py();
+		double Ppz = Poff4vector.Pz() - spectator_4vect_irf.Pz();
+		Pon4vectorNew.SetPxPyPzE(Ppx,Ppy,Ppz,sqrt(Ppx*Ppx+Ppy*Ppy+Ppz*Ppz+struck_mass*struck_mass) );
+
+		qzkz = q_irf.Pz() - (spectator_4vect_irf.Pz());//qz-kz
+		numn = q_irf.E() - spectator_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
+		jx = j_4vect_irf.Px()+spectator_4vect_irf.Px()-(Poff4vector.Px()-struck_4vect_irf.Px());
+		jy = j_4vect_irf.Py()+spectator_4vect_irf.Py()-(Poff4vector.Py()-struck_4vect_irf.Py());
+		px = Pon4vectorNew.Px();
+		py = Pon4vectorNew.Py();
+
+		jz = getCorrJz(qzkz,numn,jx,jy,px,py,struck_mass);
+		pz = getCorrPz(qzkz,numn,jx,jy,px,py,struck_mass);
+
+		px_new = px;
+		py_new = py;
+		pz_new = pz;
+		pnew2.SetPxPyPzE(px_new,py_new,pz_new, sqrt( struck_mass*struck_mass + px_new*px_new + py_new*py_new + pz_new*pz_new));
+		
+		jx_new = jx;
+		jy_new = jy;
+		jz_new = jz;
+		jnew2.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
+
+		TLorentzVector testnew3 = q_irf+d_beam_irf-jnew2-pnew2-spectator_4vect_irf;
+		cout << "check momentum conservation approach 3, total change q+d-j-p'-n' should be 0 now: " << endl;
+		PRINT4VECTOR(testnew3,1);
+
+		cout << "Let's compare different kinematics method:" << endl;
+		cout << "proton old"<<endl;
+		PRINT4VECTOR(struck_4vect_irf,1);
+		cout << "proton new"<<endl;
+		PRINT4VECTOR(pnew,1);
+		cout << "proton new lf"<<endl;
+		PRINT4VECTOR(lfpnew,1);
+		cout << "proton new 2"<<endl;
+		PRINT4VECTOR(pnew2,1);
+		cout << "jpsi old"<<endl;
+		PRINT4VECTOR(j_4vect_irf,1);
+		cout << "jpsi new"<<endl;
+		PRINT4VECTOR(jnew,1);
+		cout << "jpsi new lf"<<endl;
+		PRINT4VECTOR(lfjnew,1);
+		cout << "jpsi new 2"<<endl;
+		PRINT4VECTOR(jnew2,1);
+
+		Pp_old->Fill( struck_4vect_irf.P() );
+		Pp_new->Fill( pnew.P() );
+		Pp_new1->Fill( lfpnew.P() );
+		Pp_new2->Fill( pnew2.P() );
+		
+		sPN_Jpsi_fix->Fill( (pnew2+spectator_4vect_irf+jnew2-q_irf).Mag2() );
+		nucleon_t->Fill( (pnew2+spectator_4vect_irf - d_beam_irf).Mag2() );
+		sPN_t->Fill((pnew2+spectator_4vect_irf - d_beam_irf).Mag2(), (pnew2+spectator_4vect_irf+jnew2-q_irf).Mag2());
+		sPN_k->Fill(nk_event, (pnew2+spectator_4vect_irf+jnew2-q_irf).Mag2());
+
 		/*This wouldn't work because of the offshell mass*/
 		// double Epn = pn.E();
 		// double EpnRed2 = Epn*Epn - MASS_NEUTRON*MASS_NEUTRON - MASS_PROTON*MASS_PROTON; 
 		// double k = sqrt( Epn*Epn/4. - MASS_NEUTRON*MASS_NEUTRON );//use proton mass to simplify
 		
-
 	}
 
 	output->Write();
