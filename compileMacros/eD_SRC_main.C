@@ -395,6 +395,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			double jy = j_4vect_irf.Py();
 			double px = p_4vect_irf.Px();
 			double py = p_4vect_irf.Py();
+
 			//end solution 1 variables
 			double jz = getCorrJz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
 			double pz = getCorrPz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
@@ -463,6 +464,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			double Ppz = Poff4vector.Pz() - n_4vect_irf.Pz();
 			Pon4vectorNew.SetPxPyPzE(Ppx,Ppy,Ppz,sqrt(Ppx*Ppx+Ppy*Ppy+Ppz*Ppz+MASS_PROTON*MASS_PROTON) );
 
+			//solution 1 variables
 			qzkz = q_irf.Pz() - (n_4vect_irf.Pz());//qz-kz
 			numn = q_irf.E() - n_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
 			jx = j_4vect_irf.Px()+n_4vect_irf.Px()-(Poff4vector.Px()-p_4vect_irf.Px());
@@ -556,15 +558,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		nucleon_t->Fill( (p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2() );
 		sPN_t->Fill((p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2(), (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2());
 		sPN_k->Fill(nk_event, (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2());
-		//use all final state particles:
-		TLorentzVector pn;
-		if( struckproton ){
-			pn = pnew+n_4vect_irf+jnew-q_irf;
-		}
-		else{
-			pn = p_4vect_irf+nnew+jnew-q_irf;
-		}
 
+		
 		/*This wouldn't work because of the offshell mass*/
 		// double Epn = pn.E();
 		// double EpnRed2 = Epn*Epn - MASS_NEUTRON*MASS_NEUTRON - MASS_PROTON*MASS_PROTON; 
