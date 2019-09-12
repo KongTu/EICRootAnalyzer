@@ -503,10 +503,10 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		Pp_new1->Fill( lfpnew.P() );
 		Pp_new2->Fill( pnew2.P() );
 		
-		sPN_Jpsi_fix->Fill( (struck_4vect_irf+spectator_4vect_irf+jnew2-q_irf).Mag2() );
+		sPN_Jpsi_fix->Fill( (struck_4vect_irf+spectator_4vect_irf+j_4vect_irf-q_irf).Mag2() );
 		nucleon_t->Fill( (struck_4vect_irf+spectator_4vect_irf - d_beam_irf).Mag2() );
-		sPN_t->Fill((struck_4vect_irf+spectator_4vect_irf - d_beam_irf).Mag2(), (struck_4vect_irf+spectator_4vect_irf+jnew2-q_irf).Mag2());
-		sPN_k->Fill(nk_event, (struck_4vect_irf+spectator_4vect_irf+jnew2-q_irf).Mag2());
+		sPN_t->Fill((struck_4vect_irf+spectator_4vect_irf - d_beam_irf).Mag2(), (struck_4vect_irf+spectator_4vect_irf+j_4vect_irf-q_irf).Mag2());
+		sPN_k->Fill(nk_event, (struck_4vect_irf+spectator_4vect_irf+j_4vect_irf-q_irf).Mag2());
 
 		/*This wouldn't work because of the offshell mass*/
 		// double Epn = pn.E();
