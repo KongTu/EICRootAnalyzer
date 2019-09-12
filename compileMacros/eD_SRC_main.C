@@ -176,10 +176,10 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH2D* nRes = new TH2D("nRes","",60,-30,30,20,-0.1,0.1);
 	TH1D* nucleon_t = new TH1D("nucleon_t","nucleon_t",200,-10,10);
 	TH2D* sPN_t = new TH2D("sPN_t",";t;s",200,-10,10,sPN_nBins,sPN_bins);
-	TH2D* sPN_k = new TH2D("sPN_k",";t;s",200,0,1,sPN_nBins,sPN_bins);
+	TH2D* sPN_k = new TH2D("sPN_k",";k;s",200,0,1,sPN_nBins,sPN_bins);
 	TH1D* sPN = new TH1D("sPN","sPN",sPN_nBins,sPN_bins);
 	TH1D* sPN_4pt2 = new TH1D("sPN_4pt2","sPN_4pt2",200,0,10);
-	TH1D* sPN_Jpsi_fix = new TH1D("sPN_Jpsi_fix","sPN_Jpsi_fix",sPN_nBins,sPN_bins);
+	TH2D* sPN_4pt2_k = new TH2D("sPN_4pt2_k",";k;4p^{2}_{T}",200,0,1,200,0,10);
 
 	TH1D* nk_truth = new TH1D("nk_truth","k (GeV/c)", nk_nBins, nk_bins);
 	TH1D* nk_spectator = new TH1D("nk_spectator",";k (GeV/c)", nk_nBins, nk_bins);
@@ -189,7 +189,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* Pp_new = new TH1D("Pp_new","",500,0,5);
 	TH1D* Pp_new1 = new TH1D("Pp_new1","",500,0,5);
 	TH1D* Pp_new2 = new TH1D("Pp_new2","",500,0,5);
-
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/"+filename+".root" );
@@ -476,11 +475,12 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 		TLorentzVector pn_final = pnew2+spectator_4vect_irf;
 		
-		sPN_Jpsi_fix->Fill( pn_final.Mag2() );
+		sPN->Fill( pn_final.Mag2() );
+		sPN_4pt2->Fill( 4*spectator_4vect_irf.Pt()*spectator_4vect_irf.Pt() );//4*spectator pt**2
 		nucleon_t->Fill( (pn_final - d_beam_irf).Mag2() );
 		sPN_t->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
 		sPN_k->Fill(nk_event, pn_final.Mag2());
-
+		sPN_4pt2_k->Fill(nk_event, 4*spectator_4vect_irf.Pt()*spectator_4vect_irf.Pt() );
 	}
 
 	output->Write();
