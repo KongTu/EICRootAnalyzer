@@ -478,7 +478,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		nnew3.SetPxPyPzE(spectator_Px,spectator_Py,spectator_Pz,sqrt(spectator_Px*spectator_Px+spectator_Py*spectator_Py+spectator_Pz*spectator_Pz+spectator_mass*spectator_mass));
 		
 		qzkz = q_irf.Pz() - spectator_Pz;
-		numn = q_irf.E() - sqrt(spectator_Px*spectator_Px+spectator_Py*spectator_Py+spectator_Pz*spectator_Pz+spectator_mass*spectator_mass);
+		numn = q_irf.E() - nnew3.E();
 		jx = j_4vect_irf.Px()+spectator_Px-(Poff4vector.Px()-struck_4vect_irf.Px());
 		jy = j_4vect_irf.Py()+spectator_Py-(Poff4vector.Py()-struck_4vect_irf.Py());
 		px = Pon4vectorNew.Px()-kick_x/2.0;
@@ -498,7 +498,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		jnew3.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
 		cout << "check momentum conservation approach 4, total change q+d-j-p'-n' should be 0 now: " << endl;
-		TLorentzVector testnew3 = q_irf+d_beam_irf-jnew3-pnew3-spectator_4vect_irf;
+		TLorentzVector testnew3 = q_irf+d_beam_irf-jnew3-pnew3-nnew3;
 		PRINT4VECTOR(testnew3,1);
 
 		cout << "Let's compare different kinematics method:" << endl;
