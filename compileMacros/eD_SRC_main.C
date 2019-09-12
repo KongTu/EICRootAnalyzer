@@ -38,6 +38,127 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
    return boost;
 }
 
+//mathematica one of the two solutions are physical.
+Double_t getCorrJz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Double_t px, Double_t py, Double_t Mp){
+
+	double Md = MASS_DEUTERON;
+	double Mj = MASS_JPSI;
+
+	double finalJz = (qzkz*(TMath::Power(jx,2) + TMath::Power(jy,2) + TMath::Power(Mj,2) - TMath::Power(Mp,2) + TMath::Power(Md + numn,2) - 
+        TMath::Power(px,2) - TMath::Power(py,2) - TMath::Power(qzkz,2)) - 
+     sqrt(TMath::Power(Md + numn,2)*(TMath::Power(jx,4) + TMath::Power(jy,4) + TMath::Power(Md,4) - 
+         2*TMath::Power(Md,2)*TMath::Power(Mj,2) + TMath::Power(Mj,4) - 2*TMath::Power(Md,2)*TMath::Power(Mp,2) - 
+         2*TMath::Power(Mj,2)*TMath::Power(Mp,2) + TMath::Power(Mp,4) + 4*TMath::Power(Md,3)*numn - 
+         4*Md*TMath::Power(Mj,2)*numn - 4*Md*TMath::Power(Mp,2)*numn + 
+         6*TMath::Power(Md,2)*TMath::Power(numn,2) - 2*TMath::Power(Mj,2)*TMath::Power(numn,2) - 
+         2*TMath::Power(Mp,2)*TMath::Power(numn,2) + 4*Md*TMath::Power(numn,3) + TMath::Power(numn,4) - 
+         2*TMath::Power(Md,2)*TMath::Power(px,2) - 2*TMath::Power(Mj,2)*TMath::Power(px,2) + 
+         2*TMath::Power(Mp,2)*TMath::Power(px,2) - 4*Md*numn*TMath::Power(px,2) - 
+         2*TMath::Power(numn,2)*TMath::Power(px,2) + TMath::Power(px,4) - 2*TMath::Power(Md,2)*TMath::Power(py,2) - 
+         2*TMath::Power(Mj,2)*TMath::Power(py,2) + 2*TMath::Power(Mp,2)*TMath::Power(py,2) - 
+         4*Md*numn*TMath::Power(py,2) - 2*TMath::Power(numn,2)*TMath::Power(py,2) + 
+         2*TMath::Power(px,2)*TMath::Power(py,2) + TMath::Power(py,4) + 
+         2*(TMath::Power(Mj,2) + TMath::Power(Mp,2) - TMath::Power(Md + numn,2) + TMath::Power(px,2) + 
+            TMath::Power(py,2))*TMath::Power(qzkz,2) + TMath::Power(qzkz,4) - 
+         2*TMath::Power(jy,2)*(-TMath::Power(Mj,2) + TMath::Power(Mp,2) + TMath::Power(Md + numn,2) + 
+            TMath::Power(px,2) + TMath::Power(py,2) - TMath::Power(qzkz,2)) + 
+         2*TMath::Power(jx,2)*(TMath::Power(jy,2) + TMath::Power(Mj,2) - TMath::Power(Mp,2) - 
+            TMath::Power(Md + numn,2) - TMath::Power(px,2) - TMath::Power(py,2) + TMath::Power(qzkz,2)))))/
+   (2.*(Md + numn - qzkz)*(Md + numn + qzkz));
+
+   return finalJz;
+}
+
+Double_t getCorrPz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Double_t px, Double_t py, Double_t Mp){
+
+	double Md = MASS_DEUTERON;
+	double Mj = MASS_JPSI;
+
+	double finalPz = (qzkz*(-TMath::Power(jx,2) - TMath::Power(jy,2) - TMath::Power(Mj,2) + TMath::Power(Mp,2) + TMath::Power(Md + numn,2) + 
+        TMath::Power(px,2) + TMath::Power(py,2) - TMath::Power(qzkz,2)) + 
+     sqrt(TMath::Power(Md + numn,2)*(TMath::Power(jx,4) + TMath::Power(jy,4) + TMath::Power(Md,4) - 
+         2*TMath::Power(Md,2)*TMath::Power(Mj,2) + TMath::Power(Mj,4) - 2*TMath::Power(Md,2)*TMath::Power(Mp,2) - 
+         2*TMath::Power(Mj,2)*TMath::Power(Mp,2) + TMath::Power(Mp,4) + 4*TMath::Power(Md,3)*numn - 
+         4*Md*TMath::Power(Mj,2)*numn - 4*Md*TMath::Power(Mp,2)*numn + 
+         6*TMath::Power(Md,2)*TMath::Power(numn,2) - 2*TMath::Power(Mj,2)*TMath::Power(numn,2) - 
+         2*TMath::Power(Mp,2)*TMath::Power(numn,2) + 4*Md*TMath::Power(numn,3) + TMath::Power(numn,4) - 
+         2*TMath::Power(Md,2)*TMath::Power(px,2) - 2*TMath::Power(Mj,2)*TMath::Power(px,2) + 
+         2*TMath::Power(Mp,2)*TMath::Power(px,2) - 4*Md*numn*TMath::Power(px,2) - 
+         2*TMath::Power(numn,2)*TMath::Power(px,2) + TMath::Power(px,4) - 2*TMath::Power(Md,2)*TMath::Power(py,2) - 
+         2*TMath::Power(Mj,2)*TMath::Power(py,2) + 2*TMath::Power(Mp,2)*TMath::Power(py,2) - 
+         4*Md*numn*TMath::Power(py,2) - 2*TMath::Power(numn,2)*TMath::Power(py,2) + 
+         2*TMath::Power(px,2)*TMath::Power(py,2) + TMath::Power(py,4) + 
+         2*(TMath::Power(Mj,2) + TMath::Power(Mp,2) - TMath::Power(Md + numn,2) + TMath::Power(px,2) + 
+            TMath::Power(py,2))*TMath::Power(qzkz,2) + TMath::Power(qzkz,4) - 
+         2*TMath::Power(jy,2)*(-TMath::Power(Mj,2) + TMath::Power(Mp,2) + TMath::Power(Md + numn,2) + 
+            TMath::Power(px,2) + TMath::Power(py,2) - TMath::Power(qzkz,2)) + 
+         2*TMath::Power(jx,2)*(TMath::Power(jy,2) + TMath::Power(Mj,2) - TMath::Power(Mp,2) - 
+            TMath::Power(Md + numn,2) - TMath::Power(px,2) - TMath::Power(py,2) + TMath::Power(qzkz,2)))))/
+   (2.*(Md + numn - qzkz)*(Md + numn + qzkz));
+
+   return finalPz;
+}
+
+//solution 2 using lightcone kinematics
+Double_t getCorrPzLF(Double_t Ennz, Double_t Ennz2, Double_t nuqzmd, Double_t nuqzmd2, Double_t jx, Double_t jy, Double_t px, Double_t py, Double_t Mp){
+
+	double Mj = MASS_JPSI;
+
+	double finalPz = ((-Ennz + Ennz2 + nuqzmd - nuqzmd2)*
+      (-TMath::Power(jx,2) - TMath::Power(jy,2) - TMath::Power(Mj,2) + TMath::Power(Mp,2) + 
+        (Ennz - nuqzmd)*(Ennz2 - nuqzmd2) + TMath::Power(px,2) + TMath::Power(py,2)) + 
+     sqrt(TMath::Power(Ennz + Ennz2 - nuqzmd - nuqzmd2,2)*
+       (TMath::Power(jx,4) + TMath::Power(jy,4) + 2*TMath::Power(jy,2)*TMath::Power(Mj,2) + TMath::Power(Mj,4) - 
+         2*TMath::Power(jy,2)*TMath::Power(Mp,2) - 2*TMath::Power(Mj,2)*TMath::Power(Mp,2) + TMath::Power(Mp,4) + 
+         2*Ennz2*TMath::Power(jy,2)*nuqzmd + 2*Ennz2*TMath::Power(Mj,2)*nuqzmd + 
+         2*Ennz2*TMath::Power(Mp,2)*nuqzmd + TMath::Power(Ennz2,2)*TMath::Power(nuqzmd,2) + 
+         TMath::Power(Ennz,2)*TMath::Power(Ennz2 - nuqzmd2,2) - 2*TMath::Power(jy,2)*nuqzmd*nuqzmd2 - 
+         2*TMath::Power(Mj,2)*nuqzmd*nuqzmd2 - 2*TMath::Power(Mp,2)*nuqzmd*nuqzmd2 - 
+         2*Ennz2*TMath::Power(nuqzmd,2)*nuqzmd2 + TMath::Power(nuqzmd,2)*TMath::Power(nuqzmd2,2) - 
+         2*TMath::Power(jy,2)*TMath::Power(px,2) - 2*TMath::Power(Mj,2)*TMath::Power(px,2) + 
+         2*TMath::Power(Mp,2)*TMath::Power(px,2) + 2*Ennz2*nuqzmd*TMath::Power(px,2) - 
+         2*nuqzmd*nuqzmd2*TMath::Power(px,2) + TMath::Power(px,4) + 
+         2*(-TMath::Power(jy,2) - TMath::Power(Mj,2) + TMath::Power(Mp,2) + Ennz2*nuqzmd - 
+            nuqzmd*nuqzmd2 + TMath::Power(px,2))*TMath::Power(py,2) + TMath::Power(py,4) + 
+         2*TMath::Power(jx,2)*(TMath::Power(jy,2) + TMath::Power(Mj,2) - TMath::Power(Mp,2) + Ennz2*nuqzmd - 
+            nuqzmd*nuqzmd2 - TMath::Power(px,2) - TMath::Power(py,2)) - 
+         2*Ennz*(Ennz2 - nuqzmd2)*(TMath::Power(jx,2) + TMath::Power(jy,2) + TMath::Power(Mj,2) + 
+            TMath::Power(Mp,2) + Ennz2*nuqzmd - nuqzmd*nuqzmd2 + TMath::Power(px,2) + TMath::Power(py,2)))
+       ))/(4.*(Ennz - nuqzmd)*(Ennz2 - nuqzmd2));
+
+	return finalPz;
+}
+
+Double_t getCorrJzLF(Double_t Ennz, Double_t Ennz2, Double_t nuqzmd, Double_t nuqzmd2, Double_t jx, Double_t jy, Double_t px, Double_t py, Double_t Mp){
+
+	double Mj = MASS_JPSI;
+
+	double finalJz = -((Ennz - Ennz2 - nuqzmd + nuqzmd2)*
+       (TMath::Power(jx,2) + TMath::Power(jy,2) + TMath::Power(Mj,2) - TMath::Power(Mp,2) + 
+         (Ennz - nuqzmd)*(Ennz2 - nuqzmd2) - TMath::Power(px,2) - TMath::Power(py,2)) + 
+      sqrt(TMath::Power(Ennz + Ennz2 - nuqzmd - nuqzmd2,2)*
+        (TMath::Power(jx,4) + TMath::Power(jy,4) + 2*TMath::Power(jy,2)*TMath::Power(Mj,2) + TMath::Power(Mj,4) - 
+          2*TMath::Power(jy,2)*TMath::Power(Mp,2) - 2*TMath::Power(Mj,2)*TMath::Power(Mp,2) + TMath::Power(Mp,4) + 
+          2*Ennz2*TMath::Power(jy,2)*nuqzmd + 2*Ennz2*TMath::Power(Mj,2)*nuqzmd + 
+          2*Ennz2*TMath::Power(Mp,2)*nuqzmd + TMath::Power(Ennz2,2)*TMath::Power(nuqzmd,2) + 
+          TMath::Power(Ennz,2)*TMath::Power(Ennz2 - nuqzmd2,2) - 2*TMath::Power(jy,2)*nuqzmd*nuqzmd2 - 
+          2*TMath::Power(Mj,2)*nuqzmd*nuqzmd2 - 2*TMath::Power(Mp,2)*nuqzmd*nuqzmd2 - 
+          2*Ennz2*TMath::Power(nuqzmd,2)*nuqzmd2 + TMath::Power(nuqzmd,2)*TMath::Power(nuqzmd2,2) - 
+          2*TMath::Power(jy,2)*TMath::Power(px,2) - 2*TMath::Power(Mj,2)*TMath::Power(px,2) + 
+          2*TMath::Power(Mp,2)*TMath::Power(px,2) + 2*Ennz2*nuqzmd*TMath::Power(px,2) - 
+          2*nuqzmd*nuqzmd2*TMath::Power(px,2) + TMath::Power(px,4) + 
+          2*(-TMath::Power(jy,2) - TMath::Power(Mj,2) + TMath::Power(Mp,2) + Ennz2*nuqzmd - 
+             nuqzmd*nuqzmd2 + TMath::Power(px,2))*TMath::Power(py,2) + TMath::Power(py,4) + 
+          2*TMath::Power(jx,2)*(TMath::Power(jy,2) + TMath::Power(Mj,2) - TMath::Power(Mp,2) + Ennz2*nuqzmd - 
+             nuqzmd*nuqzmd2 - TMath::Power(px,2) - TMath::Power(py,2)) - 
+          2*Ennz*(Ennz2 - nuqzmd2)*
+           (TMath::Power(jx,2) + TMath::Power(jy,2) + TMath::Power(Mj,2) + TMath::Power(Mp,2) + Ennz2*nuqzmd - 
+             nuqzmd*nuqzmd2 + TMath::Power(px,2) + TMath::Power(py,2)))))/
+   (4.*(Ennz - nuqzmd)*(Ennz2 - nuqzmd2));
+
+	return finalJz;
+}
+
 void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 1.){
 
 	std::ostringstream os;
@@ -55,6 +176,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH2D* nRes = new TH2D("nRes","",60,-30,30,20,-0.1,0.1);
 	TH1D* nucleon_t = new TH1D("nucleon_t","nucleon_t",200,0,10);
 	TH2D* sPN_t = new TH2D("sPN_t",";t;s",200,0,10,sPN_nBins,sPN_bins);
+	TH2D* sPN_k = new TH2D("sPN_k",";t;s",200,0,1,sPN_nBins,sPN_bins);
 	TH1D* sPN = new TH1D("sPN","sPN",sPN_nBins,sPN_bins);
 	TH1D* sPN_4pt2 = new TH1D("sPN_4pt2","sPN_4pt2",200,0,10);
 	TH1D* sPN_Jpsi = new TH1D("sPN_Jpsi","sPN_Jpsi",sPN_nBins,sPN_bins);
@@ -66,6 +188,17 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* nk_spectator_pt = new TH1D("nk_spectator_pt",";k (GeV/c)", nk_nBins, nk_bins);
 	TH1D* nk_allfinalstate = new TH1D("nk_allfinalstate",";k (GeV/c)", nk_nBins, nk_bins);
 	TH1D* d_k = new TH1D("d_k","d_k",300,-1,1);
+	TH2D* EvsPz = new TH2D("EvsPz",";pz;E",500,-0.01,0.01,500,-0.01,0.01);
+	TH2D* EvsPzFix = new TH2D("EvsPzFix",";pz;E",500,-0.01,0.01,500,-0.01,0.01);
+	TH2D* Evsk_old = new TH2D("Evsk_old",";k;E",100,0,1,500,0,5);
+	TH2D* Pzvsk_old = new TH2D("Pzvsk_old",";k;Pz",100,0,1,500,-2,2);
+	TH2D* Evsk = new TH2D("Evsk",";k;E",100,0,1,500,-4,4);
+	TH2D* Pzvsk = new TH2D("Pzvsk",";k;Pz",100,0,1,500,-4,4);
+	TH1D* Pp_old = new TH1D("Pp_old","",500,0,5);
+	TH1D* Pp_new = new TH1D("Pp_new","",500,0,5);
+	TH1D* Pp_new1 = new TH1D("Pp_new1","",500,0,5);
+	TH1D* Pp_new2 = new TH1D("Pp_new2","",500,0,5);
+
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/"+filename+".root" );
@@ -98,7 +231,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		double pyf = event->pyf;
 		double pzf = event->pzf;
 
-		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep));//neglecting e mass
+		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep+0.00051*0.00051));
 		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
 
@@ -119,6 +252,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		int event_process = event->GetProcess();
 		int nParticles = event->GetNTracks();
 		int struck_nucleon = event->nucleon;
+		double nk_event = sqrt(pxf*pxf+pyf*pyf+pzf*pzf);
 		
 		if( event_process != 91 ) continue;
 		if( trueQ2 < 1. ) continue;
@@ -132,6 +266,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		TLorentzVector n_4vect_unsmear;
 		TLorentzVector p_4vect, n_4vect,j_4vect,q;
 		TLorentzVector p_4vect_irf, n_4vect_irf,j_4vect_irf,q_irf,d_beam_irf;
+		TLorentzVector jnew,pnew,nnew;
+		TLorentzVector lfjnew,lfpnew,lfnnew;
+		TLorentzVector jnew2,pnew2;
 
 		d_beam_irf = d_beam;
 
@@ -150,9 +287,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			double theta = particle->GetTheta(); 
 			theta = theta*1000.0; //change to mrad;
 			double mom = particle->GetP();
+			TLorentzVector ppart = particle->Get4Vector();
 
 			if( index == 3 ) {
-				e_scattered.SetPtEtaPhiM(pt,eta,phi,mass);
+				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
+				// e_scattered = ppart;
 			}
 			if( status != 1 ) continue;
 
@@ -160,7 +299,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			q = e_beam-e_scattered;
 			q_irf = q;
 			
-			TLorentzVector ppart = particle->Get4Vector();
+			
 			if(pdg == 443 ) j_4vect = ppart;
 			if(pdg == 2212) p_4vect = ppart;
 			if(pdg == 2112) {n_4vect = ppart; n_4vect_unsmear = n_4vect;}
@@ -213,6 +352,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 		if( p_4vect.E() == 0 || n_4vect.E() == 0 ) continue;
 
+		cout << " Event ~ " << i << endl;
+
 		//boost
 		j_4vect_irf.Boost(-b);
 		p_4vect_irf.Boost(-b);
@@ -240,7 +381,134 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			n.SetPtEtaPhiM( n_4vect.Pt(), n_4vect.Eta(), n_4vect.Phi(), MASS_NEUTRON);
 			n.Boost(-b);
 			nk_spectator_pt->Fill( n.P() );
+
+			/*
+			fixing deuteron momentum nonconservation:
+			*/
+
+			TLorentzVector testp = q_irf+d_beam_irf-j_4vect_irf-p_4vect_irf-n_4vect_irf;
+	
+			//solution 1 variables
+			double qzkz = q_irf.Pz() - (n_4vect_irf.Pz());//qz-kz
+			double numn = q_irf.E() - n_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
+			double jx = j_4vect_irf.Px();
+			double jy = j_4vect_irf.Py();
+			double px = p_4vect_irf.Px();
+			double py = p_4vect_irf.Py();
+			//end solution 1 variables
+			double jz = getCorrJz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
+			double pz = getCorrPz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
+
+			double px_new = p_4vect_irf.Px();
+			double py_new = p_4vect_irf.Py();
+			double pz_new = pz;
+			pnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( MASS_PROTON*MASS_PROTON + px_new*px_new + py_new*py_new + pz_new*pz_new));
 			
+			double jx_new = j_4vect_irf.Px();
+			double jy_new = j_4vect_irf.Py();
+			double jz_new = jz;
+			jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
+		
+			TLorentzVector testnew1 = q_irf+d_beam_irf-jnew-pnew-n_4vect_irf;
+			cout << "check momentum conservation approach 1, total change q+d-j-p'-n' should be 0 now: " << endl;
+			PRINT4VECTOR(testnew1,1);
+
+			//solution 2 variables
+			double Ennz = n_4vect_irf.E() + n_4vect_irf.Pz();
+			double Ennz2 = n_4vect_irf.E() - n_4vect_irf.Pz();
+			double nuqzmd = q_irf.E()+q_irf.Pz()+MASS_DEUTERON;
+			double nuqzmd2 = q_irf.E()-q_irf.Pz()+MASS_DEUTERON;
+			jx = j_4vect_irf.Px()+n_4vect_irf.Px();
+			jy = j_4vect_irf.Py()+n_4vect_irf.Py();
+			px = p_4vect_irf.Px()-n_4vect_irf.Px();
+			py = p_4vect_irf.Py()-n_4vect_irf.Py();
+			//end solution 2 variables
+			double lfpz = getCorrPzLF(Ennz,Ennz2,nuqzmd,nuqzmd2,jx,jy,px,py,MASS_PROTON);
+			double lfjz = getCorrJzLF(Ennz,Ennz2,nuqzmd,nuqzmd2,jx,jy,px,py,MASS_PROTON);
+			//lightfront method, the same as the previous one
+			px_new = p_4vect_irf.Px()-n_4vect_irf.Px();
+			py_new = p_4vect_irf.Py()-n_4vect_irf.Py();
+			pz_new = lfpz;
+			lfpnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( MASS_PROTON*MASS_PROTON + px_new*px_new + py_new*py_new + pz_new*pz_new));
+			
+			jx_new = j_4vect_irf.Px()+n_4vect_irf.Px();
+			jy_new = j_4vect_irf.Py()+n_4vect_irf.Py();
+			jz_new = lfjz;
+			lfjnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
+
+			TLorentzVector testnew2 = q_irf+d_beam_irf-lfjnew-lfpnew-n_4vect_irf;
+			cout << "check momentum conservation approach 2, total change q+d-j-p'-n' should be 0 now: " << endl;
+			PRINT4VECTOR(testnew2,1);
+
+			EvsPz->Fill(testp.Pz(), testp.E());
+			EvsPzFix->Fill(testnew.Pz(), testnew.E());
+			Evsk->Fill(nk_event, pnew.E()-p_4vect_irf.E());
+			Pzvsk->Fill(nk_event, pnew.Pz()-p_4vect_irf.Pz());
+			Evsk_old->Fill(nk_event, p_4vect_irf.E());
+			Pzvsk_old->Fill(nk_event, p_4vect_irf.Pz());
+
+			/*
+			- Start trying off-shell intermediate conditions
+			- Assume same proton and neutron mass. 
+			*/
+			double kmag = n_4vect_irf.P();
+			double MnuclOff = sqrt(0.25*MASS_DEUTERON*MASS_DEUTERON - kmag*kmag);
+			double PpOff = sqrt( MASS_PROTON*MASS_PROTON - MnuclOff*MnuclOff + p_4vect_irf.P()*p_4vect_irf.P() );
+			double Ptheta = p_4vect_irf.Theta();
+			double Pnewpt = PpOff*TMath::Sin(Ptheta);
+			TLorentzVector Poff4vector;Poff4vector.SetPtEtaPhiM(Pnewpt,p_4vect_irf.Eta(),p_4vect_irf.Phi(),MnuclOff);
+			TLorentzVector Pon4vectorNew; 
+			double Ppx = Poff4vector.Px() - n_4vect_irf.Px();
+			double Ppy = Poff4vector.Py() - n_4vect_irf.Py();
+			double Ppz = Poff4vector.Pz() - n_4vect_irf.Pz();
+			Pon4vectorNew.SetPxPyPzE(Ppx,Ppy,Ppz,sqrt(Ppx*Ppx+Ppy*Ppy+Ppz*Ppz+MASS_PROTON*MASS_PROTON) );
+
+			qzkz = q_irf.Pz() - (n_4vect_irf.Pz());//qz-kz
+			numn = q_irf.E() - n_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
+			jx = j_4vect_irf.Px()+n_4vect_irf.Px()-(Poff4vector.Px()-p_4vect_irf.Px());
+			jy = j_4vect_irf.Py()+n_4vect_irf.Py()-(Poff4vector.Py()-p_4vect_irf.Py());
+			px = Pon4vectorNew.Px();
+			py = Pon4vectorNew.Py();
+			//end solution 1 variables
+			jz = getCorrJz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
+			pz = getCorrPz(qzkz,numn,jx,jy,px,py,MASS_PROTON);
+
+			px_new = px;
+			py_new = py;
+			pz_new = pz;
+			pnew2.SetPxPyPzE(px_new,py_new,pz_new, sqrt( MASS_PROTON*MASS_PROTON + px_new*px_new + py_new*py_new + pz_new*pz_new));
+			
+			jx_new = jx;
+			jy_new = jy;
+			jz_new = jz;
+			jnew2.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
+	
+			TLorentzVector testnew3 = q_irf+d_beam_irf-jnew2-pnew2-n_4vect_irf;
+			cout << "check momentum conservation approach 3, total change q+d-j-p'-n' should be 0 now: " << endl;
+			PRINT4VECTOR(testnew3,1);
+
+			cout << "Let's compare different kinematics method:" << endl;
+			cout << "proton old"<<endl;
+			PRINT4VECTOR(p_4vect_irf,1);
+			cout << "proton new"<<endl;
+			PRINT4VECTOR(pnew,1);
+			cout << "proton new lf"<<endl;
+			PRINT4VECTOR(lfpnew,1);
+			cout << "proton new 2"<<endl;
+			PRINT4VECTOR(pnew2,1);
+			cout << "jpsi old"<<endl;
+			PRINT4VECTOR(j_4vect_irf,1);
+			cout << "jpsi new"<<endl;
+			PRINT4VECTOR(jnew,1);
+			cout << "jpsi new lf"<<endl;
+			PRINT4VECTOR(lfjnew,1);
+			cout << "jpsi new 2"<<endl;
+			PRINT4VECTOR(jnew2,1);
+
+			Pp_old->Fill( p_4vect_irf.P() );
+			Pp_new->Fill( pnew.P() );
+			Pp_new1->Fill( lfpnew.P() );
+			Pp_new2->Fill( pnew2.P() );
 		} 
 		else{
 			TLorentzVector p_partner_4vect_irf;
@@ -254,6 +522,30 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			p.SetPtEtaPhiM( p_4vect.Pt(), p_4vect.Eta(), p_4vect.Phi(), MASS_PROTON);
 			p.Boost(-b);
 			nk_spectator_pt->Fill( p.P() );
+
+			//starting the fix
+			double qzkz = q_irf.Pz() - ( p_4vect_irf.Pz() );
+			double numn = q_irf.E() - p_4vect_irf.E(); //sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
+			double jx = j_4vect_irf.Px();
+			double jy = j_4vect_irf.Py();
+			double nx = n_4vect_irf.Px();
+			double ny = n_4vect_irf.Py();
+
+			double jz = getCorrJz(qzkz,numn,jx,jy,nx,ny,MASS_NEUTRON);
+			double nz = getCorrPz(qzkz,numn,jx,jy,nx,ny,MASS_NEUTRON);
+		
+			double nx_new = n_4vect_irf.Px();
+			double ny_new = n_4vect_irf.Py();
+			double nz_new = nz;
+			nnew.SetPxPyPzE(nx_new,ny_new,nz_new, sqrt( MASS_NEUTRON*MASS_NEUTRON + nx_new*nx_new + ny_new*ny_new + nz_new*nz_new));
+			
+			double jx_new = j_4vect_irf.Px();
+			double jy_new = j_4vect_irf.Py();
+			double jz_new = jz;
+			jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
+	
+			TLorentzVector testnew = q_irf+d_beam_irf-jnew-nnew-p_4vect_irf;
+			EvsPzFix->Fill(testnew.Pz(), testnew.E());
 		
 		}
 
@@ -263,15 +555,21 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		sPN_Jpsi_fix->Fill( (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2() );
 		nucleon_t->Fill( (p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2() );
 		sPN_t->Fill((p_4vect_irf+n_4vect_irf - d_beam_irf).Mag2(), (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2());
+		sPN_k->Fill(nk_event, (p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf).Mag2());
 		//use all final state particles:
-		TLorentzVector pn = p_4vect_irf+n_4vect_irf+j_4vect_irf-q_irf;
-		double Epn = pn.E();
-		double EpnRed2 = Epn*Epn - MASS_NEUTRON*MASS_NEUTRON - MASS_PROTON*MASS_PROTON; 
-		double k = sqrt( Epn*Epn/4. - MASS_NEUTRON*MASS_NEUTRON );//use proton mass to simplify
-		//overwrite with exact solution:
-		k = sqrt( (0.25*EpnRed2*EpnRed2 - MASS_NEUTRON*MASS_NEUTRON*MASS_PROTON*MASS_PROTON) / (MASS_NEUTRON*MASS_NEUTRON + MASS_PROTON*MASS_PROTON + EpnRed2) );
-		nk_allfinalstate->Fill( k );
-		d_k->Fill( pn.P() ); //cross check with net zero momentum in the IRF.
+		TLorentzVector pn;
+		if( struckproton ){
+			pn = pnew+n_4vect_irf+jnew-q_irf;
+		}
+		else{
+			pn = p_4vect_irf+nnew+jnew-q_irf;
+		}
+
+		/*This wouldn't work because of the offshell mass*/
+		// double Epn = pn.E();
+		// double EpnRed2 = Epn*Epn - MASS_NEUTRON*MASS_NEUTRON - MASS_PROTON*MASS_PROTON; 
+		// double k = sqrt( Epn*Epn/4. - MASS_NEUTRON*MASS_NEUTRON );//use proton mass to simplify
+		
 
 	}
 
