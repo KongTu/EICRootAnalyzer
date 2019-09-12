@@ -259,6 +259,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		TLorentzVector jnew,pnew;
 		TLorentzVector lfjnew,lfpnew;
 		TLorentzVector jnew2,pnew2;
+		TLorentzVector jnew3,pnew3,nnew3;
 
 		d_beam_irf = d_beam;
 
@@ -466,8 +467,67 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		jz_new = jz;
 		jnew2.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
-		//filling histograms:
 
+		//approach 4 with touching the spectator
+		double kick_x = pnew2.Px() - (-spectator_4vect_irf.Px());
+		double kick_y = pnew2.Py() - (-spectator_4vect_irf.Py());
+		double kick_z = pnew2.Pz() - (-spectator_4vect_irf.Pz());
+		double spectator_Px = spectator_4vect_irf.Px() + kick_x/2.0;
+		double spectator_Py = spectator_4vect_irf.Py() + kick_y/2.0;
+		double spectator_Pz = spectator_4vect_irf.Pz() + kick_z/2.0;
+		nnew3.SetPxPyPzE(spectator_Px,spectator_Py,spectator_Pz,sqrt(spectator_Px*spectator_Px+spectator_Py*spectator_Py+spectator_Pz*spectator_Pz+spectator_mass*spectator_mass));
+		
+		qzkz = q_irf.Pz() - spectator_Pz;
+		numn = q_irf.E() - sqrt(spectator_Px*spectator_Px+spectator_Py*spectator_Py+spectator_Pz*spectator_Pz+spectator_mass*spectator_mass);
+		jx = j_4vect_irf.Px()+spectator_Px-(Poff4vector.Px()-struck_4vect_irf.Px())-kick_x/2.0;
+		jy = j_4vect_irf.Py()+spectator_Py-(Poff4vector.Py()-struck_4vect_irf.Py())-kick_y/2.0;
+		px = Pon4vectorNew.Px()-kick_x/2.0;
+		py = Pon4vectorNew.Py()-kick_y/2.0;
+
+		jz = getCorrJz(qzkz,numn,jx,jy,px,py,struck_mass);
+		pz = getCorrPz(qzkz,numn,jx,jy,px,py,struck_mass);
+
+		px_new = px;
+		py_new = py;
+		pz_new = pz;
+		pnew3.SetPxPyPzE(px_new,py_new,pz_new, sqrt( struck_mass*struck_mass + px_new*px_new + py_new*py_new + pz_new*pz_new));
+		
+		jx_new = jx;
+		jy_new = jy;
+		jz_new = jz;
+		jnew3.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
+
+		cout << "check momentum conservation approach 4, total change q+d-j-p'-n' should be 0 now: " << endl;
+		TLorentzVector testnew3 = q_irf+d_beam_irf-jnew3-pnew3-spectator_4vect_irf;
+		PRINT4VECTOR(testnew3,1);
+
+		cout << "Let's compare different kinematics method:" << endl;
+		cout << "proton old"<<endl;			// cout << "proton old"<<endl;
+		PRINT4VECTOR(struck_4vect_irf,1);			// PRINT4VECTOR(struck_4vect_irf,1);
+		cout << "proton new"<<endl;			// cout << "proton new"<<endl;
+		PRINT4VECTOR(pnew,1);			// PRINT4VECTOR(pnew,1);
+		cout << "proton new lf"<<endl;			// cout << "proton new lf"<<endl;
+		PRINT4VECTOR(lfpnew,1);			// PRINT4VECTOR(lfpnew,1);
+		cout << "proton new 2"<<endl;			// cout << "proton new 2"<<endl;
+		PRINT4VECTOR(pnew2,1);			// PRINT4VECTOR(pnew2,1);
+		cout << "proton new 3"<<endl;			// cout << "proton new 2"<<endl;
+		PRINT4VECTOR(pnew3,1);
+		cout << "jpsi old"<<endl;			// cout << "jpsi old"<<endl;
+		PRINT4VECTOR(j_4vect_irf,1);			// PRINT4VECTOR(j_4vect_irf,1);
+		cout << "jpsi new"<<endl;			// cout << "jpsi new"<<endl;
+		PRINT4VECTOR(jnew,1);			// PRINT4VECTOR(jnew,1);
+		cout << "jpsi new lf"<<endl;			// cout << "jpsi new lf"<<endl;
+		PRINT4VECTOR(lfjnew,1);			// PRINT4VECTOR(lfjnew,1);
+		cout << "jpsi new 2"<<endl;			// cout << "jpsi new 2"<<endl;
+		PRINT4VECTOR(jnew2,1);			// PRINT4VECTOR(jnew2,1);
+		cout << "jpsi new 3"<<endl;			// cout << "jpsi new 2"<<endl;
+		PRINT4VECTOR(jnew3,1);
+		cout << "neutron old"<<endl;			// cout << "proton old"<<endl;
+		PRINT4VECTOR(spectator_4vect_irf,1);
+		cout << "neutron new3"<<endl;			// cout << "proton old"<<endl;
+		PRINT4VECTOR(nnew3,1);
+
+		//filling histograms:
 		Pp_old->Fill( struck_4vect_irf.P() );
 		Pp_new->Fill( pnew.P() );
 		Pp_new1->Fill( lfpnew.P() );
