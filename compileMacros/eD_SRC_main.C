@@ -343,8 +343,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 		if( p_4vect.E() == 0 || n_4vect.E() == 0 ) continue;
 
-		cout << " Event ~ " << i << endl;
-
 		//boost
 		j_4vect_irf.Boost(-b);
 		p_4vect_irf.Boost(-b);
@@ -404,10 +402,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		double jz_new = jz;
 		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 		
-		TLorentzVector testnew1 = q_irf+d_beam_irf-jnew-pnew-spectator_4vect_irf;
-		// cout << "check momentum conservation approach 1, total change q+d-j-p'-n' should be 0 now: " << endl;
-		// PRINT4VECTOR(testnew1,1);
-
 		//approach 2
 		double Ennz = spectator_4vect_irf.E() + spectator_4vect_irf.Pz();
 		double Ennz2 = spectator_4vect_irf.E() - spectator_4vect_irf.Pz();
@@ -432,9 +426,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		lfjnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
 		TLorentzVector testnew2 = q_irf+d_beam_irf-lfjnew-lfpnew-spectator_4vect_irf;
-		// cout << "check momentum conservation approach 2, total change q+d-j-p'-n' should be 0 now: " << endl;
-		// PRINT4VECTOR(testnew2,1);
-
 		EvsPz->Fill(testp.Pz(), testp.E());
 		EvsPzFix->Fill(testnew2.Pz(), testnew2.E());
 
@@ -476,43 +467,20 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		jz_new = jz;
 		jnew2.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
-		TLorentzVector testnew3 = q_irf+d_beam_irf-jnew2-pnew2-spectator_4vect_irf;
-		// cout << "check momentum conservation approach 3, total change q+d-j-p'-n' should be 0 now: " << endl;
-		// PRINT4VECTOR(testnew3,1);
-
-		// cout << "Let's compare different kinematics method:" << endl;
-		// cout << "proton old"<<endl;
-		// PRINT4VECTOR(struck_4vect_irf,1);
-		// cout << "proton new"<<endl;
-		// PRINT4VECTOR(pnew,1);
-		// cout << "proton new lf"<<endl;
-		// PRINT4VECTOR(lfpnew,1);
-		// cout << "proton new 2"<<endl;
-		// PRINT4VECTOR(pnew2,1);
-		// cout << "jpsi old"<<endl;
-		// PRINT4VECTOR(j_4vect_irf,1);
-		// cout << "jpsi new"<<endl;
-		// PRINT4VECTOR(jnew,1);
-		// cout << "jpsi new lf"<<endl;
-		// PRINT4VECTOR(lfjnew,1);
-		// cout << "jpsi new 2"<<endl;
-		// PRINT4VECTOR(jnew2,1);
+		//filling histograms:
 
 		Pp_old->Fill( struck_4vect_irf.P() );
 		Pp_new->Fill( pnew.P() );
 		Pp_new1->Fill( lfpnew.P() );
 		Pp_new2->Fill( pnew2.P() );
-		
-		sPN_Jpsi_fix->Fill( (struck_4vect_irf+spectator_4vect_irf+j_4vect_irf-q_irf).Mag2() );
-		nucleon_t->Fill( (struck_4vect_irf+spectator_4vect_irf - d_beam_irf).Mag2() );
-		sPN_t->Fill((struck_4vect_irf+spectator_4vect_irf - d_beam_irf).Mag2(), (struck_4vect_irf+spectator_4vect_irf+j_4vect_irf-q_irf).Mag2());
-		sPN_k->Fill(nk_event, (struck_4vect_irf+spectator_4vect_irf+j_4vect_irf-q_irf).Mag2());
 
-		/*This wouldn't work because of the offshell mass*/
-		// double Epn = pn.E();
-		// double EpnRed2 = Epn*Epn - MASS_NEUTRON*MASS_NEUTRON - MASS_PROTON*MASS_PROTON; 
-		// double k = sqrt( Epn*Epn/4. - MASS_NEUTRON*MASS_NEUTRON );//use proton mass to simplify
+		TLorentzVector pn_final = pnew2+spectator_4vect_irf;
 		
+		sPN_Jpsi_fix->Fill( pn_final.Mag2() );
+		nucleon_t->Fill( (pn_final - d_beam_irf).Mag2() );
+		sPN_t->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
+		sPN_k->Fill(nk_event, pn_final.Mag2());
+
 	}
 
 	output->Write();
