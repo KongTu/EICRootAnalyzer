@@ -479,10 +479,10 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		
 		qzkz = q_irf.Pz() - spectator_Pz;
 		numn = q_irf.E() - nnew3.E();
-		jx = j_4vect_irf.Px()+kick_x/2.0-(Poff4vector.Px()-struck_4vect_irf.Px());
-		jy = j_4vect_irf.Py()+kick_y/2.0-(Poff4vector.Py()-struck_4vect_irf.Py());
-		px = Pon4vectorNew.Px()-kick_x/2.0;
-		py = Pon4vectorNew.Py()-kick_y/2.0;
+		jx = j_4vect_irf.Px()+(kick_x/2.0)-(Poff4vector.Px()-struck_4vect_irf.Px());
+		jy = j_4vect_irf.Py()+(kick_y/2.0)-(Poff4vector.Py()-struck_4vect_irf.Py());
+		px = Pon4vectorNew.Px()-(kick_x/2.0);
+		py = Pon4vectorNew.Py()-(kick_y/2.0);
 
 		jz = getCorrJz(qzkz,numn,jx,jy,px,py,struck_mass);
 		pz = getCorrPz(qzkz,numn,jx,jy,px,py,struck_mass);
