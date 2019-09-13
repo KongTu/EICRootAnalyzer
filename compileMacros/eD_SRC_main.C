@@ -301,7 +301,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TF1* smear_e = new TF1("smear_e","gaus(0)",-30,30);
 	smear_e->SetParameter(0,1);
 	smear_e->SetParameter(1,0);
-	smear_e->SetParameter(2, sqrt( (energy_resolution/sqrt(135.))*(energy_resolution/sqrt(135.)) + 0.091*0.091 )*135. );
+	smear_e->SetParameter(2, sqrt( (energy_resolution/sqrt(135.))*(energy_resolution/sqrt(135.)) + 0.02*0.02 )*135. );
 
 	TF1* smear_theta = new TF1("smear_theta","gaus(0)",-0.001,0.001);
 	smear_theta->SetParameter(0,1);
