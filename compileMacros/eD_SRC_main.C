@@ -159,6 +159,19 @@ Double_t getCorrJzLF(Double_t Ennz, Double_t Ennz2, Double_t nuqzmd, Double_t nu
 	return finalJz;
 }
 
+vector<double> getPspa(TLorentzVector p){
+
+	double zdcip = 28.8;
+	double dp_struck = zdcip*TMath::Tan(p.Theta());
+	double P_sx = dp_struck*TMath::Cos(p.Phi());
+	double P_sy = dp_struck*TMath::Sin(p.Phi());
+
+	vector< double> temp;
+	temp.push_back(P_sx);
+	temp.push_back(P_sy);
+
+}
+
 void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 1.){
 
 	std::ostringstream os;
@@ -532,16 +545,23 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		Np_mag[1]->Fill( nnew3.P() );
 
 		//spatial distributions:
-		double zdcip = 28.8;
-		double dp_struck = zdcip*TMath::Tan(pnew3.Theta());
-		double P_sx = dp_struck*TMath::Cos(pnew3.Phi());
-		double P_sy = dp_struck*TMath::Sin(pnew3.Phi());
-		P_spa[4]->Fill(P_sx,P_sy);
+		double zdcip = 28.8;//Unit in METER
 
-		dp_struck = zdcip*TMath::Tan(nnew3.Theta());
-		P_sx = dp_struck*TMath::Cos(nnew3.Phi());
-		P_sy = dp_struck*TMath::Sin(nnew3.Phi());
-		N_spa[1]->Fill(P_sx,P_sy);
+		vector< double> pos = getPspa(struck_4vect_irf);
+		P_spa[0]->Fill(pos[0],pos[1]);
+		pos.clear(); pos = getPspa(pnew);
+		P_spa[1]->Fill(pos[0],pos[1]);
+		pos.clear(); pos = getPspa(lfpnew);
+		P_spa[2]->Fill(pos[0],pos[1]);
+		pos.clear(); pos = getPspa(pnew2);
+		P_spa[3]->Fill(pos[0],pos[1]);
+		pos.clear(); pos = getPspa(pnew3);
+		P_spa[4]->Fill(pos[0],pos[1]);
+
+		pos.clear(); pos = getPspa(spectator_4vect_irf);
+		N_spa[0]->Fill(pos[0],pos[1]);
+		pos.clear(); pos = getPspa(nnew3);
+		N_spa[1]->Fill(pos[0],pos[1]);
 
 		TLorentzVector pn_final = pnew3+nnew3;
 		
