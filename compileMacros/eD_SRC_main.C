@@ -262,19 +262,19 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH2D* P_spa[5];
 	TH1D* nucleon_t[5]; 
 	TH1D* sPN[5]; 
-	TH1D* sPN_4pt2[5]; 
+	TH1D* sPN_Fpt2[5]; 
 	TH2D* sPN_t[5]; 
 	TH2D* sPN_k[5]; 
-	TH2D* sPN_4pt2_k[5];
+	TH2D* sPN_Fpt2_k[5];
 	for(int i=0;i<5;i++){
 		Pp_mag[i] = new TH1D(Form("Pp_mag_%d",i),";P (GeV/c)",500,0,5);
 		P_spa[i] = new TH2D(Form("P_spa_%d",i),";x(m);y(m)",200,-1,1,200,-1,1);
 		nucleon_t[i] = new TH1D(Form("nucleon_t_%d",i),"t (GeV^{2})",200,-10,10);
 		sPN[i] = new TH1D(Form("sPN_%d",i),"sPN",sPN_nBins,sPN_bins);
-		sPN_4pt2[i] = new TH1D(Form("sPN_4pt2_%d",i),"sPN_4pt2",200,0,10);
+		sPN_Fpt2[i] = new TH1D(Form("sPN_Fpt2_%d",i),"sPN_Fpt2",200,0,10);
 		sPN_t[i] = new TH2D(Form("sPN_t_%d",i),";t;s",200,-10,10,sPN_nBins,sPN_bins);
 		sPN_k[i] = new TH2D(Form("sPN_k_%d",i),";k;s",200,0,1,sPN_nBins,sPN_bins);
-		sPN_4pt2_k[i] = new TH2D(Form("sPN_4pt2_k_%d",i),";k;4p^{2}_{T}",200,0,1,200,0,10);
+		sPN_Fpt2_k[i] = new TH2D(Form("sPN_Fpt2_k_%d",i),";k;4p^{2}_{T}",200,0,1,200,0,10);
 	}
 	
 	TH1D* Np_mag[2];
@@ -605,76 +605,76 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		Np_mag[1]->Fill( nnew3.P() );
 
 
-		TLorentzVector pn_final;double 4pt2=0.0;
+		TLorentzVector pn_final;double Fpt2=0.0;
 		if( struck_4vect_irf.E() != 0. && spectator_4vect_irf.E() != 0.){
 			pn_final = struck_4vect_irf+spectator_4vect_irf;
 			struck_4vect_irf.Boost(b);spectator_4vect_irf.Boost(b);
-			4pt2 = (struck_4vect_irf.Pt()+spectator_4vect_irf.Pt())*(struck_4vect_irf.Pt()+spectator_4vect_irf.Pt());
+			Fpt2 = (struck_4vect_irf.Pt()+spectator_4vect_irf.Pt())*(struck_4vect_irf.Pt()+spectator_4vect_irf.Pt());
 			struck_4vect_irf.Boost(-b);spectator_4vect_irf.Boost(-b);
 
 			//default BeAGLE:
 			nucleon_t[0]->Fill( (pn_final - d_beam_irf).Mag2() );
 			sPN[0]->Fill( pn_final.Mag2() );
-			sPN_4pt2[0]->Fill( 4pt2 );//4*spectator pt**2
+			sPN_Fpt2[0]->Fill( Fpt2 );//4*spectator pt**2
 			sPN_t[0]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
 			sPN_k[0]->Fill(nk_event, pn_final.Mag2());
-			sPN_4pt2_k[0]->Fill(nk_event, 4pt2 );
+			sPN_Fpt2_k[0]->Fill(nk_event, Fpt2 );
 		}
 		if( pnew.E() != 0. && spectator_4vect_irf.E() != 0.){
 			//approach 1:
 			pn_final = pnew+spectator_4vect_irf;
 			pnew.Boost(b);spectator_4vect_irf.Boost(b);
-			4pt2 = (pnew.Pt()+spectator_4vect_irf.Pt())*(pnew.Pt()+spectator_4vect_irf.Pt());
+			Fpt2 = (pnew.Pt()+spectator_4vect_irf.Pt())*(pnew.Pt()+spectator_4vect_irf.Pt());
 			pnew.Boost(-b);spectator_4vect_irf.Boost(-b);
 			
 			nucleon_t[1]->Fill( (pn_final - d_beam_irf).Mag2() );
 			sPN[1]->Fill( pn_final.Mag2() );
-			sPN_4pt2[1]->Fill( 4pt2 );//4*spectator pt**2
+			sPN_Fpt2[1]->Fill( Fpt2 );//4*spectator pt**2
 			sPN_t[1]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
 			sPN_k[1]->Fill(nk_event, pn_final.Mag2());
-			sPN_4pt2_k[1]->Fill(nk_event, 4pt2 );
+			sPN_Fpt2_k[1]->Fill(nk_event, Fpt2 );
 		}
 		if( pnew1.E() != 0. && spectator_4vect_irf.E() != 0.){
 			//approach 2:
 			pn_final = pnew1+spectator_4vect_irf;
 			pnew1.Boost(b);spectator_4vect_irf.Boost(b);
-			4pt2 = (pnew1.Pt()+spectator_4vect_irf.Pt())*(pnew1.Pt()+spectator_4vect_irf.Pt());
+			Fpt2 = (pnew1.Pt()+spectator_4vect_irf.Pt())*(pnew1.Pt()+spectator_4vect_irf.Pt());
 			pnew1.Boost(-b);spectator_4vect_irf.Boost(-b);		
 
 			nucleon_t[2]->Fill( (pn_final - d_beam_irf).Mag2() );
 			sPN[2]->Fill( pn_final.Mag2() );
-			sPN_4pt2[2]->Fill( 4pt2 );//4*spectator pt**2
+			sPN_Fpt2[2]->Fill( Fpt2 );//4*spectator pt**2
 			sPN_t[2]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
 			sPN_k[2]->Fill(nk_event, pn_final.Mag2());
-			sPN_4pt2_k[2]->Fill(nk_event, 4pt2 );
+			sPN_Fpt2_k[2]->Fill(nk_event, Fpt2 );
 		}
 		if( pnew2.E() != 0. && spectator_4vect_irf.E() != 0.){
 			//approach 3:
 			pn_final = pnew2+spectator_4vect_irf;
 			pnew2.Boost(b);spectator_4vect_irf.Boost(b);
-			4pt2 = (pnew2.Pt()+spectator_4vect_irf.Pt())*(pnew2.Pt()+spectator_4vect_irf.Pt());
+			Fpt2 = (pnew2.Pt()+spectator_4vect_irf.Pt())*(pnew2.Pt()+spectator_4vect_irf.Pt());
 			pnew2.Boost(-b);spectator_4vect_irf.Boost(-b);		
 
 			nucleon_t[3]->Fill( (pn_final - d_beam_irf).Mag2() );
 			sPN[3]->Fill( pn_final.Mag2() );
-			sPN_4pt2[3]->Fill( 4pt2 );//4*spectator pt**2
+			sPN_Fpt2[3]->Fill( Fpt2 );//4*spectator pt**2
 			sPN_t[3]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
 			sPN_k[3]->Fill(nk_event, pn_final.Mag2());
-			sPN_4pt2_k[3]->Fill(nk_event, 4pt2 );
+			sPN_Fpt2_k[3]->Fill(nk_event, Fpt2 );
 		}
 		if( pnew3.E() != 0. && nnew3.E() != 0.){
 			//approach 3:
 			pn_final = pnew3+nnew3;
 			pnew3.Boost(b);nnew3.Boost(b);
-			4pt2 = (pnew3.Pt()+nnew3.Pt())*(pnew3.Pt()+nnew3.Pt());
+			Fpt2 = (pnew3.Pt()+nnew3.Pt())*(pnew3.Pt()+nnew3.Pt());
 			pnew3.Boost(-b);nnew3.Boost(-b);		
 
 			nucleon_t[4]->Fill( (pn_final - d_beam_irf).Mag2() );
 			sPN[4]->Fill( pn_final.Mag2() );
-			sPN_4pt2[4]->Fill( 4pt2 );//4*spectator pt**2
+			sPN_Fpt2[4]->Fill( Fpt2 );//4*spectator pt**2
 			sPN_t[4]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
 			sPN_k[4]->Fill(nk_event, pn_final.Mag2());
-			sPN_4pt2_k[4]->Fill(nk_event, 4pt2 );
+			sPN_Fpt2_k[4]->Fill(nk_event, Fpt2 );
 		}
 
 		//use spectator only:
