@@ -204,13 +204,13 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH2D* P_spa[5];
 	for(int i=0;i<5;i++){
 		Pp_mag[i] = new TH1D(Form("Pp_mag_%d",i),";P (GeV/c)",500,0,5);
-		P_spa[i] = new TH2D(Form("P_spa_%d",i),";x;y",200,-1,1,200,-1,1);
+		P_spa[i] = new TH2D(Form("P_spa_%d",i),";x;y",200,-10,10,200,-10,10);
 	}
 	TH1D* Np_mag[2];
 	TH2D* N_spa[2];
 	for(int i=0;i<2;i++){
 		Np_mag[i] = new TH1D(Form("Np_mag_%d",i),";P (GeV/c)",500,0,5);
-		N_spa[i] = new TH2D(Form("N_spa_%d",i),";x;y",200,-1,1,200,-1,1);
+		N_spa[i] = new TH2D(Form("N_spa_%d",i),";x;y",200,-10,10,200,-10,10);
 	}
 
 
