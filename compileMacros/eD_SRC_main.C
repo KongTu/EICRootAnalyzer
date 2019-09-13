@@ -468,19 +468,34 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		jnew2.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
 
-		//approach 4 with touching the spectator
-		double kick_x = pnew2.Px() - (-spectator_4vect_irf.Px());
-		double kick_y = pnew2.Py() - (-spectator_4vect_irf.Py());
-		double kick_z = pnew2.Pz() - (-spectator_4vect_irf.Pz());
-		double spectator_Px = spectator_4vect_irf.Px() + kick_x/2.0;
-		double spectator_Py = spectator_4vect_irf.Py() + kick_y/2.0;
-		double spectator_Pz = spectator_4vect_irf.Pz() + kick_z/2.0;
-		nnew3.SetPxPyPzE(spectator_Px,spectator_Py,spectator_Pz,sqrt(spectator_Px*spectator_Px+spectator_Py*spectator_Py+spectator_Pz*spectator_Pz+spectator_mass*spectator_mass));
+		// approach 4 with touching the spectator
+		// final state struck nucleon + k = 3 vectors for the "kick"
+		// evenly distribute it to both nucleons. 
+		// should consider the off shell mass for spectator as well, the kick is on the 3 vectors when still off shell
 		
-		qzkz = q_irf.Pz() - spectator_Pz;
+		TVector3 kick(pnew2.Px()-(-spectator_4vect_irf.Px()), pnew2.Py()-(-spectator_4vect_irf.Py()), pnew2.Pz()-(-spectator_4vect_irf.Pz()) );
+		double kick_x = kick.Px();
+		double kick_y = kick.Py();
+		double kick_z = kick.Pz()
+		
+		kmag = spectator_4vect_irf.P();
+		MnuclOff = sqrt(0.25*MASS_DEUTERON*MASS_DEUTERON - kmag*kmag);
+		PpOff = sqrt( spectator_mass*spectator_mass - MnuclOff*MnuclOff + spectator_4vect_irf.P()*spectator_4vect_irf.P() );
+		Ptheta = spectator_4vect_irf.Theta();
+		Pnewpt = PpOff*TMath::Sin(Ptheta);
+		
+		TLorentzVector Noff4vector; Noff4vector.SetPtEtaPhiM(Pnewpt,spectator_4vect_irf.Eta(),spectator_4vect_irf.Phi(),MnuclOff);
+		double spectator_Px = Noff4vector.Px() + kick_x/2.0;
+		double spectator_Py = Noff4vector.Py() + kick_y/2.0;
+		double spectator_Pz = Noff4vector.Pz() + kick_z/2.0;
+		double spectator_E = sqrt(spectator_Px*spectator_Px+spectator_Py*spectator_Py+spectator_Pz*spectator_Pz+spectator_mass*spectator_mass);
+		//now putting spectator back on shell with a kick.
+		nnew3.SetPxPyPzE(spectator_Px,spectator_Py,spectator_Pz,spectator_E);
+		
+		qzkz = q_irf.Pz() - nnew3.Pz();
 		numn = q_irf.E() - nnew3.E();
-		jx = j_4vect_irf.Px()+spectator_4vect_irf.Px()-(Poff4vector.Px()-struck_4vect_irf.Px());
-		jy = j_4vect_irf.Py()+spectator_4vect_irf.Py()-(Poff4vector.Py()-struck_4vect_irf.Py());
+		jx = j_4vect_irf.Px()+spectator_4vect_irf.Px()-(Poff4vector.Px()-struck_4vect_irf.Px())-(Noff4vector.Px()-spectator_4vect_irf.Px());
+		jy = j_4vect_irf.Py()+spectator_4vect_irf.Py()-(Poff4vector.Py()-struck_4vect_irf.Py())-(Noff4vector.Px()-spectator_4vect_irf.Px());
 		px = Pon4vectorNew.Px()-(kick_x/2.0);
 		py = Pon4vectorNew.Py()-(kick_y/2.0);
 
