@@ -308,8 +308,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	smear_theta->SetParameter(1,0);
 	double dis_reso = 0.1/sqrt(135.0);
 	double angle_reso = TMath::ATan(dis_reso/28.8);
-	smear_theta->SetParameter(2,angle_reso);//assume 8x8 0.2m x 0.2m ZDC 27meter away from IR at eRHIC. 
-										//resolution is smallest distance/sqrt(12) ~ 0.007
+	smear_theta->SetParameter(2,angle_reso);//assume 28.8m away from IP and 10cm/sqrt(E) resolution
 
 	for(int i(0); i < nEvents; ++i ) {
       
