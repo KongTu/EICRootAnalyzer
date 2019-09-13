@@ -174,6 +174,67 @@ vector<double> getPspa(TLorentzVector p){
 
 }
 
+Bool passDetector(TLorentzVector p, TVector3 b){
+
+	/*
+	- do acceptance cuts -
+	*/
+	
+	bool pass = true;
+
+	p.Boost(b);//boost to lab frame;
+
+	bool isNeutron = true;
+	if( p.M()<MASS_NEUTRON ) isNeutron = false;
+
+	if( isNeutron ){
+		if( p.Theta() > 0.004 ) pass = false;
+	}
+	else{
+		if( (p.Theta() > 0.005 && p.Theta() < 0.007) || p.Theta() > 0.022 ) pass = false;
+	}
+
+	return pass;
+}
+
+TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e, TF1*smear_theta){
+
+	bool isNeutron = true;
+	TLorentzVector pafter;
+
+	//boost to lab frame;
+	p.Boost(b);
+
+	if( p.M()<MASS_NEUTRON ) isNeutron = false;
+	
+	if( !isNeutron ) {
+		pafter = p;
+	}
+	else{
+		//smearing neutron
+		double E_n = p.E();
+		double delta_E = smear_e->GetRandom();
+		E_n = E_n + delta_E;
+		double delta_Theta = smear_theta->GetRandom();
+		angle = angle + delta_Theta;
+		double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(angle)*TMath::Sin(angle));
+		double Pz_n = sqrt(Pz_n2);
+		double Pt_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON - Pz_n2);
+		double Pt_n = sqrt(Pt_n2);
+		double Px_n = Pt_n*TMath::Cos(p.Phi());
+		double Py_n = Pt_n*TMath::Sin(p.Phi());
+
+		pafter.SetPxPyPzE(Px_n, Py_n, Pz_n, E_n);
+
+	}
+
+	//boost back to IRF;
+	pafter.Boost(-b);
+	return pafter;
+}
+
+		
+
 void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 1.){
 
 	std::ostringstream os;
@@ -204,13 +265,13 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH2D* P_spa[5];
 	for(int i=0;i<5;i++){
 		Pp_mag[i] = new TH1D(Form("Pp_mag_%d",i),";P (GeV/c)",500,0,5);
-		P_spa[i] = new TH2D(Form("P_spa_%d",i),";x;y",200,-1,1,200,-1,1);
+		P_spa[i] = new TH2D(Form("P_spa_%d",i),";x(m);y(m)",200,-1,1,200,-1,1);
 	}
 	TH1D* Np_mag[2];
 	TH2D* N_spa[2];
 	for(int i=0;i<2;i++){
 		Np_mag[i] = new TH1D(Form("Np_mag_%d",i),";P (GeV/c)",500,0,5);
-		N_spa[i] = new TH2D(Form("N_spa_%d",i),";x;y",200,-1,1,200,-1,1);
+		N_spa[i] = new TH2D(Form("N_spa_%d",i),";x(m);y(m)",200,-1,1,200,-1,1);
 	}
 
 
@@ -281,7 +342,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		TLorentzVector p_4vect, n_4vect,j_4vect,q;
 		TLorentzVector p_4vect_irf, n_4vect_irf,j_4vect_irf,q_irf,d_beam_irf;
 		TLorentzVector jnew,pnew;
-		TLorentzVector lfjnew,lfpnew;
+		TLorentzVector jnew1,pnew1;
 		TLorentzVector jnew2,pnew2;
 		TLorentzVector jnew3,pnew3,nnew3;
 
@@ -318,41 +379,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			if(pdg == 443 ) j_4vect = ppart;
 			if(pdg == 2212) p_4vect = ppart;
 			if(pdg == 2112) {n_4vect = ppart; n_4vect_unsmear = n_4vect;}
-
-			/*
-			- do energy and scattering angle smearing 
-			- together with acceptance cuts
-			*/
-			
-			if( doAcceptance_ ){
-				double angle = ppart.Theta();
-				//acceptance cuts for proton
-				if( pdg == 2212 ){
-					if( (angle > 0.005 && angle < 0.007) || angle > 0.022 ) p_4vect.SetPxPyPzE(0.,0.,0.,0.);
-				}
-				//acceptance cuts for neutron
-				if( pdg == 2112 ){
-					if( angle > 0.004 ) {
-						n_4vect.SetPxPyPzE(0.,0.,0.,0.);
-					}
-				}
-				if( doSmear_ ){
-					//smearing neutron
-					double E_n = ppart.E();
-					double delta_E = smear_e->GetRandom();
-					E_n = E_n + delta_E;
-					double delta_Theta = smear_theta->GetRandom();
-					angle = angle + delta_Theta;
-					double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(angle)*TMath::Sin(angle));
-					double Pz_n = sqrt(Pz_n2);
-					double Pt_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON - Pz_n2);
-					double Pt_n = sqrt(Pt_n2);
-					double Px_n = Pt_n*TMath::Cos(ppart.Phi());
-					double Py_n = Pt_n*TMath::Sin(ppart.Phi());
-
-					n_4vect.SetPxPyPzE(Px_n, Py_n, Pz_n, E_n);
-				}	
-			}
 
 			if(pdg == 443 ) j_4vect_irf = j_4vect;
 			if(pdg == 2212) p_4vect_irf = p_4vect;
@@ -442,14 +468,14 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		px_new = struck_4vect_irf.Px()-spectator_4vect_irf.Px();
 		py_new = struck_4vect_irf.Py()-spectator_4vect_irf.Py();
 		pz_new = lfpz;
-		lfpnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( struck_mass*struck_mass + px_new*px_new + py_new*py_new + pz_new*pz_new));
+		pnew1.SetPxPyPzE(px_new,py_new,pz_new, sqrt( struck_mass*struck_mass + px_new*px_new + py_new*py_new + pz_new*pz_new));
 		
 		jx_new = j_4vect_irf.Px()+spectator_4vect_irf.Px();
 		jy_new = j_4vect_irf.Py()+spectator_4vect_irf.Py();
 		jz_new = lfjz;
-		lfjnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
+		jnew1.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
-		TLorentzVector testnew2 = q_irf+d_beam_irf-lfjnew-lfpnew-spectator_4vect_irf;
+		TLorentzVector testnew2 = q_irf+d_beam_irf-jnew1-pnew1-spectator_4vect_irf;
 		EvsPz->Fill(testp.Pz(), testp.E());
 		EvsPzFix->Fill(testnew2.Pz(), testnew2.E());
 
@@ -536,16 +562,30 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		jz_new = jz;
 		jnew3.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
+
 		//filling histograms:
+		if( doAcceptance_ ) {
+			if( !passDetector(struck_4vect_irf,b) ) struck_4vect_irf.SetPxPyPzE(0,0,0,0);
+			if( !passDetector(pnew,b) ) pnew.SetPxPyPzE(0,0,0,0);
+			if( !passDetector(pnew1,b) ) pnew1.SetPxPyPzE(0,0,0,0);
+			if( !passDetector(pnew2,b) ) pnew2.SetPxPyPzE(0,0,0,0);
+			if( !passDetector(pnew3,b) ) pnew3.SetPxPyPzE(0,0,0,0);
+			if( !passDetector(spectator_4vect_irf,b) ) spectator_4vect_irf.SetPxPyPzE(0,0,0,0);
+			if( !passDetector(nnew3,b) ) nnew3.SetPxPyPzE(0,0,0,0);
+		}
+
 		Pp_mag[0]->Fill( struck_4vect_irf.P() );
 		Pp_mag[1]->Fill( pnew.P() );
-		Pp_mag[2]->Fill( lfpnew.P() );
+		Pp_mag[2]->Fill( pnew1.P() );
 		Pp_mag[3]->Fill( pnew2.P() );
 		Pp_mag[4]->Fill( pnew3.P() );
 
 		Np_mag[0]->Fill( spectator_4vect_irf.P() );
 		Np_mag[1]->Fill( nnew3.P() );
 
+		
+		//filling histograms:
+		//with acceptance cuts and energy resolution
 		TLorentzVector pn_final = pnew3+nnew3;
 		
 		sPN->Fill( pn_final.Mag2() );
@@ -558,7 +598,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		//spatial distributions, first boost back in lab frame:
 		struck_4vect_irf.Boost(b);
 		pnew.Boost(b);
-		lfpnew.Boost(b);
+		pnew1.Boost(b);
 		pnew2.Boost(b);
 		pnew3.Boost(b);
 		spectator_4vect_irf.Boost(b);
@@ -568,7 +608,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		P_spa[0]->Fill(pos[0],pos[1]);
 		pos.clear(); pos = getPspa(pnew);
 		P_spa[1]->Fill(pos[0],pos[1]);
-		pos.clear(); pos = getPspa(lfpnew);
+		pos.clear(); pos = getPspa(pnew1);
 		P_spa[2]->Fill(pos[0],pos[1]);
 		pos.clear(); pos = getPspa(pnew2);
 		P_spa[3]->Fill(pos[0],pos[1]);
