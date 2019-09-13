@@ -192,7 +192,7 @@ bool passDetector(TLorentzVector p, TVector3 b){
 	if( p.M() < MASS_PROTON+0.0001 ) isNeutron = false;
 
 	if( isNeutron ){
-		if( p.Theta() > 0.008 ) pass = false;
+		if( p.Theta() > acceptance ) pass = false;
 	}
 	else{
 		if( (p.Theta() > 0.005 && p.Theta() < 0.007) || p.Theta() > 0.022 ) pass = false;
@@ -243,12 +243,13 @@ TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e, TF1*smea
 
 		
 
-void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 1.){
+void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 1., const double acceptance=0.004){
 
 	std::ostringstream os;
 	os << (int) doSmear_;
 	os << (int) doAcceptance_;
 	os << "_ZDC_" << (double) rZDC;
+	os << "_" << (double) acceptance;
 	std::string str = os.str();
 	TString settings = (TString) str;
 
