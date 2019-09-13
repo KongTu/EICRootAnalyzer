@@ -205,7 +205,7 @@ TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e, TF1*smea
 	//boost to lab frame;
 	p.Boost(b);
 
-	if( p.M()<MASS_NEUTRON ) isNeutron = false;
+	if( p.M() < MASS_PROTON+0.0001 ) isNeutron = false;
 	
 	if( !isNeutron ) {
 		pafter = p;
@@ -421,9 +421,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			struck_mass = MASS_NEUTRON;
 			spectator_mass = MASS_PROTON;
 		}
-
-		//use spectator only:
-		nk_spectator->Fill( spectator_4vect_irf.P() );
 		
 		/*
 		fixing deuteron momentum nonconservation:
@@ -573,6 +570,15 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			if( !passDetector(spectator_4vect_irf,b) ) spectator_4vect_irf.SetPxPyPzE(0,0,0,0);
 			if( !passDetector(nnew3,b) ) nnew3.SetPxPyPzE(0,0,0,0);
 		}
+		if( doSmear_ ){
+			struck_4vect_irf = afterDetector(struck_4vect_irf,b,smear_e,smear_theta);
+			pnew = afterDetector(pnew,b,smear_e,smear_theta);
+			pnew1 = afterDetector(pnew1,b,smear_e,smear_theta);
+			pnew2 = afterDetector(pnew2,b,smear_e,smear_theta);
+			pnew3 = afterDetector(pnew3,b,smear_e,smear_theta);
+			spectator_4vect_irf = afterDetector(spectator_4vect_irf,b,smear_e,smear_theta);
+			nnew3 = afterDetector(nnew3,b,smear_e,smear_theta);
+		}
 
 		Pp_mag[0]->Fill( struck_4vect_irf.P() );
 		Pp_mag[1]->Fill( pnew.P() );
@@ -583,7 +589,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		Np_mag[0]->Fill( spectator_4vect_irf.P() );
 		Np_mag[1]->Fill( nnew3.P() );
 
-		
 		//filling histograms:
 		//with acceptance cuts and energy resolution
 		TLorentzVector pn_final = pnew3+nnew3;
@@ -595,6 +600,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		sPN_k->Fill(nk_event, pn_final.Mag2());
 		sPN_4pt2_k->Fill(nk_event, 4*spectator_4vect_irf.Pt()*spectator_4vect_irf.Pt() );
 	
+		//use spectator only:
+		nk_spectator->Fill( spectator_4vect_irf.P() );
+
 		//spatial distributions, first boost back in lab frame:
 		
 		if(struck_4vect_irf.E() != 0.) struck_4vect_irf.Boost(b);
