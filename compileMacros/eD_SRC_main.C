@@ -202,6 +202,10 @@ TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e, TF1*smea
 	bool isNeutron = true;
 	TLorentzVector pafter;
 
+	if( p.E() == 0. ) {
+		return p;
+	}
+
 	//boost to lab frame;
 	p.Boost(b);
 
@@ -250,28 +254,36 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* that = new TH1D("that","that",200,0,10);
 	TH1D* tjpsi = new TH1D("tjpsi","tjpsi",200,0,10);
 	TH2D* nRes = new TH2D("nRes","",60,-30,30,20,-0.1,0.1);
-	TH1D* nucleon_t = new TH1D("nucleon_t","nucleon_t",200,-10,10);
-	TH2D* sPN_t = new TH2D("sPN_t",";t;s",200,-10,10,sPN_nBins,sPN_bins);
-	TH2D* sPN_k = new TH2D("sPN_k",";k;s",200,0,1,sPN_nBins,sPN_bins);
-	TH1D* sPN = new TH1D("sPN","sPN",sPN_nBins,sPN_bins);
-	TH1D* sPN_4pt2 = new TH1D("sPN_4pt2","sPN_4pt2",200,0,10);
-	TH2D* sPN_4pt2_k = new TH2D("sPN_4pt2_k",";k;4p^{2}_{T}",200,0,1,200,0,10);
-
 	TH1D* nk_truth = new TH1D("nk_truth","k (GeV/c)", nk_nBins, nk_bins);
-	TH1D* nk_spectator = new TH1D("nk_spectator",";k (GeV/c)", nk_nBins, nk_bins);
 	TH2D* EvsPz = new TH2D("EvsPz",";pz;E",500,-0.01,0.01,500,-0.01,0.01);
 	TH2D* EvsPzFix = new TH2D("EvsPzFix",";pz;E",500,-0.01,0.01,500,-0.01,0.01);
+	
 	TH1D* Pp_mag[5];
 	TH2D* P_spa[5];
+	TH1D* nucleon_t[5]; 
+	TH1D* sPN[5]; 
+	TH1D* sPN_4pt2[5]; 
+	TH2D* sPN_t[5]; 
+	TH2D* sPN_k[5]; 
+	TH2D* sPN_4pt2_k[5];
 	for(int i=0;i<5;i++){
 		Pp_mag[i] = new TH1D(Form("Pp_mag_%d",i),";P (GeV/c)",500,0,5);
 		P_spa[i] = new TH2D(Form("P_spa_%d",i),";x(m);y(m)",200,-1,1,200,-1,1);
+		nucleon_t[i] = new TH1D(Form("nucleon_t_%d",i),"t (GeV^{2})",200,-10,10);
+		sPN[i] = new TH1D(Form("sPN_%d",i),"sPN",sPN_nBins,sPN_bins);
+		sPN_4pt2[i] = new TH1D(Form("sPN_4pt2_%d",i),"sPN_4pt2",200,0,10);
+		sPN_t[i] = new TH2D(Form("sPN_t_%d",i),";t;s",200,-10,10,sPN_nBins,sPN_bins);
+		sPN_k[i] = new TH2D(Form("sPN_k_%d",i),";k;s",200,0,1,sPN_nBins,sPN_bins);
+		sPN_4pt2_k[i] = new TH2D(Form("sPN_4pt2_k_%d",i),";k;4p^{2}_{T}",200,0,1,200,0,10);
 	}
+	
 	TH1D* Np_mag[2];
 	TH2D* N_spa[2];
+	TH1D* nk_spectator[2];
 	for(int i=0;i<2;i++){
 		Np_mag[i] = new TH1D(Form("Np_mag_%d",i),";P (GeV/c)",500,0,5);
 		N_spa[i] = new TH2D(Form("N_spa_%d",i),";x(m);y(m)",200,-1,1,200,-1,1);
+		nk_spectator[i] = new TH1D(Form("nk_spectator_%d",i),";k (GeV/c)", nk_nBins, nk_bins);
 	}
 
 
@@ -285,12 +297,14 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TF1* smear_e = new TF1("smear_e","gaus(0)",-30,30);
 	smear_e->SetParameter(0,1);
 	smear_e->SetParameter(1,0);
-	smear_e->SetParameter(2, sqrt( (energy_resolution/sqrt(135.))*(energy_resolution/sqrt(135.)) + 0.05*0.05 )*135. );
+	smear_e->SetParameter(2, sqrt( (energy_resolution/sqrt(135.))*(energy_resolution/sqrt(135.)) + 0.091*0.091 )*135. );
 
 	TF1* smear_theta = new TF1("smear_theta","gaus(0)",-0.001,0.001);
 	smear_theta->SetParameter(0,1);
 	smear_theta->SetParameter(1,0);
-	smear_theta->SetParameter(2,0.00025);//assume 8x8 0.2m x 0.2m ZDC 27meter away from IR at eRHIC. 
+	double dis_reso = 0.1/sqrt(135.0);
+	double angle_reso = TMath::ATan(dis_reso/28.8);
+	smear_theta->SetParameter(2,angle_reso);//assume 8x8 0.2m x 0.2m ZDC 27meter away from IR at eRHIC. 
 										//resolution is smallest distance/sqrt(12) ~ 0.007
 
 	for(int i(0); i < nEvents; ++i ) {
@@ -580,6 +594,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			nnew3 = afterDetector(nnew3,b,smear_e,smear_theta);
 		}
 
+		//filling histograms:
 		Pp_mag[0]->Fill( struck_4vect_irf.P() );
 		Pp_mag[1]->Fill( pnew.P() );
 		Pp_mag[2]->Fill( pnew1.P() );
@@ -589,19 +604,82 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		Np_mag[0]->Fill( spectator_4vect_irf.P() );
 		Np_mag[1]->Fill( nnew3.P() );
 
-		//filling histograms:
-		//with acceptance cuts and energy resolution
-		TLorentzVector pn_final = pnew3+nnew3;
-		
-		sPN->Fill( pn_final.Mag2() );
-		sPN_4pt2->Fill( 4*spectator_4vect_irf.Pt()*spectator_4vect_irf.Pt() );//4*spectator pt**2
-		nucleon_t->Fill( (pn_final - d_beam_irf).Mag2() );
-		sPN_t->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
-		sPN_k->Fill(nk_event, pn_final.Mag2());
-		sPN_4pt2_k->Fill(nk_event, 4*spectator_4vect_irf.Pt()*spectator_4vect_irf.Pt() );
-	
+
+		TLorentzVector pn_final;double 4pt2=0.0;
+		if( struck_4vect_irf.E() != 0. && spectator_4vect_irf.E() != 0.){
+			pn_final = struck_4vect_irf+spectator_4vect_irf;
+			struck_4vect_irf.Boost(b);spectator_4vect_irf.Boost(b);
+			4pt2 = (struck_4vect_irf.Pt()+spectator_4vect_irf.Pt())*(struck_4vect_irf.Pt()+spectator_4vect_irf.Pt());
+			struck_4vect_irf.Boost(-b);spectator_4vect_irf.Boost(-b);
+
+			//default BeAGLE:
+			nucleon_t[0]->Fill( (pn_final - d_beam_irf).Mag2() );
+			sPN[0]->Fill( pn_final.Mag2() );
+			sPN_4pt2[0]->Fill( 4pt2 );//4*spectator pt**2
+			sPN_t[0]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
+			sPN_k[0]->Fill(nk_event, pn_final.Mag2());
+			sPN_4pt2_k[0]->Fill(nk_event, 4pt2 );
+		}
+		if( pnew.E() != 0. && spectator_4vect_irf.E() != 0.){
+			//approach 1:
+			pn_final = pnew+spectator_4vect_irf;
+			pnew.Boost(b);spectator_4vect_irf.Boost(b);
+			4pt2 = (pnew.Pt()+spectator_4vect_irf.Pt())*(pnew.Pt()+spectator_4vect_irf.Pt());
+			pnew.Boost(-b);spectator_4vect_irf.Boost(-b);
+			
+			nucleon_t[1]->Fill( (pn_final - d_beam_irf).Mag2() );
+			sPN[1]->Fill( pn_final.Mag2() );
+			sPN_4pt2[1]->Fill( 4pt2 );//4*spectator pt**2
+			sPN_t[1]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
+			sPN_k[1]->Fill(nk_event, pn_final.Mag2());
+			sPN_4pt2_k[1]->Fill(nk_event, 4pt2 );
+		}
+		if( pnew1.E() != 0. && spectator_4vect_irf.E() != 0.){
+			//approach 2:
+			pn_final = pnew1+spectator_4vect_irf;
+			pnew1.Boost(b);spectator_4vect_irf.Boost(b);
+			4pt2 = (pnew1.Pt()+spectator_4vect_irf.Pt())*(pnew1.Pt()+spectator_4vect_irf.Pt());
+			pnew1.Boost(-b);spectator_4vect_irf.Boost(-b);		
+
+			nucleon_t[2]->Fill( (pn_final - d_beam_irf).Mag2() );
+			sPN[2]->Fill( pn_final.Mag2() );
+			sPN_4pt2[2]->Fill( 4pt2 );//4*spectator pt**2
+			sPN_t[2]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
+			sPN_k[2]->Fill(nk_event, pn_final.Mag2());
+			sPN_4pt2_k[2]->Fill(nk_event, 4pt2 );
+		}
+		if( pnew2.E() != 0. && spectator_4vect_irf.E() != 0.){
+			//approach 3:
+			pn_final = pnew2+spectator_4vect_irf;
+			pnew2.Boost(b);spectator_4vect_irf.Boost(b);
+			4pt2 = (pnew2.Pt()+spectator_4vect_irf.Pt())*(pnew2.Pt()+spectator_4vect_irf.Pt());
+			pnew2.Boost(-b);spectator_4vect_irf.Boost(-b);		
+
+			nucleon_t[3]->Fill( (pn_final - d_beam_irf).Mag2() );
+			sPN[3]->Fill( pn_final.Mag2() );
+			sPN_4pt2[3]->Fill( 4pt2 );//4*spectator pt**2
+			sPN_t[3]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
+			sPN_k[3]->Fill(nk_event, pn_final.Mag2());
+			sPN_4pt2_k[3]->Fill(nk_event, 4pt2 );
+		}
+		if( pnew3.E() != 0. && nnew3.E() != 0.){
+			//approach 3:
+			pn_final = pnew3+nnew3;
+			pnew3.Boost(b);nnew3.Boost(b);
+			4pt2 = (pnew3.Pt()+nnew3.Pt())*(pnew3.Pt()+nnew3.Pt());
+			pnew3.Boost(-b);nnew3.Boost(-b);		
+
+			nucleon_t[4]->Fill( (pn_final - d_beam_irf).Mag2() );
+			sPN[4]->Fill( pn_final.Mag2() );
+			sPN_4pt2[4]->Fill( 4pt2 );//4*spectator pt**2
+			sPN_t[4]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
+			sPN_k[4]->Fill(nk_event, pn_final.Mag2());
+			sPN_4pt2_k[4]->Fill(nk_event, 4pt2 );
+		}
+
 		//use spectator only:
-		nk_spectator->Fill( spectator_4vect_irf.P() );
+		if( spectator_4vect_irf.E() != 0. ) nk_spectator[0]->Fill( spectator_4vect_irf.P() );
+		if( nnew3.E() != 0. ) nk_spectator[1]->Fill( nnew3.P() );
 
 		//spatial distributions, first boost back in lab frame:
 		
