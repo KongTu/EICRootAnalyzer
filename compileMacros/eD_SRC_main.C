@@ -495,7 +495,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		qzkz = q_irf.Pz() - nnew3.Pz();
 		numn = q_irf.E() - nnew3.E();
 		jx = j_4vect_irf.Px()+spectator_4vect_irf.Px()-(Poff4vector.Px()-struck_4vect_irf.Px())-(Noff4vector.Px()-spectator_4vect_irf.Px());
-		jy = j_4vect_irf.Py()+spectator_4vect_irf.Py()-(Poff4vector.Py()-struck_4vect_irf.Py())-(Noff4vector.Px()-spectator_4vect_irf.Px());
+		jy = j_4vect_irf.Py()+spectator_4vect_irf.Py()-(Poff4vector.Py()-struck_4vect_irf.Py())-(Noff4vector.Py()-spectator_4vect_irf.Py());
 		px = Pon4vectorNew.Px()-(kick_x/2.0);
 		py = Pon4vectorNew.Py()-(kick_y/2.0);
 
