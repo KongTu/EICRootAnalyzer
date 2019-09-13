@@ -476,7 +476,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		TVector3 kick(pnew2.Px()-(-spectator_4vect_irf.Px()), pnew2.Py()-(-spectator_4vect_irf.Py()), pnew2.Pz()-(-spectator_4vect_irf.Pz()) );
 		double kick_x = kick.Px();
 		double kick_y = kick.Py();
-		double kick_z = kick.Pz()
+		double kick_z = kick.Pz();
 		
 		kmag = spectator_4vect_irf.P();
 		MnuclOff = sqrt(0.25*MASS_DEUTERON*MASS_DEUTERON - kmag*kmag);
