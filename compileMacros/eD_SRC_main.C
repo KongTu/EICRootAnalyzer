@@ -166,6 +166,7 @@ vector<double> getPspa(TLorentzVector p){
 	double P_sx = dp_struck*TMath::Cos(p.Phi());
 	double P_sy = dp_struck*TMath::Sin(p.Phi());
 
+	cout << "theta angle ~ " << p.Theta() << endl;
 	vector< double> temp;
 	temp.push_back(P_sx);
 	temp.push_back(P_sy);
