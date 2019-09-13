@@ -192,7 +192,7 @@ bool passDetector(TLorentzVector p, TVector3 b){
 	if( p.M() < MASS_PROTON+0.0001 ) isNeutron = false;
 
 	if( isNeutron ){
-		if( p.Theta() > 0.004 ) pass = false;
+		if( p.Theta() > 0.008 ) pass = false;
 	}
 	else{
 		if( (p.Theta() > 0.005 && p.Theta() < 0.007) || p.Theta() > 0.022 ) pass = false;
