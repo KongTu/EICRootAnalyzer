@@ -185,7 +185,7 @@ bool passDetector(TLorentzVector p, TVector3 b){
 	p.Boost(b);//boost to lab frame;
 
 	bool isNeutron = true;
-	if( p.M()<MASS_NEUTRON ) isNeutron = false;
+	if( p.M() < MASS_PROTON+0.0001 ) isNeutron = false;
 
 	if( isNeutron ){
 		if( p.Theta() > 0.004 ) pass = false;
