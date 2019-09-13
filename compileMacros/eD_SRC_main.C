@@ -166,7 +166,6 @@ vector<double> getPspa(TLorentzVector p){
 	double P_sx = dp_struck*TMath::Cos(p.Phi());
 	double P_sy = dp_struck*TMath::Sin(p.Phi());
 
-	cout << "theta angle ~ " << p.Theta() << endl;
 	vector< double> temp;
 	temp.push_back(P_sx);
 	temp.push_back(P_sy);
@@ -205,13 +204,13 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH2D* P_spa[5];
 	for(int i=0;i<5;i++){
 		Pp_mag[i] = new TH1D(Form("Pp_mag_%d",i),";P (GeV/c)",500,0,5);
-		P_spa[i] = new TH2D(Form("P_spa_%d",i),";x;y",200,-10,10,200,-10,10);
+		P_spa[i] = new TH2D(Form("P_spa_%d",i),";x;y",200,-1,1,200,-1,1);
 	}
 	TH1D* Np_mag[2];
 	TH2D* N_spa[2];
 	for(int i=0;i<2;i++){
 		Np_mag[i] = new TH1D(Form("Np_mag_%d",i),";P (GeV/c)",500,0,5);
-		N_spa[i] = new TH2D(Form("N_spa_%d",i),";x;y",200,-10,10,200,-10,10);
+		N_spa[i] = new TH2D(Form("N_spa_%d",i),";x;y",200,-1,1,200,-1,1);
 	}
 
 
@@ -547,8 +546,23 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		Np_mag[0]->Fill( spectator_4vect_irf.P() );
 		Np_mag[1]->Fill( nnew3.P() );
 
-		//spatial distributions:
-		double zdcip = 28.8;//Unit in METER
+		TLorentzVector pn_final = pnew3+nnew3;
+		
+		sPN->Fill( pn_final.Mag2() );
+		sPN_4pt2->Fill( 4*spectator_4vect_irf.Pt()*spectator_4vect_irf.Pt() );//4*spectator pt**2
+		nucleon_t->Fill( (pn_final - d_beam_irf).Mag2() );
+		sPN_t->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
+		sPN_k->Fill(nk_event, pn_final.Mag2());
+		sPN_4pt2_k->Fill(nk_event, 4*spectator_4vect_irf.Pt()*spectator_4vect_irf.Pt() );
+	
+		//spatial distributions, first boost back in lab frame:
+		struck_4vect_irf.Boost(b);
+		pnew.Boost(b);
+		lfpnew.Boost(b);
+		pnew2.Boost(b);
+		pnew3.Boost(b);
+		spectator_4vect_irf.Boost(b);
+		nnew3.Boost(b);
 
 		vector< double> pos = getPspa(struck_4vect_irf);
 		P_spa[0]->Fill(pos[0],pos[1]);
@@ -566,14 +580,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		pos.clear(); pos = getPspa(nnew3);
 		N_spa[1]->Fill(pos[0],pos[1]);
 
-		TLorentzVector pn_final = pnew3+nnew3;
-		
-		sPN->Fill( pn_final.Mag2() );
-		sPN_4pt2->Fill( 4*spectator_4vect_irf.Pt()*spectator_4vect_irf.Pt() );//4*spectator pt**2
-		nucleon_t->Fill( (pn_final - d_beam_irf).Mag2() );
-		sPN_t->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
-		sPN_k->Fill(nk_event, pn_final.Mag2());
-		sPN_4pt2_k->Fill(nk_event, 4*spectator_4vect_irf.Pt()*spectator_4vect_irf.Pt() );
 	}
 
 	output->Write();
