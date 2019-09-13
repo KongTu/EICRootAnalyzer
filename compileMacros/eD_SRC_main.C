@@ -617,6 +617,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			P_spa[4]->Fill(pos[0],pos[1]);
 		}
 		else{
+			vector< double> pos;
 			pos.clear(); pos = getPspa(spectator_4vect_irf);
 			N_spa[0]->Fill(pos[0],pos[1]);
 			pos.clear(); pos = getPspa(nnew3);
