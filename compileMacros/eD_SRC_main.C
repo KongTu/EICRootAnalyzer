@@ -185,13 +185,19 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* nk_spectator = new TH1D("nk_spectator",";k (GeV/c)", nk_nBins, nk_bins);
 	TH2D* EvsPz = new TH2D("EvsPz",";pz;E",500,-0.01,0.01,500,-0.01,0.01);
 	TH2D* EvsPzFix = new TH2D("EvsPzFix",";pz;E",500,-0.01,0.01,500,-0.01,0.01);
-	TH1D* Pp_old = new TH1D("Pp_old","",500,0,5);
-	TH1D* Pp_new = new TH1D("Pp_new","",500,0,5);
-	TH1D* Pp_new1 = new TH1D("Pp_new1","",500,0,5);
-	TH1D* Pp_new2 = new TH1D("Pp_new2","",500,0,5);
-	TH1D* Pp_new3 = new TH1D("Pp_new3","",500,0,5);
-	TH1D* Np_old = new TH1D("Np_old","",500,0,5);
-	TH1D* Np_new3 = new TH1D("Np_new3","",500,0,5);
+	TH1D* Pp_mag[5];
+	TH2D* P_spa[5]
+	for(int i=0;i<5;i++){
+		Pp_mag[i] = new TH1D(Form("Pp_mag_%d",i),"",500,0,5);
+		P_spa[i] = new TH2D(Form("P_spa_%d",i),";x;y",200,-1,1,200,-1,1);
+	}
+	TH1D* Np_mag[2];
+	TH2D* N_spa[2];
+	for(int i=0;i<5;i++){
+		Np_mag[i] = new TH1D(Form("Np_mag_%d"),"",500,0,5);
+		N_spa[i] = new TH2D(Form("N_spa_%d",i),";x;y",200,-1,1,200,-1,1);
+	}
+
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/"+filename+".root" );
@@ -516,14 +522,26 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		jnew3.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
 		//filling histograms:
-		Pp_old->Fill( struck_4vect_irf.P() );
-		Pp_new->Fill( pnew.P() );
-		Pp_new1->Fill( lfpnew.P() );
-		Pp_new2->Fill( pnew2.P() );
-		Pp_new3->Fill( pnew3.P() );
+		Pp_mag[0]->Fill( struck_4vect_irf.P() );
+		Pp_mag[1]->Fill( pnew.P() );
+		Pp_mag[2]->Fill( lfpnew.P() );
+		Pp_mag[3]->Fill( pnew2.P() );
+		Pp_mag[4]->Fill( pnew3.P() );
 
-		Np_old->Fill( spectator_4vect_irf.P() );
-		Np_new3->Fill( nnew3.P() );
+		Np_mag[0]->Fill( spectator_4vect_irf.P() );
+		Np_mag[1]->Fill( nnew3.P() );
+
+		//spatial distributions:
+		double zdcip = 28.8;
+		double dp_struck = zdcip*TMath::Tan(pnew3.Theta());
+		double P_sx = dp_struck*TMath::Cos(pnew3.Phi());
+		double P_sy = dp_struck*TMath::Sin(pnew3.Phi());
+		P_spa[4]->Fill(P_sx,P_sy);
+
+		dp_struck = zdcip*TMath::Tan(nnew3.Theta());
+		P_sx = dp_struck*TMath::Cos(nnew3.Phi());
+		P_sy = dp_struck*TMath::Sin(nnew3.Phi());
+		N_spa[1]->Fill(P_sx,P_sy);
 
 		TLorentzVector pn_final = pnew3+nnew3;
 		
