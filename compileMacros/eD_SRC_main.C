@@ -161,17 +161,21 @@ Double_t getCorrJzLF(Double_t Ennz, Double_t Ennz2, Double_t nuqzmd, Double_t nu
 
 vector<double> getPspa(TLorentzVector p){
 
-	double zdcip = 28.8;
-	double dp_struck = zdcip*TMath::Tan(p.Theta());
-	double P_sx = dp_struck*TMath::Cos(p.Phi());
-	double P_sy = dp_struck*TMath::Sin(p.Phi());
-
 	vector< double> temp;
-	temp.push_back(P_sx);
-	temp.push_back(P_sy);
+	if( p.E() == 0. ){
+		temp.push_back(-999.);
+		temp.push_back(-999.);
+	}
+	else{
+		double zdcip = 28.8;
+		double dp_struck = zdcip*TMath::Tan(p.Theta());
+		double P_sx = dp_struck*TMath::Cos(p.Phi());
+		double P_sy = dp_struck*TMath::Sin(p.Phi());
+		temp.push_back(P_sx);
+		temp.push_back(P_sy);
+	}
 
 	return temp;
-
 }
 
 bool passDetector(TLorentzVector p, TVector3 b){
