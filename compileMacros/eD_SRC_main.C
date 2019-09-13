@@ -170,6 +170,8 @@ vector<double> getPspa(TLorentzVector p){
 	temp.push_back(P_sx);
 	temp.push_back(P_sy);
 
+	return temp;
+
 }
 
 void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 1.){
