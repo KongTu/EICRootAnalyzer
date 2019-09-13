@@ -186,7 +186,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH2D* EvsPz = new TH2D("EvsPz",";pz;E",500,-0.01,0.01,500,-0.01,0.01);
 	TH2D* EvsPzFix = new TH2D("EvsPzFix",";pz;E",500,-0.01,0.01,500,-0.01,0.01);
 	TH1D* Pp_mag[5];
-	TH2D* P_spa[5]
+	TH2D* P_spa[5];
 	for(int i=0;i<5;i++){
 		Pp_mag[i] = new TH1D(Form("Pp_mag_%d",i),"",500,0,5);
 		P_spa[i] = new TH2D(Form("P_spa_%d",i),";x;y",200,-1,1,200,-1,1);
