@@ -596,13 +596,14 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		sPN_4pt2_k->Fill(nk_event, 4*spectator_4vect_irf.Pt()*spectator_4vect_irf.Pt() );
 	
 		//spatial distributions, first boost back in lab frame:
-		struck_4vect_irf.Boost(b);
-		pnew.Boost(b);
-		pnew1.Boost(b);
-		pnew2.Boost(b);
-		pnew3.Boost(b);
-		spectator_4vect_irf.Boost(b);
-		nnew3.Boost(b);
+		
+		if(struck_4vect_irf.E() != 0.) struck_4vect_irf.Boost(b);
+		if(pnew.E() != 0.) pnew.Boost(b);
+		if(pnew1.E() != 0.) pnew1.Boost(b);
+		if(pnew2.E() != 0.) pnew2.Boost(b);
+		if(pnew3.E() != 0.) pnew3.Boost(b);
+		if(spectator_4vect_irf.E() != 0.) spectator_4vect_irf.Boost(b);
+		if(nnew3.E() != 0.) nnew3.Boost(b);
 
 		if( !struckproton ){
 			vector< double> pos = getPspa(struck_4vect_irf);
