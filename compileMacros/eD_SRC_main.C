@@ -189,6 +189,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* Pp_new = new TH1D("Pp_new","",500,0,5);
 	TH1D* Pp_new1 = new TH1D("Pp_new1","",500,0,5);
 	TH1D* Pp_new2 = new TH1D("Pp_new2","",500,0,5);
+	TH1D* Pp_new3 = new TH1D("Pp_new3","",500,0,5);
+	TH1D* Np_old = new TH1D("Np_old","",500,0,5);
+	TH1D* Np_new3 = new TH1D("Np_new3","",500,0,5);
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/"+filename+".root" );
@@ -512,43 +515,17 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		jz_new = jz;
 		jnew3.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
-		cout << "check momentum conservation approach 4, total change q+d-j-p'-n' should be 0 now: " << endl;
-		TLorentzVector testnew3 = q_irf+d_beam_irf-jnew3-pnew3-nnew3;
-		PRINT4VECTOR(testnew3,1);
-
-		cout << "Let's compare different kinematics method:" << endl;
-		cout << "proton old"<<endl;			// cout << "proton old"<<endl;
-		PRINT4VECTOR(struck_4vect_irf,1);			// PRINT4VECTOR(struck_4vect_irf,1);
-		cout << "proton new"<<endl;			// cout << "proton new"<<endl;
-		PRINT4VECTOR(pnew,1);			// PRINT4VECTOR(pnew,1);
-		cout << "proton new lf"<<endl;			// cout << "proton new lf"<<endl;
-		PRINT4VECTOR(lfpnew,1);			// PRINT4VECTOR(lfpnew,1);
-		cout << "proton new 2"<<endl;			// cout << "proton new 2"<<endl;
-		PRINT4VECTOR(pnew2,1);			// PRINT4VECTOR(pnew2,1);
-		cout << "proton new 3"<<endl;			// cout << "proton new 2"<<endl;
-		PRINT4VECTOR(pnew3,1);
-		cout << "jpsi old"<<endl;			// cout << "jpsi old"<<endl;
-		PRINT4VECTOR(j_4vect_irf,1);			// PRINT4VECTOR(j_4vect_irf,1);
-		cout << "jpsi new"<<endl;			// cout << "jpsi new"<<endl;
-		PRINT4VECTOR(jnew,1);			// PRINT4VECTOR(jnew,1);
-		cout << "jpsi new lf"<<endl;			// cout << "jpsi new lf"<<endl;
-		PRINT4VECTOR(lfjnew,1);			// PRINT4VECTOR(lfjnew,1);
-		cout << "jpsi new 2"<<endl;			// cout << "jpsi new 2"<<endl;
-		PRINT4VECTOR(jnew2,1);			// PRINT4VECTOR(jnew2,1);
-		cout << "jpsi new 3"<<endl;			// cout << "jpsi new 2"<<endl;
-		PRINT4VECTOR(jnew3,1);
-		cout << "neutron old"<<endl;			// cout << "proton old"<<endl;
-		PRINT4VECTOR(spectator_4vect_irf,1);
-		cout << "neutron new3"<<endl;			// cout << "proton old"<<endl;
-		PRINT4VECTOR(nnew3,1);
-
 		//filling histograms:
 		Pp_old->Fill( struck_4vect_irf.P() );
 		Pp_new->Fill( pnew.P() );
 		Pp_new1->Fill( lfpnew.P() );
 		Pp_new2->Fill( pnew2.P() );
+		Pp_new3->Fill( pnew3.P() );
 
-		TLorentzVector pn_final = pnew2+spectator_4vect_irf;
+		Np_old->Fill( spectator_4vect_irf.P() );
+		Np_new3->Fill( nnew3.P() );
+
+		TLorentzVector pn_final = pnew3+nnew3;
 		
 		sPN->Fill( pn_final.Mag2() );
 		sPN_4pt2->Fill( 4*spectator_4vect_irf.Pt()*spectator_4vect_irf.Pt() );//4*spectator pt**2
