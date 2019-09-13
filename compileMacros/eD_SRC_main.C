@@ -174,7 +174,7 @@ vector<double> getPspa(TLorentzVector p){
 
 }
 
-Bool passDetector(TLorentzVector p, TVector3 b){
+bool passDetector(TLorentzVector p, TVector3 b){
 
 	/*
 	- do acceptance cuts -
