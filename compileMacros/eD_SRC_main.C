@@ -216,7 +216,7 @@ TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e, TF1*smea
 		double delta_E = smear_e->GetRandom();
 		E_n = E_n + delta_E;
 		double delta_Theta = smear_theta->GetRandom();
-		angle = angle + delta_Theta;
+		double angle = p.Theta() + delta_Theta;
 		double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(angle)*TMath::Sin(angle));
 		double Pz_n = sqrt(Pz_n2);
 		double Pt_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON - Pz_n2);
