@@ -185,7 +185,7 @@ bool passDetector(TLorentzVector p, TVector3 b){
 	p.Boost(b);//boost to lab frame;
 
 	bool isNeutron = true;
-	if( p.M()<0.939 ) isNeutron = false;
+	if( p.M()<MASS_NEUTRON ) isNeutron = false;
 
 	if( isNeutron ){
 		if( p.Theta() > 0.004 ) pass = false;
@@ -604,21 +604,24 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		spectator_4vect_irf.Boost(b);
 		nnew3.Boost(b);
 
-		vector< double> pos = getPspa(struck_4vect_irf);
-		P_spa[0]->Fill(pos[0],pos[1]);
-		pos.clear(); pos = getPspa(pnew);
-		P_spa[1]->Fill(pos[0],pos[1]);
-		pos.clear(); pos = getPspa(pnew1);
-		P_spa[2]->Fill(pos[0],pos[1]);
-		pos.clear(); pos = getPspa(pnew2);
-		P_spa[3]->Fill(pos[0],pos[1]);
-		pos.clear(); pos = getPspa(pnew3);
-		P_spa[4]->Fill(pos[0],pos[1]);
-
-		pos.clear(); pos = getPspa(spectator_4vect_irf);
-		N_spa[0]->Fill(pos[0],pos[1]);
-		pos.clear(); pos = getPspa(nnew3);
-		N_spa[1]->Fill(pos[0],pos[1]);
+		if( !struckproton ){
+			vector< double> pos = getPspa(struck_4vect_irf);
+			P_spa[0]->Fill(pos[0],pos[1]);
+			pos.clear(); pos = getPspa(pnew);
+			P_spa[1]->Fill(pos[0],pos[1]);
+			pos.clear(); pos = getPspa(pnew1);
+			P_spa[2]->Fill(pos[0],pos[1]);
+			pos.clear(); pos = getPspa(pnew2);
+			P_spa[3]->Fill(pos[0],pos[1]);
+			pos.clear(); pos = getPspa(pnew3);
+			P_spa[4]->Fill(pos[0],pos[1]);
+		}
+		else{
+			pos.clear(); pos = getPspa(spectator_4vect_irf);
+			N_spa[0]->Fill(pos[0],pos[1]);
+			pos.clear(); pos = getPspa(nnew3);
+			N_spa[1]->Fill(pos[0],pos[1]);
+		}
 
 	}
 
