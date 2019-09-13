@@ -22,6 +22,8 @@ double nk_bins[]={0.,0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09,0.1,
 
 int nk_nBins = sizeof(nk_bins)/sizeof(nk_bins[0]) -1;
 
+double acceptanceGlobal = 0.004;
+
 TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
                             TLorentzVector const &pBeam_lab,
                             TLorentzVector const &eScat_lab) {
@@ -192,7 +194,7 @@ bool passDetector(TLorentzVector p, TVector3 b){
 	if( p.M() < MASS_PROTON+0.0001 ) isNeutron = false;
 
 	if( isNeutron ){
-		if( p.Theta() > acceptance ) pass = false;
+		if( p.Theta() > acceptanceGlobal ) pass = false;
 	}
 	else{
 		if( (p.Theta() > 0.005 && p.Theta() < 0.007) || p.Theta() > 0.022 ) pass = false;
@@ -245,6 +247,7 @@ TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e, TF1*smea
 
 void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 1., const double acceptance=0.004){
 
+	acceptanceGlobal = acceptance;
 	std::ostringstream os;
 	os << (int) doSmear_;
 	os << (int) doAcceptance_;
