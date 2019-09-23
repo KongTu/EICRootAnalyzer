@@ -620,7 +620,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			struck_4vect_irf.Boost(-b);spectator_4vect_irf.Boost(-b);
 
 			//default BeAGLE:
-			nucleon_t[0]->Fill( (pn_final - d_beam_irf).Mag2() );
+			nucleon_t[0]->Fill( (spectator_4vect_irf - d_beam_irf).Mag2() );
 			sPN[0]->Fill( pn_final.Mag2() );
 			sPN_Fpt2[0]->Fill( Fpt2 );//4*spectator pt**2
 			sPN_t[0]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
@@ -634,7 +634,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			Fpt2 = (pnew.Pt()+spectator_4vect_irf.Pt())*(pnew.Pt()+spectator_4vect_irf.Pt());
 			pnew.Boost(-b);spectator_4vect_irf.Boost(-b);
 			
-			nucleon_t[1]->Fill( (pn_final - d_beam_irf).Mag2() );
+			nucleon_t[1]->Fill( (spectator_4vect_irf - d_beam_irf).Mag2() );
 			sPN[1]->Fill( pn_final.Mag2() );
 			sPN_Fpt2[1]->Fill( Fpt2 );//4*spectator pt**2
 			sPN_t[1]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
@@ -648,7 +648,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			Fpt2 = (pnew1.Pt()+spectator_4vect_irf.Pt())*(pnew1.Pt()+spectator_4vect_irf.Pt());
 			pnew1.Boost(-b);spectator_4vect_irf.Boost(-b);		
 
-			nucleon_t[2]->Fill( (pn_final - d_beam_irf).Mag2() );
+			nucleon_t[2]->Fill( (spectator_4vect_irf - d_beam_irf).Mag2() );
 			sPN[2]->Fill( pn_final.Mag2() );
 			sPN_Fpt2[2]->Fill( Fpt2 );//4*spectator pt**2
 			sPN_t[2]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
@@ -662,7 +662,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			Fpt2 = (pnew2.Pt()+spectator_4vect_irf.Pt())*(pnew2.Pt()+spectator_4vect_irf.Pt());
 			pnew2.Boost(-b);spectator_4vect_irf.Boost(-b);		
 
-			nucleon_t[3]->Fill( (pn_final - d_beam_irf).Mag2() );
+			nucleon_t[3]->Fill( (spectator_4vect_irf - d_beam_irf).Mag2() );
 			sPN[3]->Fill( pn_final.Mag2() );
 			sPN_Fpt2[3]->Fill( Fpt2 );//4*spectator pt**2
 			sPN_t[3]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
@@ -676,7 +676,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			Fpt2 = (pnew3.Pt()+nnew3.Pt())*(pnew3.Pt()+nnew3.Pt());
 			pnew3.Boost(-b);nnew3.Boost(-b);		
 
-			nucleon_t[4]->Fill( (pn_final - d_beam_irf).Mag2() );
+			nucleon_t[4]->Fill( (nnew3 - d_beam_irf).Mag2() );
 			sPN[4]->Fill( pn_final.Mag2() );
 			sPN_Fpt2[4]->Fill( Fpt2 );//4*spectator pt**2
 			sPN_t[4]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
