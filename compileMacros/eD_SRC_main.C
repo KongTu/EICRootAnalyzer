@@ -623,7 +623,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			nucleon_t[0]->Fill( (spectator_4vect_irf - d_beam_irf).Mag2() );
 			sPN[0]->Fill( pn_final.Mag2() );
 			sPN_Fpt2[0]->Fill( Fpt2 );//4*spectator pt**2
-			sPN_t[0]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
+			sPN_t[0]->Fill((spectator_4vect_irf - d_beam_irf).Mag2(), pn_final.Mag2() );
 			sPN_k[0]->Fill(nk_event, pn_final.Mag2());
 			sPN_Fpt2_k[0]->Fill(nk_event, Fpt2 );
 		}
@@ -637,7 +637,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			nucleon_t[1]->Fill( (spectator_4vect_irf - d_beam_irf).Mag2() );
 			sPN[1]->Fill( pn_final.Mag2() );
 			sPN_Fpt2[1]->Fill( Fpt2 );//4*spectator pt**2
-			sPN_t[1]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
+			sPN_t[1]->Fill((spectator_4vect_irf - d_beam_irf).Mag2(), pn_final.Mag2() );
 			sPN_k[1]->Fill(nk_event, pn_final.Mag2());
 			sPN_Fpt2_k[1]->Fill(nk_event, Fpt2 );
 		}
@@ -651,7 +651,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			nucleon_t[2]->Fill( (spectator_4vect_irf - d_beam_irf).Mag2() );
 			sPN[2]->Fill( pn_final.Mag2() );
 			sPN_Fpt2[2]->Fill( Fpt2 );//4*spectator pt**2
-			sPN_t[2]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
+			sPN_t[2]->Fill((spectator_4vect_irf - d_beam_irf).Mag2(), pn_final.Mag2() );
 			sPN_k[2]->Fill(nk_event, pn_final.Mag2());
 			sPN_Fpt2_k[2]->Fill(nk_event, Fpt2 );
 		}
@@ -665,7 +665,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			nucleon_t[3]->Fill( (spectator_4vect_irf - d_beam_irf).Mag2() );
 			sPN[3]->Fill( pn_final.Mag2() );
 			sPN_Fpt2[3]->Fill( Fpt2 );//4*spectator pt**2
-			sPN_t[3]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
+			sPN_t[3]->Fill((spectator_4vect_irf - d_beam_irf).Mag2(), pn_final.Mag2() );
 			sPN_k[3]->Fill(nk_event, pn_final.Mag2());
 			sPN_Fpt2_k[3]->Fill(nk_event, Fpt2 );
 		}
@@ -679,7 +679,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			nucleon_t[4]->Fill( (nnew3 - d_beam_irf).Mag2() );
 			sPN[4]->Fill( pn_final.Mag2() );
 			sPN_Fpt2[4]->Fill( Fpt2 );//4*spectator pt**2
-			sPN_t[4]->Fill((pn_final - d_beam_irf).Mag2(), pn_final.Mag2() );
+			sPN_t[4]->Fill((nnew3 - d_beam_irf).Mag2(), pn_final.Mag2() );
 			sPN_k[4]->Fill(nk_event, pn_final.Mag2());
 			sPN_Fpt2_k[4]->Fill(nk_event, Fpt2 );
 		}
