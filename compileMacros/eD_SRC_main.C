@@ -641,7 +641,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			pn_final = pnew+spectator_4vect_irf;
 			pnew.Boost(b);spectator_4vect_irf.Boost(b);
 			Fpt2 = (pnew.Pt()+spectator_4vect_irf.Pt())*(pnew.Pt()+spectator_4vect_irf.Pt());
-			double spectator_angle = spectator_4vect_irf.Theta();
+			k_theta[1]->Fill(spectator_4vect_irf.Theta(), nk_event);
+			t_theta[1]->Fill(spectator_4vect_irf.Theta(),(spectator_4vect_irf - d_beam).Mag2());
 			pnew.Boost(-b);spectator_4vect_irf.Boost(-b);
 			
 			nucleon_t[1]->Fill( (spectator_4vect_irf - d_beam_irf).Mag2() );
@@ -650,9 +651,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			sPN_t[1]->Fill((spectator_4vect_irf - d_beam_irf).Mag2(), pn_final.Mag2() );
 			sPN_k[1]->Fill(nk_event, pn_final.Mag2());
 			sPN_Fpt2_k[1]->Fill(nk_event, Fpt2 );
-			t_k[1]->Fill(nk_event,(spectator_4vect_irf - d_beam_irf).Mag2());
-			k_theta[1]->Fill(spectator_angle, spectator_4vect_irf.P());
-			t_theta[1]->Fill(spectator_angle,(spectator_4vect_irf - d_beam_irf).Mag2());			
+			t_k[1]->Fill(nk_event,(spectator_4vect_irf - d_beam_irf).Mag2());			
 		}
 		if( pnew1.E() != 0. && spectator_4vect_irf.E() != 0.){
 			//approach 2:
