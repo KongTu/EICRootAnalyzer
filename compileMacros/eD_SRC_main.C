@@ -275,6 +275,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH2D* sPN_k[5]; 
 	TH2D* sPN_Fpt2_k[5];
 	TH2D* t_k[5];
+	TH2D* k_theta[5];
 	for(int i=0;i<5;i++){
 		Pp_mag[i] = new TH1D(Form("Pp_mag_%d",i),";P (GeV/c)",500,0,5);
 		P_spa[i] = new TH2D(Form("P_spa_%d",i),";x(m);y(m)",200,-1,1,200,-1,1);
@@ -285,6 +286,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		sPN_k[i] = new TH2D(Form("sPN_k_%d",i),";k;s",200,0,1,sPN_nBins,sPN_bins);
 		sPN_Fpt2_k[i] = new TH2D(Form("sPN_Fpt2_k_%d",i),";k;4p^{2}_{T}",200,0,1,200,0,10);
 		t_k[i] = new TH2D(Form("t_k_%d",i),";k;t",200,0,1,200,-10,10);
+		k_theta[i] = new TH2D(Form("k_theta_%d",i),";#theta;t",200,0,0.02,200,0,1);
 	}
 	
 	TH1D* Np_mag[2];
@@ -629,6 +631,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			sPN_k[0]->Fill(nk_event, pn_final.Mag2());
 			sPN_Fpt2_k[0]->Fill(nk_event, Fpt2 );
 			t_k[0]->Fill(nk_event,(spectator_4vect_irf - d_beam_irf).Mag2());
+			k_theta[0]->Fill(spectator_4vect_irf.Theta(), nk_event);
 		}
 		if( pnew.E() != 0. && spectator_4vect_irf.E() != 0.){
 			//approach 1:
@@ -644,6 +647,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			sPN_k[1]->Fill(nk_event, pn_final.Mag2());
 			sPN_Fpt2_k[1]->Fill(nk_event, Fpt2 );
 			t_k[1]->Fill(nk_event,(spectator_4vect_irf - d_beam_irf).Mag2());
+			k_theta[1]->Fill(spectator_4vect_irf.Theta(), nk_event);
 
 		}
 		if( pnew1.E() != 0. && spectator_4vect_irf.E() != 0.){
@@ -660,6 +664,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			sPN_k[2]->Fill(nk_event, pn_final.Mag2());
 			sPN_Fpt2_k[2]->Fill(nk_event, Fpt2 );
 			t_k[2]->Fill(nk_event,(spectator_4vect_irf - d_beam_irf).Mag2());
+			k_theta[2]->Fill(spectator_4vect_irf.Theta(), nk_event);
 		}
 		if( pnew2.E() != 0. && spectator_4vect_irf.E() != 0.){
 			//approach 3:
@@ -675,6 +680,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			sPN_k[3]->Fill(nk_event, pn_final.Mag2());
 			sPN_Fpt2_k[3]->Fill(nk_event, Fpt2 );
 			t_k[3]->Fill(nk_event,(spectator_4vect_irf - d_beam_irf).Mag2());
+			k_theta[3]->Fill(spectator_4vect_irf.Theta(), nk_event);
 		}
 		if( pnew3.E() != 0. && nnew3.E() != 0.){
 			//approach 3:
@@ -690,6 +696,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			sPN_k[4]->Fill(nk_event, pn_final.Mag2());
 			sPN_Fpt2_k[4]->Fill(nk_event, Fpt2 );
 			t_k[4]->Fill(nk_event,(nnew3 - d_beam_irf).Mag2());
+			k_theta[0]->Fill(nnew3.Theta(), nk_event);
 		}
 
 		//use spectator only:
