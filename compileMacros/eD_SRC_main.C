@@ -624,7 +624,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			struck_4vect_irf.Boost(b);spectator_4vect_irf.Boost(b);
 			Fpt2 = (struck_4vect_irf.Pt()+spectator_4vect_irf.Pt())*(struck_4vect_irf.Pt()+spectator_4vect_irf.Pt());
 			k_theta[0]->Fill(spectator_4vect_irf.Theta(), nk_event);
-			t_theta[0]->Fill(spectator_4vect_irf.Theta(),(nnew3 - d_beam).Mag2());
+			t_theta[0]->Fill(spectator_4vect_irf.Theta(),(spectator_4vect_irf - d_beam).Mag2());
 			struck_4vect_irf.Boost(-b);spectator_4vect_irf.Boost(-b);
 
 			//default BeAGLE:
@@ -642,7 +642,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			pnew.Boost(b);spectator_4vect_irf.Boost(b);
 			Fpt2 = (pnew.Pt()+spectator_4vect_irf.Pt())*(pnew.Pt()+spectator_4vect_irf.Pt());
 			k_theta[1]->Fill(spectator_4vect_irf.Theta(), nk_event);
-			t_theta[1]->Fill(spectator_4vect_irf.Theta(),(nnew3 - d_beam).Mag2());
+			t_theta[1]->Fill(spectator_4vect_irf.Theta(),(spectator_4vect_irf - d_beam).Mag2());
 			pnew.Boost(-b);spectator_4vect_irf.Boost(-b);
 			
 			nucleon_t[1]->Fill( (spectator_4vect_irf - d_beam_irf).Mag2() );
@@ -659,7 +659,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			pnew1.Boost(b);spectator_4vect_irf.Boost(b);
 			Fpt2 = (pnew1.Pt()+spectator_4vect_irf.Pt())*(pnew1.Pt()+spectator_4vect_irf.Pt());
 			k_theta[2]->Fill(spectator_4vect_irf.Theta(), nk_event);
-			t_theta[2]->Fill(spectator_4vect_irf.Theta(),(nnew3 - d_beam).Mag2());
+			t_theta[2]->Fill(spectator_4vect_irf.Theta(),(spectator_4vect_irf - d_beam).Mag2());
 			pnew1.Boost(-b);spectator_4vect_irf.Boost(-b);		
 
 			nucleon_t[2]->Fill( (spectator_4vect_irf - d_beam_irf).Mag2() );
@@ -676,7 +676,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			pnew2.Boost(b);spectator_4vect_irf.Boost(b);
 			Fpt2 = (pnew2.Pt()+spectator_4vect_irf.Pt())*(pnew2.Pt()+spectator_4vect_irf.Pt());
 			k_theta[3]->Fill(spectator_4vect_irf.Theta(), nk_event);
-			t_theta[3]->Fill(spectator_4vect_irf.Theta(),(nnew3 - d_beam).Mag2());
+			t_theta[3]->Fill(spectator_4vect_irf.Theta(),(spectator_4vect_irf - d_beam).Mag2());
 			pnew2.Boost(-b);spectator_4vect_irf.Boost(-b);		
 
 			nucleon_t[3]->Fill( (spectator_4vect_irf - d_beam_irf).Mag2() );
