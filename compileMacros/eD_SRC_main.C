@@ -307,11 +307,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
 
+	//alpha p light cone momentum fraction
 	TF1 *deutAlpha = new TF1("deutAlpha","gaus(0)",0,2);
 	deutAlpha->SetParameter(0,1);
 	deutAlpha->SetParameter(1,1.0);
 	deutAlpha->SetParameter(2,0.3);
-
 
 	double energy_resolution = rZDC;//50%
 	TF1* smear_e = new TF1("smear_e","gaus(0)",-30,30);
@@ -481,12 +481,12 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		pntrf = ptrf + ntrf;
 		TVector3 boostv = pntrf.BoostVector();
 
+		struck_4vect_irf.Boost( -boostv );
+		spectator_4vect_irf.Boost( -boostv );
+
 		/*
 		fixing deuteron momentum nonconservation:
 		*/
-
-		struck_4vect_irf.Boost( -boostv );
-		spectator_4vect_irf.Boost( -boostv );
 
 		TLorentzVector testp = q_irf+d_beam_irf-j_4vect_irf-struck_4vect_irf-spectator_4vect_irf;
 
@@ -513,8 +513,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		double jz_new = jz;
 		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 		
-		PRINT4VECTOR(q_irf+d_beam_irf-jnew-pnew-spectator_4vect_irf, 1);
-		
+		// PRINT4VECTOR(q_irf+d_beam_irf-jnew-pnew-spectator_4vect_irf, 1);
+
 		//approach 2
 		double Ennz = spectator_4vect_irf.E() + spectator_4vect_irf.Pz();
 		double Ennz2 = spectator_4vect_irf.E() - spectator_4vect_irf.Pz();
