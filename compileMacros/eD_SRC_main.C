@@ -485,8 +485,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		fixing deuteron momentum nonconservation:
 		*/
 
-		struck_4vect_irf.Boost( -pntrf );
-		spectator_4vect_irf.Boost( -pntrf );
+		struck_4vect_irf.Boost( -boostv );
+		spectator_4vect_irf.Boost( -boostv );
 
 		TLorentzVector testp = q_irf+d_beam_irf-j_4vect_irf-struck_4vect_irf-spectator_4vect_irf;
 
