@@ -474,7 +474,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		Double_t En = (alpha_n*MASS_DEUTERON)/4. + (kx*kx+ky*ky+spectator_mass*spectator_mass)/(alpha_n*MASS_DEUTERON);
 		Double_t Pzn = (alpha_n*MASS_DEUTERON)/4. - (kx*kx+ky*ky+spectator_mass*spectator_mass)/(alpha_n*MASS_DEUTERON);
 
-		TLorentzVector ptrf,ntrf;pntrf;
+		TLorentzVector ptrf,ntrf,pntrf;
 		ntrf.SetPxPyPzE(kx, ky, Pzn, En);
 		ptrf.SetPxPyPzE(-kx, -ky, Pzp, Ep);
 
