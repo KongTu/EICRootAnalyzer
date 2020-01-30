@@ -479,7 +479,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 		
 
-		PRINT4VECTOR(q_irf+d_beam_irf-jnew-pnew-spectator_4vect_irf, 1 )
+		PRINT4VECTOR(q_irf+d_beam_irf-jnew-pnew-spectator_4vect_irf, 1 );
 		//approach 2
 		double Ennz = spectator_4vect_irf.E() + spectator_4vect_irf.Pz();
 		double Ennz2 = spectator_4vect_irf.E() - spectator_4vect_irf.Pz();
