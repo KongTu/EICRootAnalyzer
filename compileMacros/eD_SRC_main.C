@@ -474,7 +474,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		Double_t En = (alpha_n*MASS_DEUTERON)/4. + (kx*kx+ky*ky+spectator_mass*spectator_mass)/(alpha_n*MASS_DEUTERON);
 		Double_t Pzn = (alpha_n*MASS_DEUTERON)/4. - (kx*kx+ky*ky+spectator_mass*spectator_mass)/(alpha_n*MASS_DEUTERON);
 
-		TLorentzVector ptrf,ntrf;ptrf
+		TLorentzVector ptrf,ntrf;ptrf;
 		ntrf.SetPxPyPzE(kx, ky, Pzn, En);
 		ptrf.SetPxPyPzE(-kx, -ky, Pzp, Ep);
 
@@ -491,7 +491,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		TLorentzVector testp = q_irf+d_beam_irf-j_4vect_irf-struck_4vect_irf-spectator_4vect_irf;
 
 		PRINT4VECTOR(testp, 1);
-		
+
 		//approach 1
 		double qzkz = q_irf.Pz() - (spectator_4vect_irf.Pz());//qz-kz
 		double numn = q_irf.E() - spectator_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
