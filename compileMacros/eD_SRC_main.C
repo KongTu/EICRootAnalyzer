@@ -458,10 +458,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		*/
 
 
-		h_ThetaVsEnergy_Spectator->Fill(spectator_4vect.E(), spectator_4vect.Theta()*1000. );
+		h_ThetaVsEnergy_Spectator->Fill(spectator_4vect.Pz(), spectator_4vect.Theta()*1000. );
 		TLorentzVector testp = q_irf+d_beam_irf-j_4vect_irf-struck_4vect_irf-spectator_4vect_irf;
-
-		PRINT4VECTOR(testp, 1);
 
 		//approach 1
 		double qzkz = q_irf.Pz() - (spectator_4vect_irf.Pz());//qz-kz
@@ -484,8 +482,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		double jz_new = jz;
 		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 		
-		PRINT4VECTOR(q_irf+d_beam_irf-jnew-pnew-spectator_4vect_irf, 1);
-
 		//approach 2
 		double Ennz = spectator_4vect_irf.E() + spectator_4vect_irf.Pz();
 		double Ennz2 = spectator_4vect_irf.E() - spectator_4vect_irf.Pz();
