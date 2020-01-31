@@ -434,7 +434,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		nRes->Fill( n_4vect_unsmear.E()-n_4vect.E(), n_4vect_unsmear.Theta()-n_4vect.Theta() );
 		
 
-		TLorentzVector struck_4vect_irf, spectator_4vect_irf;
+		TLorentzVector struck_4vect_irf, spectator_4vect_irf, spectator_4vect;
 		double struck_mass = MASS_PROTON;
 		double spectator_mass = MASS_NEUTRON;
 		if( struckproton ) {
@@ -442,12 +442,15 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			spectator_4vect_irf = n_4vect_irf;
 			struck_mass = MASS_PROTON;
 			spectator_mass = MASS_NEUTRON;
+			spectator_4vect = n_4vect;
 		}
 		else{
 			struck_4vect_irf = n_4vect_irf;
 			spectator_4vect_irf = p_4vect_irf;
 			struck_mass = MASS_NEUTRON;
 			spectator_mass = MASS_PROTON;
+			spectator_4vect = p_4vect;
+
 		}
 		
 		/*
@@ -455,7 +458,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		*/
 
 
-		h_ThetaVsEnergy_Spectator->Fill(n_4vect.E(), n_4vect.Theta()*1000. );
+		h_ThetaVsEnergy_Spectator->Fill(spectator_4vect.E(), spectator_4vect.Theta()*1000. );
 		TLorentzVector testp = q_irf+d_beam_irf-j_4vect_irf-struck_4vect_irf-spectator_4vect_irf;
 
 		PRINT4VECTOR(testp, 1);
