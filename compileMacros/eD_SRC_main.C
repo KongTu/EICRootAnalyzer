@@ -265,7 +265,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* nk_truth = new TH1D("nk_truth","k (GeV/c)", nk_nBins, nk_bins);
 	TH2D* EvsPz = new TH2D("EvsPz",";pz;E",500,-0.01,0.01,500,-0.01,0.01);
 	TH2D* EvsPzFix = new TH2D("EvsPzFix",";pz;E",500,-0.01,0.01,500,-0.01,0.01);
-	
+	TH2D* h_ThetaVsEnergy_Spectator = new TH2D("h_ThetaVsEnergy_Spectator",";E_{spectator} (GeV);#theta",300,0,200,200,0,100);
+
 	TH1D* Pp_mag[5];
 	TH2D* P_spa[5];
 	TH1D* nucleon_t[5]; 
@@ -453,6 +454,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		fixing deuteron momentum nonconservation:
 		*/
 
+
+		h_ThetaVsEnergy_Spectator->Fill(n_4vect.E(), n_4vect.Theta()*1000. );
 		TLorentzVector testp = q_irf+d_beam_irf-j_4vect_irf-struck_4vect_irf-spectator_4vect_irf;
 
 		PRINT4VECTOR(testp, 1);
