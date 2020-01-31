@@ -302,7 +302,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 
 	TChain *tree = new TChain("EICTree");
-	tree->Add("/gpfs02/eic/ztu/BeAGLE_devK_SRC/"+filename+".root" );
+	tree->Add("/gpfs02/eic/ztu/BeAGLE/BeAGLE_devK_SRC/"+filename+".root" );
 	
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
