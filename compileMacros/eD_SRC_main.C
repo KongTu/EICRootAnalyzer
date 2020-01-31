@@ -302,16 +302,10 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 
 	TChain *tree = new TChain("EICTree");
-	tree->Add("/eicdata/eic0003/ztu/BeAGLE_devK/"+filename+".root" );
+	tree->Add("/gpfs02/eic/ztu/BeAGLE_devK_SRC/"+filename+".root" );
 	
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
-
-	//alpha p light cone momentum fraction
-	TF1 *deutAlpha = new TF1("deutAlpha","gaus(0)",0,2);
-	deutAlpha->SetParameter(0,1);
-	deutAlpha->SetParameter(1,1.0);
-	deutAlpha->SetParameter(2,0.3);
 
 	double energy_resolution = rZDC;//50%
 	TF1* smear_e = new TF1("smear_e","gaus(0)",-30,30);
@@ -456,41 +450,12 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		}
 		
 		/*
-		LF Kine 
-		*/
-
-		double alpha_p = deutAlpha->GetRandom();
-		while( alpha_p < 0. || alpha_p > 2. ){
-			alpha_p = deutAlpha->GetRandom();
-		}
-		double alpha_n = 2. - alpha_p;
-
-		double kx = spectator_4vect_irf.Px();
-		double ky = spectator_4vect_irf.Py();
-
-		Double_t Ep = (alpha_p*MASS_DEUTERON)/4. + (kx*kx+ky*ky+struck_mass*struck_mass)/(alpha_p*MASS_DEUTERON);
-		Double_t Pzp = (alpha_p*MASS_DEUTERON)/4. - (kx*kx+ky*ky+struck_mass*struck_mass)/(alpha_p*MASS_DEUTERON);
-		
-		Double_t En = (alpha_n*MASS_DEUTERON)/4. + (kx*kx+ky*ky+spectator_mass*spectator_mass)/(alpha_n*MASS_DEUTERON);
-		Double_t Pzn = (alpha_n*MASS_DEUTERON)/4. - (kx*kx+ky*ky+spectator_mass*spectator_mass)/(alpha_n*MASS_DEUTERON);
-
-		TLorentzVector ptrf,ntrf,pntrf;
-		ntrf.SetPxPyPzE(kx, ky, Pzn, En);
-		ptrf.SetPxPyPzE(-kx, -ky, Pzp, Ep);
-
-		pntrf = ptrf + ntrf;
-		TVector3 boostv = pntrf.BoostVector();
-
-		struck_4vect_irf.Boost( -boostv );
-		spectator_4vect_irf.Boost( -boostv );
-
-		/*
 		fixing deuteron momentum nonconservation:
 		*/
 
 		TLorentzVector testp = q_irf+d_beam_irf-j_4vect_irf-struck_4vect_irf-spectator_4vect_irf;
 
-		// PRINT4VECTOR(testp, 1);
+		PRINT4VECTOR(testp, 1);
 
 		//approach 1
 		double qzkz = q_irf.Pz() - (spectator_4vect_irf.Pz());//qz-kz
@@ -513,7 +478,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		double jz_new = jz;
 		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 		
-		// PRINT4VECTOR(q_irf+d_beam_irf-jnew-pnew-spectator_4vect_irf, 1);
+		PRINT4VECTOR(q_irf+d_beam_irf-jnew-pnew-spectator_4vect_irf, 1);
 
 		//approach 2
 		double Ennz = spectator_4vect_irf.E() + spectator_4vect_irf.Pz();
