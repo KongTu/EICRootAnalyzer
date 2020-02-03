@@ -187,6 +187,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* Pp_spectator = new TH1D("Pp_spectator",";p",200,0,1);
 	TH2D* spa_struck = new TH2D("spa_struck",";x(m);y(m)",200,-1,1,200,-1,1);
 	TH2D* spa_spectator = new TH2D("spa_spectator",";x(m);y(m)",200,-1,1,200,-1,1);
+	TH1D* alpha_spectator = new TH1D("alpha_spectator",";#alpha_{spec}",100,0,2);
 	
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/gpfs02/eic/ztu/BeAGLE/BeAGLE_devK_SRC/"+filename+".root" );
@@ -361,13 +362,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		double jz_new = jz;
 		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 		
-		//fill lab frame theta vs Energy for struck and spectator
-		h_ThetaVsEnergy_Spectator->Fill(spectator_4vect.Pz(), spectator_4vect.Theta()*1000. );
-		TLorentzVector pnew_lab;
-		pnew.Boost(b);
-		pnew_lab = pnew;
-		pnew.Boost(-b);
-		h_ThetaVsEnergy_Struck->Fill(pnew_lab.Pz(), pnew_lab.Theta()*1000. );
+		
 
 		//filling histograms:
 		if( doAcceptance_ ) {
@@ -378,6 +373,20 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			pnew = afterDetector(pnew,b,smear_e,smear_theta); //dummy for now, only smear ZDC neutron
 			spectator_4vect_irf = afterDetector(spectator_4vect_irf,b,smear_e,smear_theta);
 		}
+
+		//fill lab frame theta vs Energy for struck and spectator
+		h_ThetaVsEnergy_Spectator->Fill(spectator_4vect.Pz(), spectator_4vect.Theta()*1000. );
+		TLorentzVector pnew_lab;
+		pnew.Boost(b);
+		pnew_lab = pnew;
+		pnew.Boost(-b);
+		h_ThetaVsEnergy_Struck->Fill(pnew_lab.Pz(), pnew_lab.Theta()*1000. );
+
+		//filling alpha of spectator
+		double Pplus = (spectator_4vect_irf.E() + spectator_4vect_irf.Pz()) / sqrt(2);
+		double PdPlus = MASS_DEUTERON / sqrt(2);
+		double alpha_spec = 2*Pplus / PdPlus;
+		alpha_spectator->Fill( alpha_spec );
 
 		TLorentzVector pn_final;
 		if( pnew.E() != 0. && spectator_4vect_irf.E() != 0.){
