@@ -252,8 +252,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		bool struckproton = false;
 		if( struck_nucleon == 2212 ) struckproton = true;
 
-		that->Fill( fabs(t_hat) );
-
 		int nParticles_process = 0;
 		TLorentzVector n_4vect_unsmear;
 		TLorentzVector p_4vect, n_4vect,j_4vect,q;
