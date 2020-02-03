@@ -304,7 +304,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		//LFKine tells us pzf is not symmetric in the lab frame
 		nk_truth->Fill( nk_event );
 		nk_truth_uniformbins->Fill( nk_event );
-		
+
 		//just a protection
 		if( p_4vect.E() == 0 || n_4vect.E() == 0 ) continue;
 
@@ -392,15 +392,20 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		//spatial distributions
 		vector< double> pos;
 		if( !struckproton ){
-			pos.clear(); pos = getPspa(spectator_4vect);
+			//in case has smearing
+			spectator_4vect_irf.Boost(b);
+			pnew.Boost(b);
+			pos.clear(); pos = getPspa(spectator_4vect_irf);
 			spa_struck->Fill(pos[0],pos[1]);
-			pos.clear(); pos = getPspa(pnew_lab);
+			pos.clear(); pos = getPspa(pnew);
 			spa_spectator->Fill(pos[0],pos[1]);
 		}
 		else{
-			pos.clear(); pos = getPspa(pnew_lab);
+			spectator_4vect_irf.Boost(b);
+			pnew.Boost(b);
+			pos.clear(); pos = getPspa(pnew);
 			spa_struck->Fill(pos[0],pos[1]);
-			pos.clear(); pos = getPspa(spectator_4vect);
+			pos.clear(); pos = getPspa(spectator_4vect_irf);
 			spa_spectator->Fill(pos[0],pos[1]);
 		}
 
