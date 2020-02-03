@@ -179,13 +179,14 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TFile * output = new TFile("../rootfiles/"+filename+"_"+settings+"_main_Beagle.root","recreate");
 		
 	TH1D* nk_truth = new TH1D("nk_truth","k (GeV/c)", nk_nBins, nk_bins);
+	TH1D* nk_truth_uniformbins = new TH1D("nk_truth_uniformbins","k (GeV/c)", 200,0,1.4);
 	TH2D* h_ThetaVsEnergy_Spectator = new TH2D("h_ThetaVsEnergy_Spectator",";E_{spectator} (GeV);#theta",300,0,200,200,0,100);
 	TH2D* h_ThetaVsEnergy_Struck = new TH2D("h_ThetaVsEnergy_Struck",";E_{spectator} (GeV);#theta",300,0,200,200,0,100);
 	TH1D* sPN = new TH1D(Form("sPN"),"sPN",sPN_nBins,sPN_bins);
 	TH1D* Pp_struck = new TH1D("Pp_struck",";p",200,0,1);
 	TH1D* Pp_spectator = new TH1D("Pp_spectator",";p",200,0,1);
-	TH2D* spa_struck = new TH2D("spa_struck",";x(m);y(m)",200,-100,100,200,-100,100);
-	TH2D* spa_spectator = new TH2D("spa_spectator",";x(m);y(m)",200,-100,100,200,-100,100);
+	TH2D* spa_struck = new TH2D("spa_struck",";x(m);y(m)",200,-1,1,200,-1,1);
+	TH2D* spa_spectator = new TH2D("spa_spectator",";x(m);y(m)",200,-1,1,200,-1,1);
 	
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/gpfs02/eic/ztu/BeAGLE/BeAGLE_devK_SRC/"+filename+".root" );
@@ -302,7 +303,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		//fill n(k) or dN/dk distribution, but averaged over all direction
 		//LFKine tells us pzf is not symmetric in the lab frame
 		nk_truth->Fill( nk_event );
-
+		nk_truth_uniformbins->Fill( nk_event );
+		
 		//just a protection
 		if( p_4vect.E() == 0 || n_4vect.E() == 0 ) continue;
 
@@ -390,15 +392,15 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		//spatial distributions
 		vector< double> pos;
 		if( !struckproton ){
-			pos.clear(); pos = getPspa(spectator_4vect_irf);
+			pos.clear(); pos = getPspa(spectator_4vect);
 			spa_struck->Fill(pos[0],pos[1]);
-			pos.clear(); pos = getPspa(pnew);
+			pos.clear(); pos = getPspa(pnew_lab);
 			spa_spectator->Fill(pos[0],pos[1]);
 		}
 		else{
-			pos.clear(); pos = getPspa(pnew);
+			pos.clear(); pos = getPspa(pnew_lab);
 			spa_struck->Fill(pos[0],pos[1]);
-			pos.clear(); pos = getPspa(spectator_4vect_irf);
+			pos.clear(); pos = getPspa(spectator_4vect);
 			spa_spectator->Fill(pos[0],pos[1]);
 		}
 
