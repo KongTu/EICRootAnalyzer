@@ -185,14 +185,16 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* sPN = new TH1D(Form("sPN"),"sPN",sPN_nBins,sPN_bins);
 	TH1D* Pt_struck = new TH1D("Pt_struck",";p_{T} (GeV)",200,0,1);
 	TH1D* Pz_struck = new TH1D("Pz_struck",";p_{z} (GeV)",200,-1,1);
+	TH1D* Pp_struck = new TH1D("Pp_struck",";p (GeV)",200,0,1.4);
 	TH1D* Pt_spectator = new TH1D("Pt_spectator",";p_{T} (GeV)",200,0,1);
 	TH1D* Pz_spectator = new TH1D("Pz_spectator",";p_{z} (GeV)",200,-1,1);
+	TH1D* Pp_spectator = new TH1D("Pp_spectator",";p (GeV)",200,0,1.4);
 	TH2D* spa_struck = new TH2D("spa_struck",";x(m);y(m)",200,-1,1,200,-1,1);
 	TH2D* spa_spectator = new TH2D("spa_spectator",";x(m);y(m)",200,-1,1,200,-1,1);
 	TH1D* alpha_spectator = new TH1D("alpha_spectator",";#alpha_{spec}",100,0,2);
 	TH1D* ttprime = new TH1D("ttprime",";-t'(GeV)",100,0,2);
 	TH2D* h_ttprime_alpha = new TH2D("h_ttprime_alpha",";#alpha_{p};-t'",200,0,2,1000,0,0.1);
-	TH2D* h_dNdAlphadPt2 = new TH2D("h_dNdAlphadPt2",";#alpha_{p};Pzp'",500,0,2,500,0,2);
+	TH2D* h_dNdAlphadPt2 = new TH2D("h_dNdAlphadPt2",";#alpha_{p};p_{T} (GeV/c)'",500,0,2,500,0,2);
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/gpfs02/eic/ztu/BeAGLE/BeAGLE_devK_SRC/"+filename+".root" );
@@ -411,9 +413,12 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		//filling histograms:
 		Pt_struck->Fill( pnew.Pt() );
 		Pz_struck->Fill( pnew.Pz() );
+		Pp_struck->Fill( pnew.P() );
+
 		//use spectator only:
 		Pt_spectator->Fill( spectator_4vect_irf.Pt() );
 		Pz_spectator->Fill( spectator_4vect_irf.Pz() );
+		Pp_spectator->Fill( spectator_4vect_irf.P() );
 
 		//spatial distributions
 		vector< double> pos;
