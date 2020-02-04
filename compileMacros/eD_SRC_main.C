@@ -447,10 +447,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 	}
 
-	for(int ibin=0;ibin<Pp_spectator->GetNbinsX();ibin++){
-		Pp_spectator->SetBinContent(ibin+1, Pp_spectator->GetBinContent(ibin+1)*(1./TMath::Power(Pp_spectator->GetBinCenter(ibin+1),2)));
-	}
-
 	output->Write();
 	output->Close();
 
