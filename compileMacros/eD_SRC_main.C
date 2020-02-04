@@ -151,12 +151,10 @@ TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e, TF1*smea
 		E_n = E_n + delta_E;
 		double delta_Theta = smear_theta->GetRandom();
 		double angle = p.Theta() + delta_Theta;
-		double Pz_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON)/(1+TMath::Sin(angle)*TMath::Sin(angle));
-		double Pz_n = sqrt(Pz_n2);
-		double Pt_n2 = (E_n*E_n - MASS_NEUTRON*MASS_NEUTRON - Pz_n2);
-		double Pt_n = sqrt(Pt_n2);
-		double Px_n = Pt_n*TMath::Cos(p.Phi());
-		double Py_n = Pt_n*TMath::Sin(p.Phi());
+		double Pp = sqrt(E_n*E_n - MASS_NEUTRON*MASS_NEUTRON);
+		double Pz_n = Pp*TMath::Cos(angle);
+		double Px_n = Pp*TMath::Sin(angle)*TMath::Cos(p.Phi());
+		double Py_n = Pp*TMath::Sin(angle)*TMath::Sin(p.Phi());
 
 		pafter.SetPxPyPzE(Px_n, Py_n, Pz_n, E_n);
 	}
@@ -184,17 +182,17 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH2D* h_ThetaVsEnergy_Spectator = new TH2D("h_ThetaVsEnergy_Spectator",";E_{spectator} (GeV);#theta",300,0,200,200,0,100);
 	TH2D* h_ThetaVsEnergy_Struck = new TH2D("h_ThetaVsEnergy_Struck",";E_{struck} (GeV);#theta",300,0,200,200,0,100);
 	TH1D* sPN = new TH1D(Form("sPN"),"sPN",sPN_nBins,sPN_bins);
-	TH1D* Pt_struck = new TH1D("Pt_struck",";p_{T} (GeV)",200,0,1);
+	TH1D* Pt_struck = new TH1D("Pt_struck",";p_{T} (GeV)",200,0,1.4);
 	TH1D* Pz_struck = new TH1D("Pz_struck",";p_{z} (GeV)",200,-1,1);
 	TH1D* Pp_struck = new TH1D("Pp_struck",";p (GeV)",200,0,1.4);
-	TH1D* Pt_spectator = new TH1D("Pt_spectator",";p_{T} (GeV)",200,0,1);
+	TH1D* Pt_spectator = new TH1D("Pt_spectator",";p_{T} (GeV)",200,0,1.4);
 	TH1D* Pz_spectator = new TH1D("Pz_spectator",";p_{z} (GeV)",200,-1,1);
 	TH1D* Pp_spectator = new TH1D("Pp_spectator",";p (GeV)",200,0,1.4);
 	TH2D* spa_struck = new TH2D("spa_struck",";x(m);y(m)",200,-1,1,200,-1,1);
 	TH2D* spa_spectator = new TH2D("spa_spectator",";x(m);y(m)",200,-1,1,200,-1,1);
 	TH1D* alpha_spectator = new TH1D("alpha_spectator",";#alpha_{spec}",100,0,2);
 	TH1D* ttprime = new TH1D("ttprime",";-t'(GeV)",100,0,2);
-	TH2D* h_ttprime_alpha = new TH2D("h_ttprime_alpha",";#alpha_{p};-t'",200,0,2,1000,0,0.1);
+	TH2D* h_ttprime_alpha = new TH2D("h_ttprime_alpha",";#alpha_{p};-t'",200,0,2,1000,0,1);
 	TH2D* h_dNdAlphadPt2 = new TH2D("h_dNdAlphadPt2",";#alpha_{p};p_{T} (GeV/c)'",500,0,2,1000,0,1);
 	TH2D* h_ThetaRprimePm = new TH2D("h_ThetaRprimePm",";#theta_{r'};p_{m} (GeV/c)",200,0,PI,200,0,1.4);
 
@@ -263,6 +261,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		if( trueY > 0.85 || trueY < 0.05 ) continue;
 		bool struckproton = false;
 		if( struck_nucleon == 2212 ) struckproton = true;
+		if( !struckproton ) continue;
 
 		int nParticles_process = 0;
 		TLorentzVector n_4vect_unsmear;
@@ -402,7 +401,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 		//filling t' distribution
 		double tt = (spectator_4vect_irf - d_beam_irf).Mag2();
-		tt = tt - TMath::Power(spectator_4vect_irf.M(),2);
+		tt = tt - TMath::Power(pnew.M(),2);
 		ttprime->Fill( -tt );
 		h_ttprime_alpha->Fill( alpha_spec, -tt );
 
