@@ -413,12 +413,12 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		//filling histograms:
 		Pt_struck->Fill( pnew.Pt() );
 		Pz_struck->Fill( pnew.Pz() );
-		Pp_struck->Fill( pnew.P(), 1./(TMath::Power(pnew.P(),2)) );
+		Pp_struck->Fill( pnew.P() );
 
 		//use spectator only:
 		Pt_spectator->Fill( spectator_4vect_irf.Pt() );
 		Pz_spectator->Fill( spectator_4vect_irf.Pz() );
-		Pp_spectator->Fill( spectator_4vect_irf.P(), 1./(TMath::Power(spectator_4vect_irf.P(),2)) );
+		Pp_spectator->Fill( spectator_4vect_irf.P() );
 
 		//spatial distributions
 		vector< double> pos;
@@ -440,6 +440,10 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			spa_spectator->Fill(pos[0],pos[1]);
 		}
 
+	}
+
+	for(int ibin=0;ibin>Pp_spectator->GetNbinsX();ibin++){
+		Pp_spectator->SetBinContent(ibin+1, Pp_spectator->GetBinContent(ibin+1)*(1./TMath::Power(Pp_spectator->GetBinCetner(ibin+1),2)));
 	}
 
 	output->Write();
