@@ -88,6 +88,7 @@ Double_t getCorrPz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Doubl
 vector<double> getPspa(TLorentzVector p){
 
 	vector< double> temp;
+	temp.clear();
 	if( p.E() == 0. ){
 		temp.push_back(-999.);
 		temp.push_back(-999.);
