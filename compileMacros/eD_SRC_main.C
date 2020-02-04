@@ -317,9 +317,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		nk_truth->Fill( nk_event );
 		nk_truth_uniformbins->Fill( nk_event );
 
-		//just a protection
-		if( p_4vect.E() == 0 || n_4vect.E() == 0 ) continue;
-
 		//boost
 		j_4vect_irf.Boost(-b);
 		p_4vect_irf.Boost(-b);
@@ -382,6 +379,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			pnew = afterDetector(pnew,b,smear_e,smear_theta); //dummy for now, only smear ZDC neutron
 			spectator_4vect_irf = afterDetector(spectator_4vect_irf,b,smear_e,smear_theta);
 		}
+
+		if( pnew.E() == 0 || spectator_4vect_irf.E() == 0 ) continue;
 
 		spectator_4vect_irf.Boost(b);
 		spectator_4vect = spectator_4vect_irf;
