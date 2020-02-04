@@ -182,7 +182,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* nk_truth = new TH1D("nk_truth","k (GeV/c)", nk_nBins, nk_bins);
 	TH1D* nk_truth_uniformbins = new TH1D("nk_truth_uniformbins","k (GeV/c)", 200,0,1.4);
 	TH2D* h_ThetaVsEnergy_Spectator = new TH2D("h_ThetaVsEnergy_Spectator",";E_{spectator} (GeV);#theta",300,0,200,200,0,100);
-	TH2D* h_ThetaVsEnergy_Struck = new TH2D("h_ThetaVsEnergy_Struck",";E_{spectator} (GeV);#theta",300,0,200,200,0,100);
+	TH2D* h_ThetaVsEnergy_Struck = new TH2D("h_ThetaVsEnergy_Struck",";E_{struck} (GeV);#theta",300,0,200,200,0,100);
 	TH1D* sPN = new TH1D(Form("sPN"),"sPN",sPN_nBins,sPN_bins);
 	TH1D* Pt_struck = new TH1D("Pt_struck",";p_{T} (GeV)",200,0,1);
 	TH1D* Pz_struck = new TH1D("Pz_struck",";p_{z} (GeV)",200,-1,1);
@@ -371,8 +371,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		double jy_new = j_4vect_irf.Py();
 		double jz_new = jz;
 		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
-		
-		pnew = struck_4vect_irf;
+
 		//filling histograms:
 		if( doAcceptance_ ) {
 			if( !passDetector(pnew,b) ) pnew.SetPxPyPzE(0,0,0,0);
@@ -383,13 +382,16 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			spectator_4vect_irf = afterDetector(spectator_4vect_irf,b,smear_e,smear_theta);
 		}
 
+		spectator_4vect_irf.Boost(b);
+		spectator_4vect = spectator_4vect_irf;
+		spectator_4vect_irf.Boost(-b);
 		//fill lab frame theta vs Energy for struck and spectator
-		h_ThetaVsEnergy_Spectator->Fill(spectator_4vect.Pz(), spectator_4vect.Theta()*1000. );
+		h_ThetaVsEnergy_Spectator->Fill(spectator_4vect.E(), spectator_4vect.Theta()*1000. );
 		TLorentzVector pnew_lab;
 		pnew.Boost(b);
 		pnew_lab = pnew;
 		pnew.Boost(-b);
-		h_ThetaVsEnergy_Struck->Fill(pnew_lab.Pz(), pnew_lab.Theta()*1000. );
+		h_ThetaVsEnergy_Struck->Fill(pnew_lab.E(), pnew_lab.Theta()*1000. );
 
 		//filling alpha of spectator
 		double Pplus = (spectator_4vect_irf.E() + spectator_4vect_irf.Pz()) / sqrt(2);
@@ -404,8 +406,10 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		h_ttprime_alpha->Fill( alpha_spec, -tt );
 
 		//spectral function
-		h_dNdAlphadPt2->Fill( alpha_spec, spectator_4vect_irf.Pt(), 1./(2*PI*spectator_4vect_irf.Pt()) );
-
+		if(alpha_spec > 0 && spectator_4vect_irf.Pt() >= 0. ) {
+			h_dNdAlphadPt2->Fill( alpha_spec, spectator_4vect_irf.Pt(), 1./(2*PI*spectator_4vect_irf.Pt()) );
+		}
+		
 		//angle between photon and spectator in d rest frame
 		double angle = spectator_4vect_irf.Angle(q.Vect());
 		h_ThetaRprimePm->Fill( angle, spectator_4vect_irf.P() );
