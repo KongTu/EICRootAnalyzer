@@ -425,23 +425,18 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		Pp_spectator->Fill( spectator_4vect_irf.P() );
 
 		//spatial distributions
-		vector< double> pos;
+		
 		if( !struckproton ){
 			//in case has smearing
+			vector< double> pos;
 			spectator_4vect_irf.Boost(b);
 			pnew.Boost(b);
-			pos.clear(); pos = getPspa(spectator_4vect_irf);
+			pos.clear(); 
+			pos = getPspa(spectator_4vect_irf);
 			spa_struck->Fill(pos[0],pos[1]);
-			pos.clear(); pos = getPspa(pnew);
-			spa_spectator->Fill(pos[0],pos[1]);
-		}
-		else{
-			spectator_4vect_irf.Boost(b);
-			pnew.Boost(b);
-			pos.clear(); pos = getPspa(pnew);
-			spa_struck->Fill(pos[0],pos[1]);
-			pos.clear(); pos = getPspa(spectator_4vect_irf);
-			spa_spectator->Fill(pos[0],pos[1]);
+			vector< double> pos1;
+			pos1 = getPspa(pnew);
+			spa_spectator->Fill(pos1[0],pos1[1]);
 		}
 
 	}
