@@ -258,7 +258,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		double nk_event = sqrt(pxf*pxf+pyf*pyf+pzf*pzf);
 		
 		if( event_process != 91 ) continue;
-		if( trueQ2 < 3. ) continue;
+		if( trueQ2 < 1. ) continue;
 		if( trueY > 0.85 || trueY < 0.05 ) continue;
 		bool struckproton = false;
 		if( struck_nucleon == 2212 ) struckproton = true;
@@ -407,7 +407,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		h_dNdAlphadPt2->Fill( alpha_spec, spectator_4vect_irf.Pt(), 1./(2*PI*spectator_4vect_irf.Pt()) );
 
 		//angle between photon and spectator in d rest frame
-		double angle = spectator_4vect_irf.Angle(q_irf.Vect());
+		spectator_4vect_irf.Boost(b);
+		double angle = spectator_4vect_irf.Angle(q.Vect());
+		spectator_4vect_irf.Boost(-b);
 		h_ThetaRprimePm->Fill( angle, spectator_4vect_irf.P() );
 
 		TLorentzVector pn_final;
