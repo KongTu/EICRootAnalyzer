@@ -195,7 +195,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* ttprime = new TH1D("ttprime",";-t'(GeV)",100,0,2);
 	TH2D* h_ttprime_alpha = new TH2D("h_ttprime_alpha",";#alpha_{p};-t'",200,0,2,1000,0,0.1);
 	TH2D* h_dNdAlphadPt2 = new TH2D("h_dNdAlphadPt2",";#alpha_{p};p_{T} (GeV/c)'",500,0,2,500,0,2);
-	TH1D* h_ThetaRprime = new TH1D("h_ThetaRprime",";#theta_{r'}",200,0,PI);
+	TH2D* h_ThetaRprimePm = new TH2D("h_ThetaRprimePm",";#theta_{r'};p_{m} (GeV/c)",200,0,PI,200,0,1.4);
 
 
 	TChain *tree = new TChain("EICTree");
@@ -408,7 +408,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 		//angle between photon and spectator in d rest frame
 		double angle = spectator_4vect_irf.Angle(q_irf.Vect());
-		h_ThetaRprime->Fill( angle );
+		h_ThetaRprimePm->Fill( angle, spectator_4vect_irf.P() );
 
 		TLorentzVector pn_final;
 		if( pnew.E() != 0. && spectator_4vect_irf.E() != 0.){
