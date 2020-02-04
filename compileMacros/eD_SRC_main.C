@@ -311,6 +311,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 		} // end of particle loop
 
+		if( nParticles_process != 4 ) continue;
 		//fill n(k) or dN/dk distribution, but averaged over all direction
 		//LFKine tells us pzf is not symmetric in the lab frame
 		nk_truth->Fill( nk_event );
