@@ -258,7 +258,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		double nk_event = sqrt(pxf*pxf+pyf*pyf+pzf*pzf);
 		
 		if( event_process != 91 ) continue;
-		if( trueQ2 < 1. ) continue;
+		if( trueQ2 < 3. ) continue;
 		if( trueY > 0.85 || trueY < 0.05 ) continue;
 		bool struckproton = false;
 		if( struck_nucleon == 2212 ) struckproton = true;
