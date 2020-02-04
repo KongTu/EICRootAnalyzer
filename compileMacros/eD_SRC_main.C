@@ -413,12 +413,12 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		//filling histograms:
 		Pt_struck->Fill( pnew.Pt() );
 		Pz_struck->Fill( pnew.Pz() );
-		Pp_struck->Fill( pnew.P() );
+		Pp_struck->Fill( pnew.P(), 1./(TMath::Power(pnew.P(),2)) );
 
 		//use spectator only:
 		Pt_spectator->Fill( spectator_4vect_irf.Pt() );
 		Pz_spectator->Fill( spectator_4vect_irf.Pz() );
-		Pp_spectator->Fill( spectator_4vect_irf.P() );
+		Pp_spectator->Fill( spectator_4vect_irf.P(), 1./(TMath::Power(spectator_4vect_irf.P(),2)) );
 
 		//spatial distributions
 		vector< double> pos;
