@@ -195,7 +195,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* alpha_spectator = new TH1D("alpha_spectator",";#alpha_{spec}",100,0,2);
 	TH1D* ttprime = new TH1D("ttprime",";-t'(GeV)",100,0,2);
 	TH2D* h_ttprime_alpha = new TH2D("h_ttprime_alpha",";#alpha_{p};-t'",200,0,2,1000,0,0.1);
-	TH2D* h_dNdAlphadPt2 = new TH2D("h_dNdAlphadPt2",";#alpha_{p};p_{T} (GeV/c)'",500,0,2,500,0,2);
+	TH2D* h_dNdAlphadPt2 = new TH2D("h_dNdAlphadPt2",";#alpha_{p};p_{T} (GeV/c)'",500,0,2,1000,0,1);
 	TH2D* h_ThetaRprimePm = new TH2D("h_ThetaRprimePm",";#theta_{r'};p_{m} (GeV/c)",200,0,PI,200,0,1.4);
 
 
@@ -380,6 +380,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			spectator_4vect_irf = afterDetector(spectator_4vect_irf,b,smear_e,smear_theta);
 		}
 
+		//projection over acceptance loss
 		if( pnew.E() == 0 || spectator_4vect_irf.E() == 0 ) continue;
 
 		spectator_4vect_irf.Boost(b);
