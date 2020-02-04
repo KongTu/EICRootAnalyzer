@@ -372,7 +372,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 		
 		
-
 		//filling histograms:
 		if( doAcceptance_ ) {
 			if( !passDetector(pnew,b) ) pnew.SetPxPyPzE(0,0,0,0);
@@ -407,9 +406,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		h_dNdAlphadPt2->Fill( alpha_spec, spectator_4vect_irf.Pt(), 1./(2*PI*spectator_4vect_irf.Pt()) );
 
 		//angle between photon and spectator in d rest frame
-		spectator_4vect_irf.Boost(b);
 		double angle = spectator_4vect_irf.Angle(q.Vect());
-		spectator_4vect_irf.Boost(-b);
 		h_ThetaRprimePm->Fill( angle, spectator_4vect_irf.P() );
 
 		TLorentzVector pn_final;
