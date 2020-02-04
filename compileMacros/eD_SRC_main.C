@@ -406,7 +406,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		h_ttprime_alpha->Fill( alpha_spec, -tt );
 
 		//spectral function
-		if(alpha_spec > 0 && spectator_4vect_irf.Pt() >= 0. ) {
+		if(alpha_spec > 0 && spectator_4vect_irf.Pt() > 0. ) {
 			h_dNdAlphadPt2->Fill( alpha_spec, spectator_4vect_irf.Pt(), 1./(2*PI*spectator_4vect_irf.Pt()) );
 		}
 		
