@@ -413,15 +413,16 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		//spectral function
 		if(alpha_spec > 0 && spectator_4vect_irf.Pt() > 0. ) {
 			h_dNdAlphadPt2->Fill( alpha_spec, spectator_4vect_irf.Pt(), 1./(2*PI*spectator_4vect_irf.Pt()) );
-			if( alpha_spec >= 0.99 && alpha_spec < 1.01 ) h_spectral_pt->Fill(spectator_4vect_irf.Pt(), 1./(2*PI*spectator_4vect_irf.Pt()) );
+			if( alpha_spec >= 0.99 && alpha_spec < 1.01 ) {
+				h_spectral_pt->Fill(spectator_4vect_irf.Pt(), 1./(2*PI*spectator_4vect_irf.Pt()) );
+				double MASS_NUCLEON = (MASS_NEUTRON + MASS_PROTON) / 2.;
+				double epsilon = 2*MASS_NUCLEON - MASS_DEUTERON;
+				double a2 = MASS_NUCLEON*epsilon - epsilon*epsilon/4.;
+				double Ra = 4*sqrt(MASS_NUCLEON*MASS_NUCLEON-a2)*TMath::Gamma(2-alpha_spec)*TMath::Gamma(2-alpha_spec);
+				double Sd = h_spectral_pt->GetBinContent( h_spectral_pt->FindBin( -tt ) );
+				h_spectralAtPole->Fill( -tt, Sd*(tt*tt)/Ra );
+			}
 		}
-
-		double MASS_NUCLEON = (MASS_NEUTRON + MASS_PROTON) / 2.;
-		double epsilon = 2*MASS_NUCLEON - MASS_DEUTERON;
-		double a2 = MASS_NUCLEON*epsilon - epsilon*epsilon/4.;
-		double Ra = 4*sqrt(MASS_NUCLEON*MASS_NUCLEON-a2)*TMath::Gamma(2-alpha_spec)*TMath::Gamma(2-alpha_spec);
-		double Sd = h_spectral_pt->GetBinContent( h_spectral_pt->FindBin( -tt ) );
-		h_spectralAtPole->Fill( -tt, Sd*(tt*tt)/Ra );
 
 		//angle between photon and spectator in d rest frame
 		double angle = spectator_4vect_irf.Angle(q_irf.Vect());
