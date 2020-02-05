@@ -204,7 +204,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	tree->SetBranchAddress("event", &event);
 
 	double energy_resolution = rZDC;//50%
-	double energy_resolution_constant_term = 0.05; //5%
+	double energy_resolution_constant_term = 0.005; //5%
 	double beam_momentum = 110.; // 110 GeV for Deuteron now
 	TF1* smear_e = new TF1("smear_e","gaus(0)",-30,30);
 	smear_e->SetParameter(0,1);
