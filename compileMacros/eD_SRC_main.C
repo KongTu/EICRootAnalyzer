@@ -175,6 +175,10 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	std::string str = os.str();
 	TString settings = (TString) str;
 
+	TFile* input = new TFile("./inputSd.root","READ");
+	TH1D* h_spectral_pt_input = (TH1D*) input->Get("h_spectral_pt");
+	h_spectral_pt_input->Scale(1./h_spectral_pt_input->Integral());
+
 	TFile * output = new TFile("../rootfiles/"+filename+"_"+settings+"_main_Beagle.root","recreate");
 		
 	TH1D* nk_truth = new TH1D("nk_truth","k (GeV/c)", nk_nBins, nk_bins);
@@ -196,6 +200,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH2D* h_dNdAlphadPt2 = new TH2D("h_dNdAlphadPt2",";#alpha_{p};p_{T} (GeV/c)'",500,0,2,1000,0,1);
 	TH2D* h_ThetaRprimePm = new TH2D("h_ThetaRprimePm",";#theta_{r'};p_{m} (GeV/c)",200,0,PI,200,0,1.4);
 	TH1D* h_spectral_pt = new TH1D("h_spectral_pt",";p_{T} (GeV/c)",500,0,1);
+	TH1D* h_spectralAtPole = new TH1D("h_spectralAtPole",";-t' (GeV)^{2}",500,0,0.5);
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/gpfs02/eic/ztu/BeAGLE/BeAGLE_devK_SRC/"+filename+".root" );
@@ -410,7 +415,14 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			h_dNdAlphadPt2->Fill( alpha_spec, spectator_4vect_irf.Pt(), 1./(2*PI*spectator_4vect_irf.Pt()) );
 			if( alpha_spec >= 0.99 && alpha_spec < 1.01 ) h_spectral_pt->Fill(spectator_4vect_irf.Pt(), 1./(2*PI*spectator_4vect_irf.Pt()) );
 		}
-		
+
+		double MASS_NUCLEON = (MASS_NEUTRON + MASS_PROTON) / 2.;
+		double epsilon = 2*MASS_NUCLEON - MASS_DEUTERON;
+		double a2 = MASS_NUCLEON*epsilon - epsilon*epsilon/4.;
+		double Ra = 4*sqrt(MASS_NUCLEON*MASS_NUCLEON-a2)*TMath::Gamma(2-alpha_spec)*TMath::Gamma(2-alpha_spec);
+		double Sd = h_spectral_pt->GetBinContent( h_spectral_pt->FindBin( -tt ) );
+		h_spectralAtPole->Fill( -tt, Sd*(tt*tt)/Ra );
+
 		//angle between photon and spectator in d rest frame
 		double angle = spectator_4vect_irf.Angle(q_irf.Vect());
 		h_ThetaRprimePm->Fill( angle, spectator_4vect_irf.P() );
