@@ -177,7 +177,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 	TFile* input = new TFile("./inputSd.root","READ");
 	TH1D* h_spectral_pt_input = (TH1D*) input->Get("h_spectral_pt");
-	// h_spectral_pt_input->Scale(1./h_spectral_pt_input->Integral());
+	h_spectral_pt_input->Scale(1./h_spectral_pt_input->Integral());
 
 	TFile * output = new TFile("../rootfiles/"+filename+"_"+settings+"_main_Beagle.root","recreate");
 		
