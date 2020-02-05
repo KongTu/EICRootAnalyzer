@@ -411,7 +411,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		}
 		
 		//angle between photon and spectator in d rest frame
-		double angle = spectator_4vect_irf.Angle(q.Vect());
+		double angle = spectator_4vect_irf.Angle(q_irf.Vect());
 		h_ThetaRprimePm->Fill( angle, spectator_4vect_irf.P() );
 
 		TLorentzVector pn_final;
