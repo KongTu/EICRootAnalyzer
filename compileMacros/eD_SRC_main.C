@@ -195,7 +195,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH2D* h_ttprime_alpha = new TH2D("h_ttprime_alpha",";#alpha_{p};-t'",200,0,2,1000,0,1);
 	TH2D* h_dNdAlphadPt2 = new TH2D("h_dNdAlphadPt2",";#alpha_{p};p_{T} (GeV/c)'",500,0,2,1000,0,1);
 	TH2D* h_ThetaRprimePm = new TH2D("h_ThetaRprimePm",";#theta_{r'};p_{m} (GeV/c)",200,0,PI,200,0,1.4);
-
+	TH1D* h_spectral_pt = new TH1D("h_spectral_pt",";p_{T} (GeV/c)",500,0,1);
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/gpfs02/eic/ztu/BeAGLE/BeAGLE_devK_SRC/"+filename+".root" );
@@ -408,6 +408,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		//spectral function
 		if(alpha_spec > 0 && spectator_4vect_irf.Pt() > 0. ) {
 			h_dNdAlphadPt2->Fill( alpha_spec, spectator_4vect_irf.Pt(), 1./(2*PI*spectator_4vect_irf.Pt()) );
+			if( alpha_spec >= 0.99 && alpha_spec < 1.01 ) h_spectral_pt->Fill(spectator_4vect_irf.Pt(), 1./(2*PI*spectator_4vect_irf.Pt()) );
 		}
 		
 		//angle between photon and spectator in d rest frame
