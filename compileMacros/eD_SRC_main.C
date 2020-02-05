@@ -419,7 +419,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 				double epsilon = 2*MASS_NUCLEON - MASS_DEUTERON;
 				double a2 = MASS_NUCLEON*epsilon - epsilon*epsilon/4.;
 				double Ra = 4*sqrt(MASS_NUCLEON*MASS_NUCLEON-a2)*TMath::Gamma(2-alpha_spec)*TMath::Gamma(2-alpha_spec);
-				double Sd = h_spectral_pt->GetBinContent( h_spectral_pt->FindBin( -tt ) );
+				double Sd = h_spectral_pt_input->GetBinContent( h_spectral_pt_input->FindBin( -tt ) );
 				h_spectralAtPole->Fill( -tt, Sd*(tt*tt)/Ra );
 			}
 		}
