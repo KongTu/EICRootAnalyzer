@@ -22,7 +22,7 @@ double nk_bins[]={0.,0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09,0.1,
 
 int nk_nBins = sizeof(nk_bins)/sizeof(nk_bins[0]) -1;
 
-double acceptanceGlobal = 0.004;
+double acceptanceGlobal = 0.005;
 
 //mathematica one of the two solutions are physical.
 Double_t getCorrJz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Double_t px, Double_t py, Double_t Mp){
@@ -108,8 +108,8 @@ bool passDetector(TLorentzVector p, TVector3 b){
 	return pass;
 }
 
-//only for ZDC for now
-TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e, TF1*smear_theta){
+//for neutron and proton;
+TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e_zdc, TF1*smear_theta_zdc, TF1*smear_pt_proton){
 
 	bool isNeutron = true;
 	TLorentzVector pafter;
@@ -122,14 +122,19 @@ TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e, TF1*smea
 
 	if( p.M() < MASS_PROTON+0.0001 ) isNeutron = false;
 	if( !isNeutron ) {
-		pafter = p;
+		double pt = p.Pt();
+		double eta = p.Eta();
+		double phi = p.Phi();
+		double Mass = p.M();
+		pt = pt + smear_pt_proton->GetRandom();
+		pafter = SetPtEtaPhiM(pt,eta,phi,Mass);
 	}
 	else{
 		//smearing neutron
 		double E_n = p.E();
-		double delta_E = smear_e->GetRandom();
+		double delta_E = smear_e_zdc->GetRandom();
 		E_n = E_n + delta_E;
-		double delta_Theta = smear_theta->GetRandom();
+		double delta_Theta = smear_theta_zdc->GetRandom();
 		double angle = p.Theta() + delta_Theta;
 		double Pp = sqrt(E_n*E_n - MASS_NEUTRON*MASS_NEUTRON);
 		double Pz_n = Pp*TMath::Cos(angle);
@@ -144,11 +149,12 @@ TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e, TF1*smea
 	return pafter;
 }
 
-void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 0.5, const double acceptance=0.004){
+void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNucleon_ = 0, const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 0.5, const double acceptance=0.005){
 
 	acceptanceGlobal = acceptance;
 	std::ostringstream os;
-	os << "dosmear_" <<(int) doSmear_;
+	os << "hitNucleon_" << (int) hitNucleon_;
+	os << "_dosmear_" <<(int) doSmear_;
 	os << "_doaccept_" << (int) doAcceptance_;
 	os << "_ZDCreso_" << (double) rZDC;
 	os << "_ZDCaccept_" << (double) acceptance;
@@ -186,23 +192,31 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
 
+//ZDC for neutron
 	double energy_resolution = rZDC;//50%
 	double energy_resolution_constant_term = 0.05; //5%
 	double beam_momentum = 110.; // 110 GeV for Deuteron now
-	TF1* smear_e = new TF1("smear_e","gaus(0)",-30,30);
-	smear_e->SetParameter(0,1);
-	smear_e->SetParameter(1,0);
-	smear_e->SetParameter(2, sqrt( TMath::Power((energy_resolution/sqrt(beam_momentum)),2) 
+	TF1* smear_e_zdc = new TF1("smear_e_zdc","gaus(0)",-30,30);
+	smear_e_zdc->SetParameter(0,1);
+	smear_e_zdc->SetParameter(1,0);
+	smear_e_zdc->SetParameter(2, sqrt( TMath::Power((energy_resolution/sqrt(beam_momentum)),2) 
 		+ TMath::Power(energy_resolution_constant_term,2))*beam_momentum );
 	//resolution adding in quadrature. 
 
-	TF1* smear_theta = new TF1("smear_theta","gaus(0)",-0.001,0.001);
-	smear_theta->SetParameter(0,1);
-	smear_theta->SetParameter(1,0);
+	TF1* smear_theta_zdc = new TF1("smear_theta_zdc","gaus(0)",-0.001,0.001);
+	smear_theta_zdc->SetParameter(0,1);
+	smear_theta_zdc->SetParameter(1,0);
 	double angle_reso = 3e-6;
-	smear_theta->SetParameter(2,angle_reso);
+	smear_theta_zdc->SetParameter(2,angle_reso);
 	//1cm position resolution --> 3 microRad resolution
 	//Yuji's Letter of Intent in EIC R&D proposal
+
+//RP,B0,Ext Sensor for proton
+	TF1* smear_pt_proton = new TF1("smear_pt_proton","gaus(0)",-10,10);
+	smear_pt_proton->SetParameter(0,1);
+	smear_pt_proton->SetParameter(1,0);
+	smear_pt_proton->SetParameter(2,0.026);//100 GeV proton for worse scenario for B0/RP
+
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -244,7 +258,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		if( trueY > 0.85 || trueY < 0.05 ) continue;
 		bool struckproton = false;
 		if( struck_nucleon == 2212 ) struckproton = true;
-		if( !struckproton ) continue;
+		if( hitNucleon_ == 0 && !struckproton) continue;
+		if( hitNucleon_ == 1 && struckproton) continue;
+		//otherwise it's mixing of both.
 
 		int nParticles_process = 0;
 		TLorentzVector n_4vect_unsmear;
@@ -358,8 +374,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 			if( !passDetector(spectator_4vect_irf,b) ) spectator_4vect_irf.SetPxPyPzE(0,0,0,0);
 		}
 		if( doSmear_ ){
-			pnew = afterDetector(pnew,b,smear_e,smear_theta); //dummy for now, only smear ZDC neutron
-			spectator_4vect_irf = afterDetector(spectator_4vect_irf,b,smear_e,smear_theta);
+			pnew = afterDetector(pnew,b,smear_e_zdc,smear_theta_zdc,smear_pt_proton); 
+			spectator_4vect_irf = afterDetector(spectator_4vect_irf,b,smear_e_zdc,smear_theta_zdc,smear_pt_proton);
 		}
 
 		//projection over acceptance loss
