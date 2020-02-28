@@ -258,10 +258,14 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		if( trueY > 0.85 || trueY < 0.05 ) continue;
 		bool struckproton = false;
 		if( struck_nucleon == 2212 ) struckproton = true;
-		if( hitNucleon_ == 0 && !struckproton) continue;
-		if( hitNucleon_ == 1 && struckproton) continue;
-		//otherwise it's mixing of both.
-
+		if( hitNucleon_ == 0){
+			if(!struckproton) continue;
+		}else if( hitNucleon_ == 1 ){
+			if(struckproton) continue;
+		}else{
+			//otherwise it's mixing of both.
+		}
+		
 		int nParticles_process = 0;
 		TLorentzVector n_4vect_unsmear;
 		TLorentzVector p_4vect, n_4vect,j_4vect,q;
