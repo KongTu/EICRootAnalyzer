@@ -127,7 +127,7 @@ TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e_zdc, TF1*
 		double phi = p.Phi();
 		double Mass = p.M();
 		pt = pt + smear_pt_proton->GetRandom();
-		pafter = SetPtEtaPhiM(pt,eta,phi,Mass);
+		pafter.SetPtEtaPhiM(pt,eta,phi,Mass);
 	}
 	else{
 		//smearing neutron
