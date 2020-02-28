@@ -85,26 +85,6 @@ Double_t getCorrPz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Doubl
    return finalPz;
 }
 
-vector<double> getPspa(TLorentzVector p){
-
-	vector< double> temp;
-	temp.clear();
-	if( p.E() == 0. ){
-		temp.push_back(-999.);
-		temp.push_back(-999.);
-	}
-	else{
-		double zdcip = 28.8;
-		double dp_struck = zdcip*TMath::Tan(p.Theta());
-		double P_sx = dp_struck*TMath::Cos(p.Phi());
-		double P_sy = dp_struck*TMath::Sin(p.Phi());
-		temp.push_back(P_sx);
-		temp.push_back(P_sy);
-	}
-
-	return temp;
-}
-
 bool passDetector(TLorentzVector p, TVector3 b){
 
 	/*
@@ -168,10 +148,10 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 
 	acceptanceGlobal = acceptance;
 	std::ostringstream os;
-	os << (int) doSmear_;
-	os << (int) doAcceptance_;
-	os << "_ZDC_" << (double) rZDC;
-	os << "_" << (double) acceptance;
+	os << "dosmear_" <<(int) doSmear_;
+	os << "doaccept_" << (int) doAcceptance_;
+	os << "_ZDCreso_" << (double) rZDC;
+	os << "_ZDCaccept_" << (double) acceptance;
 	std::string str = os.str();
 	TString settings = (TString) str;
 
@@ -192,8 +172,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 	TH1D* Pt_spectator = new TH1D("Pt_spectator",";p_{T} (GeV)",200,0,1.4);
 	TH1D* Pz_spectator = new TH1D("Pz_spectator",";p_{z} (GeV)",200,-1,1);
 	TH1D* Pp_spectator = new TH1D("Pp_spectator",";p (GeV)",200,0,1.4);
-	TH2D* spa_struck = new TH2D("spa_struck",";x(m);y(m)",200,-1,1,200,-1,1);
-	TH2D* spa_spectator = new TH2D("spa_spectator",";x(m);y(m)",200,-1,1,200,-1,1);
 	TH1D* alpha_spectator = new TH1D("alpha_spectator",";#alpha_{spec}",100,0,2);
 	TH1D* ttprime = new TH1D("ttprime",";-t'(GeV)",100,0,2);
 	TH2D* h_ttprime_alpha = new TH2D("h_ttprime_alpha",";#alpha_{p};-t'",200,0,2,1000,0,1);
@@ -443,20 +421,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSm
 		Pz_spectator->Fill( spectator_4vect_irf.Pz() );
 		Pp_spectator->Fill( spectator_4vect_irf.P() );
 
-		//spatial distributions
-		
-		if( !struckproton ){
-			//in case has smearing
-			vector< double> pos;
-			spectator_4vect_irf.Boost(b);
-			pnew.Boost(b);
-			pos.clear(); 
-			pos = getPspa(spectator_4vect_irf);
-			spa_struck->Fill(pos[0],pos[1]);
-			vector< double> pos1;
-			pos1 = getPspa(pnew);
-			spa_spectator->Fill(pos1[0],pos1[1]);
-		}
 
 	}
 
