@@ -126,8 +126,19 @@ TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e_zdc, TF1*
 		double eta = p.Eta();
 		double phi = p.Phi();
 		double Mass = p.M();
-		pt = pt + smear_pt_proton->GetRandom();
-		pafter.SetPtEtaPhiM(pt,eta,phi,Mass);
+		double Pp = p.P();
+		double angle = p.Theta();
+
+		Pp = Pp + smear_pt_proton->GetRandom();
+		double Pz_p = Pp*TMath::Cos(angle);
+		double Px_p = Pp*TMath::Sin(angle)*TMath::Cos(p.Phi());
+		double Py_p = Pp*TMath::Sin(angle)*TMath::Sin(p.Phi());
+		double E_p = sqrt(Px_p*Px_p+Py_p*Py_p+Pz_p*Pz_p+Mass*Mass);
+		pafter.SetPxPyPzE(Px_p, Py_p, Pz_p, E_p);
+		
+		// pt = pt + smear_pt_proton->GetRandom();
+		// pafter.SetPtEtaPhiM(pt,eta,phi,Mass);
+
 	}
 	else{
 		//smearing neutron
