@@ -144,12 +144,12 @@ TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e, TF1*smea
 	return pafter;
 }
 
-void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 1., const double acceptance=0.004){
+void eD_SRC_main(const int nEvents = 40000, TString filename="", const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 0.5, const double acceptance=0.004){
 
 	acceptanceGlobal = acceptance;
 	std::ostringstream os;
 	os << "dosmear_" <<(int) doSmear_;
-	os << "doaccept_" << (int) doAcceptance_;
+	os << "_doaccept_" << (int) doAcceptance_;
 	os << "_ZDCreso_" << (double) rZDC;
 	os << "_ZDCaccept_" << (double) acceptance;
 	std::string str = os.str();
