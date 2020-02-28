@@ -129,15 +129,15 @@ TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e_zdc, TF1*
 		double Pp = p.P();
 		double angle = p.Theta();
 
-		Pp = Pp + smear_pt_proton->GetRandom();
-		double Pz_p = Pp*TMath::Cos(angle);
-		double Px_p = Pp*TMath::Sin(angle)*TMath::Cos(p.Phi());
-		double Py_p = Pp*TMath::Sin(angle)*TMath::Sin(p.Phi());
-		double E_p = sqrt(Px_p*Px_p+Py_p*Py_p+Pz_p*Pz_p+Mass*Mass);
-		pafter.SetPxPyPzE(Px_p, Py_p, Pz_p, E_p);
+		// Pp = Pp + smear_pt_proton->GetRandom();
+		// double Pz_p = Pp*TMath::Cos(angle);
+		// double Px_p = Pp*TMath::Sin(angle)*TMath::Cos(p.Phi());
+		// double Py_p = Pp*TMath::Sin(angle)*TMath::Sin(p.Phi());
+		// double E_p = sqrt(Px_p*Px_p+Py_p*Py_p+Pz_p*Pz_p+Mass*Mass);
+		// pafter.SetPxPyPzE(Px_p, Py_p, Pz_p, E_p);
 		
-		// pt = pt + smear_pt_proton->GetRandom();
-		// pafter.SetPtEtaPhiM(pt,eta,phi,Mass);
+		pt = pt*(1+smear_pt_proton->GetRandom());
+		pafter.SetPtEtaPhiM(pt,eta,phi,Mass);
 
 	}
 	else{
@@ -226,7 +226,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TF1* smear_pt_proton = new TF1("smear_pt_proton","gaus(0)",-10,10);
 	smear_pt_proton->SetParameter(0,1);
 	smear_pt_proton->SetParameter(1,0);
-	smear_pt_proton->SetParameter(2,0.026);//100 GeV proton for worse scenario for B0/RP
+	smear_pt_proton->SetParameter(2,0.03);//100 GeV proton for worse scenario for B0/RP
 
 
 	for(int i(0); i < nEvents; ++i ) {
