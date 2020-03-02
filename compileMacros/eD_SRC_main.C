@@ -199,6 +199,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TH1D* Pp_spectator = new TH1D("Pp_spectator",";p (GeV)",200,0,1.4);
 	TH1D* alpha_spectator = new TH1D("alpha_spectator",";#alpha_{spec}",100,0,2);
 	TH1D* ttprime = new TH1D("ttprime",";-t'(GeV)",100,0,2);
+	TH1D* t_eej = new TH1D("t_eej",";-t'(GeV)",100,-2,2);
+	TH1D* t_nprimeprime = new TH1D("t_pnprimeprime",";-t'(GeV)",100,-2,2);
 	TH2D* h_ttprime_alpha = new TH2D("h_ttprime_alpha",";#alpha_{p};-t'",200,0,2,1000,0,1);
 	TH2D* h_dNdAlphadPt2 = new TH2D("h_dNdAlphadPt2",";#alpha_{p};p_{T} (GeV/c)'",500,0,2,1000,0,1);
 	TH2D* h_ThetaRprimePm = new TH2D("h_ThetaRprimePm",";#theta_{r'};p_{m} (GeV/c)",200,0,PI,200,0,1.4);
@@ -316,7 +318,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 			if( status != 1 ) continue;
 
 			//photon 4vector
-			q = e_beam-e_scattered;
+			q = e_scattered - e_beam;
 			q_irf = q;
 			
 			if(pdg == 443 ) j_4vect = ppart;//jpsi
@@ -371,8 +373,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		/*
 		fixing deuteron momentum nonconservation:
 		*/
-		
-		//approach 1
+
 		double qzkz = q_irf.Pz() - (spectator_4vect_irf.Pz());//qz-kz
 		double numn = q_irf.E() - spectator_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
 		double jx = j_4vect_irf.Px();
@@ -427,6 +428,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		double Pplus = (spectator_4vect_irf.E() + spectator_4vect_irf.Pz()) / sqrt(2);
 		double PdPlus = MASS_DEUTERON / sqrt(2);
 		double alpha_spec = 2*Pplus / PdPlus;
+		double alpha_stru = 2. - alpha_spec;
 		alpha_spectator->Fill( alpha_spec );
 
 		//filling t' distribution
@@ -434,6 +436,23 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		tt = tt - TMath::Power(pnew.M(),2);
 		ttprime->Fill( -tt );
 		h_ttprime_alpha->Fill( alpha_spec, -tt );
+
+		//filling t distribution 
+		// 1) (e'-e+Jpsi)**2
+		double t1_uppervtx = (q_irf + jnew).Mag2();
+		t_eej->Fill( t1_uppervtx );
+		// 2) (p - (n''))**2
+		// use LF kinematics to calculate the struck nucleon pz, E before interactions.
+		Double_t E_struck = (alpha_stru*MASS_DEUTERON)/4. + (spectator_4vect_irf.Px()*spectator_4vect_irf.Px()+
+			spectator_4vect_irf.Py()*spectator_4vect_irf.Py()+struck_mass*struck_mass)/(alpha_stru*MASS_DEUTERON);
+		Double_t Pz_struck = -(alpha_stru*MASS_DEUTERON)/4. + (spectator_4vect_irf.Px()*spectator_4vect_irf.Px()+
+			spectator_4vect_irf.Py()*spectator_4vect_irf.Py()+struck_mass*struck_mass)/(alpha_stru*MASS_DEUTERON);
+		//new 4 vector for struck nucleon before interaction;
+		TLorentzVector n_primeprime;
+		n_primeprime.SetPxPyPzE(-spectator_4vect_irf.Px(),-spectator_4vect_irf.Py(),
+		Pz_struck,E_struck);
+		double t2_uppervtx = (pnew - n_primeprime).Mag2();
+		t_nprimeprime->Fill( t2_uppervtx );
 
 		//spectral function
 		if(alpha_spec > 0 && spectator_4vect_irf.Pt() > 0. ) {
