@@ -129,7 +129,6 @@ TLorentzVector afterNeutronDetector(TLorentzVector p, TVector3 b, TF1*smear_e_zd
 	double Py_n = Pp*TMath::Sin(angle)*TMath::Sin(p.Phi());
 
 	pafter.SetPxPyPzE(Px_n, Py_n, Pz_n, E_n);
-	cout << "neutron mass " << pafter.M() << endl;
 
 	//boost back to IRF;
 	pafter.Boost(-b);
@@ -276,8 +275,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 			//otherwise it's mixing of both.
 		}
 		
-		cout << "struck proton ~ " << struckproton << endl;
-
 		int nParticles_process = 0;
 		TLorentzVector n_4vect_unsmear;
 		TLorentzVector p_4vect, n_4vect,j_4vect,q;
@@ -385,8 +382,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		double jz_new = jz;
 		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
-		cout << "Spectator mass ~ " << spectator_4vect.M() << endl;
-		cout << "Struck mass ~ " << struck_4vect.M() << endl;
 		//filling histograms:
 		if( doAcceptance_ ) {
 			if( !passDetector(pnew,b) ) pnew.SetPxPyPzE(0,0,0,0);
@@ -401,7 +396,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 				spectator_4vect_irf = afterProtonDetector(spectator_4vect_irf,b,smear_pt_proton); 
 				pnew = afterNeutronDetector(pnew,b,smear_e_zdc,smear_theta_zdc);
 			}
-			
 		}
 
 		//projection over acceptance loss
