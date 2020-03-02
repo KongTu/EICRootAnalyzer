@@ -269,6 +269,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 			//otherwise it's mixing of both.
 		}
 		
+		cout << "struck proton ~ " << struckproton << endl;
+
 		int nParticles_process = 0;
 		TLorentzVector n_4vect_unsmear;
 		TLorentzVector p_4vect, n_4vect,j_4vect,q;
