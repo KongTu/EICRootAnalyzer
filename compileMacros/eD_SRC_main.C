@@ -231,7 +231,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
       
 		// Read the next entry from the tree.
 		tree->GetEntry(i);
-		cout << "event number ~ " << i << endl; 
+
 		double pzlep = event->pzlep;
 		double pztarg = event->pztarg;
 		double Atarg = event->Atarg;
