@@ -145,7 +145,6 @@ TLorentzVector afterProtonDetector(TLorentzVector p, TVector3 b,TF1*smear_pt_pro
 	//boost to lab frame;
 	p.Boost(b);
 
-	cout << "proton mass " << p.M() << endl;
 	double pt = p.Pt();
 	double eta = p.Eta();
 	double phi = p.Phi();
@@ -155,6 +154,7 @@ TLorentzVector afterProtonDetector(TLorentzVector p, TVector3 b,TF1*smear_pt_pro
 
 	pt = pt*(1+smear_pt_proton->GetRandom());
 	pafter.SetPtEtaPhiM(pt,eta,phi,MASS_PROTON);
+	cout << "proton mass " << pafter.M() << endl;
 
 	//boost back to IRF;
 	pafter.Boost(-b);
@@ -386,6 +386,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		double jz_new = jz;
 		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
+		cout << "Proton mass ~ " << spectator_4vect_irf.M() << endl;
 		//filling histograms:
 		if( doAcceptance_ ) {
 			if( !passDetector(pnew,b) ) pnew.SetPxPyPzE(0,0,0,0);
