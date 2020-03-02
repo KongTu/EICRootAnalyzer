@@ -218,7 +218,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TF1* smear_pt_proton = new TF1("smear_pt_proton","gaus(0)",-5,5);
 	smear_pt_proton->SetParameter(0,1);
 	smear_pt_proton->SetParameter(1,0);
-	smear_pt_proton->SetParameter(2,0.03);//3% resolution dpt/pt worse scenario for B0/RP
+	smear_pt_proton->SetParameter(2,0.05);//3% resolution dpt/pt worse scenario for B0/RP
 
 
 	for(int i(0); i < nEvents; ++i ) {
@@ -317,12 +317,13 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		} // end of particle loop
 
 		if( nParticles_process != 4 ) continue;
+		
 		//fill n(k) or dN/dk distribution, but averaged over all direction
 		//LFKine tells us pzf is not symmetric in the lab frame
 		nk_truth->Fill( nk_event );
 		nk_truth_uniformbins->Fill( nk_event );
 
-		//boost
+		//boost to d rest frame
 		j_4vect_irf.Boost(-b);
 		p_4vect_irf.Boost(-b);
 		n_4vect_irf.Boost(-b);
