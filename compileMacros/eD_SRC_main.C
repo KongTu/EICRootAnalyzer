@@ -85,6 +85,7 @@ Double_t getCorrPz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Doubl
    return finalPz;
 }
 
+//for both neutron and proton
 bool passDetector(TLorentzVector p, TVector3 b){
 
 	/*
@@ -108,7 +109,7 @@ bool passDetector(TLorentzVector p, TVector3 b){
 	return pass;
 }
 
-//for neutron and proton;
+//for neutron;
 TLorentzVector afterNeutronDetector(TLorentzVector p, TVector3 b, TF1*smear_e_zdc, TF1*smear_theta_zdc){
 
 	TLorentzVector pafter;
@@ -134,7 +135,7 @@ TLorentzVector afterNeutronDetector(TLorentzVector p, TVector3 b, TF1*smear_e_zd
 	pafter.Boost(-b);
 	return pafter;
 }
-//for neutron and proton;
+//for proton;
 TLorentzVector afterProtonDetector(TLorentzVector p, TVector3 b,TF1*smear_pt_proton){
 
 	TLorentzVector pafter;
@@ -158,6 +159,7 @@ TLorentzVector afterProtonDetector(TLorentzVector p, TVector3 b,TF1*smear_pt_pro
 	pafter.Boost(-b);
 	return pafter;
 }
+
 void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNucleon_ = 0, const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 0.5, const double acceptance=0.005){
 
 	acceptanceGlobal = acceptance;
@@ -224,7 +226,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TF1* smear_pt_proton = new TF1("smear_pt_proton","gaus(0)",-10,10);
 	smear_pt_proton->SetParameter(0,1);
 	smear_pt_proton->SetParameter(1,0);
-	smear_pt_proton->SetParameter(2,5.);//3% resolution dpt/pt worse scenario for B0/RP
+	smear_pt_proton->SetParameter(2,0.03);//3% resolution dpt/pt worse scenario for B0/RP
 
 
 	for(int i(0); i < nEvents; ++i ) {
@@ -382,7 +384,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		double jz_new = jz;
 		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
-		//filling histograms:
+		//accpetance and smearing before filling histograms:
 		if( doAcceptance_ ) {
 			if( !passDetector(pnew,b) ) pnew.SetPxPyPzE(0,0,0,0);
 			if( !passDetector(spectator_4vect_irf,b) ) spectator_4vect_irf.SetPxPyPzE(0,0,0,0);
