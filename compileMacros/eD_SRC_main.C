@@ -427,9 +427,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		h_ThetaVsEnergy_Struck->Fill(pnew_lab.E(), pnew_lab.Theta()*1000. );
 
 		//filling alpha of spectator
-		double Pplus = (spectator_4vect_irf.E() - spectator_4vect_irf.Pz()) / sqrt(2);
-		double PdPlus = MASS_DEUTERON / sqrt(2);
-		double alpha_spec = 2*Pplus / PdPlus;
+		double PMinus = (spectator_4vect_irf.E() - spectator_4vect_irf.Pz()) / sqrt(2);
+		double PdMinus = MASS_DEUTERON / sqrt(2);
+		double alpha_spec = 2*PMinus / PdMinus;
 		double alpha_stru = 2. - alpha_spec;
 		alpha_spectator->Fill( alpha_spec );
 
@@ -456,8 +456,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		double t2_uppervtx = (pnew - n_primeprime).Mag2();
 		t_nprimeprime->Fill( t2_uppervtx );
 
-		t_compare->Fill(t1_uppervtx-t2_uppervtx, nk_event);
-		//true t?
+		// the difference might be the primary interaction still
+		// doesn't know the fermi momentum
+		t_compare->Fill(t1_uppervtx-t2_uppervtx, sqrt(pxf*pxf+pyf*pyf));
+		
+		//true t? Not sure what the true t is in eD.
 		t_truth->Fill( t_hat );
 
 		//spectral function
