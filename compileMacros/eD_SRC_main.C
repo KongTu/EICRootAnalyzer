@@ -218,7 +218,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TF1* smear_pt_proton = new TF1("smear_pt_proton","gaus(0)",-5,5);
 	smear_pt_proton->SetParameter(0,1);
 	smear_pt_proton->SetParameter(1,0);
-	smear_pt_proton->SetParameter(2,0.10);//3% resolution dpt/pt worse scenario for B0/RP
+	smear_pt_proton->SetParameter(2,0.8);//3% resolution dpt/pt worse scenario for B0/RP
 
 
 	for(int i(0); i < nEvents; ++i ) {
