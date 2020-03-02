@@ -457,8 +457,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		t_nprimeprime->Fill( t2_uppervtx );
 
 		// the difference might be the primary interaction still
-		// doesn't know the fermi momentum
-		t_compare->Fill(t1_uppervtx-t2_uppervtx, sqrt(pxf*pxf+pyf*pyf));
+		// doesn't know about the fermi momentum
+		t_compare->Fill(t1_uppervtx, t2_uppervtx);
 		
 		//true t? Not sure what the true t is in eD.
 		t_truth->Fill( t_hat );
