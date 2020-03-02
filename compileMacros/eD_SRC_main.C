@@ -109,9 +109,8 @@ bool passDetector(TLorentzVector p, TVector3 b){
 }
 
 //for neutron and proton;
-TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e_zdc, TF1*smear_theta_zdc, TF1*smear_pt_proton){
+TLorentzVector afterNeutronDetector(TLorentzVector p, TVector3 b, TF1*smear_e_zdc, TF1*smear_theta_zdc){
 
-	bool isNeutron = false;
 	TLorentzVector pafter;
 	if( p.E() == 0. ) {
 		return p;
@@ -119,41 +118,48 @@ TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e_zdc, TF1*
 	//boost to lab frame;
 	p.Boost(b);
 
-	if(p.M() == MASS_NEUTRON) isNeutron = true;
+	cout << "neutron mass " << p.M() << endl;
+	//smearing neutron
+	double E_n = p.E();
+	E_n = E_n*(1+smear_e_zdc->GetRandom());
+	double delta_Theta = smear_theta_zdc->GetRandom();
+	double angle = p.Theta() + delta_Theta;
+	double Pp = sqrt(E_n*E_n - MASS_NEUTRON*MASS_NEUTRON);
+	double Pz_n = Pp*TMath::Cos(angle);
+	double Px_n = Pp*TMath::Sin(angle)*TMath::Cos(p.Phi());
+	double Py_n = Pp*TMath::Sin(angle)*TMath::Sin(p.Phi());
 
-	if( !isNeutron ) {
-		cout << "proton mass " << p.M() << endl;
-		double pt = p.Pt();
-		double eta = p.Eta();
-		double phi = p.Phi();
-		double Mass = p.M();
-		double Pp = p.P();
-		double angle = p.Theta();
-
-		pt = pt*(1+smear_pt_proton->GetRandom());
-		pafter.SetPtEtaPhiM(pt,eta,phi,MASS_PROTON);
-
-	}
-	else{
-		cout << "neutron mass " << p.M() << endl;
-		//smearing neutron
-		double E_n = p.E();
-		E_n = E_n*(1+smear_e_zdc->GetRandom());
-		double delta_Theta = smear_theta_zdc->GetRandom();
-		double angle = p.Theta() + delta_Theta;
-		double Pp = sqrt(E_n*E_n - MASS_NEUTRON*MASS_NEUTRON);
-		double Pz_n = Pp*TMath::Cos(angle);
-		double Px_n = Pp*TMath::Sin(angle)*TMath::Cos(p.Phi());
-		double Py_n = Pp*TMath::Sin(angle)*TMath::Sin(p.Phi());
-
-		pafter.SetPxPyPzE(Px_n, Py_n, Pz_n, E_n);
-	}
+	pafter.SetPxPyPzE(Px_n, Py_n, Pz_n, E_n);
 
 	//boost back to IRF;
 	pafter.Boost(-b);
 	return pafter;
 }
+//for neutron and proton;
+TLorentzVector afterProtonDetector(TLorentzVector p, TVector3 b,TF1*smear_pt_proton){
 
+	TLorentzVector pafter;
+	if( p.E() == 0. ) {
+		return p;
+	}
+	//boost to lab frame;
+	p.Boost(b);
+
+	cout << "proton mass " << p.M() << endl;
+	double pt = p.Pt();
+	double eta = p.Eta();
+	double phi = p.Phi();
+	double Mass = p.M();
+	double Pp = p.P();
+	double angle = p.Theta();
+
+	pt = pt*(1+smear_pt_proton->GetRandom());
+	pafter.SetPtEtaPhiM(pt,eta,phi,MASS_PROTON);
+
+	//boost back to IRF;
+	pafter.Boost(-b);
+	return pafter;
+}
 void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNucleon_ = 0, const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 0.5, const double acceptance=0.005){
 
 	acceptanceGlobal = acceptance;
@@ -386,8 +392,15 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 			if( !passDetector(spectator_4vect_irf,b) ) spectator_4vect_irf.SetPxPyPzE(0,0,0,0);
 		}
 		if( doSmear_ ){
-			pnew = afterDetector(pnew,b,smear_e_zdc,smear_theta_zdc,smear_pt_proton); 
-			spectator_4vect_irf = afterDetector(spectator_4vect_irf,b,smear_e_zdc,smear_theta_zdc,smear_pt_proton);
+			if( struckproton ){
+				pnew = afterProtonDetector(pnew,b,smear_pt_proton); 
+				spectator_4vect_irf = afterNeutronDetector(spectator_4vect_irf,b,smear_e_zdc,smear_theta_zdc);
+			}
+			else{
+				spectator_4vect_irf = afterProtonDetector(pnew,b,smear_pt_proton); 
+				pnew = afterNeutronDetector(spectator_4vect_irf,b,smear_e_zdc,smear_theta_zdc);
+			}
+			
 		}
 
 		//projection over acceptance loss
