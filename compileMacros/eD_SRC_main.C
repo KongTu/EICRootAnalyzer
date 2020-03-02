@@ -118,7 +118,6 @@ TLorentzVector afterNeutronDetector(TLorentzVector p, TVector3 b, TF1*smear_e_zd
 	//boost to lab frame;
 	p.Boost(b);
 
-	cout << "neutron mass " << p.M() << endl;
 	//smearing neutron
 	double E_n = p.E();
 	E_n = E_n*(1+smear_e_zdc->GetRandom());
@@ -130,6 +129,7 @@ TLorentzVector afterNeutronDetector(TLorentzVector p, TVector3 b, TF1*smear_e_zd
 	double Py_n = Pp*TMath::Sin(angle)*TMath::Sin(p.Phi());
 
 	pafter.SetPxPyPzE(Px_n, Py_n, Pz_n, E_n);
+	cout << "neutron mass " << pafter.M() << endl;
 
 	//boost back to IRF;
 	pafter.Boost(-b);
@@ -154,7 +154,6 @@ TLorentzVector afterProtonDetector(TLorentzVector p, TVector3 b,TF1*smear_pt_pro
 
 	pt = pt*(1+smear_pt_proton->GetRandom());
 	pafter.SetPtEtaPhiM(pt,eta,phi,MASS_PROTON);
-	cout << "proton mass " << pafter.M() << endl;
 
 	//boost back to IRF;
 	pafter.Boost(-b);
@@ -386,7 +385,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		double jz_new = jz;
 		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
-		cout << "Proton mass ~ " << spectator_4vect_irf.M() << endl;
+		cout << "Spectator mass ~ " << spectator_4vect_irf.M() << endl;
 		//filling histograms:
 		if( doAcceptance_ ) {
 			if( !passDetector(pnew,b) ) pnew.SetPxPyPzE(0,0,0,0);
