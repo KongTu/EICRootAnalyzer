@@ -121,7 +121,10 @@ TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e_zdc, TF1*
 	p.Boost(b);
 
 	if( p.M() < MASS_PROTON+0.0001 ) isNeutron = false;
+
+
 	if( !isNeutron ) {
+		cout << "proton mass " << p.M() << endl;
 		double pt = p.Pt();
 		double eta = p.Eta();
 		double phi = p.Phi();
@@ -134,6 +137,8 @@ TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e_zdc, TF1*
 
 	}
 	else{
+		cout << "neutron mass " << p.M() << endl;
+
 		//smearing neutron
 		double E_n = p.E();
 		E_n = E_n*(1+smear_e_zdc->GetRandom());
