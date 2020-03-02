@@ -397,8 +397,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 				spectator_4vect_irf = afterNeutronDetector(spectator_4vect_irf,b,smear_e_zdc,smear_theta_zdc);
 			}
 			else{
-				spectator_4vect_irf = afterProtonDetector(pnew,b,smear_pt_proton); 
-				pnew = afterNeutronDetector(spectator_4vect_irf,b,smear_e_zdc,smear_theta_zdc);
+				spectator_4vect_irf = afterProtonDetector(spectator_4vect_irf,b,smear_pt_proton); 
+				pnew = afterNeutronDetector(pnew,b,smear_e_zdc,smear_theta_zdc);
 			}
 			
 		}
