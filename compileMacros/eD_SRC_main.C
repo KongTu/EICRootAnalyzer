@@ -440,6 +440,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		//filling t distribution 
 		// 1) (e'-e+Jpsi)**2
 		double t1_uppervtx = (q_irf + jnew).Mag2();
+		cout << "t1_uppervtx " << t1_uppervtx << endl;
 		t_eej->Fill( t1_uppervtx );
 		// 2) (p - (n''))**2
 		// use LF kinematics to calculate the struck nucleon pz, E before interactions.
