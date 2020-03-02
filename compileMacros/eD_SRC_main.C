@@ -109,8 +109,9 @@ bool passDetector(TLorentzVector p, TVector3 b){
 }
 
 //for neutron and proton;
-TLorentzVector afterDetector(bool struckproton, TLorentzVector p, TVector3 b, TF1*smear_e_zdc, TF1*smear_theta_zdc, TF1*smear_pt_proton){
+TLorentzVector afterDetector(TLorentzVector p, TVector3 b, TF1*smear_e_zdc, TF1*smear_theta_zdc, TF1*smear_pt_proton){
 
+	bool isNeutron = false;
 	TLorentzVector pafter;
 	if( p.E() == 0. ) {
 		return p;
@@ -118,7 +119,9 @@ TLorentzVector afterDetector(bool struckproton, TLorentzVector p, TVector3 b, TF
 	//boost to lab frame;
 	p.Boost(b);
 
-	if( struckproton ) {
+	if(p.M() == MASS_NEUTRON) isNeutron = true;
+
+	if( !isNeutron ) {
 		cout << "proton mass " << p.M() << endl;
 		double pt = p.Pt();
 		double eta = p.Eta();
@@ -383,8 +386,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 			if( !passDetector(spectator_4vect_irf,b) ) spectator_4vect_irf.SetPxPyPzE(0,0,0,0);
 		}
 		if( doSmear_ ){
-			pnew = afterDetector(struckproton,pnew,b,smear_e_zdc,smear_theta_zdc,smear_pt_proton); 
-			spectator_4vect_irf = afterDetector(struckproton,spectator_4vect_irf,b,smear_e_zdc,smear_theta_zdc,smear_pt_proton);
+			pnew = afterDetector(pnew,b,smear_e_zdc,smear_theta_zdc,smear_pt_proton); 
+			spectator_4vect_irf = afterDetector(spectator_4vect_irf,b,smear_e_zdc,smear_theta_zdc,smear_pt_proton);
 		}
 
 		//projection over acceptance loss
