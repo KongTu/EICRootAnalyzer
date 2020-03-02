@@ -215,10 +215,10 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	//Yuji's Letter of Intent in EIC R&D proposal
 
 //RP,B0,Ext Sensor for proton
-	TF1* smear_pt_proton = new TF1("smear_pt_proton","gaus(0)",-5,5);
+	TF1* smear_pt_proton = new TF1("smear_pt_proton","gaus(0)",-10,10);
 	smear_pt_proton->SetParameter(0,1);
 	smear_pt_proton->SetParameter(1,0);
-	smear_pt_proton->SetParameter(2,0.8);//3% resolution dpt/pt worse scenario for B0/RP
+	smear_pt_proton->SetParameter(2,10.);//3% resolution dpt/pt worse scenario for B0/RP
 
 
 	for(int i(0); i < nEvents; ++i ) {
