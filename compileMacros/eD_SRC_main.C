@@ -133,7 +133,6 @@ TLorentzVector afterDetector(bool struckproton, TLorentzVector p, TVector3 b, TF
 	}
 	else{
 		cout << "neutron mass " << p.M() << endl;
-
 		//smearing neutron
 		double E_n = p.E();
 		E_n = E_n*(1+smear_e_zdc->GetRandom());
@@ -225,7 +224,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
       
 		// Read the next entry from the tree.
 		tree->GetEntry(i);
-		
+		cout << "event number ~ " << i << endl; 
 		double pzlep = event->pzlep;
 		double pztarg = event->pztarg;
 		double Atarg = event->Atarg;
