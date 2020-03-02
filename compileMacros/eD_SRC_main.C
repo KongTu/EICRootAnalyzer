@@ -386,6 +386,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
 		cout << "Spectator mass ~ " << spectator_4vect_irf.M() << endl;
+		cout << "Struck mass ~ " << pnew.M() << endl;
 		//filling histograms:
 		if( doAcceptance_ ) {
 			if( !passDetector(pnew,b) ) pnew.SetPxPyPzE(0,0,0,0);
