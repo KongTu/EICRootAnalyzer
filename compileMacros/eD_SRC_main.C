@@ -198,7 +198,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 //ZDC for neutron
 	double energy_resolution = rZDC;//50%
 	double energy_resolution_constant_term = 0.05; //5%
-	double beam_momentum = 135.; // 135 GeV for Deuteron now
+	double beam_momentum = 110.; // 135 GeV for Deuteron now
 	TF1* smear_e_zdc = new TF1("smear_e_zdc","gaus(0)",-5,5);
 	smear_e_zdc->SetParameter(0,1);
 	smear_e_zdc->SetParameter(1,0);
@@ -218,7 +218,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TF1* smear_pt_proton = new TF1("smear_pt_proton","gaus(0)",-10,10);
 	smear_pt_proton->SetParameter(0,1);
 	smear_pt_proton->SetParameter(1,0);
-	smear_pt_proton->SetParameter(2,10.);//3% resolution dpt/pt worse scenario for B0/RP
+	smear_pt_proton->SetParameter(2,5.);//3% resolution dpt/pt worse scenario for B0/RP
 
 
 	for(int i(0); i < nEvents; ++i ) {
