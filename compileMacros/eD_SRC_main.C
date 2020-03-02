@@ -387,7 +387,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 
 		double px_new = struck_4vect_irf.Px();
 		double py_new = struck_4vect_irf.Py();
-		double pz_new = pz;
+		double pz_new = struck_4vect_irf.Pz();
 		pnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( struck_mass*struck_mass + px_new*px_new + py_new*py_new + pz_new*pz_new));
 		
 		double jx_new = j_4vect_irf.Px();
@@ -457,7 +457,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 
 		//true t?
 		t_truth->Fill( t_hat );
-		
+
 		//spectral function
 		if(alpha_spec > 0 && spectator_4vect_irf.Pt() > 0. ) {
 			h_dNdAlphadPt2->Fill( alpha_spec, spectator_4vect_irf.Pt(), 1./(2*PI*spectator_4vect_irf.Pt()) );
