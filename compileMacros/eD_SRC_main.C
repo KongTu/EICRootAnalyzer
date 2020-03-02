@@ -22,9 +22,13 @@ double nk_bins[]={0.,0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09,0.1,
 
 int nk_nBins = sizeof(nk_bins)/sizeof(nk_bins[0]) -1;
 
+//only for ZDC acceptance
 double acceptanceGlobal = 0.005;
 
-//mathematica one of the two solutions are physical.
+// solutions for momentum non-conservations, 
+// won't be needed for the next version of BeAGLE
+// mathematica gives only one of the two solutions are physical.
+
 Double_t getCorrJz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Double_t px, Double_t py, Double_t Mp){
 
 	double Md = MASS_DEUTERON;
@@ -85,7 +89,7 @@ Double_t getCorrPz(Double_t qzkz, Double_t numn, Double_t jx, Double_t jy, Doubl
    return finalPz;
 }
 
-//for both neutron and proton
+//for both neutron and proton acceptances
 bool passDetector(TLorentzVector p, TVector3 b){
 
 	/*
@@ -109,7 +113,7 @@ bool passDetector(TLorentzVector p, TVector3 b){
 	return pass;
 }
 
-//for neutron;
+//for neutron energy/position resolutions;
 TLorentzVector afterNeutronDetector(TLorentzVector p, TVector3 b, TF1*smear_e_zdc, TF1*smear_theta_zdc){
 
 	TLorentzVector pafter;
@@ -135,7 +139,7 @@ TLorentzVector afterNeutronDetector(TLorentzVector p, TVector3 b, TF1*smear_e_zd
 	pafter.Boost(-b);
 	return pafter;
 }
-//for proton;
+//for proton pt resolutions;
 TLorentzVector afterProtonDetector(TLorentzVector p, TVector3 b,TF1*smear_pt_proton){
 
 	TLorentzVector pafter;
@@ -162,6 +166,7 @@ TLorentzVector afterProtonDetector(TLorentzVector p, TVector3 b,TF1*smear_pt_pro
 
 void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNucleon_ = 0, const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 0.5, const double acceptance=0.005){
 
+	//just naming in the output file, only show ZDC parameters. 
 	acceptanceGlobal = acceptance;
 	std::ostringstream os;
 	os << "hitNucleon_" << (int) hitNucleon_;
@@ -172,12 +177,15 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	std::string str = os.str();
 	TString settings = (TString) str;
 
+	//not so important now
 	TFile* input = new TFile("./inputSd.root","READ");
 	TH1D* h_spectral_pt_input = (TH1D*) input->Get("h_spectral_pt");
 	h_spectral_pt_input->Scale(1./h_spectral_pt_input->Integral());
 
+	//input from BeAGLE root files
 	TFile * output = new TFile("../rootfiles/"+filename+"_"+settings+"_main_Beagle.root","recreate");
-		
+	
+	//histograms to be saved
 	TH1D* nk_truth = new TH1D("nk_truth","k (GeV/c)", nk_nBins, nk_bins);
 	TH1D* nk_truth_uniformbins = new TH1D("nk_truth_uniformbins","k (GeV/c)", 200,0,1.4);
 	TH2D* h_ThetaVsEnergy_Spectator = new TH2D("h_ThetaVsEnergy_Spectator",";E_{spectator} (GeV);#theta",300,0,200,200,0,100);
@@ -203,31 +211,30 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
 
-//ZDC for neutron
-	double energy_resolution = rZDC;//50%
-	double energy_resolution_constant_term = 0.05; //5%
-	double beam_momentum = 110.; // 135 GeV for Deuteron now
+	//ZDC for neutron
+	double energy_resolution = rZDC;//default 50%
+	double energy_resolution_constant_term = 0.05; //default 5%
+	double beam_momentum = 110.; // 110 GeV for Deuteron now
 	TF1* smear_e_zdc = new TF1("smear_e_zdc","gaus(0)",-5,5);
 	smear_e_zdc->SetParameter(0,1);
 	smear_e_zdc->SetParameter(1,0);
 	smear_e_zdc->SetParameter(2, sqrt( TMath::Power((energy_resolution/sqrt(beam_momentum)),2) 
 		+ TMath::Power(energy_resolution_constant_term,2)) );//giving resolution in percent
-	//resolution adding in quadrature. 
+	//resolution terms adding in quadrature. 
 
 	TF1* smear_theta_zdc = new TF1("smear_theta_zdc","gaus(0)",-0.001,0.001);
 	smear_theta_zdc->SetParameter(0,1);
 	smear_theta_zdc->SetParameter(1,0);
 	double angle_reso = 3e-6;
-	smear_theta_zdc->SetParameter(2,angle_reso);
+	smear_theta_zdc->SetParameter(2,angle_reso);//absolute angles smearing
 	//1cm position resolution --> 3 microRad resolution
 	//Yuji's Letter of Intent in EIC R&D proposal
 
-//RP,B0,Ext Sensor for proton
+	//RP,B0,Ext Sensor for proton
 	TF1* smear_pt_proton = new TF1("smear_pt_proton","gaus(0)",-10,10);
 	smear_pt_proton->SetParameter(0,1);
 	smear_pt_proton->SetParameter(1,0);
-	smear_pt_proton->SetParameter(2,0.03);//3% resolution dpt/pt worse scenario for B0/RP
-
+	smear_pt_proton->SetParameter(2,0.03);//3% resolution dpt/pt 
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -267,6 +274,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		if( event_process != 91 ) continue;
 		if( trueQ2 < 1. ) continue;
 		if( trueY > 0.85 || trueY < 0.05 ) continue;
+
+		// use hitNucleon_ to choose only hit proton/neutron or mixing
 		bool struckproton = false;
 		if( struck_nucleon == 2212 ) struckproton = true;
 		if( hitNucleon_ == 0){
@@ -278,7 +287,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		}
 		
 		int nParticles_process = 0;
-		TLorentzVector n_4vect_unsmear;
 		TLorentzVector p_4vect, n_4vect,j_4vect,q;
 		TLorentzVector p_4vect_irf, n_4vect_irf,j_4vect_irf,q_irf,d_beam_irf;
 		TLorentzVector jnew,pnew;
@@ -313,7 +321,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 			
 			if(pdg == 443 ) j_4vect = ppart;//jpsi
 			if(pdg == 2212) p_4vect = ppart;//proton
-			if(pdg == 2112) {n_4vect = ppart; n_4vect_unsmear = n_4vect;}//neutron
+			if(pdg == 2112) {n_4vect = ppart;}//neutron
 
 			//prepare for boost later
 			if(pdg == 443 ) j_4vect_irf = j_4vect;
@@ -338,6 +346,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		q_irf.Boost(-b);
 		d_beam_irf.Boost(-b);
 
+		//assign who's struck and who's spectator
 		TLorentzVector struck_4vect_irf, spectator_4vect_irf;
 		TLorentzVector struck_4vect, spectator_4vect;
 		double struck_mass = MASS_PROTON;
@@ -400,7 +409,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 			}
 		}
 
-		//projection over acceptance loss
+		//Only both proton and neutron in acceptance are kept
 		if( pnew.E() == 0 || spectator_4vect_irf.E() == 0 ) continue;
 
 		spectator_4vect_irf.Boost(b);
@@ -449,12 +458,13 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 			pn_final = pnew+spectator_4vect_irf;
 			sPN->Fill( pn_final.Mag2() );		
 		}
-		//filling histograms:
+
+		//struck nucleon 3 momentum:
 		Pt_struck->Fill( pnew.Pt() );
 		Pz_struck->Fill( pnew.Pz() );
 		Pp_struck->Fill( pnew.P() );
 
-		//use spectator only:
+		//spectator nucleon 3 momentum:
 		Pt_spectator->Fill( spectator_4vect_irf.Pt() );
 		Pz_spectator->Fill( spectator_4vect_irf.Pz() );
 		Pp_spectator->Fill( spectator_4vect_irf.P() );
