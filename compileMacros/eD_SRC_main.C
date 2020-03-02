@@ -391,7 +391,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		
 		double jx_new = j_4vect_irf.Px();
 		double jy_new = j_4vect_irf.Py();
-		double jz_new = jz;
+		double jz_new = j_4vect_irf.Pz();
 		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
 		//accpetance and smearing before filling histograms:
@@ -439,7 +439,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 
 		//filling t distribution 
 		// 1) (e'-e+Jpsi)**2
-		double t1_uppervtx = (-q_irf + jnew).Mag2();
+		double t1_uppervtx = (q_irf + jnew).Mag2();
 		cout << "t1_uppervtx " << t1_uppervtx << endl;
 		t_eej->Fill( t1_uppervtx );
 		// 2) (p - (n''))**2
