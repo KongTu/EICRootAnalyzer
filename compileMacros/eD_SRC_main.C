@@ -202,6 +202,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TH1D* t_eej = new TH1D("t_eej",";-t'(GeV)",100,-2,2);
 	TH1D* t_nprimeprime = new TH1D("t_nprimeprime",";-t'(GeV)",100,-2,2);
 	TH1D* t_truth = new TH1D("t_truth",";-t'(GeV)",100,-2,2);
+	TH2D* t_compare = new TH2D("t_compare",";-t'(GeV)",100,-2,2,100,-2,2);
 	TH2D* h_ttprime_alpha = new TH2D("h_ttprime_alpha",";#alpha_{p};-t'",200,0,2,1000,0,1);
 	TH2D* h_dNdAlphadPt2 = new TH2D("h_dNdAlphadPt2",";#alpha_{p};p_{T} (GeV/c)'",500,0,2,1000,0,1);
 	TH2D* h_ThetaRprimePm = new TH2D("h_ThetaRprimePm",";#theta_{r'};p_{m} (GeV/c)",200,0,PI,200,0,1.4);
@@ -428,10 +429,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		//filling alpha of spectator
 		double Pplus = (spectator_4vect_irf.E() + spectator_4vect_irf.Pz()) / sqrt(2);
 		double PdPlus = MASS_DEUTERON / sqrt(2);
-		
-		double E_nucleon = sqrt(spectator_4vect_irf.P()*spectator_4vect_irf.P()+0.93891*0.93891);
-		double alpha_spec = 1 + spectator_4vect_irf.Pz() / E_nucleon;
-		// double alpha_spec = 2*Pplus / PdPlus;
+		double alpha_spec = 2*Pplus / PdPlus;
 		double alpha_stru = 2. - alpha_spec;
 		alpha_spectator->Fill( alpha_spec );
 
@@ -451,6 +449,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 			spectator_4vect_irf.Py()*spectator_4vect_irf.Py()+struck_mass*struck_mass)/(alpha_stru*MASS_DEUTERON);
 		Double_t Pz_bInt = -(alpha_stru*MASS_DEUTERON)/4. + (spectator_4vect_irf.Px()*spectator_4vect_irf.Px()+
 			spectator_4vect_irf.Py()*spectator_4vect_irf.Py()+struck_mass*struck_mass)/(alpha_stru*MASS_DEUTERON);
+		
 		//new 4 vector for struck nucleon before interaction;
 		TLorentzVector n_primeprime;
 		n_primeprime.SetPxPyPzE(-spectator_4vect_irf.Px(),-spectator_4vect_irf.Py(),
@@ -458,6 +457,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		double t2_uppervtx = (pnew - n_primeprime).Mag2();
 		t_nprimeprime->Fill( t2_uppervtx );
 
+		t_compare->Fill(t1_uppervtx, t2_uppervtx);
 		//true t?
 		t_truth->Fill( t_hat );
 
