@@ -262,7 +262,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		TLorentzVector e_scattered(0.,0.,0.,0.);
 		
 		//boost vector for lab <--> d rest frame
-		TVector3 b = d_beam.BoostVector();b = b*1.01;
+		TVector3 b = d_beam.BoostVector();
 
 		//event information:
 		double trueQ2 = event->GetTrueQ2();
@@ -347,6 +347,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		nk_truth->Fill( nk_event );
 		nk_truth_uniformbins->Fill( nk_event );
 
+		b = b*1.01;
 		//boost to d rest frame
 		j_4vect_irf.Boost(-b);
 		p_4vect_irf.Boost(-b);
