@@ -164,7 +164,8 @@ TLorentzVector afterProtonDetector(TLorentzVector p, TVector3 b,TF1*smear_pt_pro
 	return pafter;
 }
 
-void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNucleon_ = 0, const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 0.5, const double acceptance=0.005){
+	os << "_RPreso_" << (double) ptreso_;
+void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNucleon_ = 0, const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 0.5, const double acceptance=0.005, const double ptreso_ = 0.03){
 
 	//just naming in the output file, only show ZDC parameters. 
 	acceptanceGlobal = acceptance;
@@ -174,6 +175,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	os << "_doaccept_" << (int) doAcceptance_;
 	os << "_ZDCreso_" << (double) rZDC;
 	os << "_ZDCaccept_" << (double) acceptance;
+	os << "_RPreso_" << (double) ptreso_;
 	std::string str = os.str();
 	TString settings = (TString) str;
 
@@ -242,7 +244,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TF1* smear_pt_proton = new TF1("smear_pt_proton","gaus(0)",-10,10);
 	smear_pt_proton->SetParameter(0,1);
 	smear_pt_proton->SetParameter(1,0);
-	smear_pt_proton->SetParameter(2,0.03);//3% resolution dpt/pt 
+	smear_pt_proton->SetParameter(2,ptreso_ );//3% default resolution dpt/pt 
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -263,8 +265,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		
 		//overwrite with the correct beam energy:
 		beam_momentum = pztarg;
-		smear_e_zdc->SetParameter(2, sqrt( TMath::Power((energy_resolution/sqrt(beam_momentum)),2) 
+		if( i = 0 ){//only set it once
+			smear_e_zdc->SetParameter(2, sqrt( TMath::Power((energy_resolution/sqrt(beam_momentum)),2) 
 		+ TMath::Power(energy_resolution_constant_term,2)) );//giving resolution in percent
+		}
+		
 		
 		//boost vector for lab <--> d rest frame
 		TVector3 b = d_beam.BoostVector();
