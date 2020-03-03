@@ -202,7 +202,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TH1D* Pp_VM = new TH1D("Pp_VM",";p (GeV)",200,0,120);
 	TH1D* alpha_spectator = new TH1D("alpha_spectator",";#alpha_{spec}",100,0,2);
 	TH1D* ttprime = new TH1D("ttprime",";-t'(GeV)",100,0,2);
-	TH1D* t_eej = new TH1D("t_eej",";-t'(GeV)",100,-2e2,2e2);
+	TH1D* t_eej = new TH1D("t_eej",";-t'(GeV)",100,-2,2);
 	TH1D* t_nprimeprime = new TH1D("t_nprimeprime",";-t'(GeV)",100,-2,2);
 	TH1D* t_truth = new TH1D("t_truth",";-t'(GeV)",100,-2,2);
 	TH2D* t_compare = new TH2D("t_compare",";-t'(GeV)",100,-2,2,100,-2,2);
@@ -402,8 +402,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 
 		TLorentzVector testp = (q_irf+d_beam_irf-jnew-pnew-spectator_4vect_irf);
 
-
-		cout << "momentum conservation ~ " << testp.M() << endl;
 		/*
 		- Start trying off-shell intermediate conditions
 		- Assume same proton and neutron mass. 
@@ -474,9 +472,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		h_ThetaVsEnergy_Struck->Fill(pnew_lab.E(), pnew_lab.Theta()*1000. );
 
 		//filling alpha of spectator
-		double PMinus = (spectator_4vect_irf.E() - spectator_4vect_irf.Pz()) / sqrt(2);
-		double PdMinus = MASS_DEUTERON / sqrt(2);
-		double alpha_spec = 2*PMinus / PdMinus;
+		double Pplus = (spectator_4vect_irf.E() + spectator_4vect_irf.Pz()) / sqrt(2);
+		double PdPlus = MASS_DEUTERON / sqrt(2);
+		double alpha_spec = 2*Pplus / PdPlus;
 		double alpha_stru = 2. - alpha_spec;
 		alpha_spectator->Fill( alpha_spec );
 
@@ -548,7 +546,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		Pp_spectator->Fill( spectator_4vect_irf.P() );
 
 		//Jpsi VM 3 momentum in lab frame:
-		// jnew.Boost(b);
+		jnew.Boost(b);
 		Pt_VM->Fill( jnew.Pt() );
 		Pz_VM->Fill( jnew.Pz() );
 		Pp_VM->Fill( jnew.P() );
