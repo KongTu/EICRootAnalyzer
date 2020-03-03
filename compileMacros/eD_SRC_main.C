@@ -488,6 +488,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 
 		//filling t distribution 
 		// 1) (e'-e+Jpsi)**2
+		q_irf.Boost(b);
+		q_irf = -q_irf;
+		q_irf.Boost(-b);
 		double t1_uppervtx = (q_irf + jnew).Mag2();
 		t_eej->Fill( t1_uppervtx );
 		// 2) (p - (n''))**2
