@@ -400,8 +400,10 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		double jz_new = jz;
 		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
+		TLorentzVector testp = (q_irf+d_beam_irf-jnew-pnew-spectator_4vect_irf);
 
-		cout << "momentum conservation ~ " << (jnew+pnew+spectator_4vect_irf - q_irf- d_beam_irf).E() << endl;
+
+		cout << "momentum conservation ~ " << testp.M() << endl;
 		/*
 		- Start trying off-shell intermediate conditions
 		- Assume same proton and neutron mass. 
