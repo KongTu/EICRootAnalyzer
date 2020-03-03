@@ -392,13 +392,13 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 
 		double px_new = struck_4vect_irf.Px();
 		double py_new = struck_4vect_irf.Py();
-		double pz_new = struck_4vect_irf.Pz();
-		// pnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( struck_mass*struck_mass + px_new*px_new + py_new*py_new + pz_new*pz_new));
+		double pz_new = pz;
+		pnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( struck_mass*struck_mass + px_new*px_new + py_new*py_new + pz_new*pz_new));
 		
 		double jx_new = j_4vect_irf.Px();
 		double jy_new = j_4vect_irf.Py();
-		double jz_new = j_4vect_irf.Pz();
-		// jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
+		double jz_new = jz;
+		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
 		/*
 		- Start trying off-shell intermediate conditions
@@ -407,37 +407,37 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 
 		//approach 2
 
-		double kmag = spectator_4vect_irf.P();
-		double MnuclOff = sqrt(0.25*MASS_DEUTERON*MASS_DEUTERON - kmag*kmag);
-		double PpOff = sqrt( struck_mass*struck_mass - MnuclOff*MnuclOff + struck_4vect_irf.P()*struck_4vect_irf.P() );
-		double Ptheta = struck_4vect_irf.Theta();
-		double Pnewpt = PpOff*TMath::Sin(Ptheta);
-		TLorentzVector Poff4vector;Poff4vector.SetPtEtaPhiM(Pnewpt,struck_4vect_irf.Eta(),struck_4vect_irf.Phi(),MnuclOff);
-		TLorentzVector Pon4vectorNew; 
-		double Ppx = Poff4vector.Px() - spectator_4vect_irf.Px();
-		double Ppy = Poff4vector.Py() - spectator_4vect_irf.Py();
-		double Ppz = Poff4vector.Pz() - spectator_4vect_irf.Pz();
-		Pon4vectorNew.SetPxPyPzE(Ppx,Ppy,Ppz,sqrt(Ppx*Ppx+Ppy*Ppy+Ppz*Ppz+struck_mass*struck_mass) );
+		// double kmag = spectator_4vect_irf.P();
+		// double MnuclOff = sqrt(0.25*MASS_DEUTERON*MASS_DEUTERON - kmag*kmag);
+		// double PpOff = sqrt( struck_mass*struck_mass - MnuclOff*MnuclOff + struck_4vect_irf.P()*struck_4vect_irf.P() );
+		// double Ptheta = struck_4vect_irf.Theta();
+		// double Pnewpt = PpOff*TMath::Sin(Ptheta);
+		// TLorentzVector Poff4vector;Poff4vector.SetPtEtaPhiM(Pnewpt,struck_4vect_irf.Eta(),struck_4vect_irf.Phi(),MnuclOff);
+		// TLorentzVector Pon4vectorNew; 
+		// double Ppx = Poff4vector.Px() - spectator_4vect_irf.Px();
+		// double Ppy = Poff4vector.Py() - spectator_4vect_irf.Py();
+		// double Ppz = Poff4vector.Pz() - spectator_4vect_irf.Pz();
+		// Pon4vectorNew.SetPxPyPzE(Ppx,Ppy,Ppz,sqrt(Ppx*Ppx+Ppy*Ppy+Ppz*Ppz+struck_mass*struck_mass) );
 
-		qzkz = q_irf.Pz() - (spectator_4vect_irf.Pz());//qz-kz
-		numn = q_irf.E() - spectator_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
-		jx = j_4vect_irf.Px()+spectator_4vect_irf.Px()-(Poff4vector.Px()-struck_4vect_irf.Px());
-		jy = j_4vect_irf.Py()+spectator_4vect_irf.Py()-(Poff4vector.Py()-struck_4vect_irf.Py());
-		px = Pon4vectorNew.Px();
-		py = Pon4vectorNew.Py();
+		// qzkz = q_irf.Pz() - (spectator_4vect_irf.Pz());//qz-kz
+		// numn = q_irf.E() - spectator_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
+		// jx = j_4vect_irf.Px()+spectator_4vect_irf.Px()-(Poff4vector.Px()-struck_4vect_irf.Px());
+		// jy = j_4vect_irf.Py()+spectator_4vect_irf.Py()-(Poff4vector.Py()-struck_4vect_irf.Py());
+		// px = Pon4vectorNew.Px();
+		// py = Pon4vectorNew.Py();
 
-		jz = getCorrJz(qzkz,numn,jx,jy,px,py,struck_mass);
-		pz = getCorrPz(qzkz,numn,jx,jy,px,py,struck_mass);
+		// jz = getCorrJz(qzkz,numn,jx,jy,px,py,struck_mass);
+		// pz = getCorrPz(qzkz,numn,jx,jy,px,py,struck_mass);
 
-		px_new = px;
-		py_new = py;
-		pz_new = pz;
-		pnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( struck_mass*struck_mass + px_new*px_new + py_new*py_new + pz_new*pz_new));
+		// px_new = px;
+		// py_new = py;
+		// pz_new = pz;
+		// pnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( struck_mass*struck_mass + px_new*px_new + py_new*py_new + pz_new*pz_new));
 		
-		jx_new = jx;
-		jy_new = jy;
-		jz_new = jz;
-		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
+		// jx_new = jx;
+		// jy_new = jy;
+		// jz_new = jz;
+		// jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
 		//accpetance and smearing before filling histograms:
 		if( doAcceptance_ ) {
