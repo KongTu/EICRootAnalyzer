@@ -541,7 +541,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		Pp_spectator->Fill( spectator_4vect_irf.P() );
 
 		//Jpsi VM 3 momentum in lab frame:
-		jnew.Boost(b);
+		// jnew.Boost(b);
 		Pt_VM->Fill( jnew.Pt() );
 		Pz_VM->Fill( jnew.Pz() );
 		Pp_VM->Fill( jnew.P() );
