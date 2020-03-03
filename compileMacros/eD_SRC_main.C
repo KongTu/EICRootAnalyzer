@@ -203,10 +203,10 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TH1D* Pp_VM = new TH1D("Pp_VM",";p (GeV)",200,0,10);
 	TH1D* alpha_spectator = new TH1D("alpha_spectator",";#alpha_{spec}",100,0,2);
 	TH1D* ttprime = new TH1D("ttprime",";-t'(GeV)",100,0,2);
-	TH1D* t_eej = new TH1D("t_eej",";-t'(GeV)",100,-2,2);
-	TH1D* t_nprimeprime = new TH1D("t_nprimeprime",";-t'(GeV)",100,-2,2);
-	TH1D* t_truth = new TH1D("t_truth",";-t'(GeV)",100,-2,2);
-	TH2D* t_compare = new TH2D("t_compare",";-t'(GeV)",100,-2,2,100,-2,2);
+	TH1D* t_eej = new TH1D("t_eej",";-t'(GeV)",100,0,2);
+	TH1D* t_nprimeprime = new TH1D("t_nprimeprime",";-t'(GeV)",100,0,2);
+	TH1D* t_truth = new TH1D("t_truth",";-t'(GeV)",100,0,2);
+	TH2D* t_compare = new TH2D("t_compare",";-t'(GeV)",100,0,2,100,0,2);
 	TH2D* h_ttprime_alpha = new TH2D("h_ttprime_alpha",";#alpha_{p};-t'",200,0,2,1000,0,1);
 	TH2D* h_dNdAlphadPt2 = new TH2D("h_dNdAlphadPt2",";#alpha_{p};p_{T} (GeV/c)'",500,0,2,1000,0,1);
 	TH2D* h_ThetaRprimePm = new TH2D("h_ThetaRprimePm",";#theta_{r'};p_{m} (GeV/c)",200,0,PI,200,0,1.4);
@@ -459,7 +459,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		q_irf = -q_irf;
 		q_irf.Boost(-b);
 		double t1_uppervtx = (q_irf + jnew).Mag2();
-		t_eej->Fill( t1_uppervtx );
+		t_eej->Fill( -t1_uppervtx );
 		// 2) (p - (n''))**2
 		// use LF kinematics to calculate the struck nucleon pz, E before interactions.
 		Double_t E_bInt = (alpha_stru*MASS_DEUTERON)/4. + (spectator_4vect_irf.Px()*spectator_4vect_irf.Px()+
@@ -471,14 +471,14 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		n_primeprime.SetPxPyPzE(-spectator_4vect_irf.Px(),-spectator_4vect_irf.Py(),
 		Pz_bInt,E_bInt);
 		double t2_uppervtx = (pnew - n_primeprime).Mag2();
-		t_nprimeprime->Fill( t2_uppervtx );
+		t_nprimeprime->Fill( -t2_uppervtx );
 
 		// the difference might be the primary interaction still
 		// doesn't know about the fermi momentum
-		t_compare->Fill(t_hat, t2_uppervtx);
+		t_compare->Fill(-t_hat, -t2_uppervtx);
 		
 		//true t? Not sure what the true t is in eD.
-		t_truth->Fill( t_hat );
+		t_truth->Fill( -t_hat );
 
 		//spectral function
 		if(alpha_spec > 0 && spectator_4vect_irf.Pt() > 0. ) {
