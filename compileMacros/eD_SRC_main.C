@@ -390,17 +390,17 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		double jz = getCorrJz(qzkz,numn,jx,jy,px,py,struck_mass);
 		double pz = getCorrPz(qzkz,numn,jx,jy,px,py,struck_mass);
 
-		double px_new = struck_4vect_irf.Px();
-		double py_new = struck_4vect_irf.Py();
+		double px_new = px;
+		double py_new = py;
 		double pz_new = pz;
 		pnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( struck_mass*struck_mass + px_new*px_new + py_new*py_new + pz_new*pz_new));
 		
-		double jx_new = j_4vect_irf.Px();
-		double jy_new = j_4vect_irf.Py();
+		double jx_new = jx;
+		double jy_new = jy;
 		double jz_new = jz;
 		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
-		TLorentzVector testp = (q_irf+d_beam_irf-jnew-pnew-spectator_4vect_irf);
+		TLorentzVector testp = (q_irf+d_beam_irf-j_4vect_irf-struck_4vect_irf-spectator_4vect_irf);
 
 
 		cout << "momentum conservation ~ " << testp.M() << endl;
