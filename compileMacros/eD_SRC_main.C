@@ -204,7 +204,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TH1D* alpha_spectator = new TH1D("alpha_spectator",";#alpha_{spec}",100,0,2);
 	TH1D* ttprime = new TH1D("ttprime",";-t'(GeV)",100,0,2);
 	TH1D* t_eej = new TH1D("t_eej",";-t'(GeV)",100,0,2);
-	TH1D* t_nprimeprime = new TH1D("t_nprimeprime",";-t'(GeV)",100,0,2);
+	TH1D* t_nprimeprime = new TH1D("t_nprimeprime",";-t'(GeV)",1000,0,2);
 	TH1D* t_truth = new TH1D("t_truth",";-t'(GeV)",100,0,2);
 	TH2D* t_compare = new TH2D("t_compare",";-t'(GeV)",100,0,2,100,0,2);
 	TH2D* h_ttprime_alpha = new TH2D("h_ttprime_alpha",";#alpha_{p};-t'",200,0,2,1000,0,1);
@@ -222,7 +222,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	//ZDC for neutron
 	double energy_resolution = rZDC;//default 50%
 	double energy_resolution_constant_term = 0.05; //default 5%
-	double beam_momentum = 135.; // 110 GeV for Deuteron now
+	double beam_momentum = 135.; // 135 GeV for Deuteron default
 	TF1* smear_e_zdc = new TF1("smear_e_zdc","gaus(0)",-5,5);
 	smear_e_zdc->SetParameter(0,1);
 	smear_e_zdc->SetParameter(1,0);
@@ -260,6 +260,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep+0.00051*0.00051));
 		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
+		
+		//overwrite with the correct beam energy:
+		beam_momentum = pztarg;
+		smear_e_zdc->SetParameter(2, sqrt( TMath::Power((energy_resolution/sqrt(beam_momentum)),2) 
+		+ TMath::Power(energy_resolution_constant_term,2)) );//giving resolution in percent
 		
 		//boost vector for lab <--> d rest frame
 		TVector3 b = d_beam.BoostVector();
