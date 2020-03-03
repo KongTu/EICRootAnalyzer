@@ -197,9 +197,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TH1D* Pt_spectator = new TH1D("Pt_spectator",";p_{T} (GeV)",200,0,1.4);
 	TH1D* Pz_spectator = new TH1D("Pz_spectator",";p_{z} (GeV)",200,-1,1);
 	TH1D* Pp_spectator = new TH1D("Pp_spectator",";p (GeV)",200,0,1.4);
-	TH1D* Pt_VM = new TH1D("Pt_VM",";p_{T} (GeV)",200,0,3.0);
-	TH1D* Pz_VM = new TH1D("Pz_VM",";p_{z} (GeV)",200,-120,120);
-	TH1D* Pp_VM = new TH1D("Pp_VM",";p (GeV)",200,0,120);
+	TH1D* Pt_VM = new TH1D("Pt_VM",";p_{T} (GeV)",200,0,10);
+	TH1D* Pz_VM = new TH1D("Pz_VM",";p_{z} (GeV)",200,-20,20);
+	TH1D* Pp_VM = new TH1D("Pp_VM",";p (GeV)",200,0,10);
 	TH1D* alpha_spectator = new TH1D("alpha_spectator",";#alpha_{spec}",100,0,2);
 	TH1D* ttprime = new TH1D("ttprime",";-t'(GeV)",100,0,2);
 	TH1D* t_eej = new TH1D("t_eej",";-t'(GeV)",100,-2,2);
@@ -392,12 +392,12 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 
 		double px_new = px;
 		double py_new = py;
-		double pz_new = pz;
+		double pz_new = struck_4vect_irf.Pz();
 		pnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( struck_mass*struck_mass + px_new*px_new + py_new*py_new + pz_new*pz_new) );
 		
 		double jx_new = jx;
 		double jy_new = jy;
-		double jz_new = jz;
+		double jz_new = j_4vect_irf.Pz();
 		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new) );
 
 		TLorentzVector testp = (q_irf+d_beam_irf-jnew-pnew-spectator_4vect_irf);
@@ -550,8 +550,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		Pt_VM->Fill( jnew.Pt() );
 		Pz_VM->Fill( jnew.Pz() );
 		Pp_VM->Fill( jnew.P() );
-
-		cout << "jnew.Pz() " << jnew.Pz() << endl;
 	}
 
 	output->Write();
