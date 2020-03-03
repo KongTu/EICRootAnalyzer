@@ -198,8 +198,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TH1D* Pz_spectator = new TH1D("Pz_spectator",";p_{z} (GeV)",200,-1,1);
 	TH1D* Pp_spectator = new TH1D("Pp_spectator",";p (GeV)",200,0,1.4);
 	TH1D* Pt_VM = new TH1D("Pt_VM",";p_{T} (GeV)",200,0,3.0);
-	TH1D* Pz_VM = new TH1D("Pz_VM",";p_{z} (GeV)",200,-5,5);
-	TH1D* Pp_VM = new TH1D("Pp_VM",";p (GeV)",200,0,3.0);
+	TH1D* Pz_VM = new TH1D("Pz_VM",";p_{z} (GeV)",200,-120,120);
+	TH1D* Pp_VM = new TH1D("Pp_VM",";p (GeV)",200,0,120);
 	TH1D* alpha_spectator = new TH1D("alpha_spectator",";#alpha_{spec}",100,0,2);
 	TH1D* ttprime = new TH1D("ttprime",";-t'(GeV)",100,0,2);
 	TH1D* t_eej = new TH1D("t_eej",";-t'(GeV)",100,-2e2,2e2);
