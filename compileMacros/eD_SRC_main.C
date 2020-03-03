@@ -554,6 +554,16 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		Pp_VM->Fill( jnew.P() );
 	}
 
+	for(int ibin=0;ibin<Pt2_VM->GetNbinsX();ibin++){
+		double value = Pt2_VM->GetBinContent(ibin+1);
+		double error = Pt2_VM->GetBinError(ibin+1);
+		double binwidth = Pt2_VM->GetBinWidth(ibin+1);
+
+		Pt2_VM->SetBinContent(ibin+1, value / binwidth);
+		Pt2_VM->SetBinError(ibin+1, error / binwidth);
+
+	}
+
 	output->Write();
 	output->Close();
 
