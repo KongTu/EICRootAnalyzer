@@ -204,7 +204,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TH1D* alpha_spectator = new TH1D("alpha_spectator",";#alpha_{spec}",100,0,2);
 	TH1D* ttprime = new TH1D("ttprime",";-t'(GeV)",100,0,2);
 	TH1D* t_eej = new TH1D("t_eej",";-t'(GeV)",100,0,2);
-	TH1D* t_nprimeprime = new TH1D("t_nprimeprime",";-t'(GeV)",1000,0,2);
+	TH1D* t_nprimeprime = new TH1D("t_nprimeprime",";-t'(GeV)",100,0,2);
 	TH1D* t_truth = new TH1D("t_truth",";-t'(GeV)",100,0,2);
 	TH2D* t_compare = new TH2D("t_compare",";-t'(GeV)",100,0,2,100,0,2);
 	TH2D* h_ttprime_alpha = new TH2D("h_ttprime_alpha",";#alpha_{p};-t'",200,0,2,1000,0,1);
