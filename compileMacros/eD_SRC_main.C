@@ -545,6 +545,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		Pt_VM->Fill( jnew.Pt() );
 		Pz_VM->Fill( jnew.Pz() );
 		Pp_VM->Fill( jnew.P() );
+
+		cout << "jnew.Pz() " << jnew.Pz() << endl;
 	}
 
 	output->Write();
