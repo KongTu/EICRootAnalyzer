@@ -377,24 +377,24 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		*/
 
 		// approach 1
-		// double qzkz = q_irf.Pz() - (spectator_4vect_irf.Pz());//qz-kz
-		// double numn = q_irf.E() - spectator_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
-		// double jx = j_4vect_irf.Px();
-		// double jy = j_4vect_irf.Py();
-		// double px = struck_4vect_irf.Px();
-		// double py = struck_4vect_irf.Py();
+		double qzkz = q_irf.Pz() - (spectator_4vect_irf.Pz());//qz-kz
+		double numn = q_irf.E() - spectator_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
+		double jx = j_4vect_irf.Px();
+		double jy = j_4vect_irf.Py();
+		double px = struck_4vect_irf.Px();
+		double py = struck_4vect_irf.Py();
 
-		// double jz = getCorrJz(qzkz,numn,jx,jy,px,py,struck_mass);
-		// double pz = getCorrPz(qzkz,numn,jx,jy,px,py,struck_mass);
+		double jz = getCorrJz(qzkz,numn,jx,jy,px,py,struck_mass);
+		double pz = getCorrPz(qzkz,numn,jx,jy,px,py,struck_mass);
 
-		// double px_new = struck_4vect_irf.Px();
-		// double py_new = struck_4vect_irf.Py();
-		// double pz_new = struck_4vect_irf.Pz();
+		double px_new = struck_4vect_irf.Px();
+		double py_new = struck_4vect_irf.Py();
+		double pz_new = struck_4vect_irf.Pz();
 		// pnew.SetPxPyPzE(px_new,py_new,pz_new, sqrt( struck_mass*struck_mass + px_new*px_new + py_new*py_new + pz_new*pz_new));
 		
-		// double jx_new = j_4vect_irf.Px();
-		// double jy_new = j_4vect_irf.Py();
-		// double jz_new = j_4vect_irf.Pz();
+		double jx_new = j_4vect_irf.Px();
+		double jy_new = j_4vect_irf.Py();
+		double jz_new = j_4vect_irf.Pz();
 		// jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new));
 
 		/*
