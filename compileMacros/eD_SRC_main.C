@@ -243,7 +243,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TF1* smear_pt_proton = new TF1("smear_pt_proton","gaus(0)",-10,10);
 	smear_pt_proton->SetParameter(0,1);
 	smear_pt_proton->SetParameter(1,0);
-	smear_pt_proton->SetParameter(2,ptreso_ );//3% default resolution dpt/pt 
+	smear_pt_proton->SetParameter(2,ptreso_);//3% default resolution dpt/pt 
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -263,11 +263,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		TLorentzVector e_scattered(0.,0.,0.,0.);
 		
 		//overwrite with the correct beam energy:
-		beam_momentum = pztarg;
-		if( i = 0 ){//only set it once
-			smear_e_zdc->SetParameter(2, sqrt( TMath::Power((energy_resolution/sqrt(beam_momentum)),2) 
-		+ TMath::Power(energy_resolution_constant_term,2)) );//giving resolution in percent
-		}
+		// beam_momentum = pztarg;
+		// if( i = 0 ){//only set it once
+		// 	smear_e_zdc->SetParameter(2, sqrt( TMath::Power((energy_resolution/sqrt(beam_momentum)),2) 
+		// + TMath::Power(energy_resolution_constant_term,2)) );//giving resolution in percent
+		// }
 		
 		
 		//boost vector for lab <--> d rest frame
