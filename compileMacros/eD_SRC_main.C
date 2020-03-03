@@ -197,6 +197,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TH1D* Pt_spectator = new TH1D("Pt_spectator",";p_{T} (GeV)",200,0,1.4);
 	TH1D* Pz_spectator = new TH1D("Pz_spectator",";p_{z} (GeV)",200,-1,1);
 	TH1D* Pp_spectator = new TH1D("Pp_spectator",";p (GeV)",200,0,1.4);
+	TH1D* Pt_VM = new TH1D("Pt_VM",";p_{T} (GeV)",200,0,3.0);
+	TH1D* Pz_VM = new TH1D("Pz_VM",";p_{z} (GeV)",200,-5,5);
+	TH1D* Pp_VM = new TH1D("Pp_VM",";p (GeV)",200,0,3.0);
 	TH1D* alpha_spectator = new TH1D("alpha_spectator",";#alpha_{spec}",100,0,2);
 	TH1D* ttprime = new TH1D("ttprime",";-t'(GeV)",100,0,2);
 	TH1D* t_eej = new TH1D("t_eej",";-t'(GeV)",100,-2e2,2e2);
@@ -498,7 +501,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 
 		// the difference might be the primary interaction still
 		// doesn't know about the fermi momentum
-		t_compare->Fill(t1_uppervtx, t2_uppervtx);
+		t_compare->Fill(t_hat, t2_uppervtx);
 		
 		//true t? Not sure what the true t is in eD.
 		t_truth->Fill( t_hat );
@@ -537,7 +540,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		Pz_spectator->Fill( spectator_4vect_irf.Pz() );
 		Pp_spectator->Fill( spectator_4vect_irf.P() );
 
-
+		//Jpsi VM 3 momentum in lab frame:
+		jnew.Boost(b);
+		Pt_VM->Fill( jnew.Pt() );
+		Pz_VM->Fill( jnew.Pz() );
+		Pp_VM->Fill( jnew.P() );
 	}
 
 	output->Write();
