@@ -323,7 +323,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 			if( status != 1 ) continue;
 
 			//photon 4vector
-			q = e_beam - e_scattered;
+			q = e_scattered - e_beam;
 			q_irf = q;
 			
 			if(pdg == 443 ) j_4vect = ppart;//jpsi
@@ -400,7 +400,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		double jz_new = jz;
 		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new) );
 
-		TLorentzVector testp = (q_irf+d_beam_irf-jnew-pnew-spectator_4vect_irf);
+		TLorentzVector testp = (-q_irf+d_beam_irf-jnew-pnew-spectator_4vect_irf);
 
 
 		cout << "momentum conservation ~ " << testp.M() << endl;
