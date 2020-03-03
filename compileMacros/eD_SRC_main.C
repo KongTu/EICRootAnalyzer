@@ -227,6 +227,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TF1* smear_e_zdc = new TF1("smear_e_zdc","gaus(0)",-5,5);
 	smear_e_zdc->SetParameter(0,1);
 	smear_e_zdc->SetParameter(1,0);
+	//get first BeAGLE event and grab energy
+	tree->GetEntry(0);
+	beam_momentum = event->pztarg;
 	smear_e_zdc->SetParameter(2, sqrt( TMath::Power((energy_resolution/sqrt(beam_momentum)),2) 
 		+ TMath::Power(energy_resolution_constant_term,2)) );//giving resolution in percent
 	//resolution terms adding in quadrature. 
@@ -261,14 +264,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep+0.00051*0.00051));
 		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
-		
-		//overwrite with the correct beam energy:
-		// beam_momentum = pztarg;
-		// if( i = 0 ){//only set it once
-		// 	smear_e_zdc->SetParameter(2, sqrt( TMath::Power((energy_resolution/sqrt(beam_momentum)),2) 
-		// + TMath::Power(energy_resolution_constant_term,2)) );//giving resolution in percent
-		// }
-		
 		
 		//boost vector for lab <--> d rest frame
 		TVector3 b = d_beam.BoostVector();
