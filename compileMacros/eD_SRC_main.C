@@ -222,7 +222,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	//ZDC for neutron
 	double energy_resolution = rZDC;//default 50%
 	double energy_resolution_constant_term = 0.05; //default 5%
-	double beam_momentum = 110.; // 110 GeV for Deuteron now
+	double beam_momentum = 135.; // 110 GeV for Deuteron now
 	TF1* smear_e_zdc = new TF1("smear_e_zdc","gaus(0)",-5,5);
 	smear_e_zdc->SetParameter(0,1);
 	smear_e_zdc->SetParameter(1,0);
@@ -454,10 +454,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		h_ttprime_alpha->Fill( alpha_spec, -tt );
 
 		//filling t distribution 
-		// 1) (e'-e+Jpsi)**2
+		// 0) first to flip the virtual photon 4 vector to be e'-e
 		q_irf.Boost(b);
 		q_irf = -q_irf;
 		q_irf.Boost(-b);
+		// 1) (e'-e+Jpsi)**2
 		double t1_uppervtx = (q_irf + jnew).Mag2();
 		t_eej->Fill( -t1_uppervtx );
 		// 2) (p - (n''))**2
