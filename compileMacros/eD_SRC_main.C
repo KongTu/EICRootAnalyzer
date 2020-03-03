@@ -258,7 +258,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		double pzf = event->pzf;
 
 		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep+0.00051*0.00051));
-		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
+		TLorentzVector d_beam(0.,0.,pztarg_total*1.001,sqrt(pztarg_total*1.001*1.001*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
 		
 		//boost vector for lab <--> d rest frame
@@ -347,7 +347,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		nk_truth->Fill( nk_event );
 		nk_truth_uniformbins->Fill( nk_event );
 
-		b = b*1.01;
 		//boost to d rest frame
 		j_4vect_irf.Boost(-b);
 		p_4vect_irf.Boost(-b);
