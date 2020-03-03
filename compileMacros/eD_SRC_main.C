@@ -164,7 +164,6 @@ TLorentzVector afterProtonDetector(TLorentzVector p, TVector3 b,TF1*smear_pt_pro
 	return pafter;
 }
 
-	os << "_RPreso_" << (double) ptreso_;
 void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNucleon_ = 0, const bool doSmear_ = false, const bool doAcceptance_ = false, const double rZDC = 0.5, const double acceptance=0.005, const double ptreso_ = 0.03){
 
 	//just naming in the output file, only show ZDC parameters. 
