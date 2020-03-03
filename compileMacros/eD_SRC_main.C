@@ -234,6 +234,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		+ TMath::Power(energy_resolution_constant_term,2)) );//giving resolution in percent
 	//resolution terms adding in quadrature. 
 
+	//position resolution for ZDC
 	TF1* smear_theta_zdc = new TF1("smear_theta_zdc","gaus(0)",-0.001,0.001);
 	smear_theta_zdc->SetParameter(0,1);
 	smear_theta_zdc->SetParameter(1,0);
@@ -242,7 +243,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	//1cm position resolution --> 3 microRad resolution
 	//Yuji's Letter of Intent in EIC R&D proposal
 
-	//RP,B0,Ext Sensor for proton
+	//pt resolution for RP,B0,Ext Sensor for proton
 	TF1* smear_pt_proton = new TF1("smear_pt_proton","gaus(0)",-10,10);
 	smear_pt_proton->SetParameter(0,1);
 	smear_pt_proton->SetParameter(1,0);
