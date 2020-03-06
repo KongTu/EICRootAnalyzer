@@ -258,8 +258,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		double pztarg = event->pztarg;
 		double pznucl = event->pznucl;
 		double Atarg = event->Atarg;
-		// double pztarg_total = pztarg*Atarg;
-		double pztarg_total = 135.290727+135.290727;
+		double pztarg_total = pztarg*Atarg;
 
 		double pxf = event->pxf;
 		double pyf = event->pyf;
