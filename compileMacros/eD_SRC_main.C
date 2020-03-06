@@ -265,7 +265,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		double pyf = event->pyf;
 		double pzf = event->pzf;
 
-		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep+0.00051*0.00051));
+		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep));
 		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
 		
