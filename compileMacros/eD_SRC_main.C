@@ -259,14 +259,14 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		double pznucl = event->pznucl;
 		double Atarg = event->Atarg;
 		// double pztarg_total = pztarg*Atarg;
-		double pztarg_total = 135.06669+135.06669;
+		double pztarg_total = 135.25383+135.06669;
 
 		double pxf = event->pxf;
 		double pyf = event->pyf;
 		double pzf = event->pzf;
 
 		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep+0.00051*0.00051));
-		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
+		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+1.8624778138724238*1.8624778138724238));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
 		
 		//boost vector for lab <--> d rest frame
