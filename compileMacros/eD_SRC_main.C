@@ -396,11 +396,13 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		double numn = q_irf.E() - spectator_4vect_irf.E();//sqrt( MASS_NEUTRON*MASS_NEUTRON + pxf*pxf+pyf*pyf+pzf*pzf )
 		double jx = j_4vect_irf.Px();
 		double jy = j_4vect_irf.Py();
+		double jz = j_4vect_irf.Pz();
 		double px = struck_4vect_irf.Px();
 		double py = struck_4vect_irf.Py();
+		double pz = struck_4vect_irf.Pz();
 
-		double jz = getCorrJz(qzkz,numn,jx,jy,px,py,struck_mass);
-		double pz = getCorrPz(qzkz,numn,jx,jy,px,py,struck_mass);
+		// double jz = getCorrJz(qzkz,numn,jx,jy,px,py,struck_mass);
+		// double pz = getCorrPz(qzkz,numn,jx,jy,px,py,struck_mass);
 
 		double px_new = px;
 		double py_new = py;
