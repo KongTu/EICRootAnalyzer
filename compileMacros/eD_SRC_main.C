@@ -384,8 +384,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		}
 		
 
-		TLorentzVector testp = q_irf + d_beam_irf - struck_4vect_irf - j_4vect_irf - spectator_4vect_irf;
-		cout << "momentum conservation ~ " << testp.E() << endl; 
+		// TLorentzVector testp = q_irf + d_beam_irf - struck_4vect_irf - j_4vect_irf - spectator_4vect_irf;
+		// cout << "momentum conservation ~ " << testp.E() << endl; 
 
 		/*
 		fixing deuteron momentum nonconservation:
@@ -401,6 +401,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		double py = struck_4vect_irf.Py();
 		double pz = struck_4vect_irf.Pz();
 
+		//comment this out after BeAGLE itself has correct kinematics
 		// double jz = getCorrJz(qzkz,numn,jx,jy,px,py,struck_mass);
 		// double pz = getCorrPz(qzkz,numn,jx,jy,px,py,struck_mass);
 
