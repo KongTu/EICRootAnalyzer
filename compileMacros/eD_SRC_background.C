@@ -360,10 +360,10 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		} // end of particle loop
 
 		if( spectator_4vect.E() != 0. ){
-			if( struckproton && spectator_4vect.M()>(MASS_NEUTRON-1e-5) ){
-				h_identity->Fill(1);
+			if( struckproton && spectator_4vect.M()>(MASS_NEUTRON-1e-4) ){
+				h_identity->Fill(0);
 			}
-			else if( !struckproton && spectator_4vect.M()<(MASS_PROTON+1e-5)){
+			else if( !struckproton && spectator_4vect.M()<(MASS_PROTON+1e-4)){
 				h_identity->Fill(1);
 			}
 			else{
@@ -380,7 +380,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		//LFKine tells us pzf is not symmetric in the lab frame
 		nk_truth->Fill( nk_event );
 		nk_truth_uniformbins->Fill( nk_event );
-
+		Pp_spectator->Fill( spectator_4vect_irf.P() );
 
 	}
 
