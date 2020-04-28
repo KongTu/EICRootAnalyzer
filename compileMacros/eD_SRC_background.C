@@ -298,7 +298,8 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		}
 		
 		int nParticles_process = 0;
-		TLorentzVector spectator_4vect_irf, spectator_4vect;
+		TLorentzVector spectator_proton_irf, spectator_proton;
+		TLorentzVector spectator_neutron_irf, spectator_neutron;
 		TLorentzVector jpsi_4vect_irf, jpsi_4vect;
 		TLorentzVector d_beam_irf, q, q_irf;
 		d_beam_irf = d_beam;
@@ -331,21 +332,21 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 			q_irf = q;
 			
 			if(pdg == 2212) {
-				spectator_4vect = ppart;//proton
-				spectator_4vect_irf = ppart;//proton
-				spectator_4vect_irf.Boost(-b);
-				if( !passDetector(spectator_4vect_irf,b) ){
-					spectator_4vect.SetPxPyPzE(0,0,0,0);
-					spectator_4vect_irf.SetPxPyPzE(0,0,0,0);
+				spectator_proton = ppart;//proton
+				spectator_proton_irf = ppart;//proton
+				spectator_proton_irf.Boost(-b);
+				if( !passDetector(spectator_proton_irf,b) ){
+					spectator_proton.SetPxPyPzE(0,0,0,0);
+					spectator_proton_irf.SetPxPyPzE(0,0,0,0);
 				}
 			}//proton
 			if(pdg == 2112) {
-				spectator_4vect = ppart;//neutron
-				spectator_4vect_irf = ppart;//neutron
-				spectator_4vect_irf.Boost(-b);
-				if( !passDetector(spectator_4vect_irf,b) ){
-					spectator_4vect.SetPxPyPzE(0,0,0,0);
-					spectator_4vect_irf.SetPxPyPzE(0,0,0,0);
+				spectator_neutron = ppart;//neutron
+				spectator_neutron_irf = ppart;//neutron
+				spectator_neutron_irf.Boost(-b);
+				if( !passDetector(spectator_neutron_irf,b) ){
+					spectator_neutron.SetPxPyPzE(0,0,0,0);
+					spectator_neutron_irf.SetPxPyPzE(0,0,0,0);
 				}
 			}//neutron
 
@@ -359,11 +360,11 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 
 		} // end of particle loop
 
-		if( spectator_4vect.E() != 0. ){
-			if( struckproton && spectator_4vect.M()>(MASS_NEUTRON-1e-4) ){
+		if( spectator_proton.E() != 0. || spectator_neutron.E() != 0. ){
+			if( struckproton && spectator_neutron.E() != 0. ){
 				h_identity->Fill(1);
 			}
-			else if( !struckproton && spectator_4vect.M()<(MASS_PROTON+1e-4)){
+			else if( !struckproton && spectator_proton.E() != 0. ){
 				h_identity->Fill(1);
 			}
 			else{
