@@ -300,6 +300,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		int nParticles_process = 0;
 		TLorentzVector spectator_4vect_irf, spectator_4vect;
 		TLorentzVector jpsi_4vect_irf, jpsi_4vect;
+		TLorentzVector d_beam_irf, q, q_irf;
 		d_beam_irf = d_beam;
 
 		for(int j(0); j < nParticles; ++j ) {
