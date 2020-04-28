@@ -209,7 +209,8 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 	TH1D* t_nprimeprime = new TH1D("t_nprimeprime",";-t'(GeV)",100,0,2);
 	TH1D* t_truth = new TH1D("t_truth",";-t'(GeV)",100,0,2);
 	TH1D* h_identity = new TH1D("h_identity",";identity",3,0,3);
-	TH1D* h_ptBal = new TH1D("h_ptBal","#Deltapt",100,0,5);
+	TH2D* h_ptBal = new TH2D("h_ptBal",";#Deltapt (proton);#Deltapt (neutron)",100,0,5,100,0,5);
+	
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/gpfs02/eic/ztu/BeAGLE/BeAGLE_devK_SRC/"+filename+".root" );
 	
@@ -282,7 +283,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		int struck_nucleon = event->nucleon;
 		double nk_event = sqrt(pxf*pxf+pyf*pyf+pzf*pzf);
 		
-		if( event_process != 93 ) continue;
+		if( event_process != 93 || event_process != 91 ) continue;
 		if( trueQ2 < 1. ) continue;
 		if( trueY > 0.85 || trueY < 0.05 ) continue;
 
@@ -302,6 +303,8 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		int nParticles_process = 0;
 		int nParticles_forward = 0;
 		TLorentzVector spectator_proton_irf, spectator_proton;
+		TLorentzVector spectator_neutron_irf, spectator_neutron;
+		TLorentzVector struck_nucleon_irf, struck_nucleon;
 		TLorentzVector spectator_neutron_irf, spectator_neutron;
 		TLorentzVector jpsi_4vect_irf, jpsi_4vect;
 		TLorentzVector d_beam_irf, q, q_irf;
@@ -342,6 +345,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 					spectator_proton.SetPxPyPzE(0,0,0,0);
 					spectator_proton_irf.SetPxPyPzE(0,0,0,0);
 				}
+
 			}//proton
 			if(pdg == 2112) {
 				spectator_neutron = ppart;//neutron
@@ -351,6 +355,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 					spectator_neutron.SetPxPyPzE(0,0,0,0);
 					spectator_neutron_irf.SetPxPyPzE(0,0,0,0);
 				}
+
 			}//neutron
 
 			if( pdg == 443 && TMath::Abs(rap) < 4 ){
@@ -367,37 +372,53 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 
 		} // end of particle loop
 
-		if( spectator_proton.E() != 0. || spectator_neutron.E() != 0. ){
-			if( struckproton && spectator_neutron.E() != 0. ){
-				h_identity->Fill(1);
-				h_ptBal->Fill( jpsi_4vect.Pt()/spectator_neutron.Pt());
-			}
-			else if( !struckproton && spectator_proton.E() != 0. ){
-				h_identity->Fill(1);
-				h_ptBal->Fill( jpsi_4vect.Pt()/spectator_proton.Pt());
-			}
-			else{
-				h_identity->Fill(0);
-			}
+		if( nParticles_process > 2 || nParticles_forward > 2 ) continue;
+		h_ptBal->Fill( jpsi_4vect.Pt()/spectator_neutron.Pt(), jpsi_4vect.Pt()/spectator_proton.Pt());
+		if( fabs(1.-(jpsi_4vect.Pt()/spectator_neutron.Pt())) <  fabs(1.-(jpsi_4vect.Pt()/spectator_proton.Pt())) ){
+			struck_nucleon = spectator_neutron;
+			struck_nucleon_irf = spectator_neutron_irf;
+			spectator_nucleon = spectator_proton;
+			spectator_nucleon_irf = spectator_proton_irf;
 		}
 		else{
-			h_identity->Fill(2);
+			struck_nucleon = spectator_proton;
+			struck_nucleon_irf = spectator_proton_irf;
+			spectator_nucleon = spectator_neutron;
+			spectator_nucleon_irf = spectator_neutron_irf;
 		}
 
-		if( nParticles_process > 2 || nParticles_forward > 2 ) continue;
+
+		// if( spectator_proton.E() != 0. || spectator_neutron.E() != 0. ){
+		// 	if( struckproton && spectator_neutron.E() != 0. ){
+		// 		h_identity->Fill(1);
+		// 		h_ptBal->Fill( jpsi_4vect.Pt()/spectator_neutron.Pt());
+		// 	}
+		// 	else if( !struckproton && spectator_proton.E() != 0. ){
+		// 		h_identity->Fill(1);
+		// 		h_ptBal->Fill( jpsi_4vect.Pt()/spectator_proton.Pt());
+		// 	}
+		// 	else{
+		// 		h_identity->Fill(0);
+		// 	}
+		// }
+		// else{
+		// 	h_identity->Fill(2);
+		// }
+
+		// if( spectator_proton.E()!=0 ) {
+		// 	Pp_spectator->Fill( spectator_proton_irf.P() );
+		// }else if( spectator_neutron.E()!=0 ) {
+		// 	Pp_spectator->Fill( spectator_neutron_irf.P() );
+		// }
+		// else{
+		// 	// do nothing
+		// }
+		
 		
 		//fill n(k) or dN/dk distribution, but averaged over all direction
 		//LFKine tells us pzf is not symmetric in the lab frame
 		nk_truth_uniformbins->Fill( nk_event );
-		
-		if( spectator_proton.E()!=0 ) {
-			Pp_spectator->Fill( spectator_proton_irf.P() );
-		}else if( spectator_neutron.E()!=0 ) {
-			Pp_spectator->Fill( spectator_neutron_irf.P() );
-		}
-		else{
-			// do nothing
-		}
+		Pp_spectator->Fill( spectator_nucleon_irf.P() );
 
 	}
 
