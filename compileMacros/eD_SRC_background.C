@@ -369,8 +369,6 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 				nParticles_forward++;
 			}
 
-			
-
 		} // end of particle loop
 
 		if( nParticles_process > 2 || nParticles_forward > 2 ) continue;
@@ -379,7 +377,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		if( event_process == 91 && struckproton == 1 ){
 			h_ptBal_truth->Fill( qJ.Pt()/spectator_neutron.Pt(), qJ.Pt()/spectator_proton.Pt());
 		}
-		if( fabs(1.-(qJ.Pt()/spectator_neutron.Pt())) <  fabs(1.-(qJ.Pt()/spectator_proton.Pt())) ){
+		if( (qJ.Pt()/spectator_neutron.Pt()) < (qJ.Pt()/spectator_proton.Pt()) ){
 			struck_nucleon_4vect = spectator_neutron;
 			struck_nucleon_4vect_irf = spectator_neutron_irf;
 			spectator_nucleon_4vect = spectator_proton;
@@ -391,7 +389,6 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 			spectator_nucleon_4vect = spectator_neutron;
 			spectator_nucleon_4vect_irf = spectator_neutron_irf;
 		}
-
 
 		// if( spectator_proton.E() != 0. || spectator_neutron.E() != 0. ){
 		// 	if( struckproton && spectator_neutron.E() != 0. ){
