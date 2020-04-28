@@ -209,7 +209,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 	TH1D* t_nprimeprime = new TH1D("t_nprimeprime",";-t'(GeV)",100,0,2);
 	TH1D* t_truth = new TH1D("t_truth",";-t'(GeV)",100,0,2);
 	TH1D* h_identity = new TH1D("h_identity",";identity",3,0,3);
-
+	TH1D* h_ptBal = new TH1D("h_ptBal","#Deltapt",100,0,5);
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/gpfs02/eic/ztu/BeAGLE/BeAGLE_devK_SRC/"+filename+".root" );
 	
@@ -285,7 +285,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		if( event_process != 93 ) continue;
 		if( trueQ2 < 1. ) continue;
 		if( trueY > 0.85 || trueY < 0.05 ) continue;
-				
+
 		nk_truth->Fill( nk_event );
 
 		// use hitNucleon_ to choose only hit proton/neutron or mixing
@@ -370,9 +370,11 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		if( spectator_proton.E() != 0. || spectator_neutron.E() != 0. ){
 			if( struckproton && spectator_neutron.E() != 0. ){
 				h_identity->Fill(1);
+				h_ptBal->Fill( jpsi_4vect.Pt()/spectator_neutron.Pt());
 			}
 			else if( !struckproton && spectator_proton.E() != 0. ){
 				h_identity->Fill(1);
+				h_ptBal->Fill( jpsi_4vect.Pt()/spectator_proton.Pt());
 			}
 			else{
 				h_identity->Fill(0);
