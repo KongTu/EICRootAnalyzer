@@ -285,8 +285,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		if( event_process != 93 ) continue;
 		if( trueQ2 < 1. ) continue;
 		if( trueY > 0.85 || trueY < 0.05 ) continue;
-		if( nk_event < 0.600 ) continue;
-		
+				
 		nk_truth->Fill( nk_event );
 
 		// use hitNucleon_ to choose only hit proton/neutron or mixing
