@@ -304,8 +304,8 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		int nParticles_forward = 0;
 		TLorentzVector spectator_proton_irf, spectator_proton;
 		TLorentzVector spectator_neutron_irf, spectator_neutron;
-		TLorentzVector struck_nucleon_irf, struck_nucleon;
-		TLorentzVector spectator_nucleon_irf, spectator_nucleon;
+		TLorentzVector struck_nucleon_4vect_irf, struck_nucleon_4vect;
+		TLorentzVector spectator_nucleon_4vect_irf, spectator_nucleon_4vect;
 		TLorentzVector jpsi_4vect_irf, jpsi_4vect;
 		TLorentzVector d_beam_irf, q, q_irf;
 		d_beam_irf = d_beam;
@@ -375,16 +375,16 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		if( nParticles_process > 2 || nParticles_forward > 2 ) continue;
 		h_ptBal->Fill( jpsi_4vect.Pt()/spectator_neutron.Pt(), jpsi_4vect.Pt()/spectator_proton.Pt());
 		if( fabs(1.-(jpsi_4vect.Pt()/spectator_neutron.Pt())) <  fabs(1.-(jpsi_4vect.Pt()/spectator_proton.Pt())) ){
-			struck_nucleon = spectator_neutron;
-			struck_nucleon_irf = spectator_neutron_irf;
-			spectator_nucleon = spectator_proton;
-			spectator_nucleon_irf = spectator_proton_irf;
+			struck_nucleon_4vect = spectator_neutron;
+			struck_nucleon_4vect_irf = spectator_neutron_irf;
+			spectator_nucleon_4vect = spectator_proton;
+			spectator_nucleon_4vect_irf = spectator_proton_irf;
 		}
 		else{
-			struck_nucleon = spectator_proton;
-			struck_nucleon_irf = spectator_proton_irf;
-			spectator_nucleon = spectator_neutron;
-			spectator_nucleon_irf = spectator_neutron_irf;
+			struck_nucleon_4vect = spectator_proton;
+			struck_nucleon_4vect_irf = spectator_proton_irf;
+			spectator_nucleon_4vect = spectator_neutron;
+			spectator_nucleon_4vect_irf = spectator_neutron_irf;
 		}
 
 
@@ -418,7 +418,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		//fill n(k) or dN/dk distribution, but averaged over all direction
 		//LFKine tells us pzf is not symmetric in the lab frame
 		nk_truth_uniformbins->Fill( nk_event );
-		Pp_spectator->Fill( spectator_nucleon_irf.P() );
+		Pp_spectator->Fill( spectator_nucleon_4vect_irf.P() );
 
 	}
 
