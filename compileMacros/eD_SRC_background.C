@@ -283,7 +283,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		int struck_nucleon = event->nucleon;
 		double nk_event = sqrt(pxf*pxf+pyf*pyf+pzf*pzf);
 		
-		if( event_process != 93 || event_process != 91 ) continue;
+		if( event_process != 93 && event_process != 91 ) continue;
 		if( trueQ2 < 1. ) continue;
 		if( trueY > 0.85 || trueY < 0.05 ) continue;
 
