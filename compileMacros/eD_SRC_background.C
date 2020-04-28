@@ -305,7 +305,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		TLorentzVector spectator_proton_irf, spectator_proton;
 		TLorentzVector spectator_neutron_irf, spectator_neutron;
 		TLorentzVector struck_nucleon_irf, struck_nucleon;
-		TLorentzVector spectator_neutron_irf, spectator_neutron;
+		TLorentzVector spectator_nucleon_irf, spectator_nucleon;
 		TLorentzVector jpsi_4vect_irf, jpsi_4vect;
 		TLorentzVector d_beam_irf, q, q_irf;
 		d_beam_irf = d_beam;
