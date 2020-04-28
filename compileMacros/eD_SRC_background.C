@@ -356,7 +356,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 			if( pdg == 443 && TMath::Abs(rap) < 4 ){
 				jpsi_4vect = ppart;
 			}
-			if( TMath::Abs(eta) < 4 && pt > 0.15 ){
+			if( TMath::Abs(eta) < 4 ){
 				nParticles_process++;
 			}
 			if( (theta>0 && theta<5) || (theta>5 && theta<22) ){
