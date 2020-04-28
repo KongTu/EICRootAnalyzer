@@ -382,7 +382,8 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		//fill n(k) or dN/dk distribution, but averaged over all direction
 		//LFKine tells us pzf is not symmetric in the lab frame
 		nk_truth_uniformbins->Fill( nk_event );
-		Pp_spectator->Fill( spectator_4vect_irf.P() );
+		if( spectator_proton.E()!=0 ) Pp_spectator->Fill( spectator_proton_irf.P() );
+		if( spectator_neutron.E()!=0 ) Pp_spectator->Fill( spectator_neutron_irf.P() );
 
 	}
 
