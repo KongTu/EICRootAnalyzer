@@ -286,6 +286,8 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		if( trueQ2 < 1. ) continue;
 		if( trueY > 0.85 || trueY < 0.05 ) continue;
 
+		nk_truth->Fill( nk_event );
+
 		// use hitNucleon_ to choose only hit proton/neutron or mixing
 		bool struckproton = false;
 		if( struck_nucleon == 2212 ) struckproton = true;
@@ -379,7 +381,6 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		
 		//fill n(k) or dN/dk distribution, but averaged over all direction
 		//LFKine tells us pzf is not symmetric in the lab frame
-		nk_truth->Fill( nk_event );
 		nk_truth_uniformbins->Fill( nk_event );
 		Pp_spectator->Fill( spectator_4vect_irf.P() );
 
