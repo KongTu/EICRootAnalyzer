@@ -209,8 +209,8 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 	TH1D* t_nprimeprime = new TH1D("t_nprimeprime",";-t'(GeV)",100,0,2);
 	TH1D* t_truth = new TH1D("t_truth",";-t'(GeV)",100,0,2);
 	TH1D* h_identity = new TH1D("h_identity",";identity",3,0,3);
-	TH2D* h_ptBal = new TH2D("h_ptBal",";#Deltapt (proton);#Deltapt (neutron)",100,0,5,100,0,5);
-	TH2D* h_ptBal_truth = new TH2D("h_ptBal_truth",";#Deltapt (proton);#Deltapt (neutron)",100,0,5,100,0,5);
+	TH2D* h_ptBal = new TH2D("h_ptBal",";#Deltapt (neutron);#Deltapt (proton)",100,0,5,100,0,5);
+	TH2D* h_ptBal_truth = new TH2D("h_ptBal_truth",";#Deltapt (neutron);#Deltapt (proton)",100,0,5,100,0,5);
 	
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/gpfs02/eic/ztu/BeAGLE/BeAGLE_devK_SRC/"+filename+".root" );
@@ -374,11 +374,12 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		} // end of particle loop
 
 		if( nParticles_process > 2 || nParticles_forward > 2 ) continue;
-		h_ptBal->Fill( jpsi_4vect.Pt()/spectator_neutron.Pt(), jpsi_4vect.Pt()/spectator_proton.Pt());
+		TLorentzVector qJ = q-jpsi_4vect;
+		h_ptBal->Fill( qJ.Pt()/spectator_neutron.Pt(), qJ.Pt()/spectator_proton.Pt());
 		if( event_process == 91 && struckproton == 1 ){
-			h_ptBal_truth->Fill( jpsi_4vect.Pt()/spectator_neutron.Pt(), jpsi_4vect.Pt()/spectator_proton.Pt());
+			h_ptBal_truth->Fill( qJ.Pt()/spectator_neutron.Pt(), qJ.Pt()/spectator_proton.Pt());
 		}
-		if( fabs(1.-(jpsi_4vect.Pt()/spectator_neutron.Pt())) <  fabs(1.-(jpsi_4vect.Pt()/spectator_proton.Pt())) ){
+		if( fabs(1.-(qJ.Pt()/spectator_neutron.Pt())) <  fabs(1.-(qJ.Pt()/spectator_proton.Pt())) ){
 			struck_nucleon_4vect = spectator_neutron;
 			struck_nucleon_4vect_irf = spectator_neutron_irf;
 			spectator_nucleon_4vect = spectator_proton;
