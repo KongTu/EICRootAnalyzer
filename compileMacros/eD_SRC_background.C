@@ -300,6 +300,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		}
 		
 		int nParticles_process = 0;
+		int nParticles_forward = 0;
 		TLorentzVector spectator_proton_irf, spectator_proton;
 		TLorentzVector spectator_neutron_irf, spectator_neutron;
 		TLorentzVector jpsi_4vect_irf, jpsi_4vect;
@@ -358,6 +359,10 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 			if( TMath::Abs(eta) < 4 && pt > 0.15 ){
 				nParticles_process++;
 			}
+			if( (theta>0 && theta<5) || (theta>5 && theta<22) ){
+				nParticles_forward++;
+			}
+
 			
 
 		} // end of particle loop
@@ -377,7 +382,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 			h_identity->Fill(2);
 		}
 
-		if( nParticles_process > 2 ) continue;
+		if( nParticles_process > 2 || nParticles_forward > 2 ) continue;
 		
 		//fill n(k) or dN/dk distribution, but averaged over all direction
 		//LFKine tells us pzf is not symmetric in the lab frame
