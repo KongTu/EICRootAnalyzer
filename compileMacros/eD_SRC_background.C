@@ -361,7 +361,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 
 		if( spectator_4vect.E() != 0. ){
 			if( struckproton && spectator_4vect.M()>(MASS_NEUTRON-1e-4) ){
-				h_identity->Fill(0);
+				h_identity->Fill(1);
 			}
 			else if( !struckproton && spectator_4vect.M()<(MASS_PROTON+1e-4)){
 				h_identity->Fill(1);
