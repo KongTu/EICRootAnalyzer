@@ -284,7 +284,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		int struck_nucleon = event->nucleon;
 		double nk_event = sqrt(pxf*pxf+pyf*pyf+pzf*pzf);
 		
-		if( event_process != 93 && event_process != 91 ) continue;
+		if( event_process != 91 ) continue;
 		if( trueQ2 < 1. ) continue;
 		if( trueY > 0.85 || trueY < 0.05 ) continue;
 
@@ -374,7 +374,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		if( nParticles_process > 2 || nParticles_forward > 2 ) continue;
 		TLorentzVector qJ = q-jpsi_4vect;
 		h_ptBal->Fill( qJ.Pt()/spectator_neutron.Pt(), qJ.Pt()/spectator_proton.Pt());
-		if( event_process == 91 && struckproton == 1 && nk_event>0.5 ){
+		if( event_process == 91 && struckproton == 1 ){
 			h_ptBal_truth->Fill( qJ.Pt()/spectator_neutron.Pt(), qJ.Pt()/spectator_proton.Pt());
 		}
 		if( (qJ.Pt()/spectator_neutron.Pt()) < (qJ.Pt()/spectator_proton.Pt()) ){
