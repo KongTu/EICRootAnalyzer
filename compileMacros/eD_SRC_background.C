@@ -377,7 +377,8 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		h_ptBal->Fill( qJ.Pt()/spectator_neutron.Pt(), qJ.Pt()/spectator_proton.Pt());
 		if( event_process == 91 && struckproton == 1 ){
 			h_ptBal_truth->Fill( qJ.Pt()/spectator_neutron.Pt(), qJ.Pt()/spectator_proton.Pt());
-			h_deltaPhi->Fill( qJ.DeltaPhi(spectator_neutron), qJ.DeltaPhi(spectator_proton));
+			if( nk_event > 0.5 ) h_deltaPhi->Fill( qJ.DeltaPhi(spectator_neutron), qJ.DeltaPhi(spectator_proton));
+			
 		}
 
 
