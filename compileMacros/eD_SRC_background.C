@@ -201,6 +201,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 	TH1D* Pz_spectator = new TH1D("Pz_spectator",";p_{z} (GeV)",200,-1,1);
 	TH1D* Pp_spectator = new TH1D("Pp_spectator",";p (GeV)",200,0,1.4);
 	TH1D* Pp_spectator_wrong = new TH1D("Pp_spectator_wrong",";p (GeV)",200,0,1.4);
+	TH2D* Pp_spectator_wrong2D = new TH2D("Pp_spectator_wrong2D",";p (GeV)",200,0,1.4,200,0,1.4);
 	TH1D* Pt_VM = new TH1D("Pt_VM",";p_{T} (GeV)",200,0,10);
 	TH1D* Pt2_VM = new TH1D("Pt2_VM",";p^{2}_{T} (GeV)",200,0,5);
 	TH1D* Pz_VM = new TH1D("Pz_VM",";p_{z} (GeV)",200,-20,20);
@@ -423,7 +424,10 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		
 		if(spectator_nucleon_4vect_irf.E()!=0) {
 			Pp_spectator->Fill( spectator_nucleon_4vect_irf.P() );
-			if( (struckproton && !hitProton) || (!struckproton && hitProton) ) Pp_spectator_wrong->Fill( spectator_nucleon_4vect_irf.P() );
+			if( (struckproton && !hitProton) || (!struckproton && hitProton) ) {
+				Pp_spectator_wrong->Fill( spectator_nucleon_4vect_irf.P() );
+				Pp_spectator_wrong2D->Fill( spectator_nucleon_4vect_irf.P(), struck_nucleon_4vect_irf.P() );
+			}
 		}
 		if(struck_nucleon_4vect_irf.E() != 0 ) Pp_struck->Fill( struck_nucleon_4vect_irf.P() );
 	
