@@ -429,38 +429,38 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 	
 		if( struckproton ){
 			//filling alpha of spectator
-			double Pplus = (spectator_neutron_4vect_irf.E() + spectator_neutron_4vect_irf.Pz()) / sqrt(2);
+			double Pplus = (spectator_neutron_irf.E() + spectator_neutron_irf.Pz()) / sqrt(2);
 			double PdPlus = MASS_DEUTERON / sqrt(2);
 			double alpha_spec = 2*Pplus / PdPlus;
 			double alpha_stru = 2. - alpha_spec;
 			
 			// use LF kinematics to calculate the struck nucleon pz, E before interactions.
-			Double_t E_bInt = (alpha_stru*MASS_DEUTERON)/4. + (spectator_neutron_4vect_irf.Px()*spectator_neutron_4vect_irf.Px()+
-				spectator_neutron_4vect_irf.Py()*spectator_neutron_4vect_irf.Py()+MASS_PROTON*MASS_PROTON)/(alpha_stru*MASS_DEUTERON);
-			Double_t Pz_bInt = -(alpha_stru*MASS_DEUTERON)/4. + (spectator_neutron_4vect_irf.Px()*spectator_neutron_4vect_irf.Px()+
-				spectator_neutron_4vect_irf.Py()*spectator_neutron_4vect_irf.Py()+MASS_PROTON*MASS_PROTON)/(alpha_stru*MASS_DEUTERON);
+			Double_t E_bInt = (alpha_stru*MASS_DEUTERON)/4. + (spectator_neutron_irf.Px()*spectator_neutron_irf.Px()+
+				spectator_neutron_irf.Py()*spectator_neutron_irf.Py()+MASS_PROTON*MASS_PROTON)/(alpha_stru*MASS_DEUTERON);
+			Double_t Pz_bInt = -(alpha_stru*MASS_DEUTERON)/4. + (spectator_neutron_irf.Px()*spectator_neutron_irf.Px()+
+				spectator_neutron_irf.Py()*spectator_neutron_irf.Py()+MASS_PROTON*MASS_PROTON)/(alpha_stru*MASS_DEUTERON);
 			//new 4 vector for struck nucleon before interaction;
 			TLorentzVector n_primeprime;
-			n_primeprime.SetPxPyPzE(-spectator_neutron_4vect_irf.Px(),-spectator_neutron_4vect_irf.Py(),
+			n_primeprime.SetPxPyPzE(-spectator_neutron_irf.Px(),-spectator_neutron_irf.Py(),
 			Pz_bInt,E_bInt);
 			double t2_uppervtx = (spectator_proton_irf - n_primeprime).Mag2();
 			t_truth->Fill( -t2_uppervtx );
 		}
 		else{
 			//filling alpha of spectator
-			double Pplus = (spectator_proton_4vect_irf.E() + spectator_proton_4vect_irf.Pz()) / sqrt(2);
+			double Pplus = (spectator_proton_irf.E() + spectator_proton_irf.Pz()) / sqrt(2);
 			double PdPlus = MASS_DEUTERON / sqrt(2);
 			double alpha_spec = 2*Pplus / PdPlus;
 			double alpha_stru = 2. - alpha_spec;
 			
 			// use LF kinematics to calculate the struck nucleon pz, E before interactions.
-			Double_t E_bInt = (alpha_stru*MASS_DEUTERON)/4. + (spectator_proton_4vect_irf.Px()*spectator_proton_4vect_irf.Px()+
-				spectator_proton_4vect_irf.Py()*spectator_proton_4vect_irf.Py()+MASS_NEUTRON*MASS_NEUTRON)/(alpha_stru*MASS_DEUTERON);
-			Double_t Pz_bInt = -(alpha_stru*MASS_DEUTERON)/4. + (spectator_proton_4vect_irf.Px()*spectator_proton_4vect_irf.Px()+
-				spectator_proton_4vect_irf.Py()*spectator_proton_4vect_irf.Py()+MASS_NEUTRON*MASS_NEUTRON)/(alpha_stru*MASS_DEUTERON);
+			Double_t E_bInt = (alpha_stru*MASS_DEUTERON)/4. + (spectator_proton_irf.Px()*spectator_proton_irf.Px()+
+				spectator_proton_irf.Py()*spectator_proton_irf.Py()+MASS_NEUTRON*MASS_NEUTRON)/(alpha_stru*MASS_DEUTERON);
+			Double_t Pz_bInt = -(alpha_stru*MASS_DEUTERON)/4. + (spectator_proton_irf.Px()*spectator_proton_irf.Px()+
+				spectator_proton_irf.Py()*spectator_proton_irf.Py()+MASS_NEUTRON*MASS_NEUTRON)/(alpha_stru*MASS_DEUTERON);
 			//new 4 vector for struck nucleon before interaction;
 			TLorentzVector n_primeprime;
-			n_primeprime.SetPxPyPzE(-spectator_proton_4vect_irf.Px(),-spectator_proton_4vect_irf.Py(),
+			n_primeprime.SetPxPyPzE(-spectator_proton_irf.Px(),-spectator_proton_irf.Py(),
 			Pz_bInt,E_bInt);
 			double t2_uppervtx = (spectator_neutron_irf - n_primeprime).Mag2();
 			t_truth->Fill( -t2_uppervtx );
