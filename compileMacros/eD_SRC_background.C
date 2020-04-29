@@ -381,6 +381,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 			if( nk_event > 0.5 ) {
 				h_deltaPhi->Fill( qJ.DeltaPhi(spectator_neutron), qJ.DeltaPhi(spectator_proton));
 				h_totalEnergy->Fill( spectator_proton.E() / spectator_neutron.E() );
+			}
 		}
 
 
