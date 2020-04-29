@@ -388,7 +388,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		if( (qJ.Pt()/spectator_neutron.Pt()) < (qJ.Pt()/spectator_proton.Pt()) ){
 			
 			double deltaPhi = qJ.DeltaPhi( spectator_neutron );
-			// if( fabs(deltaPhi) > 0.7 ) continue;
+			if( fabs(deltaPhi) > 0.7 ) continue;
 			
 			struck_nucleon_4vect = spectator_neutron;
 			struck_nucleon_4vect_irf = spectator_neutron_irf;
@@ -397,7 +397,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		}
 		else{
 			double deltaPhi = qJ.DeltaPhi( spectator_proton );
-			// if( fabs(deltaPhi) > 0.7 ) continue;
+			if( fabs(deltaPhi) > 0.7 ) continue;
 
 			struck_nucleon_4vect = spectator_proton;
 			struck_nucleon_4vect_irf = spectator_proton_irf;
