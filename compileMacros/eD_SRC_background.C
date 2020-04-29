@@ -384,18 +384,23 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 				h_totalEnergy->Fill( spectator_proton.E() / spectator_neutron.E() );
 			}
 		}
-		// if( (qJ-spectator_neutron).E() < (qJ-spectator_proton).E() ){
 		if( (qJ.Pt()/spectator_neutron.Pt()) < (qJ.Pt()/spectator_proton.Pt()) ){
 			struck_nucleon_4vect = spectator_neutron;
 			struck_nucleon_4vect_irf = spectator_neutron_irf;
 			spectator_nucleon_4vect = spectator_proton;
 			spectator_nucleon_4vect_irf = spectator_proton_irf;
+
+			if( !struckproton ) h_identity->Fill(1); 
+			else h_identity->Fill(0);
 		}
 		else{
 			struck_nucleon_4vect = spectator_proton;
 			struck_nucleon_4vect_irf = spectator_proton_irf;
 			spectator_nucleon_4vect = spectator_neutron;
 			spectator_nucleon_4vect_irf = spectator_neutron_irf;
+
+			if( struckproton ) h_identity->Fill(1); 
+			else h_identity->Fill(0);
 		}
 		sPN->Fill( (struck_nucleon_4vect_irf+spectator_nucleon_4vect_irf).Mag2() );
 		sPNvsNk->Fill( (struck_nucleon_4vect_irf+spectator_nucleon_4vect_irf).Mag2(), nk_event );
