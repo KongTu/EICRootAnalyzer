@@ -295,7 +295,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 
 		nk_truth->Fill( nk_event );
 		nk_truth_uniformbins->Fill( nk_event );
-		t_truth->Fill( t_hat );
+		t_truth->Fill( -t_hat );
 
 		// use hitNucleon_ to choose only hit proton/neutron or mixing
 		bool struckproton = false;
@@ -423,7 +423,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		// //LFKine tells us pzf is not symmetric in the lab frame
 		if( struckproton )Pp_spectator->Fill( spectator_neutron_irf.P() );
 		else Pp_spectator->Fill( spectator_proton_irf.P() );
-		t_nprimeprime->Fill( t_hat );
+		t_nprimeprime->Fill( -t_hat );
 		// if(spectator_nucleon_4vect_irf.E()!=0) {
 		// 	Pp_spectator->Fill( spectator_nucleon_4vect_irf.P() );
 		// 	if( (struckproton && !hitProton) || (!struckproton && hitProton) ) {
