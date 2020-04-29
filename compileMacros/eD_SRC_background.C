@@ -386,19 +386,12 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		}
 		// if( (qJ-spectator_neutron).E() < (qJ-spectator_proton).E() ){
 		if( (qJ.Pt()/spectator_neutron.Pt()) < (qJ.Pt()/spectator_proton.Pt()) ){
-			
-			double deltaPhi = qJ.DeltaPhi( spectator_neutron );
-			if( fabs(deltaPhi) > 0.7 ) continue;
-			
 			struck_nucleon_4vect = spectator_neutron;
 			struck_nucleon_4vect_irf = spectator_neutron_irf;
 			spectator_nucleon_4vect = spectator_proton;
 			spectator_nucleon_4vect_irf = spectator_proton_irf;
 		}
 		else{
-			double deltaPhi = qJ.DeltaPhi( spectator_proton );
-			if( fabs(deltaPhi) > 0.7 ) continue;
-
 			struck_nucleon_4vect = spectator_proton;
 			struck_nucleon_4vect_irf = spectator_proton_irf;
 			spectator_nucleon_4vect = spectator_neutron;
@@ -436,7 +429,8 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		
 		//fill n(k) or dN/dk distribution, but averaged over all direction
 		//LFKine tells us pzf is not symmetric in the lab frame
-		nk_truth_uniformbins->Fill( nk_event );
+		if( struckproton )nk_truth_uniformbins->Fill( spectator_neutron_irf.P() );
+		else nk_truth_uniformbins->Fill( spectator_proton_irf.P() );
 		if(spectator_nucleon_4vect_irf.E()!=0) Pp_spectator->Fill( spectator_nucleon_4vect_irf.P() );
 
 	}
