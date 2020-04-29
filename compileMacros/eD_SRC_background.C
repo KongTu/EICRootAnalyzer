@@ -192,7 +192,8 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 	TH1D* nk_truth_uniformbins = new TH1D("nk_truth_uniformbins","k (GeV/c)", 200,0,1.4);
 	TH2D* h_ThetaVsEnergy_Spectator = new TH2D("h_ThetaVsEnergy_Spectator",";E_{spectator} (GeV);#theta",300,0,200,200,0,100);
 	TH2D* h_ThetaVsEnergy_Struck = new TH2D("h_ThetaVsEnergy_Struck",";E_{struck} (GeV);#theta",300,0,200,200,0,100);
-	TH1D* sPN = new TH1D(Form("sPN"),"sPN",sPN_nBins,sPN_bins);
+	TH1D* sPN = new TH1D(Form("sPN"),"sPN",100,3,12);
+	TH2D* sPNvsNk = new TH2D(Form("sPNvsNk"),"sPN",100,3,12,100,0,1.2);
 	TH1D* Pt_struck = new TH1D("Pt_struck",";p_{T} (GeV)",200,0,1.4);
 	TH1D* Pz_struck = new TH1D("Pz_struck",";p_{z} (GeV)",200,-1,1);
 	TH1D* Pp_struck = new TH1D("Pp_struck",";p (GeV)",200,0,1.4);
@@ -388,7 +389,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		if( (qJ.Pt()/spectator_neutron.Pt()) < (qJ.Pt()/spectator_proton.Pt()) ){
 			
 			double deltaPhi = qJ.DeltaPhi( spectator_neutron );
-			if( fabs(deltaPhi) > 0.7 || (spectator_neutron.E() / spectator_proton.E())<1.0 ) continue;
+			if( fabs(deltaPhi) > 0.7 ) continue;
 			
 			struck_nucleon_4vect = spectator_neutron;
 			struck_nucleon_4vect_irf = spectator_neutron_irf;
@@ -397,13 +398,15 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		}
 		else{
 			double deltaPhi = qJ.DeltaPhi( spectator_proton );
-			if( fabs(deltaPhi) > 0.7 || (spectator_proton.E() / spectator_neutron.E())<1.0 ) continue;
+			if( fabs(deltaPhi) > 0.7 ) continue;
 
 			struck_nucleon_4vect = spectator_proton;
 			struck_nucleon_4vect_irf = spectator_proton_irf;
 			spectator_nucleon_4vect = spectator_neutron;
 			spectator_nucleon_4vect_irf = spectator_neutron_irf;
 		}
+		sPN->Fill( (struck_nucleon_4vect_irf+spectator_nucleon_4vect_irf).Mag2() );
+		sPNvsNk->Fill( (struck_nucleon_4vect_irf+spectator_nucleon_4vect_irf).Mag2(), nk_event );
 
 		// if( spectator_proton.E() != 0. || spectator_neutron.E() != 0. ){
 		// 	if( struckproton && spectator_neutron.E() != 0. ){
