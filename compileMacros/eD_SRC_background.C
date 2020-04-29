@@ -345,20 +345,20 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 				spectator_proton = ppart;//proton
 				spectator_proton_irf = ppart;//proton
 				spectator_proton_irf.Boost(-b);
-				if( !passDetector(spectator_proton_irf,b) ){
-					spectator_proton.SetPxPyPzE(0,0,0,0);
-					spectator_proton_irf.SetPxPyPzE(0,0,0,0);
-				}
+				// if( !passDetector(spectator_proton_irf,b) ){
+				// 	spectator_proton.SetPxPyPzE(0,0,0,0);
+				// 	spectator_proton_irf.SetPxPyPzE(0,0,0,0);
+				// }
 
 			}//proton
 			if(pdg == 2112) {
 				spectator_neutron = ppart;//neutron
 				spectator_neutron_irf = ppart;//neutron
 				spectator_neutron_irf.Boost(-b);
-				if( !passDetector(spectator_neutron_irf,b) ){
-					spectator_neutron.SetPxPyPzE(0,0,0,0);
-					spectator_neutron_irf.SetPxPyPzE(0,0,0,0);
-				}
+				// if( !passDetector(spectator_neutron_irf,b) ){
+				// 	spectator_neutron.SetPxPyPzE(0,0,0,0);
+				// 	spectator_neutron_irf.SetPxPyPzE(0,0,0,0);
+				// }
 
 			}//neutron
 
@@ -384,8 +384,8 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 				h_totalEnergy->Fill( spectator_proton.E() / spectator_neutron.E() );
 			}
 		}
-		if( (qJ-spectator_neutron).E() < (qJ-spectator_proton).E() ){
-		// if( (qJ.Pt()/spectator_neutron.Pt()) < (qJ.Pt()/spectator_proton.Pt()) ){
+		// if( (qJ-spectator_neutron).E() < (qJ-spectator_proton).E() ){
+		if( (qJ.Pt()/spectator_neutron.Pt()) < (qJ.Pt()/spectator_proton.Pt()) ){
 			
 			double deltaPhi = qJ.DeltaPhi( spectator_neutron );
 			// if( fabs(deltaPhi) > 0.7 ) continue;
