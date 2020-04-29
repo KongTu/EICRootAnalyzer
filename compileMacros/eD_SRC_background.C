@@ -437,7 +437,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 		if( struckproton )nk_truth_uniformbins->Fill( spectator_neutron_irf.P() );
 		else nk_truth_uniformbins->Fill( spectator_proton_irf.P() );
 		if(spectator_nucleon_4vect_irf.E()!=0) Pp_spectator->Fill( spectator_nucleon_4vect_irf.P() );
-
+		if(struck_nucleon_4vect_irf.E() != 0 ) Pp_struck->Fill( struck_nucleon_4vect_irf.P() );
 	}
 
 	output->Write();
