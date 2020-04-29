@@ -384,7 +384,7 @@ void eD_SRC_background(const int nEvents = 40000, TString filename="", const int
 				h_totalEnergy->Fill( spectator_proton.E() / spectator_neutron.E() );
 			}
 		}
-		if( (qJ-spectator_neutron).E() > (qJ-spectator_proton).E() ){
+		if( (qJ-spectator_neutron).E() < (qJ-spectator_proton).E() ){
 		// if( (qJ.Pt()/spectator_neutron.Pt()) < (qJ.Pt()/spectator_proton.Pt()) ){
 			
 			double deltaPhi = qJ.DeltaPhi( spectator_neutron );
