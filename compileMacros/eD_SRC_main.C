@@ -214,6 +214,12 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TH1D* h_spectral_pt = new TH1D("h_spectral_pt",";p_{T} (GeV/c)",500,0,1);
 	TH1D* h_spectralAtPole = new TH1D("h_spectralAtPole",";-t' (GeV)^{2}",500,0,0.5);
 
+	//Yellow report 2D histograms.
+	TH2D* h_elec2D = new TH2D("h_elec2D",";angle (degree);Momentum (GeV)", 36,0.,TMath::Pi(),100.,0.,50.);
+	TH2D* h_spectator2D = new TH2D("h_spectator2D",";angle (degree);Momentum (GeV)", 36,0.,TMath::Pi(),100.,0.,200.);
+	TH2D* h_struck2D = new TH2D("h_struck2D",";angle (degree);Momentum (GeV)", 36,0.,TMath::Pi(),100.,0.,200.);
+	TH2D* h_jpsi2D = new TH2D("h_jpsi2D",";angle (degree);Momentum (GeV)", 36,0.,TMath::Pi(),100.,0.,50.);
+
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/gpfs02/eic/ztu/BeAGLE/BeAGLE_devK_SRC/"+filename+".root" );
 	
@@ -330,6 +336,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 			}
 			if( status != 1 ) continue;
 
+
 			//photon 4vector
 			q = e_beam - e_scattered;
 			q_irf = q;
@@ -348,6 +355,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		} // end of particle loop
 
 		if( nParticles_process != 4 ) continue;
+
+
 		
 		//fill n(k) or dN/dk distribution, but averaged over all direction
 		//LFKine tells us pzf is not symmetric in the lab frame
@@ -382,6 +391,8 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 			spectator_4vect = p_4vect;
 			struck_4vect = n_4vect;
 		}
+
+
 		
 
 		// TLorentzVector testp = q_irf + d_beam_irf - struck_4vect_irf - j_4vect_irf - spectator_4vect_irf;
@@ -415,6 +426,12 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		double jz_new = jz;
 		jnew.SetPxPyPzE(jx_new,jy_new,jz_new, sqrt( MASS_JPSI*MASS_JPSI + jx_new*jx_new + jy_new*jy_new + jz_new*jz_new) );
 
+
+		//Yellow report 2D figures:
+		h_elec2D->Fill(e_scattered.Theta()*TMath::RadToDeg(), e_scattered.P());
+		h_struck2D->Fill(pnew.Theta()*TMath::RadToDeg(), pnew.P() )
+		h_spectator2D->Fill(spectator_4vect.Theta()*TMath::RadToDeg(), spectator_4vect.P() )
+		h_jpsi2D->Fill(jnew.Theta()*TMath::RadToDeg(), jnew.P() )
 
 		/*
 		- Start trying off-shell intermediate conditions
