@@ -429,9 +429,9 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 
 		//Yellow report 2D figures:
 		h_elec2D->Fill(e_scattered.Theta()*TMath::RadToDeg(), e_scattered.P());
-		h_struck2D->Fill(pnew.Theta()*TMath::RadToDeg(), pnew.P() )
-		h_spectator2D->Fill(spectator_4vect.Theta()*TMath::RadToDeg(), spectator_4vect.P() )
-		h_jpsi2D->Fill(jnew.Theta()*TMath::RadToDeg(), jnew.P() )
+		h_struck2D->Fill(pnew.Theta()*TMath::RadToDeg(), pnew.P() );
+		h_spectator2D->Fill(spectator_4vect.Theta()*TMath::RadToDeg(), spectator_4vect.P() );
+		h_jpsi2D->Fill(jnew.Theta()*TMath::RadToDeg(), jnew.P() );
 
 		/*
 		- Start trying off-shell intermediate conditions
