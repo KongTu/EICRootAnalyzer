@@ -428,6 +428,13 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 
 
 		//Yellow report 2D figures:
+
+		cout << "what's the problem? " << endl;
+		cout << "theta electron ~ " << e_scattered.Theta() << endl;
+		cout << "theta proton ~ " << struck_4vect.Theta() << endl;
+		cout << "theta neutron ~ " << spectator_4vect.Theta() << endl;
+		cout << "theta jpsi ~ " << j_4vect.Theta() << endl;
+
 		h_elec2D->Fill(e_scattered.Theta(), e_scattered.P());
 		h_struck2D->Fill(struck_4vect.Theta(), struck_4vect.P() );
 		h_spectator2D->Fill(spectator_4vect.Theta(), spectator_4vect.P() );
