@@ -435,6 +435,11 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		cout << "theta neutron ~ " << spectator_4vect.Theta() << endl;
 		cout << "theta jpsi ~ " << j_4vect.Theta() << endl;
 
+		cout << "P electron ~ " << e_scattered.P() << endl;
+		cout << "P proton ~ " << struck_4vect.P() << endl;
+		cout << "P neutron ~ " << spectator_4vect.P() << endl;
+		cout << "P jpsi ~ " << j_4vect.P() << endl;
+
 		h_elec2D->Fill(e_scattered.Theta(), e_scattered.P());
 		h_struck2D->Fill(struck_4vect.Theta(), struck_4vect.P() );
 		h_spectator2D->Fill(spectator_4vect.Theta(), spectator_4vect.P() );
