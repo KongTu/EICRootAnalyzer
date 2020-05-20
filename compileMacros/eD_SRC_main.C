@@ -215,10 +215,10 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TH1D* h_spectralAtPole = new TH1D("h_spectralAtPole",";-t' (GeV)^{2}",500,0,0.5);
 
 	//Yellow report 2D histograms.
-	TH2D* h_elec2D = new TH2D("h_elec2D",";angle (degree);Momentum (GeV)", 72,-TMath::Pi(),TMath::Pi(),100.,0.,50.);
-	TH2D* h_spectator2D = new TH2D("h_spectator2D",";angle (degree);Momentum (GeV)", 36,0.,TMath::Pi(),100.,0.,200.);
-	TH2D* h_struck2D = new TH2D("h_struck2D",";angle (degree);Momentum (GeV)", 36,0.,TMath::Pi(),100.,0.,200.);
-	TH2D* h_jpsi2D = new TH2D("h_jpsi2D",";angle (degree);Momentum (GeV)", 36,0.,TMath::Pi(),100.,0.,50.);
+	TH2D* h_elec2D = new TH2D("h_elec2D",";angle;Momentum (GeV)", 36,0.,TMath::Pi(),100.,0.,50.);
+	TH2D* h_spectator2D = new TH2D("h_spectator2D",";angle;Momentum (GeV)", 36,0.,TMath::Pi(),100.,0.,200.);
+	TH2D* h_struck2D = new TH2D("h_struck2D",";angle;Momentum (GeV)", 36,0.,TMath::Pi(),100.,0.,200.);
+	TH2D* h_jpsi2D = new TH2D("h_jpsi2D",";angle;Momentum (GeV)", 36,0.,TMath::Pi(),100.,0.,50.);
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/gpfs02/eic/ztu/BeAGLE/BeAGLE_devK_SRC/"+filename+".root" );
@@ -428,18 +428,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 
 
 		//Yellow report 2D figures:
-
-		cout << "what's the problem? " << endl;
-		cout << "theta electron ~ " << e_scattered.Theta() << endl;
-		cout << "theta proton ~ " << struck_4vect.Theta() << endl;
-		cout << "theta neutron ~ " << spectator_4vect.Theta() << endl;
-		cout << "theta jpsi ~ " << j_4vect.Theta() << endl;
-
-		cout << "P electron ~ " << e_scattered.P() << endl;
-		cout << "P proton ~ " << struck_4vect.P() << endl;
-		cout << "P neutron ~ " << spectator_4vect.P() << endl;
-		cout << "P jpsi ~ " << j_4vect.P() << endl;
-
 		h_elec2D->Fill(e_scattered.Theta(), e_scattered.P());
 		h_struck2D->Fill(struck_4vect.Theta(), struck_4vect.P() );
 		h_spectator2D->Fill(spectator_4vect.Theta(), spectator_4vect.P() );
