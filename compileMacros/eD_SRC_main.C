@@ -211,7 +211,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TH2D* h_ttprime_alpha = new TH2D("h_ttprime_alpha",";#alpha_{p};-t'",200,0,2,1000,0,1);
 	TH2D* h_dNdAlphadPt2 = new TH2D("h_dNdAlphadPt2",";#alpha_{p};p_{T} (GeV/c)'",500,0,2,1000,0,1);
 	TH2D* h_ThetaRprimePm = new TH2D("h_ThetaRprimePm",";#theta_{r'};p_{m} (GeV/c)",200,0,PI,200,0,1.4);
-	TH2D* h_ThetaRprimePm2 = new TH2D("h_ThetaRprimePm2",";#cos(theta_{r'});p_{m} (GeV/c)",200,0,PI,200,0,1.4);
+	TH2D* h_ThetaRprimePm2 = new TH2D("h_ThetaRprimePm2",";#cos(theta_{r'});p_{m} (GeV/c)",200,-1,1,200,0,1.4);
 	TH1D* h_spectral_pt = new TH1D("h_spectral_pt",";p_{T} (GeV/c)",500,0,1);
 	TH1D* h_spectralAtPole = new TH1D("h_spectralAtPole",";-t' (GeV)^{2}",500,0,0.5);
 
