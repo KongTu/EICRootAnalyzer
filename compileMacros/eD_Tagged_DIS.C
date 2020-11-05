@@ -72,6 +72,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
 
+	TH1D* hist_test = new TH1D("hist_test","hist_test",100,0,2);
+
 	for(int i(0); i < nEvents; ++i ) {
       
 		// Read the next entry from the tree.
@@ -112,6 +114,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		if( event_process != 91 ) continue;
 		if( trueQ2 < 1. ) continue;
 		if( trueY > 0.85 || trueY < 0.05 ) continue;
+
+		hist_test->Fill( nk_event );
 
 		for(int j(0); j < nParticles; ++j ) {
 
