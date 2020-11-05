@@ -81,11 +81,23 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 	double mbToGeV_m2 = 2.56819;
 	double Q2binwidth = 13.0-10.0;
 
-	TH1D* h_nk = new TH1D("h_nk","h_nk",100,0,2);
-	TH1D* h_HERA_Q2_10_13_x007_009 = new TH1D("h_HERA_Q2_10_13_x007_009","h_HERA_Q2_10_13_x007_009",100,0,0.15);
 	TH1D* h_HERA_Q2_10_13 = new TH1D("h_HERA_Q2_10_13","h_HERA_Q2_10_13",100,0.00001,0.1);
 	TH1D* h_alpha_spec = new TH1D("h_alpha_spec","h_alpha_spec",100,0,2);
+	TH1D* h_nk = new TH1D("h_nk","h_nk",100,0,2);
 	double bin_width = h_HERA_Q2_10_13->GetBinWidth(1);
+	
+	double alpha_binning[21];
+	for(int ibin=0;ibin<21;ibin++){
+		alpha_binning[ibin] = 0.4+ibin*0.08;
+	}	
+	TH1D* h_HERA_Q2_10_13_x007_009_alpha[20];
+	for(int ibin=0;ibin<20;ibin){
+	 	h_HERA_Q2_10_13_x007_009_alpha[ibin] = new TH1D(Form("h_HERA_Q2_10_13_x007_009_alpha_%d",ibin),Form("h_HERA_Q2_10_13_x007_009_alpha_%d",ibin),100,0,0.15);
+	}
+	
+
+
+
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -148,19 +160,23 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		double PdPlus = MASS_DEUTERON / sqrt(2);
 		double alpha_spec = 2*Pplus / PdPlus;
 		double pt2 = pxf*pxf+pyf*pyf;
-		double alpha_spec_binwidth = 0.02;
+		double alpha_spec_binwidth = -1; // will have to be rewritten by 20 alpha bins
 		double xbinwidth = (0.009-0.007);
-		double pt2binwidth = h_HERA_Q2_10_13_x007_009->GetBinWidth(1);
+		double pt2binwidth = h_HERA_Q2_10_13_x007_009_alpha->GetBinWidth(1);
 		h_alpha_spec->Fill( alpha_spec );
-
-		if( alpha_spec < 0.99 || alpha_spec > 1.01 ) continue;
 		if( trueX > 0.009 || trueX < 0.007 ) continue;
-
+		
+		int alpha_bin_index = 0;
+		for(int ibin=0;ibin<20;ibin++){
+			if( alpha_spec>alpha_binning[ibin] && alpha_spec<alpha_binning[ibin+1] ){
+				alpha_bin_index = ibin;
+				alpha_spec_binwidth = alpha_binning[ibin+1] - alpha_binning[ibin];
+			}
+		}
 		double event_weight_alphaPt2 = alpha_spec*(64.*TMath::Power(PI,3)*(TMath::Power(trueQ2,2)*trueX)) / (alpha2*Yc);
 		event_weight_alphaPt2 = event_weight_alphaPt2 * (mbToGeV_m2/(Lint*Q2binwidth*xbinwidth*pt2binwidth*alpha_spec_binwidth));
-
-
-		h_HERA_Q2_10_13_x007_009->Fill(pt2, event_weight_alphaPt2 );
+		//filling all alpha bins
+		h_HERA_Q2_10_13_x007_009_alpha[alpha_bin_index]->Fill(pt2, event_weight_alphaPt2 );
 		
 
 	}
