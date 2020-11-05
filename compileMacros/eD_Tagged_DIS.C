@@ -126,7 +126,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 
 		//HERA inclusive cross section
 		double event_weight = 1.;
-		double Yc = 1. + TMath::Power((1-trueY),2);
+		double Yc = 1. - TMath::Power((1-trueY),2);
 		event_weight = (TMath::Power(trueQ2,2)*trueX) / (twopi*alpha2*Yc);
 	
 
