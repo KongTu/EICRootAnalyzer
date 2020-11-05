@@ -171,7 +171,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 				alpha_spec_binwidth = alpha_binning[ibin+1] - alpha_binning[ibin];
 			}
 		}
-		double event_weight_alphaPt2 = alpha_spec*(64.*TMath::Power(PI,3)*(TMath::Power(trueQ2,2)*trueX)) / (alpha2*Yc);
+		double event_weight_alphaPt2 = alpha_spec*(16.*TMath::Power(PI,1)*(TMath::Power(trueQ2,2)*trueX)) / (alpha2*Yc);
 		event_weight_alphaPt2 = event_weight_alphaPt2 * (mbToGeV_m2/(Lint*Q2binwidth*xbinwidth*pt2binwidth*alpha_spec_binwidth));
 		//filling all alpha bins
 		h_HERA_Q2_10_13_x007_009_alpha[alpha_bin_index]->Fill(pt2, event_weight_alphaPt2 );
