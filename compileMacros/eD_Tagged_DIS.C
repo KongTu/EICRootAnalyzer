@@ -118,6 +118,16 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		int nParticles = event->GetNTracks();
 		int struck_nucleon = event->nucleon;
 		double nk_event = sqrt(pxf*pxf+pyf*pyf+pzf*pzf);
+		h_nk->Fill( nk_event );//sanity check for my wavefunction;
+		TLorentzVector spectator_4vect_irf;
+		double Espec = 0.;
+		if( struck_nucleon == 2212 ){
+			Espec = sqrt(nk_event*nk_event+MASS_NEUTRON*MASS_NEUTRON);
+		}
+		else{
+			Espec = sqrt(nk_event*nk_event+MASS_PROTON*MASS_PROTON);
+		}
+		spectator_4vect_irf.SetPxPyPzE(-pxf,-pyf,-pzf,Espec);
 
 		//event process and kinematic phase space
 		if( struck_nucleon != 2212 ) continue; //proton only
@@ -129,47 +139,29 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		double event_weight = 1.;
 		double Yc = 1. + TMath::Power((1-trueY),2);
 		event_weight = (TMath::Power(trueQ2,2)*trueX) / (twopi*alpha2*Yc);
-		event_weight = event_weight * (mbToGeV_m2)/(Lint*Q2bin);
+		event_weight = event_weight * (mbToGeV_m2)/(Lint*bin_width*Q2bin);
 		//fill HERA inclusive cross section for Q2(10,13) GeV**2:
-		h_HERA_Q2_10_13->Fill( trueX, event_weight/bin_width );
+		h_HERA_Q2_10_13->Fill( trueX, event_weight );
 		//x bin [0.007,0.009]
-		if( trueX > 0.009 || trueX < 0.007 ) continue;
+		double Pplus = (spectator_4vect_irf.E() + spectator_4vect_irf.Pz()) / sqrt(2);
+		double PdPlus = MASS_DEUTERON / sqrt(2);
+		double alpha_spec = 2*Pplus / PdPlus;
 		double pt2 = pxf*pxf+pyf*pyf;
+		double alpha_spec_bin = 0.02;
+		double xbinwidth = (0.009-0.007);
 		double pt2binwidth = h_HERA_Q2_10_13_x007_009->GetBinWidth(1);
-		double xbinwidth = 0.009-0.007;
-		h_HERA_Q2_10_13_x007_009->Fill(pt2, event_weight / (xbinwidth*pt2binwidth) );
+
+		if( alpha_spec < 0.99 || alpha_spec > 1.01 ) continue;
+		if( trueX > 0.009 || trueX < 0.007 ) continue;
+
+		double event_weight_alphaPt2 = alpha_spec*(64.*TMath::Power(PI,3)*(TMath::Power(trueQ2,2)*trueX)) / (alpha2*Yc);
+		event_weight_alphaPt2 = event_weight_alphaPt2 * (mbToGeV_m2/(Lint*Q2bin*xbinwidth*pt2binwidth*alpha_spec_bin));
+
+
+		h_HERA_Q2_10_13_x007_009->Fill(pt2, event_weight_alphaPt2 );
 		
-		h_nk->Fill( nk_event );
-
-		for(int j(0); j < nParticles; ++j ) {
-
-			const erhic::ParticleMC* particle = event->GetTrack(j);
-
-			int pdg = particle->GetPdgCode();
-			int status = particle->GetStatus();
-			int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
-			double pt = particle->GetPt();
-			double eta = particle->GetEta();
-			double phi = particle->GetPhi();
-			double rap = particle->GetRapidity();
-			double mass = particle->GetM();
-			double theta = particle->GetTheta(); 
-			theta = theta*1000.0; //change to mrad;
-			double mom = particle->GetP();
-			TLorentzVector ppart = particle->Get4Vector();
-
-			if( index == 3 ) {
-				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
-				// e_scattered = ppart;
-			}
-			if( status != 1 ) continue;
-
-
-		} // end of particle loop
-
 
 	}
-	// h_HERA_Q2_10_13->Scale( (mbToGeV_m2)/(Lint*bin_width*Q2bin) );
 
 	output->Write();
 	output->Close();
