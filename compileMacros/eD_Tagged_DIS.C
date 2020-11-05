@@ -91,8 +91,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		alpha_binning[ibin] = 0.4+ibin*0.08;
 	}	
 	TH1D* h_HERA_Q2_10_13_x007_009_alpha[20];
-	for(int ibin=0;ibin<20;ibin){
-	 	h_HERA_Q2_10_13_x007_009_alpha[ibin] = (TH1D*) new TH1D(Form("h_HERA_Q2_10_13_x007_009_alpha_%d",ibin),Form("h_HERA_Q2_10_13_x007_009_alpha_%d",ibin),100,0,0.15);
+	for(int ibin=0;ibin<20;ibin++){
+	 	h_HERA_Q2_10_13_x007_009_alpha[ibin] = new TH1D(Form("h_HERA_Q2_10_13_x007_009_alpha_%d",ibin),Form("h_HERA_Q2_10_13_x007_009_alpha_%d",ibin),100,0,0.15);
 	}
 
 	for(int i(0); i < nEvents; ++i ) {
