@@ -156,8 +156,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		if( alpha_spec < 0.99 || alpha_spec > 1.01 ) continue;
 		if( trueX > 0.009 || trueX < 0.007 ) continue;
 
-		// double event_weight_alphaPt2 = alpha_spec*(64.*TMath::Power(PI,3)*(TMath::Power(trueQ2,2)*trueX)) / (alpha2*Yc);
-		double event_weight_alphaPt2 = alpha_spec*(TMath::Power(trueQ2,2)*trueX)/(TMath::Power(PI,2)*alpha2*Yc);
+		double event_weight_alphaPt2 = alpha_spec*(64.*TMath::Power(PI,3)*(TMath::Power(trueQ2,2)*trueX)) / (alpha2*Yc);
 		event_weight_alphaPt2 = event_weight_alphaPt2 * (mbToGeV_m2/(Lint*Q2binwidth*xbinwidth*pt2binwidth*alpha_spec_binwidth));
 
 
