@@ -162,7 +162,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		double pt2 = pxf*pxf+pyf*pyf;
 		double alpha_spec_binwidth = -1; // will have to be rewritten by 20 alpha bins
 		double xbinwidth = (0.009-0.007);
-		double pt2binwidth = h_HERA_Q2_10_13_x007_009_alpha->GetBinWidth(1);
+		double pt2binwidth = h_HERA_Q2_10_13_x007_009_alpha[0]->GetBinWidth(1);
 		h_alpha_spec->Fill( alpha_spec );
 		if( trueX > 0.009 || trueX < 0.007 ) continue;
 		
