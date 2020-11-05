@@ -111,9 +111,9 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		int struck_nucleon = event->nucleon;
 		double nk_event = sqrt(pxf*pxf+pyf*pyf+pzf*pzf);
 		
-		if( event_process != 91 ) continue;
+		if( event_process != 99 ) continue;
 		if( trueQ2 < 1. ) continue;
-		if( trueY > 0.85 || trueY < 0.05 ) continue;
+		if( trueY > 0.95 || trueY < 0.01 ) continue;
 
 		hist_test->Fill( nk_event );
 
