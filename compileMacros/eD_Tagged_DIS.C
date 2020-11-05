@@ -72,7 +72,16 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
 
-	TH1D* hist_test = new TH1D("hist_test","hist_test",100,0,2);
+	//all constants
+	double totalXSection   = .0000450463252; //mb
+	double nEventsTotal        = 500257.0;
+	double Lint = nEventsTotal/totalXSection; // mb^{-1}
+	double alpha2 = TMath::Power((1./137),2);
+	double twopi = 2*PI;
+	double mbToGeV_m2 = 2.56819;
+
+	TH1D* h_nk = new TH1D("h_nk","h_nk",100,0,2);
+	TH1D* h_HERA_Q2_10_13 = new TH1D("h_HERA_Q2_10_13","h_HERA_Q2_10_13",1000,0.00001,0.1);
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -110,12 +119,26 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		int nParticles = event->GetNTracks();
 		int struck_nucleon = event->nucleon;
 		double nk_event = sqrt(pxf*pxf+pyf*pyf+pzf*pzf);
-		
-		if( event_process != 99 ) continue;
-		if( trueQ2 < 1. ) continue;
-		if( trueY > 0.95 || trueY < 0.01 ) continue;
 
-		hist_test->Fill( nk_event );
+		//HERA inclusive cross section
+		double event_weight = 1.;
+		double Yc = 1.-TMath::Power((1-trueY),2);
+		event_weight = (TMath::Power(trueQ2,2)*trueX) / (twopi*alpha2*Yc);
+		event_weight = (event_weight*mbToGeV_m2) / Lint;
+		double bin_width = h_HERA_Q2_10_13->GetBinWidth(1);
+		event_weight = event_weight / bin_width;
+
+		//event process and kinematic phase space
+		if( event_process != 99 ) continue;
+		if( trueQ2 < 10.  || trueQ2 > 13. ) continue;
+		if( trueY > 0.95  || trueY < 0.01 ) continue;
+
+		//try HERA inclusive cross section:
+		h_HERA_Q2_10_13->Fill( trueX, event_weight );
+
+		if( trueX > 0.009 || trueX < 0.007 ) continue;
+
+		h_nk->Fill( nk_event );
 
 		for(int j(0); j < nParticles; ++j ) {
 
