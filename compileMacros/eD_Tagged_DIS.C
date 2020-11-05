@@ -84,6 +84,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 	TH1D* h_nk = new TH1D("h_nk","h_nk",100,0,2);
 	TH1D* h_HERA_Q2_10_13_trueX = new TH1D("h_HERA_Q2_10_13_trueX","h_HERA_Q2_10_13_trueX",1000,0.00001,0.1);
 	TH1D* h_HERA_Q2_10_13 = new TH1D("h_HERA_Q2_10_13","h_HERA_Q2_10_13",1000,0.00001,0.1);
+	double bin_width = h_HERA_Q2_10_13->GetBinWidth(1);
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -125,13 +126,10 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 
 		//HERA inclusive cross section
 		double event_weight = 1.;
-		double Yc = 1.-TMath::Power((1-trueY),2);
+		double Yc = 1. + TMath::Power((1-trueY),2);
 		event_weight = (TMath::Power(trueQ2,2)) / (twopi*alpha2*Yc);
 		// event_weight = (event_weight*mbToGeV_m2) / Lint;
-		// double bin_width = h_HERA_Q2_10_13->GetBinWidth(1);
 		// event_weight = event_weight / (bin_width*Q2bin);
-
-
 
 		//try HERA inclusive cross section:
 		h_HERA_Q2_10_13_trueX->Fill( trueX );
@@ -168,6 +166,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 
 
 	}
+	h_HERA_Q2_10_13->Scale( (mbToGeV_m2)/(Lint*bin_width*Q2bin) );
 
 	output->Write();
 	output->Close();
