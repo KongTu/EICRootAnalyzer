@@ -82,6 +82,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 	double Q2bin = 13.0-10.0;
 
 	TH1D* h_nk = new TH1D("h_nk","h_nk",100,0,2);
+	TH1D* h_HERA_Q2_10_13_trueX = new TH1D("h_HERA_Q2_10_13_trueX","h_HERA_Q2_10_13_trueX",1000,0.00001,0.1);
 	TH1D* h_HERA_Q2_10_13 = new TH1D("h_HERA_Q2_10_13","h_HERA_Q2_10_13",1000,0.00001,0.1);
 
 	for(int i(0); i < nEvents; ++i ) {
@@ -131,6 +132,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
 
 		//try HERA inclusive cross section:
+		h_HERA_Q2_10_13_trueX->Fill( trueX );
 		h_HERA_Q2_10_13->Fill( trueX, event_weight );
 
 		if( trueX > 0.009 || trueX < 0.007 ) continue;
