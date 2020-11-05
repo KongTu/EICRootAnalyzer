@@ -118,18 +118,20 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		int struck_nucleon = event->nucleon;
 		double nk_event = sqrt(pxf*pxf+pyf*pyf+pzf*pzf);
 
-		//HERA inclusive cross section
-		double event_weight = 1.;
-		double Yc = 1.-TMath::Power((1-trueY),2);
-		event_weight = (TMath::Power(trueQ2,2)*trueX) / (twopi*alpha2*Yc);
-		// event_weight = (event_weight*mbToGeV_m2) / Lint;
-		// double bin_width = h_HERA_Q2_10_13->GetBinWidth(1);
-		// event_weight = event_weight / (bin_width*Q2bin);
-
 		//event process and kinematic phase space
 		if( event_process != 99 ) continue;
 		if( trueQ2 < 10.  || trueQ2 > 13. ) continue;
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
+
+		//HERA inclusive cross section
+		double event_weight = 1.;
+		double Yc = 1.-TMath::Power((1-trueY),2);
+		event_weight = (TMath::Power(trueQ2,2)) / (twopi*alpha2*Yc);
+		// event_weight = (event_weight*mbToGeV_m2) / Lint;
+		// double bin_width = h_HERA_Q2_10_13->GetBinWidth(1);
+		// event_weight = event_weight / (bin_width*Q2bin);
+
+
 
 		//try HERA inclusive cross section:
 		h_HERA_Q2_10_13_trueX->Fill( trueX );
