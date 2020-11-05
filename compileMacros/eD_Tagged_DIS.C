@@ -86,13 +86,13 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 	TH1D* h_nk = new TH1D("h_nk","h_nk",100,0,2);
 	double bin_width = h_HERA_Q2_10_13->GetBinWidth(1);
 	
-	double alpha_binning[161];
-	for(int ibin=0;ibin<161;ibin++){
-		alpha_binning[ibin] = 0.4+ibin*0.01;
+	double alpha_binning[21];
+	for(int ibin=0;ibin<21;ibin++){
+		alpha_binning[ibin] = 0.4+ibin*0.08;
 	}	
-	TH1D* h_HERA_Q2_10_13_x007_009_alpha[160];
-	TH1D* h_alpha_spec_everybin[160];
-	for(int ibin=0;ibin<160;ibin++){
+	TH1D* h_HERA_Q2_10_13_x007_009_alpha[20];
+	TH1D* h_alpha_spec_everybin[20];
+	for(int ibin=0;ibin<20;ibin++){
 	 	h_HERA_Q2_10_13_x007_009_alpha[ibin] = new TH1D(Form("h_HERA_Q2_10_13_x007_009_alpha_%d",ibin),Form("h_HERA_Q2_10_13_x007_009_alpha_%d",ibin),100,0,0.15);
 		h_alpha_spec_everybin[ibin] = new TH1D(Form("h_alpha_spec_everybin_%d",ibin),Form("h_alpha_spec_everybin_%d",ibin),100,0,2);
 	}
@@ -165,7 +165,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		if( trueX > 0.009 || trueX < 0.007 ) continue;
 		
 		int alpha_bin_index = 0;
-		for(int ibin=0;ibin<160;ibin++){
+		for(int ibin=0;ibin<20;ibin++){
 			if( alpha_spec>alpha_binning[ibin] && alpha_spec<alpha_binning[ibin+1] ){
 				alpha_bin_index = ibin;
 				alpha_spec_binwidth = alpha_binning[ibin+1] - alpha_binning[ibin];
