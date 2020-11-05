@@ -79,6 +79,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 	double alpha2 = TMath::Power((1./137),2);
 	double twopi = 2*PI;
 	double mbToGeV_m2 = 2.56819;
+	double Q2bin = 13.0-10.0;
 
 	TH1D* h_nk = new TH1D("h_nk","h_nk",100,0,2);
 	TH1D* h_HERA_Q2_10_13 = new TH1D("h_HERA_Q2_10_13","h_HERA_Q2_10_13",1000,0.00001,0.1);
@@ -110,10 +111,6 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		double trueW2 = event->GetTrueW2();
 		double trueX = event->GetTrueX();
 		double trueY = event->GetTrueY();
-		double trueNu = event->nu;
-		double s_hat = event->GetHardS();
-		double t_hat = event->t_hat;
-		double u_hat = event->GetHardU();
 		double photon_flux = event->GetPhotonFlux();
 		int event_process = event->GetProcess();
 		int nParticles = event->GetNTracks();
@@ -126,7 +123,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		event_weight = (TMath::Power(trueQ2,2)*trueX) / (twopi*alpha2*Yc);
 		event_weight = (event_weight*mbToGeV_m2) / Lint;
 		double bin_width = h_HERA_Q2_10_13->GetBinWidth(1);
-		event_weight = event_weight / bin_width;
+		event_weight = event_weight / (bin_width*Q2bin);
 
 		//event process and kinematic phase space
 		if( event_process != 99 ) continue;
