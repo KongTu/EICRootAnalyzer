@@ -126,9 +126,9 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 
 		//HERA inclusive cross section
 		double event_weight = 1.;
-		double Yc = 1. - TMath::Power((1-trueY),2);
+		double Yc = 1. + TMath::Power((1-trueY),2);
 		event_weight = (TMath::Power(trueQ2,2)*trueX) / (twopi*alpha2*Yc);
-	
+		event_weight = event_weight * (mbToGeV_m2)/(Lint*bin_width*Q2bin);
 
 		//try HERA inclusive cross section:
 		h_HERA_Q2_10_13_trueX->Fill( trueX );
@@ -165,7 +165,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 
 
 	}
-	h_HERA_Q2_10_13->Scale( (mbToGeV_m2)/(Lint*bin_width*Q2bin) );
+	// h_HERA_Q2_10_13->Scale( (mbToGeV_m2)/(Lint*bin_width*Q2bin) );
 
 	output->Write();
 	output->Close();
