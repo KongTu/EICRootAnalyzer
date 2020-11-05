@@ -133,7 +133,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 
 		//try HERA inclusive cross section:
 		h_HERA_Q2_10_13_trueX->Fill( trueX );
-		h_HERA_Q2_10_13->Fill( trueX, event_weight );
+		h_HERA_Q2_10_13->Fill( trueX, 1./event_weight );
 
 		if( trueX > 0.009 || trueX < 0.007 ) continue;
 		h_nk->Fill( nk_event );
