@@ -83,7 +83,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 
 	TH1D* h_nk = new TH1D("h_nk","h_nk",100,0,2);
 	TH1D* h_HERA_Q2_10_13_trueX = new TH1D("h_HERA_Q2_10_13_trueX","h_HERA_Q2_10_13_trueX",1000,0.00001,0.1);
-	TH1D* h_HERA_Q2_10_13 = new TH1D("h_HERA_Q2_10_13","h_HERA_Q2_10_13",1000,0.00001,0.1);
+	TH1D* h_HERA_Q2_10_13 = new TH1D("h_HERA_Q2_10_13","h_HERA_Q2_10_13",100,0.00001,0.1);
 	double bin_width = h_HERA_Q2_10_13->GetBinWidth(1);
 
 	for(int i(0); i < nEvents; ++i ) {
