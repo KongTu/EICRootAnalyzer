@@ -82,7 +82,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 	double Q2bin = 13.0-10.0;
 
 	TH1D* h_nk = new TH1D("h_nk","h_nk",100,0,2);
-	TH1D* h_HERA_Q2_10_13_trueX = new TH1D("h_HERA_Q2_10_13_trueX","h_HERA_Q2_10_13_trueX",1000,0.00001,0.1);
+	TH1D* h_HERA_Q2_10_13_x007_009 = new TH1D("h_HERA_Q2_10_13_x007_009","h_HERA_Q2_10_13_x007_009",100,0,1);
 	TH1D* h_HERA_Q2_10_13 = new TH1D("h_HERA_Q2_10_13","h_HERA_Q2_10_13",100,0.00001,0.1);
 	double bin_width = h_HERA_Q2_10_13->GetBinWidth(1);
 
@@ -130,12 +130,15 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		double Yc = 1. + TMath::Power((1-trueY),2);
 		event_weight = (TMath::Power(trueQ2,2)*trueX) / (twopi*alpha2*Yc);
 		event_weight = event_weight * (mbToGeV_m2)/(Lint*bin_width*Q2bin);
-
-		//try HERA inclusive cross section:
-		h_HERA_Q2_10_13_trueX->Fill( trueX );
+		//fill HERA inclusive cross section for Q2(10,13) GeV**2:
 		h_HERA_Q2_10_13->Fill( trueX, event_weight );
-
+		//x bin [0.007,0.009]
 		if( trueX > 0.009 || trueX < 0.007 ) continue;
+		double pt2 = pxf*pxf+pyf*pyf;
+		double pt2binwidth = h_HERA_Q2_10_13_x007_009->GetBinWidth(1);
+		double xbinwidth = 0.009-0.007;
+		h_HERA_Q2_10_13_x007_009->Fill(pt2, event_weight / (xbinwidth*pt2binwidth) );
+		
 		h_nk->Fill( nk_event );
 
 		for(int j(0); j < nParticles; ++j ) {
