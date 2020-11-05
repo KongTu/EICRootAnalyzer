@@ -123,8 +123,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		double Yc = 1.-TMath::Power((1-trueY),2);
 		event_weight = (TMath::Power(trueQ2,2)*trueX) / (twopi*alpha2*Yc);
 		event_weight = (event_weight*mbToGeV_m2) / Lint;
-		double bin_width = h_HERA_Q2_10_13->GetBinWidth(1);
-		event_weight = event_weight / (bin_width*Q2bin);
+		// double bin_width = h_HERA_Q2_10_13->GetBinWidth(1);
+		// event_weight = event_weight / (bin_width*Q2bin);
 
 		//event process and kinematic phase space
 		if( event_process != 99 ) continue;
@@ -136,7 +136,6 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		h_HERA_Q2_10_13->Fill( trueX, event_weight );
 
 		if( trueX > 0.009 || trueX < 0.007 ) continue;
-
 		h_nk->Fill( nk_event );
 
 		for(int j(0); j < nParticles; ++j ) {
