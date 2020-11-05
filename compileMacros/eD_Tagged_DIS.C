@@ -113,23 +113,6 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		if( trueQ2 < 1. ) continue;
 		if( trueY > 0.85 || trueY < 0.05 ) continue;
 
-		// use hitNucleon_ to choose only hit proton/neutron or mixing
-		bool struckproton = false;
-		if( struck_nucleon == 2212 ) struckproton = true;
-		if( hitNucleon_ == 0){
-			if(!struckproton) continue;
-		}else if( hitNucleon_ == 1 ){
-			if(struckproton) continue;
-		}else{
-			//otherwise it's mixing of both.
-		}
-		
-		int nParticles_process = 0;
-		TLorentzVector p_4vect, n_4vect,j_4vect,q;
-		TLorentzVector p_4vect_irf, n_4vect_irf,j_4vect_irf,q_irf,d_beam_irf;
-		TLorentzVector jnew,pnew;
-		d_beam_irf = d_beam;
-
 		for(int j(0); j < nParticles; ++j ) {
 
 			const erhic::ParticleMC* particle = event->GetTrack(j);
@@ -153,21 +136,6 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 			}
 			if( status != 1 ) continue;
 
-
-			//photon 4vector
-			q = e_beam - e_scattered;
-			q_irf = q;
-			
-			if(pdg == 443 ) j_4vect = ppart;//jpsi
-			if(pdg == 2212) p_4vect = ppart;//proton
-			if(pdg == 2112) {n_4vect = ppart;}//neutron
-
-			//prepare for boost later
-			if(pdg == 443 ) j_4vect_irf = j_4vect;
-			if(pdg == 2212) p_4vect_irf = p_4vect;
-			if(pdg == 2112) n_4vect_irf = n_4vect; 
-
-			nParticles_process++;
 
 		} // end of particle loop
 
