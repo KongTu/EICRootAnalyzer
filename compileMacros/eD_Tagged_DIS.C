@@ -91,8 +91,10 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		alpha_binning[ibin] = 0.4+ibin*0.08;
 	}	
 	TH1D* h_HERA_Q2_10_13_x007_009_alpha[20];
+	TH1D* h_alpha_spec_everybin[20];
 	for(int ibin=0;ibin<20;ibin++){
 	 	h_HERA_Q2_10_13_x007_009_alpha[ibin] = new TH1D(Form("h_HERA_Q2_10_13_x007_009_alpha_%d",ibin),Form("h_HERA_Q2_10_13_x007_009_alpha_%d",ibin),100,0,0.15);
+		h_alpha_spec_everybin[ibin] = new TH1D(Form("h_alpha_spec_everybin_%d",ibin),Form("h_alpha_spec_everybin_%d",ibin),100,0,2);
 	}
 
 	for(int i(0); i < nEvents; ++i ) {
@@ -173,7 +175,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		event_weight_alphaPt2 = event_weight_alphaPt2 * (mbToGeV_m2/(Lint*Q2binwidth*xbinwidth*pt2binwidth*alpha_spec_binwidth));
 		//filling all alpha bins
 		h_HERA_Q2_10_13_x007_009_alpha[alpha_bin_index]->Fill(pt2, event_weight_alphaPt2 );
-		
+		h_alpha_spec_everybin[alpha_bin_index]->Fill( alpha_spec );
 
 	}
 
