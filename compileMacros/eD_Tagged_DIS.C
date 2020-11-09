@@ -115,6 +115,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep+0.00051*0.00051));
 		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
+
+
 		
 		//boost vector for lab <--> d rest frame
 		TVector3 b = d_beam.BoostVector();
@@ -149,6 +151,21 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		//HERA inclusive cross section
 		double event_weight = 1.;
 		double Yc = 1. + TMath::Power((1-trueY),2);
+		for(int j(0); j < nParticles; ++j ) {
+			const erhic::ParticleMC* particle = event->GetTrack(j);
+			int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
+			if( index == 3 ) {
+				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
+				// e_scattered = ppart;
+			}
+		}
+		TLorentzVector qbeam = ebeam - e_scattered;
+
+		double xd = trueQ2 / (2*d_beam.Dot(qbeam));
+		double epsilon = (4.*TMath::Power(MASS_DEUTERON,2)*TMath::Power(xd,2)) / trueQ2;
+		double compare = TMath::Power( trueY, 2) / (1. - epsilon);
+		cout << "compare ~ " << compare << "   Yc ~ " << Yc << endl;
+
 		event_weight = (TMath::Power(trueQ2,2)*trueX) / (twopi*alpha2*Yc);
 		event_weight = event_weight * (mbToGeV_m2)/(Lint*bin_width*Q2binwidth);
 		//fill HERA inclusive cross section for Q2(10,13) GeV**2:
