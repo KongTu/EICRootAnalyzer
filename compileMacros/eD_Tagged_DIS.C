@@ -154,6 +154,9 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		for(int j(0); j < nParticles; ++j ) {
 			const erhic::ParticleMC* particle = event->GetTrack(j);
 			int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
+			double pt = particle->GetPt();
+			double eta = particle->GetEta();
+			double phi = particle->GetPhi();
 			if( index == 3 ) {
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 				// e_scattered = ppart;
