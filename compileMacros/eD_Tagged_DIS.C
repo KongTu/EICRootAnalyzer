@@ -162,7 +162,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 				// e_scattered = ppart;
 			}
 		}
-		TLorentzVector qbeam = ebeam - e_scattered;
+		TLorentzVector qbeam = e_beam - e_scattered;
 
 		double xd = trueQ2 / (2*d_beam.Dot(qbeam));
 		double epsilon = (4.*TMath::Power(MASS_DEUTERON,2)*TMath::Power(xd,2)) / trueQ2;
