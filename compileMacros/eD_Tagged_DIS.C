@@ -116,8 +116,6 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
 
-
-		
 		//boost vector for lab <--> d rest frame
 		TVector3 b = d_beam.BoostVector();
 
@@ -165,7 +163,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		TLorentzVector qbeam = e_beam - e_scattered;
 
 		double xd = trueQ2 / (2*d_beam.Dot(qbeam));
-		double epsilon = (4.*TMath::Power(MASS_DEUTERON,2)*TMath::Power(xd,2)) / trueQ2;
+		double gamma2 = (4.*TMath::Power(MASS_DEUTERON,2)*TMath::Power(xd,2)) / trueQ2;
+		double epsilon = (1. - trueY - gamma2*TMath::Power(y/2.,2)) / (1. - trueY + TMath::Power(trueY,2)/2. + gamma2*TMath::Power(y/2.,2) );
 		double compare = TMath::Power( trueY, 2) / (1. - epsilon);
 		cout << "compare ~ " << compare << "   Yc ~ " << Yc << endl;
 
