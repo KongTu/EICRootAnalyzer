@@ -164,7 +164,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 
 		double xd = trueQ2 / (2*d_beam.Dot(qbeam));
 		double gamma2 = (4.*TMath::Power(MASS_DEUTERON,2)*TMath::Power(xd,2)) / trueQ2;
-		double epsilon = (1. - trueY - gamma2*TMath::Power(y/2.,2)) / (1. - trueY + TMath::Power(trueY,2)/2. + gamma2*TMath::Power(y/2.,2) );
+		double epsilon = (1. - trueY - gamma2*TMath::Power(trueY/2.,2)) / (1. - trueY + TMath::Power(trueY,2)/2. + gamma2*TMath::Power(trueY/2.,2) );
 		double compare = TMath::Power( trueY, 2) / (1. - epsilon);
 		cout << "compare ~ " << compare << "   Yc ~ " << Yc << endl;
 
