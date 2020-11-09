@@ -141,7 +141,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		spectator_4vect_irf.SetPxPyPzE(-pxf,-pyf,-pzf,Espec);
 
 		//event process and kinematic phase space
-		// if( struck_nucleon != 2212 ) continue; //proton only
+		if( struck_nucleon != 2212 ) continue; //proton only
 		if( event_process != 99 ) continue;
 		if( trueQ2 < 10.  || trueQ2 > 13. ) continue;
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
@@ -166,7 +166,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_hi
 		double gamma2 = (4.*TMath::Power(MASS_DEUTERON,2)*TMath::Power(xd,2)) / trueQ2;
 		double epsilon = (1. - trueY - gamma2*TMath::Power(trueY/2.,2)) / (1. - trueY + TMath::Power(trueY,2)/2. + gamma2*TMath::Power(trueY/2.,2) );
 		double compare = TMath::Power( trueY, 2) / (1. - epsilon);
-		cout << "compare ~ " << compare << "   Yc ~ " << Yc << endl;
+		//test for two different flux factor
+		// cout << "compare ~ " << compare << "   Yc ~ " << Yc << endl;
 
 		event_weight = (TMath::Power(trueQ2,2)*trueX) / (twopi*alpha2*Yc);
 		event_weight = event_weight * (mbToGeV_m2)/(Lint*bin_width*Q2binwidth);
