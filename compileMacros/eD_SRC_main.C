@@ -107,10 +107,7 @@ bool passDetector(TLorentzVector p, TVector3 b){
 		if( p.Theta() > acceptanceGlobal ) pass = false;
 	}
 	else{
-		double afterrigi=p.Theta()*2;
-		// if( (afterrigi > 0.005 && afterrigi < 0.007) || afterrigi > 0.022 ) pass = false;
-		// if( afterrigi > 0.005 ) pass = false;
-		pass = false;
+		if( (p.Theta() > 0.005 && p.Theta() < 0.007) || p.Theta() > 0.022 ) pass = false;
 	}
 
 	return pass;
@@ -210,8 +207,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 	TH1D* t_eej = new TH1D("t_eej",";-t'(GeV)",100,0,2);
 	TH1D* t_nprimeprime = new TH1D("t_nprimeprime",";-t'(GeV)",100,0,2);
 	TH1D* t_truth = new TH1D("t_truth",";-t'(GeV)",100,0,2);
-	TH1D* t_truth_residule = new TH1D("t_truth_residule",";-t'(GeV)",100,0,2);
-	TH1D* t_truth_everything = new TH1D("t_truth_everything",";-t'(GeV)",100,0,2);
 	TH2D* t_compare = new TH2D("t_compare",";-t'(GeV)",100,0,2,100,0,2);
 	TH2D* h_ttprime_alpha = new TH2D("h_ttprime_alpha",";#alpha_{p};-t'",200,0,2,1000,0,1);
 	TH2D* h_dNdAlphadPt2 = new TH2D("h_dNdAlphadPt2",";#alpha_{p};p_{T} (GeV/c)'",500,0,2,1000,0,1);
@@ -464,8 +459,6 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 		}
 
 		//Only both proton and neutron in acceptance are kept
-		t_truth_everything->Fill(-t_hat);
-		if( pnew.E() != 0 || spectator_4vect_irf.E() != 0 ) t_truth_residule->Fill(-t_hat);
 		if( pnew.E() == 0 || spectator_4vect_irf.E() == 0 ) continue;
 
 		spectator_4vect_irf.Boost(b);
