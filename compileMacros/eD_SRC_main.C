@@ -107,7 +107,8 @@ bool passDetector(TLorentzVector p, TVector3 b){
 		if( p.Theta() > acceptanceGlobal ) pass = false;
 	}
 	else{
-		if( (p.Theta() > 0.005 && p.Theta() < 0.007) || p.Theta() > 0.022 ) pass = false;
+		double afterrigi=p.Theta()*2;
+		if( (afterrigi > 0.005 && afterrigi < 0.007) || afterrigi > 0.022 ) pass = false;
 	}
 
 	return pass;
