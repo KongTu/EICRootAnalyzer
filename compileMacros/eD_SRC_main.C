@@ -465,7 +465,7 @@ void eD_SRC_main(const int nEvents = 40000, TString filename="", const int hitNu
 
 		//Only both proton and neutron in acceptance are kept
 		t_truth_everything->Fill(-t_hat);
-		if( pnew.E() == 0 && spectator_4vect_irf.E() == 0 ) t_truth_residule->Fill(-t_hat);
+		if( pnew.E() != 0 || spectator_4vect_irf.E() != 0 ) t_truth_residule->Fill(-t_hat);
 		if( pnew.E() == 0 || spectator_4vect_irf.E() == 0 ) continue;
 
 		spectator_4vect_irf.Boost(b);
