@@ -13,11 +13,7 @@ using namespace erhic;
 void eD_photo_main(const int nEvents = 40000, TString filename=""){
 
 	//just naming in the output file, only show ZDC parameters. 
-	acceptanceGlobal = acceptance;
-	std::ostringstream os;
-	std::string str = os.str();
-	TString settings = (TString) str;
-	settings = "eD_photo";
+	TString settings = "eD_photo";
 
 	//input from BeAGLE root files
 	TFile * output = new TFile("../rootfiles/"+filename+"_"+settings+"_main_Beagle.root","recreate");
@@ -73,17 +69,6 @@ void eD_photo_main(const int nEvents = 40000, TString filename=""){
 		if( trueY > 0.95 || trueY < 0.05 ) continue;
 
 		t_truth->Fill( -t_hat );
-
-		// use hitNucleon_ to choose only hit proton/neutron or mixing
-		bool struckproton = false;
-		if( struck_nucleon == 2212 ) struckproton = true;
-		if( hitNucleon_ == 0){
-			if(!struckproton) continue;
-		}else if( hitNucleon_ == 1 ){
-			if(struckproton) continue;
-		}else{
-			//otherwise it's mixing of both.
-		}
 		
 		int nParticles_ZDC = 0;
 		for(int j(0); j < nParticles; ++j ) {
