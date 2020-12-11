@@ -64,7 +64,7 @@ void eD_photo_main(const int nEvents = 40000, TString filename=""){
 		int struck_nucleon = event->nucleon;
 		double nk_event = sqrt(pxf*pxf+pyf*pyf+pzf*pzf);
 		
-		if( event_process != 91 && event_process != 93 ) continue;
+		if( event_process != 91 ) continue;
 		if( trueQ2 > 1. ) continue;
 		if( trueY > 0.95 || trueY < 0.05 ) continue;
 
