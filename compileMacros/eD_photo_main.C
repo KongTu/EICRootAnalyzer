@@ -91,7 +91,7 @@ void eD_photo_main(const int nEvents = 40000, TString filename=""){
 				// e_scattered = ppart;
 			}
 			if( status != 1 ) continue;
-			if( theta < 0.005 && (pdg==2112 || pdg==22)) nParticles_ZDC++;
+			if( theta < 5 && (pdg==2112 || pdg==22)) nParticles_ZDC++;
 		} // end of particle loop
 
 		if( nParticles_ZDC>0 ) t_ZDC->Fill( -t_hat );
