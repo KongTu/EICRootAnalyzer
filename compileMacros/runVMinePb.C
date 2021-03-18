@@ -134,6 +134,7 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 			double theta = particle->GetTheta(); 
 			theta = theta*1000.0; //change to mrad;
 			double mom = particle->GetP();
+			if( pdg==443 ) cout << "status ~ " << status << endl;
 
 			//only stable particles.
 			if( status != 1 ) continue;
