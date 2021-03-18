@@ -72,7 +72,7 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 	TH1D* h_decomposition = new TH1D("h_decomposition",";",10,0,10);
 	TH2D* h_thetaVsMom[3];
 	for(int k=0;k<3;k++){
-		h_thetaVsMom[k] = new TH2D(Form("h_thetaVsMom_%d",k),";p (GeV);#theta (mrad)",2500,0,250,1000,0,100);
+		h_thetaVsMom[k] = new TH2D(Form("h_thetaVsMom_%d",k),";p (GeV);#theta (mrad)",2500,0,250,10000,0,1000);
 	}
 
 	for(int i(0); i < nEvents; ++i ) {
