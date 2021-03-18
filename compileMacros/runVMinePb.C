@@ -68,8 +68,11 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 	tree->SetBranchAddress("event", &event);
 
 	TFile* output = new TFile("output.root","RECREATE");
-	TH1D* h_trueT = new TH1D("h_trueT",";-t (GeV^{2})", 1000,0,1);
-
+	TH1D* h_trueT = new TH1D("h_trueT",";-t (GeV^{2})", 100,0,1);
+	TH2D* h_thetaVsMom[3];
+	for(int k=0;k<3;k++){
+		h_thetaVsMom[0] = new TH2D(Form("h_thetaVsMom_%d",k),";p (GeV);#theta (mrad)",200,0,200,100,0,50);
+	}
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -114,6 +117,8 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 
 		//particle loop
 		bool hasJpsi = false;
+		vector< double> angle_neutron, angle_proton, angle_photon;
+		vector< double> momentum_neutron, momentum_proton, momentum_photon;
 		for(int j(0); j < nParticles; ++j ) {
 
 			const erhic::ParticleMC* particle = event->GetTrack(j);
@@ -130,15 +135,40 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 			theta = theta*1000.0; //change to mrad;
 			double mom = particle->GetP();
 
-			if( pdg == 443 ){
+			//only stable particles.
+			if( status != 1 ) continue;
+
+			if( pdg == 443 ){ //jpsi
 				hasJpsi = true;
 			}
-
+			if( pdg == 2112 ){ // neutrons
+				angle_neutron.push_back( theta );
+				momentum_neutron.push_back( mom );
+			}
+			if( pdf == 2212 ){ // proton
+				angle_proton.push_back( theta );
+				momentum_proton.push_back( mom );
+			}
+			if( pdf == 22 ){ // photon
+				angle_photon.push_back( theta );
+				momentum_photon.push_back( mom );
+			}
 			//do analysis track-by-track
 
 		} // end of particle loop
 
-		if( hasJpsi ) h_trueT->Fill( -t_hat );
+		if( hasJpsi ) {
+			h_trueT->Fill( -t_hat );
+			for(unsigned ipart=0;ipart<angle_neutron.size();ipart++){
+				h_thetaVsMom[0]->Fill(momentum_neutron[ipart],angle_neutron[ipart]);
+			}
+			for(unsigned ipart=0;ipart<angle_proton.size();ipart++){
+				h_thetaVsMom[1]->Fill(momentum_proton[ipart],angle_proton[ipart]);
+			}
+			for(unsigned ipart=0;ipart<angle_photon.size();ipart++){
+				h_thetaVsMom[2]->Fill(momentum_photon[ipart],angle_photon[ipart]);
+			}
+		}
 		//fill histograms
 	}
 
