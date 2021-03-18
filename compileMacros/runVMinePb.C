@@ -138,6 +138,7 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 			//only stable particles.
 			if( status != 1 ) continue;
 
+			cout << "pdg~ " << pdg << endl;
 			if( pdg == 443 ){ //jpsi
 				hasJpsi = true;
 			}
@@ -158,6 +159,7 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 		} // end of particle loop
 
 		if( hasJpsi ) {
+
 			h_trueT->Fill( -t_hat );
 			for(unsigned ipart=0;ipart<angle_neutron.size();ipart++){
 				h_thetaVsMom[0]->Fill(momentum_neutron[ipart],angle_neutron[ipart]);
