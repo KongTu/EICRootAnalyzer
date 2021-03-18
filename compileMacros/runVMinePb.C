@@ -69,6 +69,7 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 
 	TFile* output = new TFile("output.root","RECREATE");
 	TH1D* h_trueT = new TH1D("h_trueT",";-t (GeV^{2})", 100,0,1);
+	TH1D* h_decomposition = new TH1D("h_decomposition",";"10,0,10);
 	TH2D* h_thetaVsMom[3];
 	for(int k=0;k<3;k++){
 		h_thetaVsMom[k] = new TH2D(Form("h_thetaVsMom_%d",k),";p (GeV);#theta (mrad)",2500,0,250,1000,0,100);
@@ -117,6 +118,9 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 
 		//particle loop
 		bool hasJpsi = false;
+		bool hasNeutron = false;
+		bool hasProton = false;
+		bool hasPhoton = false;
 		vector< double> angle_neutron, angle_proton, angle_photon;
 		vector< double> momentum_neutron, momentum_proton, momentum_photon;
 		for(int j(0); j < nParticles; ++j ) {
@@ -142,14 +146,17 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 				hasJpsi = true;
 			}
 			if( pdg == 2112 ){ // neutrons
+				hasNeutron = true;
 				angle_neutron.push_back( theta );
 				momentum_neutron.push_back( mom );
 			}
 			if( pdg == 2212 ){ // proton
+				hasProton = true;
 				angle_proton.push_back( theta );
 				momentum_proton.push_back( mom );
 			}
 			if( pdg == 22 ){ // photon
+				hasPhoton = true;
 				angle_photon.push_back( theta );
 				momentum_photon.push_back( mom );
 			}
@@ -157,7 +164,15 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 
 		} // end of particle loop
 
+
 		if( hasJpsi ) {
+			if( hasNeutron && !hasProton && !hasPhoton )h_decomposition->Fill(0);
+			if( !hasNeutron && hasProton && !hasPhoton )h_decomposition->Fill(1);
+			if( !hasNeutron && !hasProton && hasPhoton )h_decomposition->Fill(2);
+			if( hasNeutron && hasProton && !hasPhoton )h_decomposition->Fill(3);
+			if( hasNeutron && !hasProton && hasPhoton )h_decomposition->Fill(4);
+			if( !hasNeutron && hasProton && hasPhoton )h_decomposition->Fill(5);
+			if( hasNeutron && hasProton && hasPhoton )h_decomposition->Fill(6);
 
 			h_trueT->Fill( -t_hat );
 			for(unsigned ipart=0;ipart<angle_neutron.size();ipart++){
