@@ -145,11 +145,11 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 				angle_neutron.push_back( theta );
 				momentum_neutron.push_back( mom );
 			}
-			if( pdf == 2212 ){ // proton
+			if( pdg == 2212 ){ // proton
 				angle_proton.push_back( theta );
 				momentum_proton.push_back( mom );
 			}
-			if( pdf == 22 ){ // photon
+			if( pdg == 22 ){ // photon
 				angle_photon.push_back( theta );
 				momentum_photon.push_back( mom );
 			}
