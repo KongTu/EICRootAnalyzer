@@ -71,9 +71,16 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 	TH1D* h_trueT = new TH1D("h_trueT",";-t (GeV^{2})", 100,0,1);
 	TH1D* h_decomposition = new TH1D("h_decomposition",";",10,0,10);
 	TH2D* h_thetaVsMom[3];
-	for(int k=0;k<3;k++){
+	TH2D* h_thetaVsBam[3];
+	TH2D* h_MomVsBam[3];
+	for(int k=0;k<2;k++){
 		h_thetaVsMom[k] = new TH2D(Form("h_thetaVsMom_%d",k),";p (GeV);#theta (mrad)",2500,0,250,10000,0,1000);
+		h_thetaVsBam[k] = new TH2D(Form("h_thetaVsBam_%d",k),";NoBAM;#theta (mrad)",37,-1,36,10000,0,1000);
+		h_MomVsBam[k] = new TH2D(Form("h_MomVsBam_%d",k),";NoBAM;p (GeV)",37,-1,36,2500,0,250);
 	}
+		h_thetaVsMom[2] = new TH2D(Form("h_thetaVsMom_%d",2),";p (GeV);#theta (mrad)",2500,0,20,10000,0,1000);
+		h_thetaVsBam[2] = new TH2D(Form("h_thetaVsBam_%d",2),";NoBAM;#theta (mrad)",37,-1,36,10000,0,1000);
+		h_MomVsBam[2] = new TH2D(Form("h_MomVsBam_%d",2),";NoBAM;p (GeV)",37,-1,36,2500,0,250);
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -123,6 +130,7 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 		bool hasPhoton = false;
 		vector< double> angle_neutron, angle_proton, angle_photon;
 		vector< double> momentum_neutron, momentum_proton, momentum_photon;
+		vector< int> bam_neutron, bam_proton, bam_photon;
 		for(int j(0); j < nParticles; ++j ) {
 
 			const erhic::ParticleMC* particle = event->GetTrack(j);
@@ -138,6 +146,7 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 			double theta = particle->GetTheta(); 
 			theta = theta*1000.0; //change to mrad;
 			double mom = particle->GetP();
+			int NoBAM = particle->eA->NoBam;
 
 			//only stable particles or j/psi.
 			if( status != 1 && pdg != 443 ) continue;
@@ -149,16 +158,20 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 				hasNeutron = true;
 				angle_neutron.push_back( theta );
 				momentum_neutron.push_back( mom );
+				bam_neutron.push_back( NoBAM );
 			}
 			if( pdg == 2212 ){ // proton
 				hasProton = true;
 				angle_proton.push_back( theta );
 				momentum_proton.push_back( mom );
+				bam_proton.push_back( NoBAM );
+
 			}
 			if( pdg == 22 ){ // photon
 				hasPhoton = true;
 				angle_photon.push_back( theta );
 				momentum_photon.push_back( mom );
+				bam_photon.push_back( NoBAM );
 			}
 			//do analysis track-by-track
 
@@ -177,12 +190,18 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 			h_trueT->Fill( -t_hat );
 			for(unsigned ipart=0;ipart<angle_neutron.size();ipart++){
 				h_thetaVsMom[0]->Fill(momentum_neutron[ipart],angle_neutron[ipart]);
+				h_thetaVsBam[0]->Fill(bam_neutron[ipart], angle_neutron[ipart]);
+				h_MomVsBam[0]->Fill(bam_neutron[ipart], momentum_neutron[ipart]);
 			}
 			for(unsigned ipart=0;ipart<angle_proton.size();ipart++){
 				h_thetaVsMom[1]->Fill(momentum_proton[ipart],angle_proton[ipart]);
+				h_thetaVsBam[1]->Fill(bam_proton[ipart], angle_proton[ipart]);
+				h_MomVsBam[1]->Fill(bam_proton[ipart], momentum_proton[ipart]);
 			}
 			for(unsigned ipart=0;ipart<angle_photon.size();ipart++){
 				h_thetaVsMom[2]->Fill(momentum_photon[ipart],angle_photon[ipart]);
+				h_thetaVsBam[2]->Fill(bam_photon[ipart], angle_photon[ipart]);
+				h_MomVsBam[2]->Fill(bam_photon[ipart], momentum_photon[ipart]);
 			}
 		}
 		//fill histograms
