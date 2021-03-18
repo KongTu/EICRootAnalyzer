@@ -106,7 +106,7 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 		int N_pevap = event->Npevap;
 
 		//event cuts
-		if( event_process != 91 &&  event_process != 93 ) continue;
+		if( event_process != 91 && event_process != 93 ) continue;
 		if( trueQ2 < 1. || trueQ2 > 100. ) continue;
 		if( trueY > 0.95 || trueY < 0.01 ) continue;
 
@@ -138,7 +138,7 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 
 		} // end of particle loop
 
-		if( hasJpsi ) h_trueT->Fill( t_hat );
+		if( hasJpsi ) h_trueT->Fill( -t_hat );
 		//fill histograms
 	}
 
