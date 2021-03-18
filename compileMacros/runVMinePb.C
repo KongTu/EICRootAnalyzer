@@ -71,7 +71,7 @@ void runVMinePb(const TString filename="eA_TEST", const int nEvents = 40000){
 	TH1D* h_trueT = new TH1D("h_trueT",";-t (GeV^{2})", 100,0,1);
 	TH2D* h_thetaVsMom[3];
 	for(int k=0;k<3;k++){
-		h_thetaVsMom[k] = new TH2D(Form("h_thetaVsMom_%d",k),";p (GeV);#theta (mrad)",200,0,200,100,0,50);
+		h_thetaVsMom[k] = new TH2D(Form("h_thetaVsMom_%d",k),";p (GeV);#theta (mrad)",250,0,250,100,0,1e5);
 	}
 
 	for(int i(0); i < nEvents; ++i ) {
