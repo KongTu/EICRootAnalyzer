@@ -187,7 +187,6 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 					Emax=part.Mag();
 					bestCandidate=spec_cand;
 					bestCandidateVector=part;
-					indexOfBestCandidate=index;
 				}
 			}
 		}
