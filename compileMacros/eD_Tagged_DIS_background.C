@@ -92,8 +92,8 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 	double mbToGeV_m2 = 2.56819;
 	double Q2binwidth = 13.0-10.0;
 
-	TH2D* h_taggingEfficiency_pt2 = new TH2D("h_taggingEfficiency_pt2",";p^{2}_{T,truth}(GeV^{2});p^{2}_{T,tagged}(GeV^{2})", 100, 0, 0.15, 100, 0, 0.15);
-	TH2D* h_taggingEfficiency_alpha = new TH2D("h_taggingEfficiency_alpha",";#alpha_{truth};#alpha_{tagged}", 100, 0, 2, 100, 0, 2);
+	TH2D* h_taggingEfficiency_pt2 = new TH2D("h_taggingEfficiency_pt2",";p^{2}_{T,tagged}(GeV^{2});p^{2}_{T,truth}(GeV^{2})", 100, 0, 0.15, 100, 0, 0.15);
+	TH2D* h_taggingEfficiency_alpha = new TH2D("h_taggingEfficiency_alpha",";#alpha_{tagged};#alpha_{truth}", 100, 0, 2, 100, 0, 2);
 	
 	TH1D* h_HERA_Q2_10_13 = new TH1D("h_HERA_Q2_10_13","h_HERA_Q2_10_13",100,0.00001,0.1);
 	TH1D* h_alpha_spec = new TH1D("h_alpha_spec","h_alpha_spec",100,0,2);
@@ -190,7 +190,6 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), pxf*pxf+pyf*pyf );
 
 		TLorentzVector qbeam = e_beam - e_scattered;
-
 		double xd = trueQ2 / (2*d_beam.Dot(qbeam));
 		double gamma2 = (4.*TMath::Power(MASS_DEUTERON,2)*TMath::Power(xd,2)) / trueQ2;
 		double epsilon = (1. - trueY - gamma2*TMath::Power(trueY/2.,2)) / (1. - trueY + TMath::Power(trueY,2)/2. + gamma2*TMath::Power(trueY/2.,2) );
@@ -204,6 +203,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		double Pplus = (spectator_4vect_irf.E() + spectator_4vect_irf.Pz()) / sqrt(2);
 		double PdPlus = MASS_DEUTERON / sqrt(2);
 		double alpha_spec = 2*Pplus / PdPlus;
+		cout << "alpha " << alpha_spec << endl;
 		double pt2 = pxf*pxf+pyf*pyf;
 		double alpha_spec_binwidth = -1; // will have to be rewritten by 20 alpha bins
 		double xbinwidth = (0.003-0.002);
