@@ -70,7 +70,7 @@ int findSpectator(TVector3 p, int charge=-99){
 	return candidate;
 }
 int isSpectator(double pt, double pt_tagged){
-	if( TMath::Abs(pt-pt_tagged)<1e-5 ){
+	if( TMath::Abs(pt-pt_tagged)<1e-3 ){
 		return 1;
 	}
 	else{
@@ -180,8 +180,6 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 				// e_scattered = ppart;
 			}
 			if( status != 1 ) continue;
-			if( TMath::Abs( pt-sqrt(pxf*pxf+pyf*pyf) )<1e-5 ){cout << "spectator with status and NOBAM " <<
-			status << " " << NoBAM << endl;}
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
