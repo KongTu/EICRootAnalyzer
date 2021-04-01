@@ -163,6 +163,8 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		//HERA inclusive cross section
 		double event_weight = 1.;
 		double Yc = 1. + TMath::Power((1-trueY),2);
+		int indexOfSpectator=-1;
+		int indexOfBestCandidate=-1;
 		double Emax=-1.;
 		int bestCandidate=-1;
 		TVector3 bestCandidateVector(-1,-1,-1);
@@ -179,8 +181,8 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 				// e_scattered = ppart;
 			}
-			if( status == 14 || status==18 ) cout << "pt " << pt << " and ptf = " << sqrt(pxf*pxf+pyf*pyf) << endl;
-			if( status != 1 ) continue;
+			if( status==18 ) indexOfSpectator=j; //status == 18 is spectator
+			if( status != 1  ) continue;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
@@ -188,6 +190,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 					Emax=part.Mag();
 					bestCandidate=spec_cand;
 					bestCandidateVector=part;
+					indexOfBestCandidate=j;
 				}
 			}
 		}
@@ -203,8 +206,8 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		//boost back to IRF
 		spectator_4vect_irf.Boost(-b);
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), pxf*pxf+pyf*pyf );
-		h_taggingEfficiency->Fill(isSpectator(sqrt(pxf*pxf+pyf*pyf), spectator_4vect_irf.Pt()));
-
+		if( indexOfSpectator==indexOfBestCandidate ) h_taggingEfficiency->Fill(1);
+		else h_taggingEfficiency->Fill(0);
 
 		TLorentzVector qbeam = e_beam - e_scattered;
 		double xd = trueQ2 / (2*d_beam.Dot(qbeam));
