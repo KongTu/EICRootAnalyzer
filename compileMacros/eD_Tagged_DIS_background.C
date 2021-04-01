@@ -205,7 +205,6 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		double Pplus = (spectator_4vect_irf.E() + spectator_4vect_irf.Pz()) / sqrt(2);
 		double PdPlus = MASS_DEUTERON / sqrt(2);
 		double alpha_spec = 2*Pplus / PdPlus;
-		cout << "alpha " << alpha_spec << endl;
 		double pt2 = pxf*pxf+pyf*pyf;
 		double alpha_spec_binwidth = -1; // will have to be rewritten by 20 alpha bins
 		double xbinwidth = (0.003-0.002);
