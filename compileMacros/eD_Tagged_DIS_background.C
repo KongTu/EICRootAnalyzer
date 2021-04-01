@@ -179,7 +179,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 				// e_scattered = ppart;
 			}
-			if( status == 14 ) cout << "pt " << pt << " and ptf = " << sqrt(pxf*pxf+pyf*pyf) << endl;
+			if( status == 14 || status==18 ) cout << "pt " << pt << " and ptf = " << sqrt(pxf*pxf+pyf*pyf) << endl;
 			if( status != 1 ) continue;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
 			int spec_cand = findSpectator(part, charge);
