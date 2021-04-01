@@ -187,6 +187,8 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		if(bestCandidate==2){
 			spectator_4vect_irf.SetPtEtaPhiM(bestCandidateVector.Pt(), bestCandidateVector.Eta(), bestCandidateVector.Phi(), MASS_PROTON);
 		}
+		//boost back to IRF
+		spectator_4vect_irf.Boost(-b);
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), pxf*pxf+pyf*pyf );
 
 		TLorentzVector qbeam = e_beam - e_scattered;
