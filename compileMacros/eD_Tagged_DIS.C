@@ -60,14 +60,14 @@ using namespace erhic;
 #define MASS_MUON  0.1056
 
 
-void eD_Tagged_DIS(const int nEvents = 40000, TString filename="eD_dis_Tagged_highQ2_1M"){
+void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_temp_91"){
 
 
 	//input from BeAGLE root files
 	TFile * output = new TFile("../rootfiles/eD_Tagged_DIS_Beagle.root","recreate");
 	
 	TChain *tree = new TChain("EICTree");
-	tree->Add("/gpfs02/eic/DATA/KongTu/forDouglasJLab/"+filename+".root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_10_100/eD_Tagged_DIS_100M_batch_1/"+filename+".root" );
 	
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
