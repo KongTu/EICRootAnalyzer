@@ -181,7 +181,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 				// e_scattered = ppart;
 			}
-			if( status==18 ) indexOfSpectator=j; //status == 18 is spectator
+			if( status==18 ) indexOfSpectator=index; //status == 18 is spectator
 			if( status!=1 && status!=18  ) continue;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
 			int spec_cand = findSpectator(part, charge);
@@ -190,7 +190,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 					Emax=part.Mag();
 					bestCandidate=spec_cand;
 					bestCandidateVector=part;
-					indexOfBestCandidate=j;
+					indexOfBestCandidate=index;
 				}
 			}
 		}
