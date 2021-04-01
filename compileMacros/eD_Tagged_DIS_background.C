@@ -69,6 +69,14 @@ int findSpectator(TVector3 p, int charge=-99){
 
 	return candidate;
 }
+int isSpectator(double pt, double pt_tagged){
+	if( TMath::Abs(pt-pt_tagged)<1e-5 ){
+		return 1;
+	}
+	else{
+		return 0
+	}
+}
 
 
 void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Output_input_temp_91"){
@@ -94,7 +102,8 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 
 	TH2D* h_taggingEfficiency_pt2 = new TH2D("h_taggingEfficiency_pt2",";p^{2}_{T,tagged}(GeV^{2});p^{2}_{T,truth}(GeV^{2})", 100, 0, 0.15, 100, 0, 0.15);
 	TH2D* h_taggingEfficiency_alpha = new TH2D("h_taggingEfficiency_alpha",";#alpha_{tagged};#alpha_{truth}", 100, 0, 2, 100, 0, 2);
-	
+	TH1D* h_taggingEfficiency = new TH2D("h_taggingEfficiency","",3,-1,2);
+
 	TH1D* h_HERA_Q2_10_13 = new TH1D("h_HERA_Q2_10_13","h_HERA_Q2_10_13",100,0.00001,0.1);
 	TH1D* h_alpha_spec = new TH1D("h_alpha_spec","h_alpha_spec",100,0,2);
 	TH1D* h_nk = new TH1D("h_nk","h_nk",100,0,2);
@@ -195,6 +204,8 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		//boost back to IRF
 		spectator_4vect_irf.Boost(-b);
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), pxf*pxf+pyf*pyf );
+		h_taggingEfficiency->Fill(isSpectator(sqrt(pxf*pxf+pyf*pyf), spectator_4vect_irf.Pt()));
+
 
 		TLorentzVector qbeam = e_beam - e_scattered;
 		double xd = trueQ2 / (2*d_beam.Dot(qbeam));
