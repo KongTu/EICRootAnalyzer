@@ -59,12 +59,23 @@ using namespace erhic;
 
 #define MASS_MUON  0.1056
 
+int findSpectator(TVector3 p, int charge=-99){
+	
+	int candidate=0;
+	bool couldBeNeutron = true;
+	if(charge!=0) couldBeNeutron = false;
+	if(couldBeNeutron&&(p.Theta()*1e3<4.5))candidate=1;
+	if(!couldBeNeutron&&(p.Theta()*1e3<22)) candidate=2;
+
+	return candidate;
+}
+
 
 void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Output_input_temp_91"){
 
 
 	//input from BeAGLE root files
-	TFile * output = new TFile("../rootfiles/eD_Tagged_DIS_Beagle.root","recreate");
+	TFile * output = new TFile("../rootfiles/eD_Tagged_DIS_Beagle_background.root","recreate");
 	
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_10_100/eD_Tagged_DIS_100M_batch_1/"+filename+".root" );
@@ -81,6 +92,9 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 	double mbToGeV_m2 = 2.56819;
 	double Q2binwidth = 13.0-10.0;
 
+	TH2D* h_taggingEfficiency_pt2 = new TH2D("h_taggingEfficiency_pt2",";p^{2}_{T,truth}(GeV^{2});p^{2}_{T,tagged}(GeV^{2})", 100, 0, 0.15, 100, 0, 0.15);
+	TH2D* h_taggingEfficiency_alpha = new TH2D("h_taggingEfficiency_alpha",";#alpha_{truth};#alpha_{tagged}", 100, 0, 2, 100, 0, 2);
+	
 	TH1D* h_HERA_Q2_10_13 = new TH1D("h_HERA_Q2_10_13","h_HERA_Q2_10_13",100,0.00001,0.1);
 	TH1D* h_alpha_spec = new TH1D("h_alpha_spec","h_alpha_spec",100,0,2);
 	TH1D* h_nk = new TH1D("h_nk","h_nk",100,0,2);
@@ -96,6 +110,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 	 	h_HERA_Q2_10_13_x007_009_alpha[ibin] = new TH1D(Form("h_HERA_Q2_10_13_x007_009_alpha_%d",ibin),Form("h_HERA_Q2_10_13_x007_009_alpha_%d",ibin),100,0,0.15);
 		h_alpha_spec_everybin[ibin] = new TH1D(Form("h_alpha_spec_everybin_%d",ibin),Form("h_alpha_spec_everybin_%d",ibin),100,0,2);
 	}
+
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -130,45 +145,57 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		int struck_nucleon = event->nucleon;
 		double nk_event = sqrt(pxf*pxf+pyf*pyf+pzf*pzf);
 		h_nk->Fill( nk_event );//sanity check for my wavefunction;
-		TLorentzVector spectator_4vect_irf;
-		double Espec = 0.;
-		if( struck_nucleon == 2212 ){
-			Espec = sqrt(nk_event*nk_event+MASS_NEUTRON*MASS_NEUTRON);
-		}
-		else{
-			Espec = sqrt(nk_event*nk_event+MASS_PROTON*MASS_PROTON);
-		}
-		spectator_4vect_irf.SetPxPyPzE(-pxf,-pyf,-pzf,Espec);
-
+		
 		//event process and kinematic phase space
-		if( struck_nucleon != 2212 ) continue; //proton only
 		if( event_process != 99 ) continue;
 		if( trueQ2 < 10.  || trueQ2 > 13. ) continue;
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
-
+		
 		//HERA inclusive cross section
 		double event_weight = 1.;
 		double Yc = 1. + TMath::Power((1-trueY),2);
+		double Emax=-1.;
+		int bestCandidate=-1;
+		TVector3 bestCandidateVector(-1,-1,-1);
 		for(int j(0); j < nParticles; ++j ) {
 			const erhic::ParticleMC* particle = event->GetTrack(j);
 			int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
 			double pt = particle->GetPt();
 			double eta = particle->GetEta();
 			double phi = particle->GetPhi();
+			int charge = particle->eA->charge;
 			if( index == 3 ) {
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 				// e_scattered = ppart;
 			}
+			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
+			int spec_cand = findSpectator(part, charge);
+			if( spec_cand ){
+				if(part.Mag()>Emax) {
+					Emax=part.Mag();
+					bestCandidate=spec_cand;
+					bestCandidateVector=part;
+				}
+			}
 		}
+		//initialize spectator 4vect
+		TLorentzVector spectator_4vect_irf;
+		if(bestCandidate<0) continue;
+		if(bestCandidate==1) {
+			spectator_4vect_irf.SetPtEtaPhiM(bestCandidateVector.Pt(), bestCandidateVector.Eta(), bestCandidateVector.Phi(), MASS_NEUTRON);
+		}
+		if(bestCandidate==2){
+			spectator_4vect_irf.SetPtEtaPhiM(bestCandidateVector.Pt(), bestCandidateVector.Eta(), bestCandidateVector.Phi(), MASS_PROTON);
+		}
+		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), pxf*pxf+pyf*pyf );
+
 		TLorentzVector qbeam = e_beam - e_scattered;
 
 		double xd = trueQ2 / (2*d_beam.Dot(qbeam));
 		double gamma2 = (4.*TMath::Power(MASS_DEUTERON,2)*TMath::Power(xd,2)) / trueQ2;
 		double epsilon = (1. - trueY - gamma2*TMath::Power(trueY/2.,2)) / (1. - trueY + TMath::Power(trueY,2)/2. + gamma2*TMath::Power(trueY/2.,2) );
 		double compare = TMath::Power( trueY, 2) / (1. - epsilon);
-		//test for two different flux factor
-		// cout << "compare ~ " << compare << "   Yc ~ " << Yc << endl;
-
+	
 		event_weight = (TMath::Power(trueQ2,2)*trueX) / (twopi*alpha2*Yc);
 		event_weight = event_weight * (mbToGeV_m2)/(Lint*bin_width*Q2binwidth);
 		//fill HERA inclusive cross section for Q2(10,13) GeV**2:
