@@ -70,7 +70,7 @@ int findSpectator(TVector3 p, int charge=-99){
 	return candidate;
 }
 int isSpectator(double pt, double pt_tagged){
-	if( TMath::Abs(pt-pt_tagged)<1e-2 ){
+	if( TMath::Abs(pt-pt_tagged)<1e-4 ){
 		return 1;
 	}
 	else{
@@ -202,7 +202,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		//boost back to IRF
 		spectator_4vect_irf.Boost(-b);
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), pxf*pxf+pyf*pyf );
-		h_taggingEfficiency->Fill(isSpectator(sqrt(pxf*pxf+pyf*pyf),spectator_4vect_irf.Pt()));
+		h_taggingEfficiency->Fill(isSpectator(pxf*pxf+pyf*pyf,TMath::Power(spectator_4vect_irf.Pt(),2)));
 
 		TLorentzVector qbeam = e_beam - e_scattered;
 		double xd = trueQ2 / (2*d_beam.Dot(qbeam));
