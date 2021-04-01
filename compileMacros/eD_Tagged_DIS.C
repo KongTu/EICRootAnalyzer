@@ -141,7 +141,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		spectator_4vect_irf.SetPxPyPzE(-pxf,-pyf,-pzf,Espec);
 
 		//event process and kinematic phase space
-		if( struck_nucleon != 2212 ) continue; //proton only
+		// if( struck_nucleon != 2212 ) continue; //proton only
 		if( event_process != 99 ) continue;
 		if( trueQ2 < 10.  || trueQ2 > 13. ) continue;
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
