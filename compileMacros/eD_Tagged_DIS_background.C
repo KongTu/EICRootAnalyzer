@@ -165,11 +165,16 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 			double phi = particle->GetPhi();
 			int status = particle->GetStatus();
 			int charge = particle->eA->charge;
+			int NoBAM = particle->eA->NoBam;
 			if( index == 3 ) {
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 				// e_scattered = ppart;
 			}
 			if( status != 1 ) continue;
+			if( NoBAM==3 ){
+				cout << "pt " << pt << endl;
+				cout << "reference pt " << sqrt(pxf*pxf+pyf*pyf) << endl;
+			}
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
