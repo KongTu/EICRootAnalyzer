@@ -206,6 +206,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		//boost back to IRF
 		spectator_4vect_irf.Boost(-b);
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), pxf*pxf+pyf*pyf );
+		cout << "indexOfSpectator = " << indexOfSpectator << " indexOfBestCandidate = " << indexOfBestCandidate << endl;
 		if( indexOfSpectator==indexOfBestCandidate ) h_taggingEfficiency->Fill(1);
 		else h_taggingEfficiency->Fill(0);
 
