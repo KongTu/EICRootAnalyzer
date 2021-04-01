@@ -74,7 +74,7 @@ int isSpectator(double pt, double pt_tagged){
 		return 1;
 	}
 	else{
-		return 0
+		return 0;
 	}
 }
 
