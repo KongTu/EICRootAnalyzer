@@ -205,8 +205,8 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 			if( index == 3 ) {
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 			}
-			if( status!=1 ) continue;
-			cout << "pdg " << pdg << " pt " << pt << " eta "<< eta << " NoBam " << NoBAM << endl;
+			// if( status!=1 ) continue;
+			cout << "status " << status << " pdg " << pdg << " pt " << pt << " eta "<< eta << " NoBam " << NoBAM << endl;
 			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt,eta,phi,0.13957);//assume pions
 		    //sum over HFS excluding elec' within main detector acceptance;
 		    if(!(isMatch(ppart,e_scattered)) && TMath::Abs(part4pion.Eta())<HFSaccept ) hfsCand += part4pion;
