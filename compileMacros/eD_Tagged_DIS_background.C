@@ -231,8 +231,8 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=6.0, b
 		}
 		h_taggingEfficiency->Fill(isMatch(trueSpect, spectator_4vect_irf));
 		//pt balance 2D and 1D
-		h_ptBalance->Fill( (qbeam-hfsCand).Pt(), spectator_4vect_irf.Pt() );
-		h_ptBalance1D->Fill( (qbeam-hfsCand).Pt() - spectator_4vect_irf.Pt() );
+		h_ptBalance->Fill( (qbeam-hfsCand).Pt(), trueSpect.Pt() );
+		h_ptBalance1D->Fill( (qbeam-hfsCand).Pt() - trueSpect.Pt() );
 		// cut pt Bal
 		if( cutPtBal_ ) {
 			if( (qbeam-hfsCand).Pt()-spectator_4vect_irf.Pt()>0.2 ) continue;
