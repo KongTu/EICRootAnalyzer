@@ -102,14 +102,17 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 
 	TH2D* h_taggingEfficiency_pt2 = new TH2D("h_taggingEfficiency_pt2",";p^{2}_{T,tagged}(GeV^{2});p^{2}_{T,truth}(GeV^{2})", 100, 0, 0.15, 100, 0, 0.15);
 	TH2D* h_taggingEfficiency_alpha = new TH2D("h_taggingEfficiency_alpha",";#alpha_{tagged};#alpha_{truth}", 100, 0, 2, 100, 0, 2);
+	
 	TH1D* h_taggingEfficiency = new TH1D("h_taggingEfficiency","",3,-1,2);
 	TH1D* h_taggingEfficiency_step2 = new TH1D("h_taggingEfficiency_step2","",3,-1,2);
+	
 	TH2D* h_ptBalance = new TH2D("h_ptBalance",";pt_{hfsQ};pt_{spec}", 100, 0, 2, 100, 0, 2);
 	TH1D* h_ptBalance1D = new TH1D("h_ptBalance1D",";#Delta pt", 100,-1,1);
-	TH1D* h_beforeTagging = new TH1D("h_beforeTagging","; pt^{2}", 100,0,0.5);
-	TH1D* h_afterTagging = new TH1D("h_afterTagging","; pt^{2}", 100,0,0.5);
-	TH1D* h_allTagging = new TH1D("h_allTagging","; pt^{2}", 100,0,0.5);
-	TH1D* h_wrongTagging = new TH1D("h_wrongTagging","; pt^{2}", 100,0,0.5);
+	
+	TH1D* h_beforeTagging = new TH1D("h_beforeTagging","; pt^{2}", 100,0,0.2);
+	TH1D* h_afterTagging = new TH1D("h_afterTagging","; pt^{2}", 100,0,0.2);
+	TH1D* h_allTagging = new TH1D("h_allTagging","; pt^{2}", 100,0,0.2);
+	TH1D* h_wrongTagging = new TH1D("h_wrongTagging","; pt^{2}", 100,0,0.2);
 
 	TH1D* h_HERA_Q2_10_13 = new TH1D("h_HERA_Q2_10_13","h_HERA_Q2_10_13",100,0.00001,0.1);
 	TH1D* h_alpha_spec = new TH1D("h_alpha_spec","h_alpha_spec",100,0,2);
@@ -198,10 +201,9 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 			TLorentzVector ppart = particle->Get4Vector();
 			if( index == 3 ) {
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
-				// e_scattered = ppart;
 			}
 			if( status!=1 ) continue;
-			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt,eta,phi,0.13975);
+			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt,eta,phi,0.13975);//assume pions
 		    if(!(isMatch(ppart,e_scattered)) && TMath::Abs(part4pion.Eta())<6.0 ) hfsCand += part4pion;
 		    // if(!(isMatch(ppart,e_scattered)) && !(isMatch(part4pion, trueSpect)) ) hfsCand += part4pion;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
@@ -234,7 +236,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		h_ptBalance->Fill( (qbeam-hfsCand).Pt(), spectator_4vect_irf.Pt() );
 		h_ptBalance1D->Fill( (qbeam-hfsCand).Pt() - spectator_4vect_irf.Pt() );
 		//cut on pt balance variable.
-		if((qbeam-hfsCand).Pt()-spectator_4vect_irf.Pt()<0.1) h_taggingEfficiency_step2->Fill(isMatch(trueSpect, spectator_4vect_irf));
+		if((qbeam-hfsCand).Pt()-spectator_4vect_irf.Pt()<0.01) h_taggingEfficiency_step2->Fill(isMatch(trueSpect, spectator_4vect_irf));
 		//boost back to IRF
 		spectator_4vect_irf.Boost(-b);
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), pxf*pxf+pyf*pyf );
