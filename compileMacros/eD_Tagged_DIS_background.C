@@ -105,6 +105,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 	TH1D* h_taggingEfficiency = new TH1D("h_taggingEfficiency","",3,-1,2);
 	TH1D* h_taggingEfficiency_step2 = new TH1D("h_taggingEfficiency_step2","",3,-1,2);
 	TH2D* h_ptBalance = new TH2D("h_ptBalance",";pt_{hfsQ};pt_{spec}", 100, 0, 2, 100, 0, 2);
+	TH1D* h_ptBalance1D = new TH2D("h_ptBalance1D",";#Delta pt", 100,-1,1);
 
 	TH1D* h_HERA_Q2_10_13 = new TH1D("h_HERA_Q2_10_13","h_HERA_Q2_10_13",100,0.00001,0.1);
 	TH1D* h_alpha_spec = new TH1D("h_alpha_spec","h_alpha_spec",100,0,2);
@@ -210,6 +211,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		//virtual photon
 		TLorentzVector qbeam = e_beam - e_scattered;
 		h_ptBalance->Fill( (qbeam-hfsCand).Pt(), trueSpect.Pt() );
+		h_ptBalance1D->Fill( (qbeam-hfsCand).Pt() - trueSpect.Pt() );
 		//initialize spectator 4vect
 		TLorentzVector spectator_4vect_irf;
 		if(bestCandidate<0) continue;
