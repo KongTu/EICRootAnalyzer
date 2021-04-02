@@ -108,6 +108,8 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 	TH1D* h_ptBalance1D = new TH1D("h_ptBalance1D",";#Delta pt", 100,-1,1);
 	TH1D* h_beforeTagging = new TH1D("h_beforeTagging","; pt^{2}", 100,0,0.5);
 	TH1D* h_afterTagging = new TH1D("h_afterTagging","; pt^{2}", 100,0,0.5);
+	TH1D* h_allTagging = new TH1D("h_allTagging","; pt^{2}", 100,0,0.5);
+	TH1D* h_wrongTagging = new TH1D("h_wrongTagging","; pt^{2}", 100,0,0.5);
 
 	TH1D* h_HERA_Q2_10_13 = new TH1D("h_HERA_Q2_10_13","h_HERA_Q2_10_13",100,0.00001,0.1);
 	TH1D* h_alpha_spec = new TH1D("h_alpha_spec","h_alpha_spec",100,0,2);
@@ -224,6 +226,8 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 			spectator_4vect_irf.SetPtEtaPhiM(bestCandidateVector.Pt(), bestCandidateVector.Eta(), bestCandidateVector.Phi(), MASS_PROTON);
 		}
 		//algo step 1 eff.
+		h_allTagging->Fill( TMath::Power(spectator_4vect_irf.Pt(),2) );
+		if( !isMatch(trueSpect, spectator_4vect_irf) ) h_wrongTagging->Fill( TMath::Power(spectator_4vect_irf.Pt(),2) );
 		if( isMatch(trueSpect, spectator_4vect_irf) ) h_afterTagging->Fill( TMath::Power(trueSpect.Pt(),2) );
 		h_taggingEfficiency->Fill(isMatch(trueSpect, spectator_4vect_irf));
 		//pt balance 2D and 1D
