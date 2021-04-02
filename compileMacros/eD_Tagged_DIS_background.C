@@ -79,7 +79,6 @@ int isSpectator(TLorentzVector trueSpect, TLorentzVector taggedSpect){
 	}
 }
 
-
 void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Output_input_temp_91"){
 
 
@@ -104,6 +103,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 	TH2D* h_taggingEfficiency_pt2 = new TH2D("h_taggingEfficiency_pt2",";p^{2}_{T,tagged}(GeV^{2});p^{2}_{T,truth}(GeV^{2})", 100, 0, 0.15, 100, 0, 0.15);
 	TH2D* h_taggingEfficiency_alpha = new TH2D("h_taggingEfficiency_alpha",";#alpha_{tagged};#alpha_{truth}", 100, 0, 2, 100, 0, 2);
 	TH1D* h_taggingEfficiency = new TH1D("h_taggingEfficiency","",3,-1,2);
+	TH2D* h_ptBalance = new TH2D("h_ptBalance",";pt_{hfsQ};pt_{spec}", 100, 0, 0.5, 100, 0, 0.5);
 
 	TH1D* h_HERA_Q2_10_13 = new TH1D("h_HERA_Q2_10_13","h_HERA_Q2_10_13",100,0.00001,0.1);
 	TH1D* h_alpha_spec = new TH1D("h_alpha_spec","h_alpha_spec",100,0,2);
@@ -178,6 +178,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		double etaMax=-1;
 		int bestCandidate=-1;
 		TVector3 bestCandidateVector(-1,-1,-1);
+		TLorentzVector hfsCand(0,0,0,0);
 		for(int j(0); j < nParticles; ++j ) {
 			const erhic::ParticleMC* particle = event->GetTrack(j);
 			int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
@@ -193,6 +194,10 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 			}
 			if( status!=1 ) continue;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
+			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt, eta, phi, 0.13957);
+			if(TMath::Abs(part.eta())<4.){
+				hfsCand += part4pion;
+			}
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
 				if(part.Eta()>etaMax) {
@@ -202,9 +207,14 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 				}
 			}
 		}
+		//virtual photon
+		TLorentzVector qbeam = e_beam - e_scattered;
+		hfsCand = hfsCand+qbeam;
+		h_ptBalance->Fill( hfsCand.Pt(), trueSpect.Pt() );
 		//initialize spectator 4vect
 		TLorentzVector spectator_4vect_irf;
 		if(bestCandidate<0) continue;
+
 		if(bestCandidate==1) {
 			spectator_4vect_irf.SetPtEtaPhiM(bestCandidateVector.Pt(), bestCandidateVector.Eta(), bestCandidateVector.Phi(), MASS_NEUTRON);
 		}
@@ -216,7 +226,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		spectator_4vect_irf.Boost(-b);
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), pxf*pxf+pyf*pyf );
 		
-		TLorentzVector qbeam = e_beam - e_scattered;
+		
 		double xd = trueQ2 / (2*d_beam.Dot(qbeam));
 		double gamma2 = (4.*TMath::Power(MASS_DEUTERON,2)*TMath::Power(xd,2)) / trueQ2;
 		double epsilon = (1. - trueY - gamma2*TMath::Power(trueY/2.,2)) / (1. - trueY + TMath::Power(trueY,2)/2. + gamma2*TMath::Power(trueY/2.,2) );
