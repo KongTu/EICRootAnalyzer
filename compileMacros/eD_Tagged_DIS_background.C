@@ -175,10 +175,9 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		double event_weight = 1.;
 		double Yc = 1. + TMath::Power((1-trueY),2);
 		double Emax=-1.;
+		double etaMax=-1;
 		int bestCandidate=-1;
 		TVector3 bestCandidateVector(-1,-1,-1);
-		cout << "event " << i << endl;
-		cout << "true spectator pt " << trueSpect.Pt() << " eta " << trueSpect.Eta() << " phi " << trueSpect.Phi() << endl;
 		for(int j(0); j < nParticles; ++j ) {
 			const erhic::ParticleMC* particle = event->GetTrack(j);
 			int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
@@ -193,12 +192,11 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 				// e_scattered = ppart;
 			}
 			if( status!=1 ) continue;
-			cout << "index " << index << " NoBam " << NoBAM <<" status " << status << " pt " << pt << " eta " << eta << " phi " << phi << endl;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
-				if(part.Mag()>Emax) {
-					Emax=part.Mag();
+				if(part.Eta()>etaMax) {
+					etaMax=part.Eta();
 					bestCandidate=spec_cand;
 					bestCandidateVector=part;
 				}
