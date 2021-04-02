@@ -212,7 +212,6 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=6.0, b
 			if( spec_cand ){
 				if(part.Eta()>etaMax ) {
 					etaMax=part.Eta();
-					
 					bestCandidate=spec_cand;
 					bestCandidateVector=part;
 				}
