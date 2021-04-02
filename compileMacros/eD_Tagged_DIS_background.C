@@ -131,7 +131,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 	}
 
 
-	for(int i(57); i < 58; ++i ) {
+	for(int i(0); i < nEvents; ++i ) {
       
 		// Read the next entry from the tree.
 		tree->GetEntry(i);
@@ -176,6 +176,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		h_nk->Fill( nk_event );//sanity check for my wavefunction;
 		
 		//event process and kinematic phase space
+		if( struck_nucleon != 2212 ) continue;
 		if( event_process != 99 ) continue;
 		if( trueQ2 < 10.  || trueQ2 > 13. ) continue;
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
@@ -205,7 +206,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 			if( index == 3 ) {
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 			}
-			// if( status!=1 ) continue;
+			if( status!=1 ) continue;
 			cout << "status " << status << " pdg " << pdg << " pt " << pt << " eta "<< eta << " NoBam " << NoBAM << endl;
 			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt,eta,phi,0.13957);//assume pions
 		    //sum over HFS excluding elec' within main detector acceptance;
