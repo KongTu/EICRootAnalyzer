@@ -106,6 +106,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 	TH1D* h_taggingEfficiency_step2 = new TH1D("h_taggingEfficiency_step2","",3,-1,2);
 	TH2D* h_ptBalance = new TH2D("h_ptBalance",";pt_{hfsQ};pt_{spec}", 100, 0, 2, 100, 0, 2);
 	TH1D* h_ptBalance1D = new TH1D("h_ptBalance1D",";#Delta pt", 100,-1,1);
+	TH1D* h_beforeTagging = new TH1D("h_beforeTagging","; pt", 100,0,2);
 
 	TH1D* h_HERA_Q2_10_13 = new TH1D("h_HERA_Q2_10_13","h_HERA_Q2_10_13",100,0.00001,0.1);
 	TH1D* h_alpha_spec = new TH1D("h_alpha_spec","h_alpha_spec",100,0,2);
@@ -198,7 +199,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 			}
 			if( status!=1 ) continue;
 			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt,eta,phi,0.13975);
-		    if(!(isMatch(ppart,e_scattered)) && TMath::Abs(part4pion.Eta())<4.0 ) hfsCand += part4pion;
+		    if(!(isMatch(ppart,e_scattered)) && TMath::Abs(part4pion.Eta())<5.0 ) hfsCand += part4pion;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
@@ -209,6 +210,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 				}
 			}
 		}
+		h_beforeTagging->Fill( trueSpect.Pt() );
 		//virtual photon
 		TLorentzVector qbeam = e_beam - e_scattered;
 		//initialize spectator 4vect
@@ -220,14 +222,16 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		if(bestCandidate==2){
 			spectator_4vect_irf.SetPtEtaPhiM(bestCandidateVector.Pt(), bestCandidateVector.Eta(), bestCandidateVector.Phi(), MASS_PROTON);
 		}
+		//algo step 1 eff.
 		h_taggingEfficiency->Fill(isMatch(trueSpect, spectator_4vect_irf));
+		//pt balance 2D and 1D
 		h_ptBalance->Fill( (qbeam-hfsCand).Pt(), spectator_4vect_irf.Pt() );
 		h_ptBalance1D->Fill( (qbeam-hfsCand).Pt() - spectator_4vect_irf.Pt() );
+		//cut on pt balance variable.
 		if((qbeam-hfsCand).Pt()-spectator_4vect_irf.Pt()<0.1) h_taggingEfficiency_step2->Fill(isMatch(trueSpect, spectator_4vect_irf));
 		//boost back to IRF
 		spectator_4vect_irf.Boost(-b);
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), pxf*pxf+pyf*pyf );
-		
 		
 		double xd = trueQ2 / (2*d_beam.Dot(qbeam));
 		double gamma2 = (4.*TMath::Power(MASS_DEUTERON,2)*TMath::Power(xd,2)) / trueQ2;
