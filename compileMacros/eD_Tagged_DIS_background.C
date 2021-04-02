@@ -153,6 +153,15 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		int nParticles = event->GetNTracks();
 		int struck_nucleon = event->nucleon;
 		double nk_event = sqrt(pxf*pxf+pyf*pyf+pzf*pzf);
+		double Espec = 0.;
+		TLorentzVector trueSpect;
+		if( struck_nucleon == 2212 ){
+			Espec = sqrt(nk_event*nk_event+MASS_NEUTRON*MASS_NEUTRON);
+		}
+		else{
+			Espec = sqrt(nk_event*nk_event+MASS_PROTON*MASS_PROTON);
+		}
+		trueSpect.SetPxPyPzE(-pxf,-pyf,-pzf,Espec);
 		h_nk->Fill( nk_event );//sanity check for my wavefunction;
 		
 		//event process and kinematic phase space
@@ -167,7 +176,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		int bestCandidate=-1;
 		TVector3 bestCandidateVector(-1,-1,-1);
 		cout << "event " << i << endl;
-		cout << "true spectator pt " << sqrt(pxf*pxf+pyf*pyf) << endl;
+		cout << "true spectator pt " << trueSpect.Pt() << " eta " << trueSpect.Eta() << " phi " << trueSpect.Phi() << endl;
 		for(int j(0); j < nParticles; ++j ) {
 			const erhic::ParticleMC* particle = event->GetTrack(j);
 			int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
@@ -182,7 +191,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 				// e_scattered = ppart;
 			}
 			if( status!=1 ) continue;
-			cout << "index " << index << " status " << status << " pt " << pt << " eta " << eta << " phi " << phi << endl;
+			cout << "index " << index << " NoBam " << NoBam <<" status " << status << " pt " << pt << " eta " << eta << " phi " << phi << endl;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
