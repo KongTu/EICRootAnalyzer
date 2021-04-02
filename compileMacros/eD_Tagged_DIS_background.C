@@ -103,6 +103,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 	TH2D* h_taggingEfficiency_pt2 = new TH2D("h_taggingEfficiency_pt2",";p^{2}_{T,tagged}(GeV^{2});p^{2}_{T,truth}(GeV^{2})", 100, 0, 0.15, 100, 0, 0.15);
 	TH2D* h_taggingEfficiency_alpha = new TH2D("h_taggingEfficiency_alpha",";#alpha_{tagged};#alpha_{truth}", 100, 0, 2, 100, 0, 2);
 	TH1D* h_taggingEfficiency = new TH1D("h_taggingEfficiency","",3,-1,2);
+	TH1D* h_taggingEfficiency_step2 = new TH1D("h_taggingEfficiency_step2","",3,-1,2);
 	TH2D* h_ptBalance = new TH2D("h_ptBalance",";pt_{hfsQ};pt_{spec}", 100, 0, 2, 100, 0, 2);
 
 	TH1D* h_HERA_Q2_10_13 = new TH1D("h_HERA_Q2_10_13","h_HERA_Q2_10_13",100,0.00001,0.1);
@@ -195,7 +196,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 				// e_scattered = ppart;
 			}
 			if( status!=1 ) continue;
-		    if(!(isMatch(ppart,e_scattered)) ) hfsCand += ppart;
+		    if(!(isMatch(ppart,e_scattered)) && TMath::Abs(ppart.Eta())<4.0 ) hfsCand += ppart;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
@@ -208,7 +209,6 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		}
 		//virtual photon
 		TLorentzVector qbeam = e_beam - e_scattered;
-		h_ptBalance->Fill( hfsCand.Pt(), (e_beam+d_beam-e_scattered).Pt() );
 		//initialize spectator 4vect
 		TLorentzVector spectator_4vect_irf;
 		if(bestCandidate<0) continue;
@@ -219,6 +219,8 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 			spectator_4vect_irf.SetPtEtaPhiM(bestCandidateVector.Pt(), bestCandidateVector.Eta(), bestCandidateVector.Phi(), MASS_PROTON);
 		}
 		h_taggingEfficiency->Fill(isMatch(trueSpect, spectator_4vect_irf));
+		h_ptBalance->Fill( (qbeam-hfsCand).Pt(), spectator_4vect_irf.Pt() );
+		h_taggingEfficiency_step2->Fill(isMatch(trueSpect, spectator_4vect_irf));
 		//boost back to IRF
 		spectator_4vect_irf.Boost(-b);
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), pxf*pxf+pyf*pyf );
