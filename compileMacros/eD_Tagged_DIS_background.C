@@ -70,7 +70,7 @@ int findSpectator(TVector3 p, int charge=-99){
 	return candidate;
 }
 int isMatch(TLorentzVector trueSpect, TLorentzVector taggedSpect){
-	if(TMath::Abs(trueSpect.Pt()-taggedSpect.Pt())<3e-2 
+	if(TMath::Abs(trueSpect.Pt()-taggedSpect.Pt())<5e-3 
 		&& TMath::Abs(trueSpect.Eta()-taggedSpect.Eta())<5e-1 ){
 		return 1;
 	}
@@ -196,7 +196,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 				// e_scattered = ppart;
 			}
 			if( status!=1 ) continue;
-		    if(!(isMatch(ppart,e_scattered)) && !(isMatch(ppart,trueSpect)) ) hfsCand += ppart;
+		    if(!(isMatch(ppart,e_scattered)) && TMath::Abs(ppart.Eta())<4.0 ) hfsCand += ppart;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
@@ -210,7 +210,6 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		//virtual photon
 		TLorentzVector qbeam = e_beam - e_scattered;
 		h_ptBalance->Fill( (qbeam-hfsCand).Pt(), trueSpect.Pt() );
-
 		//initialize spectator 4vect
 		TLorentzVector spectator_4vect_irf;
 		if(bestCandidate<0) continue;
