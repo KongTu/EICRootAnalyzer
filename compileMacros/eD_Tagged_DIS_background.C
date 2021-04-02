@@ -186,6 +186,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 			double eta = particle->GetEta();
 			double phi = particle->GetPhi();
 			int status = particle->GetStatus();
+			double mass = particle->GetM();
 			int charge = particle->eA->charge;
 			int NoBAM = particle->eA->NoBam;
 			if( index == 3 ) {
@@ -194,8 +195,8 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 			}
 			if( status!=1 ) continue;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
-			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt, eta, phi, 0.13957);
-			if(TMath::Abs(part.Eta())<10. && !isSpectator(trueSpect, part4pion)){
+			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt, eta, phi, mass);
+			if(!isSpectator(trueSpect, part4pion)){
 				hfsCand += part4pion;
 			}
 			int spec_cand = findSpectator(part, charge);
