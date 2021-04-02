@@ -162,6 +162,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 			Espec = sqrt(nk_event*nk_event+MASS_PROTON*MASS_PROTON);
 		}
 		trueSpect.SetPxPyPzE(-pxf,-pyf,-pzf,Espec);
+		trueSpect.Boost(b);
 		h_nk->Fill( nk_event );//sanity check for my wavefunction;
 		
 		//event process and kinematic phase space
