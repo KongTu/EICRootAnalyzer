@@ -209,9 +209,9 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=6.0, b
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
-				if(part.Eta()>etaMax || part.Mag()>Emax) {
+				if(part.Eta()>etaMax ) {
 					etaMax=part.Eta();
-					Emax=part.Mag();
+					
 					bestCandidate=spec_cand;
 					bestCandidateVector=part;
 				}
@@ -232,6 +232,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=6.0, b
 		//pt balance 2D and 1D
 		h_ptBalance->Fill( (qbeam-hfsCand).Pt(), spectator_4vect_irf.Pt() );
 		h_ptBalance1D->Fill( (qbeam-hfsCand).Pt() - spectator_4vect_irf.Pt() );
+		// cut pt Bal
 		if( cutPtBal_ ) {
 			if( (qbeam-hfsCand).Pt()-spectator_4vect_irf.Pt()>0.01 ) continue;
 		}
@@ -243,7 +244,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=6.0, b
 		h_taggingEfficiency_step2->Fill(isMatch(trueSpect, spectator_4vect_irf));
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), pxf*pxf+pyf*pyf );
 
-		//boost back to IRF, continue analysis on cross sections
+	//boost back to IRF, continue analysis on cross sections
 		spectator_4vect_irf.Boost(-b);
 		double xd = trueQ2 / (2*d_beam.Dot(qbeam));
 		double gamma2 = (4.*TMath::Power(MASS_DEUTERON,2)*TMath::Power(xd,2)) / trueQ2;
