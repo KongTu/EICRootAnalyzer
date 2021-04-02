@@ -247,7 +247,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		//if turn on cut on pt balance variable.
 		h_taggingEfficiency_step2->Fill(isMatch(trueSpect, spectator_4vect_irf));
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), TMath::Power(trueSpect.Pt(),2) );
-		if( TMath::Power(spectator_4vect_irf.Pt(),2) / TMath::Power(trueSpect.Pt(),2) > 1.5 || TMath::Power(spectator_4vect_irf.Pt(),2) / TMath::Power(trueSpect.Pt(),2) < 0.5 ){
+		if( TMath::Power(spectator_4vect_irf.Pt(),2) / TMath::Power(trueSpect.Pt(),2) < 1.5 || TMath::Power(spectator_4vect_irf.Pt(),2) / TMath::Power(trueSpect.Pt(),2) > 0.5 ){
 			cout << "start~" << i << endl;
 			cout << "true spectator pt " << trueSpect.Pt() << " eta " << trueSpect.Eta() << " mass " << trueSpect.M() << endl;
 			cout << "tagged spectator pt " << spectator_4vect_irf.Pt() << " eta " << spectator_4vect_irf.Eta() << " mass " << spectator_4vect_irf.M() << endl;
