@@ -131,7 +131,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 	}
 
 
-	for(int i(55); i < 56; ++i ) {
+	for(int i(0); i < nEvents; ++i ) {
       
 		// Read the next entry from the tree.
 		tree->GetEntry(i);
