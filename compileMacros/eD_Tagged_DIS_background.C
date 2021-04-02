@@ -80,7 +80,7 @@ int isMatch(TLorentzVector trueSpect, TLorentzVector taggedSpect){
 	}
 }
 
-void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=6.0, bool cutPtBal_=false, TString filename="Output_input_temp_91"){
+void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, bool cutPtBal_=false, TString filename="Output_input_temp_91"){
 
 
 	//input from BeAGLE root files
