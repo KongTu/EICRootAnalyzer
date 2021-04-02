@@ -194,7 +194,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 				// e_scattered = ppart;
 			}
-			if( status!=1 ) continue;
+			// if( status!=1 ) continue;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
 			// TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt, eta, phi, mass);
 			// if(!isSpectator(trueSpect, part4pion)){
