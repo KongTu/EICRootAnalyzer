@@ -209,6 +209,8 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		    if(!(isMatch(ppart,e_scattered)) && TMath::Abs(part4pion.Eta())<HFSaccept ) hfsCand += part4pion;
 		    // if(!(isMatch(ppart,e_scattered)) && !(isMatch(part4pion,trueSpect)) ) hfsCand += part4pion;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
+			if(TMath::Abs(pdg)==211) part.SetTheta(part.Theta()*6.725);//rigidity change
+			if(TMath::Abs(pdg)==321) part.SetTheta(part.Theta()*1.901);//rigidity change
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
 				if(part.Eta()>etaMax && part.Mag()>Emax ) {
