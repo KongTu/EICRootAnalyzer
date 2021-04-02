@@ -219,7 +219,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 			spectator_4vect_irf.SetPtEtaPhiM(bestCandidateVector.Pt(), bestCandidateVector.Eta(), bestCandidateVector.Phi(), MASS_PROTON);
 		}
 		h_taggingEfficiency->Fill(isMatch(trueSpect, spectator_4vect_irf));
-		h_ptBalance->Fill( (qbeam-hfsCand).Pt(), spectator_4vect_irf.Pt() );
+		h_ptBalance->Fill( (qbeam-hfsCand).Pt(), trueSpect.Pt() );
 		h_taggingEfficiency_step2->Fill(isMatch(trueSpect, spectator_4vect_irf));
 		//boost back to IRF
 		spectator_4vect_irf.Boost(-b);
