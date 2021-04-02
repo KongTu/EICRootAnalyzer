@@ -229,6 +229,9 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=6.0, b
 			spectator_4vect_irf.SetPtEtaPhiM(bestCandidateVector.Pt(), bestCandidateVector.Eta(), bestCandidateVector.Phi(), MASS_PROTON);
 		}
 		h_taggingEfficiency->Fill(isMatch(trueSpect, spectator_4vect_irf));
+		//pt balance 2D and 1D
+		h_ptBalance->Fill( (qbeam-hfsCand).Pt(), spectator_4vect_irf.Pt() );
+		h_ptBalance1D->Fill( (qbeam-hfsCand).Pt() - spectator_4vect_irf.Pt() );
 		if( cutPtBal_ ) {
 			if( (qbeam-hfsCand).Pt()-spectator_4vect_irf.Pt()>0.01 ) continue;
 		}
@@ -236,13 +239,9 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=6.0, b
 		h_allTagging->Fill( TMath::Power(spectator_4vect_irf.Pt(),2) );
 		if( !isMatch(trueSpect, spectator_4vect_irf) ) h_wrongTagging->Fill( TMath::Power(spectator_4vect_irf.Pt(),2) );
 		if( isMatch(trueSpect, spectator_4vect_irf) ) h_afterTagging->Fill( TMath::Power(trueSpect.Pt(),2) );
-		//pt balance 2D and 1D
-		h_ptBalance->Fill( (qbeam-hfsCand).Pt(), spectator_4vect_irf.Pt() );
-		h_ptBalance1D->Fill( (qbeam-hfsCand).Pt() - spectator_4vect_irf.Pt() );
-		//with cut on pt balance variable.
-		if((qbeam-hfsCand).Pt()-spectator_4vect_irf.Pt()<0.01) h_taggingEfficiency_step2->Fill(isMatch(trueSpect, spectator_4vect_irf));
+		//if turn on cut on pt balance variable.
+		h_taggingEfficiency_step2->Fill(isMatch(trueSpect, spectator_4vect_irf));
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), pxf*pxf+pyf*pyf );
-
 
 		//boost back to IRF, continue analysis on cross sections
 		spectator_4vect_irf.Boost(-b);
