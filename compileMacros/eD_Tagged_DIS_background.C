@@ -167,6 +167,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		int bestCandidate=-1;
 		TVector3 bestCandidateVector(-1,-1,-1);
 		cout << "event " << i << endl;
+		cout << "true spectator pt " << sqrt(pxf*pxf+pyf*pyf) << endl;
 		for(int j(0); j < nParticles; ++j ) {
 			const erhic::ParticleMC* particle = event->GetTrack(j);
 			int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
