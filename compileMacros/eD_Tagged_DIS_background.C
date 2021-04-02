@@ -180,6 +180,8 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		if( trueQ2 < 10.  || trueQ2 > 13. ) continue;
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
 		
+		cout << "nucleon " << struck_nucleon << endl;
+		
 		//HERA inclusive cross section
 		double event_weight = 1.;
 		double Yc = 1. + TMath::Power((1-trueY),2);
