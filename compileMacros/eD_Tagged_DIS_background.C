@@ -70,8 +70,8 @@ int findSpectator(TVector3 p, int charge=-99){
 	return candidate;
 }
 int isMatch(TLorentzVector trueSpect, TLorentzVector taggedSpect){
-	if(TMath::Abs(trueSpect.Pt()-taggedSpect.Pt())<3e-3 
-		&& TMath::Abs(trueSpect.Eta()-taggedSpect.Eta())<3e-1 ){
+	if(TMath::Abs(trueSpect.Pt()-taggedSpect.Pt())<3e-2 
+		&& TMath::Abs(trueSpect.Eta()-taggedSpect.Eta())<5e-1 ){
 		return 1;
 	}
 	else{
