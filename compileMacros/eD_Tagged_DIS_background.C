@@ -212,6 +212,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		//virtual photon
 		TLorentzVector qbeam = e_beam - e_scattered;
 		TLorentzVector balSys = hfsCand;
+		cout << "hfs pt " << balSys.Pt() << " rest of system " << (e_beam+d_beam-e_scattered).Pt() << endl;
 		h_ptBalance->Fill( balSys.Pt(), (e_beam+d_beam-e_scattered).Pt() );
 		//initialize spectator 4vect
 		TLorentzVector spectator_4vect_irf;
