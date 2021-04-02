@@ -69,7 +69,7 @@ int findSpectator(TVector3 p, int charge=-99){
 
 	return candidate;
 }
-int isSpectator(TLorentzVector trueSpect, TLorentzVector taggedSpect){
+int isMatch(TLorentzVector trueSpect, TLorentzVector taggedSpect){
 	if(TMath::Abs(trueSpect.Pt()-taggedSpect.Pt())<3e-3 
 		&& TMath::Abs(trueSpect.Eta()-taggedSpect.Eta())<3e-1 ){
 		return 1;
@@ -196,13 +196,8 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 				// e_scattered = ppart;
 			}
 			if( status!=1 ) continue;
+		    if(!(isMatch(ppart,e_scattered)) ) hfsCand += ppart;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
-			cout << "mass " << mass << " pt " << pt << " status " << status << " index " << index << endl;
-			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt, eta, phi, mass);
-			// if(!isSpectator(trueSpect, part4pion)){
-		    if( !(mass>0.00050 && mass<0.00052) ) hfsCand = hfsCand+part4pion;
-		    // cout << "pt sum " << hfsCand.Pt() << endl;
-			// }
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
 				if(part.Eta()>etaMax) {
@@ -214,20 +209,17 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		}
 		//virtual photon
 		TLorentzVector qbeam = e_beam - e_scattered;
-		TLorentzVector balSys = hfsCand;
-		cout << "hfs pt " << hfsCand.Pt() << " rest of system " << (e_beam+d_beam-e_scattered).Pt() << endl;
 		h_ptBalance->Fill( hfsCand.Pt(), (e_beam+d_beam-e_scattered).Pt() );
 		//initialize spectator 4vect
 		TLorentzVector spectator_4vect_irf;
 		if(bestCandidate<0) continue;
-
 		if(bestCandidate==1) {
 			spectator_4vect_irf.SetPtEtaPhiM(bestCandidateVector.Pt(), bestCandidateVector.Eta(), bestCandidateVector.Phi(), MASS_NEUTRON);
 		}
 		if(bestCandidate==2){
 			spectator_4vect_irf.SetPtEtaPhiM(bestCandidateVector.Pt(), bestCandidateVector.Eta(), bestCandidateVector.Phi(), MASS_PROTON);
 		}
-		h_taggingEfficiency->Fill(isSpectator(trueSpect, spectator_4vect_irf));
+		h_taggingEfficiency->Fill(isMatch(trueSpect, spectator_4vect_irf));
 		//boost back to IRF
 		spectator_4vect_irf.Boost(-b);
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), pxf*pxf+pyf*pyf );
