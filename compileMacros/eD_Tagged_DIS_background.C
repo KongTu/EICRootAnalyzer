@@ -235,7 +235,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=6.0, b
 		h_ptBalance1D->Fill( (qbeam-hfsCand).Pt() - spectator_4vect_irf.Pt() );
 		// cut pt Bal
 		if( cutPtBal_ ) {
-			if( ((qbeam-hfsCand).Pt()-spectator_4vect_irf.Pt())>0.04 ) continue;
+			if( ((qbeam-hfsCand).Pt()-spectator_4vect_irf.Pt())>0.01 ) continue;
 		}
 		//algo step 1 eff.
 		h_allTagging->Fill( TMath::Power(spectator_4vect_irf.Pt(),2) );
