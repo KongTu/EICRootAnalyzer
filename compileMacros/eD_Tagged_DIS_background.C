@@ -227,11 +227,12 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		}if(bestCandidate==2){
 			spectator_4vect_irf.SetPtEtaPhiM(bestCandidateVector.Pt(), bestCandidateVector.Eta(), bestCandidateVector.Phi(), MASS_PROTON);
 		}
+		h_taggingEfficiency->Fill(isMatch(trueSpect, spectator_4vect_irf));
+		if( (qbeam-hfsCand).Pt()-spectator_4vect_irf.Pt()>0.01 ) continue;
 		//algo step 1 eff.
 		h_allTagging->Fill( TMath::Power(spectator_4vect_irf.Pt(),2) );
 		if( !isMatch(trueSpect, spectator_4vect_irf) ) h_wrongTagging->Fill( TMath::Power(spectator_4vect_irf.Pt(),2) );
 		if( isMatch(trueSpect, spectator_4vect_irf) ) h_afterTagging->Fill( TMath::Power(trueSpect.Pt(),2) );
-		h_taggingEfficiency->Fill(isMatch(trueSpect, spectator_4vect_irf));
 		//pt balance 2D and 1D
 		h_ptBalance->Fill( (qbeam-hfsCand).Pt(), spectator_4vect_irf.Pt() );
 		h_ptBalance1D->Fill( (qbeam-hfsCand).Pt() - spectator_4vect_irf.Pt() );
