@@ -65,13 +65,14 @@ int findSpectator(TVector3 p, int charge=-99){
 	bool couldBeNeutron = true;
 	if(charge!=0) couldBeNeutron = false;
 	if(couldBeNeutron&&(p.Theta()*1e3<4.5))candidate=1;
-	if(!couldBeNeutron&&(p.Theta()*1e3<22)) candidate=2;
+	if(!couldBeNeutron&&(p.Theta()*1e3<20)) candidate=2;
 
 	return candidate;
 }
 int isMatch(TLorentzVector trueSpect, TLorentzVector taggedSpect){
-	if(TMath::Abs(trueSpect.Pt()-taggedSpect.Pt())<5e-3 
-		&& TMath::Abs(trueSpect.Eta()-taggedSpect.Eta())<5e-1 ){
+	if(TMath::Abs(trueSpect.Pt()-taggedSpect.Pt())<3e-3 
+		&& TMath::Abs(trueSpect.Eta()-taggedSpect.Eta())<3e-1
+			&& TMath::Abs(trueSpect.M()-taggedSpect.M())<1e-4 ){
 		return 1;
 	}
 	else{
@@ -79,7 +80,7 @@ int isMatch(TLorentzVector trueSpect, TLorentzVector taggedSpect){
 	}
 }
 
-void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Output_input_temp_91"){
+void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=6.0, bool cutPtBal_=false, TString filename="Output_input_temp_91"){
 
 
 	//input from BeAGLE root files
@@ -101,7 +102,6 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 	double Q2binwidth = 13.0-10.0;
 
 	TH2D* h_taggingEfficiency_pt2 = new TH2D("h_taggingEfficiency_pt2",";p^{2}_{T,tagged}(GeV^{2});p^{2}_{T,truth}(GeV^{2})", 100, 0, 0.15, 100, 0, 0.15);
-	TH2D* h_taggingEfficiency_alpha = new TH2D("h_taggingEfficiency_alpha",";#alpha_{tagged};#alpha_{truth}", 100, 0, 2, 100, 0, 2);
 	
 	TH1D* h_taggingEfficiency = new TH1D("h_taggingEfficiency","",3,-1,2);
 	TH1D* h_taggingEfficiency_step2 = new TH1D("h_taggingEfficiency_step2","",3,-1,2);
@@ -204,13 +204,14 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 			}
 			if( status!=1 ) continue;
 			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt,eta,phi,0.13975);//assume pions
-		    if(!(isMatch(ppart,e_scattered)) && TMath::Abs(part4pion.Eta())<6.0 ) hfsCand += part4pion;
-		    // if(!(isMatch(ppart,e_scattered)) && !(isMatch(part4pion, trueSpect)) ) hfsCand += part4pion;
+		    //sum over HFS excluding elec' within main detector acceptance;
+		    if(!(isMatch(ppart,e_scattered)) && TMath::Abs(part4pion.Eta())<HFSaccept ) hfsCand += part4pion;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
-				if(part.Eta()>etaMax) {
+				if(part.Eta()>etaMax || part.P()>Emax) {
 					etaMax=part.Eta();
+					Emax=part.P();
 					bestCandidate=spec_cand;
 					bestCandidateVector=part;
 				}
@@ -228,7 +229,9 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 			spectator_4vect_irf.SetPtEtaPhiM(bestCandidateVector.Pt(), bestCandidateVector.Eta(), bestCandidateVector.Phi(), MASS_PROTON);
 		}
 		h_taggingEfficiency->Fill(isMatch(trueSpect, spectator_4vect_irf));
-		if( (qbeam-hfsCand).Pt()-spectator_4vect_irf.Pt()>0.01 ) continue;
+		if( cutPtBal_ ) {
+			if( (qbeam-hfsCand).Pt()-spectator_4vect_irf.Pt()>0.01 ) continue;
+		}
 		//algo step 1 eff.
 		h_allTagging->Fill( TMath::Power(spectator_4vect_irf.Pt(),2) );
 		if( !isMatch(trueSpect, spectator_4vect_irf) ) h_wrongTagging->Fill( TMath::Power(spectator_4vect_irf.Pt(),2) );
@@ -236,12 +239,13 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		//pt balance 2D and 1D
 		h_ptBalance->Fill( (qbeam-hfsCand).Pt(), spectator_4vect_irf.Pt() );
 		h_ptBalance1D->Fill( (qbeam-hfsCand).Pt() - spectator_4vect_irf.Pt() );
-		//cut on pt balance variable.
+		//with cut on pt balance variable.
 		if((qbeam-hfsCand).Pt()-spectator_4vect_irf.Pt()<0.01) h_taggingEfficiency_step2->Fill(isMatch(trueSpect, spectator_4vect_irf));
-		//boost back to IRF
-		spectator_4vect_irf.Boost(-b);
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), pxf*pxf+pyf*pyf );
-		
+
+
+		//boost back to IRF, continue analysis on cross sections
+		spectator_4vect_irf.Boost(-b);
 		double xd = trueQ2 / (2*d_beam.Dot(qbeam));
 		double gamma2 = (4.*TMath::Power(MASS_DEUTERON,2)*TMath::Power(xd,2)) / trueQ2;
 		double epsilon = (1. - trueY - gamma2*TMath::Power(trueY/2.,2)) / (1. - trueY + TMath::Power(trueY,2)/2. + gamma2*TMath::Power(trueY/2.,2) );
