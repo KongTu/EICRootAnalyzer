@@ -213,7 +213,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 			if(TMath::Abs(pdg)==321) part.SetTheta(part.Theta()*1.901);//rigidity change
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
-				if(part.Eta()>etaMax && part.Mag()>Emax ) {
+				if(part.Eta()>etaMax ) {
 					etaMax=part.Eta();
 					Emax=part.Mag();
 					bestCandidate=spec_cand;
