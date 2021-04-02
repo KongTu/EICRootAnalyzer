@@ -196,9 +196,9 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 			if( status!=1 ) continue;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
 			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt, eta, phi, mass);
-			if(!isSpectator(trueSpect, part4pion)){
+			// if(!isSpectator(trueSpect, part4pion)){
 				hfsCand += part4pion;
-			}
+			// }
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
 				if(part.Eta()>etaMax) {
@@ -210,7 +210,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		}
 		//virtual photon
 		TLorentzVector qbeam = e_beam - e_scattered;
-		TLorentzVector balSys = hfsCand+trueSpect;
+		TLorentzVector balSys = hfsCand;
 		h_ptBalance->Fill( balSys.Pt(), e_scattered.Pt() );
 		//initialize spectator 4vect
 		TLorentzVector spectator_4vect_irf;
