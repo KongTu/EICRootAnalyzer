@@ -103,7 +103,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 	TH2D* h_taggingEfficiency_pt2 = new TH2D("h_taggingEfficiency_pt2",";p^{2}_{T,tagged}(GeV^{2});p^{2}_{T,truth}(GeV^{2})", 100, 0, 0.15, 100, 0, 0.15);
 	TH2D* h_taggingEfficiency_alpha = new TH2D("h_taggingEfficiency_alpha",";#alpha_{tagged};#alpha_{truth}", 100, 0, 2, 100, 0, 2);
 	TH1D* h_taggingEfficiency = new TH1D("h_taggingEfficiency","",3,-1,2);
-	TH2D* h_ptBalance = new TH2D("h_ptBalance",";pt_{hfsQ};pt_{spec}", 100, 0, 0.5, 100, 0, 0.5);
+	TH2D* h_ptBalance = new TH2D("h_ptBalance",";pt_{hfsQ};pt_{spec}", 100, 0, 2, 100, 0, 2);
 
 	TH1D* h_HERA_Q2_10_13 = new TH1D("h_HERA_Q2_10_13","h_HERA_Q2_10_13",100,0.00001,0.1);
 	TH1D* h_alpha_spec = new TH1D("h_alpha_spec","h_alpha_spec",100,0,2);
