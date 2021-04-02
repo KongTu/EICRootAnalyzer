@@ -206,7 +206,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=6.0, b
 			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt,eta,phi,mass);//assume pions
 		    //sum over HFS excluding elec' within main detector acceptance;
 		    // if(!(isMatch(ppart,e_scattered)) && TMath::Abs(part4pion.Eta())<HFSaccept ) hfsCand += part4pion;
-		    if(!(isMatch(ppart,e_scattered)) && !(isMatch(ppart,trueSpect)) ) hfsCand += ppart;
+		    if(!(isMatch(ppart,e_scattered)) && !(isMatch(part4pion,trueSpect)) ) hfsCand += part4pion;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
