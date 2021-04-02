@@ -198,7 +198,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 			}
 			if( status!=1 ) continue;
 			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt,eta,phi,0.13975);
-		    if(!(isMatch(ppart,e_scattered)) && TMath::Abs(part4pion.Eta())<6.0 ) hfsCand += part4pion;
+		    if(!(isMatch(ppart,e_scattered)) && TMath::Abs(part4pion.Eta())<4.0 ) hfsCand += part4pion;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
@@ -223,7 +223,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		h_taggingEfficiency->Fill(isMatch(trueSpect, spectator_4vect_irf));
 		h_ptBalance->Fill( (qbeam-hfsCand).Pt(), spectator_4vect_irf.Pt() );
 		h_ptBalance1D->Fill( (qbeam-hfsCand).Pt() - spectator_4vect_irf.Pt() );
-		if((qbeam-hfsCand).Pt() - spectator_4vect_irf.Pt() < 0.1 ) h_taggingEfficiency_step2->Fill(isMatch(trueSpect, spectator_4vect_irf));
+		if((qbeam-hfsCand).Pt()-spectator_4vect_irf.Pt()<0.1) h_taggingEfficiency_step2->Fill(isMatch(trueSpect, spectator_4vect_irf));
 		//boost back to IRF
 		spectator_4vect_irf.Boost(-b);
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), pxf*pxf+pyf*pyf );
