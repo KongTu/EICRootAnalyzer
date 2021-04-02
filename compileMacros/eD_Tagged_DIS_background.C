@@ -197,11 +197,11 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 			}
 			if( status!=1 ) continue;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
-			// cout << "mass " << mass << " pt " << pt << " status " << status << endl;
+			cout << "mass " << mass << " pt " << pt << " status " << status << " index " << index << endl;
 			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt, eta, phi, mass);
 			// if(!isSpectator(trueSpect, part4pion)){
 		    if( !(mass>0.00050 && mass<0.00052) ) hfsCand = hfsCand+part4pion;
-		    cout << "pt sum " << hfsCand.Pt() << endl;
+		    // cout << "pt sum " << hfsCand.Pt() << endl;
 			// }
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
