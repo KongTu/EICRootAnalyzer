@@ -178,7 +178,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		double etaMax=-1;
 		int bestCandidate=-1;
 		TVector3 bestCandidateVector(-1,-1,-1);
-		TLorentzVector hfsCand(-99,-99,-99,99);
+		TLorentzVector hfsCand(0.,0.,0.,0.);
 		cout << "true spectator pt " << trueSpect.Pt() << " mass " << trueSpect.M() << endl; 
 		for(int j(0); j < nParticles; ++j ) {
 			const erhic::ParticleMC* particle = event->GetTrack(j);
