@@ -260,7 +260,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		double Pplus = (spectator_4vect_irf.E() + spectator_4vect_irf.Pz()) / sqrt(2);
 		double PdPlus = MASS_DEUTERON / sqrt(2);
 		double alpha_spec = 2*Pplus / PdPlus;
-		double pt2 = pxf*pxf+pyf*pyf;
+		double pt2 = TMath::Power(spectator_4vect_irf.Pt(),2);
 		double alpha_spec_binwidth = -1; // will have to be rewritten by 20 alpha bins
 		double xbinwidth = (0.003-0.002);
 		double pt2binwidth = h_HERA_Q2_10_13_x007_009_alpha[0]->GetBinWidth(1);
