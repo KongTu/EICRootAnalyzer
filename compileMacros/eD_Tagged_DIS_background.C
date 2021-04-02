@@ -69,8 +69,9 @@ int findSpectator(TVector3 p, int charge=-99){
 
 	return candidate;
 }
-int isSpectator(double pt, double pt_tagged){
-	if( TMath::Abs(pt-pt_tagged)<1e-4 ){
+int isSpectator(TLorentzVector trueSpect, TLorentzVector taggedSpect){
+	if(TMath::Abs(trueSpect.Pt()-taggedSpect.Pt())<1e-3 
+		&& TMath::Abs(trueSpect.Eta()-taggedSpect.Eta())<1e-1 ){
 		return 1;
 	}
 	else{
@@ -212,11 +213,11 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 		if(bestCandidate==2){
 			spectator_4vect_irf.SetPtEtaPhiM(bestCandidateVector.Pt(), bestCandidateVector.Eta(), bestCandidateVector.Phi(), MASS_PROTON);
 		}
+		h_taggingEfficiency->Fill(isSpectator(trueSpect, spectator_4vect_irf));
 		//boost back to IRF
 		spectator_4vect_irf.Boost(-b);
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), pxf*pxf+pyf*pyf );
-		h_taggingEfficiency->Fill(isSpectator(pxf*pxf+pyf*pyf,TMath::Power(spectator_4vect_irf.Pt(),2)));
-
+		
 		TLorentzVector qbeam = e_beam - e_scattered;
 		double xd = trueQ2 / (2*d_beam.Dot(qbeam));
 		double gamma2 = (4.*TMath::Power(MASS_DEUTERON,2)*TMath::Power(xd,2)) / trueQ2;
