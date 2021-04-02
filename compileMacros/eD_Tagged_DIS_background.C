@@ -131,7 +131,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 	}
 
 
-	for(int i(0); i < nEvents; ++i ) {
+	for(int i(55); i < 56; ++i ) {
       
 		// Read the next entry from the tree.
 		tree->GetEntry(i);
@@ -204,6 +204,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 			}
 			if( status!=1 ) continue;
+			cout << "pdg " << pdg << " pt " << pt << " eta "<< eta << endl;
 			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt,eta,phi,0.13957);//assume pions
 		    //sum over HFS excluding elec' within main detector acceptance;
 		    if(!(isMatch(ppart,e_scattered)) && TMath::Abs(part4pion.Eta())<HFSaccept ) hfsCand += part4pion;
