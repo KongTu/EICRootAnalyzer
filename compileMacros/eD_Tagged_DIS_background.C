@@ -197,7 +197,8 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 				// e_scattered = ppart;
 			}
 			if( status!=1 ) continue;
-		    if(!(isMatch(ppart,e_scattered)) && TMath::Abs(ppart.Eta())<6.0 ) hfsCand += ppart;
+			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt,eta,phi,0.13975);
+		    if(!(isMatch(ppart,e_scattered)) && TMath::Abs(part4pion.Eta())<6.0 ) hfsCand += part4pion;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
