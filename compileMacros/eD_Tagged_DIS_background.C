@@ -131,7 +131,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 	}
 
 
-	for(int i(0); i < nEvents; ++i ) {
+	for(int i(57); i < 58; ++i ) {
       
 		// Read the next entry from the tree.
 		tree->GetEntry(i);
@@ -176,13 +176,10 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		h_nk->Fill( nk_event );//sanity check for my wavefunction;
 		
 		//event process and kinematic phase space
-		if( struck_nucleon != 2212 ) continue;
 		if( event_process != 99 ) continue;
 		if( trueQ2 < 10.  || trueQ2 > 13. ) continue;
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
-		
-		cout << "nucleon " << struck_nucleon << endl;
-		
+				
 		//HERA inclusive cross section
 		double event_weight = 1.;
 		double Yc = 1. + TMath::Power((1-trueY),2);
@@ -207,7 +204,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 			}
 			if( status!=1 ) continue;
-			cout << "status " << status << " pdg " << pdg << " pt " << pt << " eta "<< eta << " NoBam " << NoBAM << endl;
+			// cout << "status " << status << " pdg " << pdg << " pt " << pt << " eta "<< eta << " NoBam " << NoBAM << endl;
 			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt,eta,phi,0.13957);//assume pions
 		    //sum over HFS excluding elec' within main detector acceptance;
 		    if(!(isMatch(ppart,e_scattered)) && TMath::Abs(part4pion.Eta())<HFSaccept ) hfsCand += part4pion;
@@ -251,12 +248,13 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		//if turn on cut on pt balance variable.
 		h_taggingEfficiency_step2->Fill(isMatch(trueSpect, spectator_4vect_irf));
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), TMath::Power(trueSpect.Pt(),2) );
-		// if( TMath::Power(spectator_4vect_irf.Pt(),2) / TMath::Power(trueSpect.Pt(),2) > 1.5 || TMath::Power(spectator_4vect_irf.Pt(),2) / TMath::Power(trueSpect.Pt(),2) < 0.5 ){
+		if( !isMatch(trueSpect, spectator_4vect_irf) ){
 			cout << "start~" << i << endl;
 			cout << "true spectator pt " << trueSpect.Pt() << " eta " << trueSpect.Eta() << " mass " << trueSpect.M() << endl;
 			cout << "tagged spectator pt " << spectator_4vect_irf.Pt() << " eta " << spectator_4vect_irf.Eta() << " mass " << spectator_4vect_irf.M() << endl;
 			cout << "is matched " << isMatch(trueSpect, spectator_4vect_irf) << endl;
-		// }
+		}
+		
 	//boost back to IRF, continue analysis on cross sections
 		spectator_4vect_irf.Boost(-b);
 		double xd = trueQ2 / (2*d_beam.Dot(qbeam));
