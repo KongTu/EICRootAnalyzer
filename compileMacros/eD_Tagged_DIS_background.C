@@ -195,7 +195,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 			if( status!=1 ) continue;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
 			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt, eta, phi, 0.13957);
-			if(TMath::Abs(part.Eta())<4.){
+			if(TMath::Abs(part.Eta())<10. && !isSpectator(trueSpect, part4pion)){
 				hfsCand += part4pion;
 			}
 			int spec_cand = findSpectator(part, charge);
