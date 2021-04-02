@@ -213,7 +213,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 			if(TMath::Abs(pdg)==321) part.SetTheta(part.Theta()*1.901);//rigidity change
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
-				if(part.Eta()>etaMax ) {
+				if(part.Eta()>etaMax && part.Mag()>Emax ) {
 					etaMax=part.Eta();
 					Emax=part.Mag();
 					bestCandidate=spec_cand;
@@ -247,7 +247,12 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		//if turn on cut on pt balance variable.
 		h_taggingEfficiency_step2->Fill(isMatch(trueSpect, spectator_4vect_irf));
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), pxf*pxf+pyf*pyf );
+		if( TMath::Power(spectator_4vect_irf.Pt(),2) / pxf*pxf+pyf*pyf > 1.1 || TMath::Power(spectator_4vect_irf.Pt(),2) / pxf*pxf+pyf*pyf < 0.9 ){
+			cout << "start~" << i << endl;
+			cout << "true spectator pt " << trueSpect.Pt() << " eta " << trueSpect.Eta() << " mass " << trueSpect.M() << endl;
+			cout << "tagged spectator pt " << spectator_4vect_irf.Pt() << " eta " << spectator_4vect_irf.Eta() << " mass " << spectator_4vect_irf.M() << endl;
 
+		}
 	//boost back to IRF, continue analysis on cross sections
 		spectator_4vect_irf.Boost(-b);
 		double xd = trueQ2 / (2*d_beam.Dot(qbeam));
