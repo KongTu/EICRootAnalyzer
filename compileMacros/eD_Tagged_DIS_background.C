@@ -189,15 +189,16 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 			double mass = particle->GetM();
 			int charge = particle->eA->charge;
 			int NoBAM = particle->eA->NoBam;
+			TLorentzVector ppart = particle->Get4Vector();
 			if( index == 3 ) {
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 				// e_scattered = ppart;
 			}
 			if( status!=1 ) continue;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
-			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt, eta, phi, mass);
+			// TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt, eta, phi, mass);
 			// if(!isSpectator(trueSpect, part4pion)){
-				hfsCand += part4pion;
+				hfsCand += ppart;
 			// }
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
