@@ -191,7 +191,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, TString filename="Outpu
 				// e_scattered = ppart;
 			}
 			if( status!=1 ) continue;
-			cout << "index " << index << " NoBam " << NoBam <<" status " << status << " pt " << pt << " eta " << eta << " phi " << phi << endl;
+			cout << "index " << index << " NoBam " << NoBAM <<" status " << status << " pt " << pt << " eta " << eta << " phi " << phi << endl;
 			TVector3 part; part.SetPtEtaPhi(pt, eta, phi);
 			int spec_cand = findSpectator(part, charge);
 			if( spec_cand ){
