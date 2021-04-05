@@ -251,7 +251,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		//if turn on cut on pt balance variable.
 		h_taggingEfficiency_step2->Fill(isMatch(trueSpect, spectator_4vect_irf));
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), TMath::Power(trueSpect.Pt(),2) );
-		// if( !isMatch(trueSpect, spectator_4vect_irf) ){
+		if( !isMatch(trueSpect, spectator_4vect_irf) ){
 			cout << "start~" << i << " struck " << struck_nucleon << endl;
 			cout << "true spectator pt " << trueSpect.Pt() << " eta " << trueSpect.Eta() << " mass " << trueSpect.M() << " total p " << trueSpect.P() << endl;
 			cout << "tagged spectator pt " << spectator_4vect_irf.Pt() << " eta " << spectator_4vect_irf.Eta() << " mass " << spectator_4vect_irf.M() << " total p " << spectator_4vect_irf.P() << endl;
@@ -260,7 +260,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 				cout << "candidate " << icand << " mass " << saveListOfNucleons[icand].M() 
 				<< " pt " << saveListOfNucleons[icand].Pt() << " eta " << saveListOfNucleons[icand].Eta()  << " total p " << saveListOfNucleons[icand].P() <<endl;
 			}
-		// }
+		}
 		saveListOfNucleons.clear();
 		//boost back to IRF, continue analysis on cross sections
 		spectator_4vect_irf.Boost(-b);
