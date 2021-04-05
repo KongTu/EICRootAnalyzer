@@ -188,6 +188,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		int bestCandidate=-1;
 		TVector3 bestCandidateVector(-1,-1,-1);
 		TLorentzVector hfsCand(0.,0.,0.,0.);
+		vector< TLorentzVector> saveListOfNucleons;
 		for(int j(0); j < nParticles; ++j ) {
 			const erhic::ParticleMC* particle = event->GetTrack(j);
 			int pdg = particle->GetPdgCode();
@@ -204,7 +205,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 			}
 			if( status!=1 ) continue;
-			cout << "status " << status << " pdg " << pdg << " pt " << pt << " eta "<< eta << " NoBam " << NoBAM << endl;
+			if( TMath::Abs(pdg) == 2112 || TMath::Abs(pdg) == 2212 ) saveListOfNucleons.push_back( ppart );
 			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt,eta,phi,0.13957);//assume pions
 		    //sum over HFS excluding elec' within main detector acceptance;
 		    if(!(isMatch(ppart,e_scattered)) && TMath::Abs(part4pion.Eta())<HFSaccept ) hfsCand += part4pion;
@@ -253,9 +254,13 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 			cout << "true spectator pt " << trueSpect.Pt() << " eta " << trueSpect.Eta() << " mass " << trueSpect.M() << endl;
 			cout << "tagged spectator pt " << spectator_4vect_irf.Pt() << " eta " << spectator_4vect_irf.Eta() << " mass " << spectator_4vect_irf.M() << endl;
 			cout << "is matched " << isMatch(trueSpect, spectator_4vect_irf) << endl;
+			for(unsigned icand=0; icand<saveListOfNucleons.size(); icand++){
+				cout << "candidate " << icand << " mass " << saveListOfNucleons[icand].M() 
+				<< " pt " << saveListOfNucleons[icand].Pt() << " eta " << saveListOfNucleons[icand].Eta() << endl;
+			}
 		}
-		
-	//boost back to IRF, continue analysis on cross sections
+		saveListOfNucleons.clear();
+		//boost back to IRF, continue analysis on cross sections
 		spectator_4vect_irf.Boost(-b);
 		double xd = trueQ2 / (2*d_beam.Dot(qbeam));
 		double gamma2 = (4.*TMath::Power(MASS_DEUTERON,2)*TMath::Power(xd,2)) / trueQ2;
