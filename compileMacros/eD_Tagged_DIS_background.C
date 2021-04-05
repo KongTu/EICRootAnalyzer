@@ -251,8 +251,8 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), TMath::Power(trueSpect.Pt(),2) );
 		if( !isMatch(trueSpect, spectator_4vect_irf) ){
 			cout << "start~" << i << endl;
-			cout << "true spectator pt " << trueSpect.Pt() << " eta " << trueSpect.Eta() << " mass " << trueSpect.M() << endl;
-			cout << "tagged spectator pt " << spectator_4vect_irf.Pt() << " eta " << spectator_4vect_irf.Eta() << " mass " << spectator_4vect_irf.M() << endl;
+			cout << "true spectator pt " << trueSpect.Pt() << " eta " << trueSpect.Eta() << " mass " << trueSpect.M() << " total p " << trueSpect.P() << endl;
+			cout << "tagged spectator pt " << spectator_4vect_irf.Pt() << " eta " << spectator_4vect_irf.Eta() << " mass " << spectator_4vect_irf.M() << " total p " << spectator_4vect_irf.P() << endl;
 			cout << "is matched " << isMatch(trueSpect, spectator_4vect_irf) << endl;
 			for(unsigned icand=0; icand<saveListOfNucleons.size(); icand++){
 				cout << "candidate " << icand << " mass " << saveListOfNucleons[icand].M() 
