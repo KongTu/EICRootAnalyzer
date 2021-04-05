@@ -256,7 +256,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 			cout << "is matched " << isMatch(trueSpect, spectator_4vect_irf) << endl;
 			for(unsigned icand=0; icand<saveListOfNucleons.size(); icand++){
 				cout << "candidate " << icand << " mass " << saveListOfNucleons[icand].M() 
-				<< " pt " << saveListOfNucleons[icand].Pt() << " eta " << saveListOfNucleons[icand].Eta() << endl;
+				<< " pt " << saveListOfNucleons[icand].Pt() << " eta " << saveListOfNucleons[icand].Eta()  << " total p " << saveListOfNucleons[icand].P() <<endl;
 			}
 		}
 		saveListOfNucleons.clear();
