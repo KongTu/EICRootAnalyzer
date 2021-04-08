@@ -247,7 +247,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		qbeam_IRF.Boost(-b);
 		double angleTheta = qbeam_IRF.Theta();
 		double anglePhi = e_scattered.Phi();
-		rotateVector.RotateY( PI-angleTheta );
+		rotateVector.RotateY( +angleTheta );
 		rotateVector.RotateZ( PI-anglePhi );
 		TLorentzVector trueSpect_lab = rotateVector*trueSpect;
 		trueSpect.Boost(b);
