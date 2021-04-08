@@ -164,7 +164,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		double pzf = event->pzf;
 
 		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep+0.00051*0.00051));
-		TLorentzVector d_beam(0.,0.,pznucl_total,sqrt(pznucl_total*pznucl_total+MASS_DEUTERON*MASS_DEUTERON));
+		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
 
 		//boost vector for lab <--> d rest frame
@@ -248,7 +248,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		qbeam_IRF.Boost(-b);
 		double angleTheta = qbeam_IRF.Theta();
 		double anglePhi = e_scattered.Phi();
-		// rotateVector.RotateY( angleTheta+PI );
+		rotateVector.RotateY( angleTheta );
 		rotateVector.RotateZ( PI-anglePhi );
 		TLorentzVector trueSpect_lab = rotateVector*trueSpect;
 		trueSpect.Boost(b);
