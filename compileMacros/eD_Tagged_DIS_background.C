@@ -241,7 +241,9 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 			}
 		}
 		TLorentzRotation rotateVector=TLorentzRotation(1.0*d_beam.BoostVector());
-		double angleTheta = (e_beam - e_scattered).Angle(d_beam.Vect());
+		TLorentzVector qbeam_IRF=(e_beam - e_scattered);
+		qbeam_IRF.Boost(-b);
+		double angleTheta = qbeam_IRF.Theta();
 		rotateVector.RotateY( -angleTheta );
 		TLorentzVector trueSpect_lab = rotateVector*trueSpect;
 		trueSpect.Boost(b);
