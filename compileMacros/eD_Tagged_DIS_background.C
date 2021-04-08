@@ -80,19 +80,25 @@ int isMatch(TLorentzVector trueSpect, TLorentzVector taggedSpect){
 		return 0;
 	}
 }
-TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
+TLorentzRotation RotateToLab(TLorentzVector const &eBeam_lab,
                             TLorentzVector const &pBeam_lab,
                             TLorentzVector const &eScat_lab) {
-   TLorentzVector q_lab=eBeam_lab - eScat_lab;
-   TLorentzVector p_plus_q=pBeam_lab + q_lab;
-   // boost to HCM
-   TLorentzRotation boost=TLorentzRotation(1.0*pBeam_lab.BoostVector());
-   TVector3 axis=p_plus_q.BoostVector();
-   // rotate away y-coordinate
-   boost.RotateZ(+axis.Phi());
-   // rotate away x-coordinate
-   boost.RotateY(axis.Theta());
-   return boost;
+	
+	TLorentzVector q_lab=eBeam_lab - eScat_lab;
+	TLorentzVector q_irf=q_lab;
+	TLorentzVector eScat_irf=eScat_lab;
+	TVector3 pBoost=pBeam_lab.BoostVector();
+	q_irf.Boost(-pBoost);
+	eScat_irf.Boost(-pBoost);
+
+	TLorentzRotation l;
+	double angleTheta = q_irf.Theta();
+	double anglePhi = eScat_irf.Phi();
+	l.RotateY( angleTheta );
+	l.RotateZ( PI-anglePhi );
+
+	return l;
+
 }
 
 void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, bool cutPtBal_=false, TString filename="Output_input_temp_91"){
@@ -241,18 +247,23 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 				}
 			}
 		}
-		TLorentzRotation rotateVector;
-		TLorentzVector qbeam_IRF=(e_beam - e_scattered);
-		TLorentzVector e_scattered_IRF = e_scattered;
-		e_scattered.Boost(-b);
-		qbeam_IRF.Boost(-b);
-		double angleTheta = qbeam_IRF.Theta();
-		double anglePhi = e_scattered.Phi();
-		rotateVector.RotateY( -PI+angleTheta );
-		rotateVector.RotateZ( PI-anglePhi );
-		TLorentzVector trueSpect_lab = rotateVector*trueSpect;
-		trueSpect_lab.Boost(b);
+		TLorentzRotation rotateVector=RotateToLab(e_beam, d_beam, e_scattered);
+		TLorentzVector trueSpect_lab = rotateVector*trueSpect;//rotation only
+		trueSpect_lab.Boost(b);//longitudinal boost without rotation
 		trueSpect.Boost(b);
+
+		// TLorentzVector qbeam_IRF=(e_beam - e_scattered);
+		// TLorentzVector e_scattered_IRF = e_scattered;
+		// e_scattered.Boost(-b);
+		// qbeam_IRF.Boost(-b);
+		// double angleTheta = qbeam_IRF.Theta();
+		// double anglePhi = e_scattered.Phi();
+		// rotateVector.RotateY( angleTheta );
+		// rotateVector.RotateZ( PI-anglePhi );
+		// TLorentzVector trueSpect_lab = rotateVector*trueSpect;
+		// trueSpect_lab.Boost(b);
+		// trueSpect.Boost(b);
+		
 		cout << "before rotaton pt " << trueSpect.Pt() << " mass " << trueSpect.M() << " eta " << trueSpect.Eta() << " phi " << trueSpect.Phi() << " total p " << trueSpect.P() << endl; 
 		cout << "after rotaton pt " << trueSpect_lab.Pt() << " mass " << trueSpect_lab.M() << " eta " << trueSpect_lab.Eta() << " phi " << trueSpect_lab.Phi() << " total p " << trueSpect_lab.P() << endl; 
 		for(unsigned icand=0; icand<saveListOfNucleons.size(); icand++){
