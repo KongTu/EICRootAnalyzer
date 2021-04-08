@@ -95,7 +95,7 @@ TLorentzRotation RotateToLab(TLorentzVector const &eBeam_lab,
 	double angleTheta = q_irf.Theta();
 	double anglePhi = eScat_irf.Phi();
 	l.RotateY( angleTheta );
-	l.RotateZ( PI-anglePhi );
+	l.RotateZ( anglePhi );
 
 	return l;
 
@@ -247,6 +247,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 				}
 			}
 		}
+
 		TLorentzRotation rotateVector=RotateToLab(e_beam, d_beam, e_scattered);
 		TLorentzVector trueSpect_lab = rotateVector*trueSpect;//rotation only
 		trueSpect_lab.Boost(b);//longitudinal boost without rotation
