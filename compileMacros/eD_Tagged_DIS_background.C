@@ -87,8 +87,7 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
    TLorentzVector p_plus_q=pBeam_lab + q_lab;
    // boost to HCM
    TLorentzRotation boost=TLorentzRotation(1.0*pBeam_lab.BoostVector());
-   TLorentzVector pBoost=boost;
-   TVector3 axis=pBoost.BoostVector();
+   TVector3 axis=p_plus_q.BoostVector();
    // rotate away y-coordinate
    boost.RotateZ(+axis.Phi());
    // rotate away x-coordinate
