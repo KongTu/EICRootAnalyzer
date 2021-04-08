@@ -222,7 +222,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 			}
 			if( status!=1 ) continue;
 			if( TMath::Abs(pdg) == 2112 || TMath::Abs(pdg) == 2212 ) saveListOfNucleons.push_back( ppart );
-			saveListOfNucleons.push_back( ppart );
+			// saveListOfNucleons.push_back( ppart );
 			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt,eta,phi,0.13957);//assume pions
 		    //sum over HFS excluding elec' within main detector acceptance;
 		    if(!(isMatch(ppart,e_scattered)) && TMath::Abs(part4pion.Eta())<HFSaccept ) hfsCand += part4pion;
@@ -247,7 +247,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		qbeam_IRF.Boost(-b);
 		double angleTheta = qbeam_IRF.Theta();
 		double anglePhi = e_scattered.Phi();
-		rotateVector.RotateY( +angleTheta );
+		rotateVector.RotateY( angleTheta );
 		rotateVector.RotateZ( PI-anglePhi );
 		TLorentzVector trueSpect_lab = rotateVector*trueSpect;
 		trueSpect.Boost(b);
