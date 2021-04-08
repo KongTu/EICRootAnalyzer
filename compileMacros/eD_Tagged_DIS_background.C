@@ -92,7 +92,7 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
    // rotate away y-coordinate
    boost.RotateZ(+axis.Phi());
    // rotate away x-coordinate
-   boost.RotateY(-(M_PI-axis.Theta()) );
+   boost.RotateY(-axis.Theta() );
    return boost;
 }
 
@@ -244,8 +244,8 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		TLorentzRotation boostRotate_to_lab = BoostToHCM(e_beam, d_beam, e_scattered);
 		TLorentzVector trueSpect_lab = boostRotate_to_lab*trueSpect;
 		trueSpect.Boost(b);
-		cout << "before rotaton pt " << trueSpect.Pt() << " eta " << trueSpect.Eta() << " phi " << trueSpect.Phi() << " total p " << trueSpect.P() << endl; 
-		cout << "after rotaton pt " << trueSpect_lab.Pt() << " eta " << trueSpect_lab.Eta() << " phi " << trueSpect_lab.Phi() << " total p " << trueSpect_lab.P() << endl; 
+		cout << "before rotaton pt " << trueSpect.Pt() << " mass " << trueSpect.M() << " eta " << trueSpect.Eta() << " phi " << trueSpect.Phi() << " total p " << trueSpect.P() << endl; 
+		cout << "after rotaton pt " << trueSpect_lab.Pt() << " mass " << trueSpect_lab.M() << " eta " << trueSpect_lab.Eta() << " phi " << trueSpect_lab.Phi() << " total p " << trueSpect_lab.P() << endl; 
 		for(unsigned icand=0; icand<saveListOfNucleons.size(); icand++){
 			cout << "candidate " << icand << " mass " << saveListOfNucleons[icand].M() 
 			<< " pt " << saveListOfNucleons[icand].Pt() << " eta " << saveListOfNucleons[icand].Eta()  << " total p " << saveListOfNucleons[icand].P() <<endl;
