@@ -241,7 +241,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 				}
 			}
 		}
-		TLorentzRotation rotateVector=TLorentzRotation(0,0,1);
+		TLorentzRotation rotateVector;
 		TLorentzVector qbeam_IRF=(e_beam - e_scattered);
 		TLorentzVector e_scattered_IRF = e_scattered;
 		e_scattered.Boost(-b);
@@ -251,6 +251,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		rotateVector.RotateY( angleTheta );
 		rotateVector.RotateZ( PI-anglePhi );
 		TLorentzVector trueSpect_lab = rotateVector*trueSpect;
+		trueSpect_lab.Boost(b);
 		trueSpect.Boost(b);
 		cout << "before rotaton pt " << trueSpect.Pt() << " mass " << trueSpect.M() << " eta " << trueSpect.Eta() << " phi " << trueSpect.Phi() << " total p " << trueSpect.P() << endl; 
 		cout << "after rotaton pt " << trueSpect_lab.Pt() << " mass " << trueSpect_lab.M() << " eta " << trueSpect_lab.Eta() << " phi " << trueSpect_lab.Phi() << " total p " << trueSpect_lab.P() << endl; 
