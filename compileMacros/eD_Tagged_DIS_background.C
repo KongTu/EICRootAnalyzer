@@ -241,7 +241,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 				}
 			}
 		}
-		TLorentzRotation rotateVector=TLorentzRotation(1.0*d_beam.BoostVector());
+		TLorentzRotation rotateVector=TLorentzRotation(0,0,1);
 		TLorentzVector qbeam_IRF=(e_beam - e_scattered);
 		TLorentzVector e_scattered_IRF = e_scattered;
 		e_scattered.Boost(-b);
