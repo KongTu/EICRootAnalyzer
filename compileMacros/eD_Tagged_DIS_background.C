@@ -263,12 +263,12 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		// TLorentzVector trueSpect_lab = rotateVector*trueSpect;
 		// trueSpect_lab.Boost(b);
 		// trueSpect.Boost(b);
-		
+
 		cout << "before rotaton pt " << trueSpect.Pt() << " mass " << trueSpect.M() << " eta " << trueSpect.Eta() << " phi " << trueSpect.Phi() << " total p " << trueSpect.P() << endl; 
 		cout << "after rotaton pt " << trueSpect_lab.Pt() << " mass " << trueSpect_lab.M() << " eta " << trueSpect_lab.Eta() << " phi " << trueSpect_lab.Phi() << " total p " << trueSpect_lab.P() << endl; 
 		for(unsigned icand=0; icand<saveListOfNucleons.size(); icand++){
 			cout << "candidate " << icand << " mass " << saveListOfNucleons[icand].M() 
-			<< " pt " << saveListOfNucleons[icand].Pt() << " eta " << saveListOfNucleons[icand].Eta()  << " total p " << saveListOfNucleons[icand].P() <<endl;
+			<< " pt " << saveListOfNucleons[icand].Pt() << " eta " << saveListOfNucleons[icand].Eta()  << " phi " << saveListOfNucleons[icand].Phi()  << " total p " << saveListOfNucleons[icand].P() <<endl;
 		}
 		//don't touch below
 		
