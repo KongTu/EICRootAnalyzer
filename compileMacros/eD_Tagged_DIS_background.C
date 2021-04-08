@@ -43,8 +43,8 @@
 #define MASS_JPSI 	  3.09688
 #define MASS_PROTON   0.93827
 #define MASS_NEUTRON  0.93957
-#define MASS_DEUTERON 1.8756129
-// #define MASS_DEUTERON 1.8751019071673038
+// #define MASS_DEUTERON 1.8756129
+#define MASS_DEUTERON 1.8751019071673038
 #define MASS_TRITON   2.7937167208086358
 #define MASS_HE3      2.7937167208086358
 #define MASS_ALPHA    3.7249556277448477
@@ -240,8 +240,10 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 				}
 			}
 		}
-		TLorentzRotation boostRotate_to_lab = BoostToHCM(e_beam, d_beam, e_scattered);
-		TLorentzVector trueSpect_lab = boostRotate_to_lab*trueSpect;
+		TLorentzRotation rotateVector=TLorentzRotation(1.0*d_beam.BoostVector());
+		double angleTheta = (e_beam - e_scattered).Angle(d_beam);
+		rotateVector.RotateY( -PI+angleTheta );
+		TLorentzVector trueSpect_lab = rotateVector*trueSpect;
 		trueSpect.Boost(b);
 		cout << "before rotaton pt " << trueSpect.Pt() << " mass " << trueSpect.M() << " eta " << trueSpect.Eta() << " phi " << trueSpect.Phi() << " total p " << trueSpect.P() << endl; 
 		cout << "after rotaton pt " << trueSpect_lab.Pt() << " mass " << trueSpect_lab.M() << " eta " << trueSpect_lab.Eta() << " phi " << trueSpect_lab.Phi() << " total p " << trueSpect_lab.P() << endl; 
