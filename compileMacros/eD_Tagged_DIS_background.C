@@ -35,6 +35,7 @@
 #include "TGraph.h"
 #include "TGraphErrors.h"
 #include "TLorentzVector.h"
+#include "TLorentzRotation.h"
 #include "TBranchElement.h"
 
 #define PI            3.1415926
