@@ -244,7 +244,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		TLorentzVector qbeam_IRF=(e_beam - e_scattered);
 		qbeam_IRF.Boost(-b);
 		double angleTheta = qbeam_IRF.Theta();
-		rotateVector.RotateY( -angleTheta );
+		rotateVector.RotateY( angleTheta );
 		TLorentzVector trueSpect_lab = rotateVector*trueSpect;
 		trueSpect.Boost(b);
 		cout << "before rotaton pt " << trueSpect.Pt() << " mass " << trueSpect.M() << " eta " << trueSpect.Eta() << " phi " << trueSpect.Phi() << " total p " << trueSpect.P() << endl; 
