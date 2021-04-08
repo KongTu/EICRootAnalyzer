@@ -79,6 +79,21 @@ int isMatch(TLorentzVector trueSpect, TLorentzVector taggedSpect){
 		return 0;
 	}
 }
+TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
+                            TLorentzVector const &pBeam_lab,
+                            TLorentzVector const &eScat_lab) {
+   TLorentzVector q_lab=eBeam_lab - eScat_lab;
+   TLorentzVector p_plus_q=pBeam_lab + q_lab;
+   // boost to HCM
+   TLorentzRotation boost=TLorentzRotation(1.0*p_plus_q.BoostVector());
+   TLorentzVector pBoost=boost*pBeam_lab;
+   TVector3 axis=pBoost.BoostVector();
+   // rotate away y-coordinate
+   boost.RotateZ(+axis.Phi());
+   // rotate away x-coordinate
+   boost.RotateY(-(M_PI-axis.Theta()) );
+   return boost;
+}
 
 void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, bool cutPtBal_=false, TString filename="Output_input_temp_91"){
 
@@ -173,7 +188,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 			Espec = sqrt(nk_event*nk_event+MASS_PROTON*MASS_PROTON);
 		}
 		trueSpect.SetPxPyPzE(-pxf,-pyf,-pzf,Espec);
-		trueSpect.Boost(b);
+		
 		h_nk->Fill( nk_event );//sanity check for my wavefunction;
 		
 		//event process and kinematic phase space
@@ -206,7 +221,7 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 			}
 			if( status!=1 ) continue;
-			// if( TMath::Abs(pdg) == 2112 || TMath::Abs(pdg) == 2212 ) saveListOfNucleons.push_back( ppart );
+			if( TMath::Abs(pdg) == 2112 || TMath::Abs(pdg) == 2212 ) saveListOfNucleons.push_back( ppart );
 			saveListOfNucleons.push_back( ppart );
 			TLorentzVector part4pion; part4pion.SetPtEtaPhiM(pt,eta,phi,0.13957);//assume pions
 		    //sum over HFS excluding elec' within main detector acceptance;
@@ -225,6 +240,12 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 				}
 			}
 		}
+		TLorentzRotation boostRotate_to_lab = BoostToHCM(e_beam, d_beam, e_scattered);
+		TLorentzVector trueSpect_lab = BoostToHCM*trueSpect;
+		cout << "after rotaton pt " << trueSpect_lab.Pt() << " eta " << trueSpect_lab.Eta() << " phi " << trueSpect_lab.Phi() << " total p " << trueSpect_lab.P() << endl; 
+
+		//don't touch below
+		trueSpect.Boost(b);
 		h_beforeTagging->Fill( TMath::Power(trueSpect.Pt(),2) );
 		//virtual photon
 		TLorentzVector qbeam = e_beam - e_scattered;
@@ -251,16 +272,16 @@ void eD_Tagged_DIS_background(const int nEvents = 40000, double HFSaccept=4.0, b
 		//if turn on cut on pt balance variable.
 		h_taggingEfficiency_step2->Fill(isMatch(trueSpect, spectator_4vect_irf));
 		h_taggingEfficiency_pt2->Fill( TMath::Power(spectator_4vect_irf.Pt(),2), TMath::Power(trueSpect.Pt(),2) );
-		if( !isMatch(trueSpect, spectator_4vect_irf) ){
-			cout << "start~" << i << " struck " << struck_nucleon << endl;
-			cout << "true spectator pt " << trueSpect.Pt() << " eta " << trueSpect.Eta() << " mass " << trueSpect.M() << " total p " << trueSpect.P() << endl;
-			cout << "tagged spectator pt " << spectator_4vect_irf.Pt() << " eta " << spectator_4vect_irf.Eta() << " mass " << spectator_4vect_irf.M() << " total p " << spectator_4vect_irf.P() << endl;
-			cout << "is matched " << isMatch(trueSpect, spectator_4vect_irf) << endl;
-			for(unsigned icand=0; icand<saveListOfNucleons.size(); icand++){
-				cout << "candidate " << icand << " mass " << saveListOfNucleons[icand].M() 
-				<< " pt " << saveListOfNucleons[icand].Pt() << " eta " << saveListOfNucleons[icand].Eta()  << " total p " << saveListOfNucleons[icand].P() <<endl;
-			}
-		}
+		// if( !isMatch(trueSpect, spectator_4vect_irf) ){
+		// 	cout << "start~" << i << " struck " << struck_nucleon << endl;
+		// 	cout << "true spectator pt " << trueSpect.Pt() << " eta " << trueSpect.Eta() << " mass " << trueSpect.M() << " total p " << trueSpect.P() << endl;
+		// 	cout << "tagged spectator pt " << spectator_4vect_irf.Pt() << " eta " << spectator_4vect_irf.Eta() << " mass " << spectator_4vect_irf.M() << " total p " << spectator_4vect_irf.P() << endl;
+		// 	cout << "is matched " << isMatch(trueSpect, spectator_4vect_irf) << endl;
+		// 	for(unsigned icand=0; icand<saveListOfNucleons.size(); icand++){
+		// 		cout << "candidate " << icand << " mass " << saveListOfNucleons[icand].M() 
+		// 		<< " pt " << saveListOfNucleons[icand].Pt() << " eta " << saveListOfNucleons[icand].Eta()  << " total p " << saveListOfNucleons[icand].P() <<endl;
+		// 	}
+		// }
 		saveListOfNucleons.clear();
 		//boost back to IRF, continue analysis on cross sections
 		spectator_4vect_irf.Boost(-b);
