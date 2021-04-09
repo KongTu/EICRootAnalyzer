@@ -162,8 +162,7 @@ void eD_Tagged_DIS_debug(const int nEvents = 40000){
 		cout << "Event #" << i << " is a struck nucleon with ID: " << struck_nucleon << endl;
 		cout << "True spectator pt " << trueSpect_lab.Pt() << " eta " << trueSpect_lab.Eta() << " phi " << trueSpect_lab.Phi() << " mass " << trueSpect_lab.M() << " total p " << trueSpect_lab.P() << endl;
 		for(unsigned icand=0; icand<saveListOfNucleons.size(); icand++){
-			cout << "candidate " << icand << " mass " << saveListOfNucleons[icand].M() 
-			<< " pt " << saveListOfNucleons[icand].Pt() << " eta " << saveListOfNucleons[icand].Eta()  << " phi " << saveListOfNucleons[icand].Phi()  << " total p " << saveListOfNucleons[icand].P() <<endl;
+			cout << "candidate " << icand  << " pt " << saveListOfNucleons[icand].Pt() << " eta " << saveListOfNucleons[icand].Eta()  << " phi " << saveListOfNucleons[icand].Phi() << " mass " << saveListOfNucleons[icand].M() << " total p " << saveListOfNucleons[icand].P() <<endl;
 		}
 		saveListOfNucleons.clear();
 	
