@@ -83,7 +83,7 @@ TLorentzRotation RotateToLab(TLorentzVector const &eBeam_lab,
 void eD_Tagged_DIS_debug(const int nEvents = 40000){
 
 	//input from BeAGLE root files
-	TFile * output = new TFile("../rootfiles/eD_Tagged_DIS_Beagle_background.root","recreate");
+	TFile * output = new TFile("../rootfiles/eD_Tagged_DIS_Beagle_debug.root","recreate");
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_10_100_noINC/eD_Tagged_DIS_1M_batch_1/*.root" );
 	
