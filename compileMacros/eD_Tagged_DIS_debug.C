@@ -105,7 +105,7 @@ void eD_Tagged_DIS_debug(const int nEvents = 40000){
 		double pyf = event->pyf;
 		double pzf = event->pzf;
 
-		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep));
+		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep+0.00051*0.00051));
 		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
 
@@ -123,12 +123,8 @@ void eD_Tagged_DIS_debug(const int nEvents = 40000){
 		double nk_event = sqrt(pxf*pxf+pyf*pyf+pzf*pzf);
 		double Espec = 0.;
 		TLorentzVector trueSpect;
-		if( struck_nucleon == 2212 ){
-			Espec = sqrt(nk_event*nk_event+MASS_NEUTRON*MASS_NEUTRON);
-		}
-		else{
-			Espec = sqrt(nk_event*nk_event+MASS_PROTON*MASS_PROTON);
-		}
+		if( struck_nucleon == 2212 ){Espec = sqrt(nk_event*nk_event+MASS_NEUTRON*MASS_NEUTRON);}
+		else{Espec = sqrt(nk_event*nk_event+MASS_PROTON*MASS_PROTON);}
 		trueSpect.SetPxPyPzE(-pxf,-pyf,-pzf,Espec);
 		
 		//event process and kinematic phase space
