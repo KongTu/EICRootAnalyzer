@@ -137,6 +137,8 @@ void eD_Tagged_DIS_debug(const int nEvents = 40000){
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
 				
 		vector< TLorentzVector> saveListOfNucleons;
+		vector< TLorentzVector> saveListOfNucleons_2;
+		TLorentzVector ppart_man;
 		for(int j(0); j < nParticles; ++j ) {
 			const erhic::ParticleMC* particle = event->GetTrack(j);
 			int pdg = particle->GetPdgCode();
@@ -152,7 +154,11 @@ void eD_Tagged_DIS_debug(const int nEvents = 40000){
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 			}
 			if( status!=1 ) continue;
-			if( TMath::Abs(pdg) == 2112 || TMath::Abs(pdg) == 2212 ) saveListOfNucleons.push_back( ppart );
+			if( TMath::Abs(pdg) == 2112 || TMath::Abs(pdg) == 2212 ) {
+				saveListOfNucleons.push_back( ppart );
+				ppart_man.SetPtEtaPhiM( pt, eta, phi, mass);
+				saveListOfNucleons_2.push_back( ppart_man );
+			}
 		}
 
 		TLorentzRotation rotateVector=RotateToLab(e_beam, d_beam, e_scattered);
@@ -163,8 +169,10 @@ void eD_Tagged_DIS_debug(const int nEvents = 40000){
 		cout << "True spectator pt " << trueSpect_lab.Pt() << " eta " << trueSpect_lab.Eta() << " phi " << trueSpect_lab.Phi() << " mass " << trueSpect_lab.M() << " total p " << trueSpect_lab.P() << endl;
 		for(unsigned icand=0; icand<saveListOfNucleons.size(); icand++){
 			cout << "candidate " << icand  << " pt " << saveListOfNucleons[icand].Pt() << " eta " << saveListOfNucleons[icand].Eta()  << " phi " << saveListOfNucleons[icand].Phi() << " mass " << saveListOfNucleons[icand].M() << " total p " << saveListOfNucleons[icand].P() <<endl;
+			cout << "candidate man: " << icand  << " pt " << saveListOfNucleons_2[icand].Pt() << " eta " << saveListOfNucleons_2[icand].Eta()  << " phi " << saveListOfNucleons_2[icand].Phi() << " mass " << saveListOfNucleons_2[icand].M() << " total p " << saveListOfNucleons_2[icand].P() <<endl;
 		}
 		saveListOfNucleons.clear();
+		saveListOfNucleons_2.clear();
 	
 	}
 
