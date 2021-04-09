@@ -105,7 +105,7 @@ void eD_Tagged_DIS_debug(const int nEvents = 40000){
 		double pyf = event->pyf;
 		double pzf = event->pzf;
 
-		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep+0.00051*0.00051));
+		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep));
 		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
 
@@ -168,8 +168,8 @@ void eD_Tagged_DIS_debug(const int nEvents = 40000){
 		cout << "Event #" << i << " is a struck nucleon with ID: " << struck_nucleon << endl;
 		cout << "True spectator pt " << trueSpect_lab.Pt() << " eta " << trueSpect_lab.Eta() << " phi " << trueSpect_lab.Phi() << " mass " << trueSpect_lab.M() << " total p " << trueSpect_lab.P() << endl;
 		for(unsigned icand=0; icand<saveListOfNucleons.size(); icand++){
-			cout << "candidate " << icand  << " pt " << saveListOfNucleons[icand].Pt() << " eta " << saveListOfNucleons[icand].Eta()  << " phi " << saveListOfNucleons[icand].Phi() << " mass " << saveListOfNucleons[icand].M() << " total p " << saveListOfNucleons[icand].P() <<endl;
-			cout << "candidate man: " << icand  << " pt " << saveListOfNucleons_2[icand].Pt() << " eta " << saveListOfNucleons_2[icand].Eta()  << " phi " << saveListOfNucleons_2[icand].Phi() << " mass " << saveListOfNucleons_2[icand].M() << " total p " << saveListOfNucleons_2[icand].P() <<endl;
+			cout << "method A - candidate " << icand  << " pt " << saveListOfNucleons[icand].Pt() << " eta " << saveListOfNucleons[icand].Eta()  << " phi " << saveListOfNucleons[icand].Phi() << " mass " << saveListOfNucleons[icand].M() << " total p " << saveListOfNucleons[icand].P() <<endl;
+			cout << "method B - candidate " << icand  << " pt " << saveListOfNucleons_2[icand].Pt() << " eta " << saveListOfNucleons_2[icand].Eta()  << " phi " << saveListOfNucleons_2[icand].Phi() << " mass " << saveListOfNucleons_2[icand].M() << " total p " << saveListOfNucleons_2[icand].P() <<endl;
 		}
 		saveListOfNucleons.clear();
 		saveListOfNucleons_2.clear();
