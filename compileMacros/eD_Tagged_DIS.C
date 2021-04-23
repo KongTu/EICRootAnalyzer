@@ -94,6 +94,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	double Q2binwidth = 3.0-2.0;
 
 	TH1D* h_HERA_Q2_10_14 = new TH1D("h_HERA_Q2_10_14","h_HERA_Q2_10_14",100,0.00001,0.1);
+	TH1D* h_HERA_Q2_10_14_alpha_1 = new TH1D("h_HERA_Q2_10_14_alpha_1","h_HERA_Q2_10_14_alpha_1",100,0.00001,0.1);
+	TH1D* h_HERA_Q2_10_14_alpha_2 = new TH1D("h_HERA_Q2_10_14_alpha_2","h_HERA_Q2_10_14_alpha_2",100,0.00001,0.1);
 	TH1D* h_alpha_spec = new TH1D("h_alpha_spec","h_alpha_spec",100,0,2);
 	TH1D* h_nk = new TH1D("h_nk","h_nk",100,0,2);
 	double bin_width = h_HERA_Q2_10_14->GetBinWidth(1);
@@ -188,9 +190,16 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		//x bin [0.007,0.009]
 		//alpha below is wrong.
 		
-		// double Pplus = (spectator_4vect_irf.E() + spectator_4vect_irf.Pz()) / sqrt(2);
-		// double PdPlus = MASS_DEUTERON / sqrt(2);
-		// double alpha_spec = 2*Pplus / PdPlus;
+		double Pplus = (spectator_4vect_irf.E() + spectator_4vect_irf.Pz()) / sqrt(2);
+		double PdPlus = MASS_DEUTERON / sqrt(2);
+		double alpha_spec = 2*Pplus / PdPlus;
+
+		if(alpha_spec < 0.9){
+			h_HERA_Q2_10_14_alpha_1->Fill( trueX, event_weight );
+		}
+		if(alpha_spec > 1.1 ){
+			h_HERA_Q2_10_14_alpha_2->Fill( trueX, event_weight );
+		}
 		// double pt2 = pxf*pxf+pyf*pyf;
 		// double alpha_spec_binwidth = -1; // will have to be rewritten by 20 alpha bins
 		// double xbinwidth = (0.003-0.002);
