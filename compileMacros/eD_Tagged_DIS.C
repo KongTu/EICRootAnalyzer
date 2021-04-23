@@ -164,6 +164,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		cout << "Event #"<<i<< "with Q2 = " << trueQ2 << endl;
 		cout << "Event #"<<i<< "with y = " << trueY << endl;
 		cout << "Event #"<<i<< "with struck_nucleon = " << struck_nucleon << endl;
+		cout << "Spectator mass = " << spectator_4vect_irf.M() << endl;
 
 		//HERA inclusive cross section
 		double event_weight = 1.;
@@ -174,12 +175,16 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 			double pt = particle->GetPt();
 			double eta = particle->GetEta();
 			double phi = particle->GetPhi();
+			int pdg = particle->GetPdgCode();
 			if( index == 3 ) {
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 				// e_scattered = ppart;
 			}
+			if(pdg!=2112 && pdg!=2212) continue;
 			cout << "index = " << index << endl;
-			cout << "parent = " << particle->GetParentIndex() << endl;
+			cout << "pdg = " << particle->GetPdgCode() << endl;
+			cout << "parent index = " << particle->GetParentIndex() << endl;
+			cout << "pt = " << pt << " eta = " << eta << " phi = " << phi << endl;
 		}
 		TLorentzVector qbeam = e_beam - e_scattered;
 
