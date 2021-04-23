@@ -60,7 +60,7 @@ using namespace erhic;
 #define MASS_MUON  0.1056
 
 
-void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_temp_9*"){
+void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_temp_90"){
 
 
 	//input from BeAGLE root files
@@ -69,6 +69,15 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	TChain *tree = new TChain("EICTree");
 	// tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_10_100/eD_Tagged_DIS_100M_batch_1/"+filename+".root" );
 	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_6/"+filename+".root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_6/Output_input_temp_91.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_6/Output_input_temp_92.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_6/Output_input_temp_93.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_6/Output_input_temp_94.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_6/Output_input_temp_95.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_6/Output_input_temp_96.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_6/Output_input_temp_97.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_6/Output_input_temp_98.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_6/Output_input_temp_99.root" );
 	
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
@@ -104,7 +113,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
       
 		// Read the next entry from the tree.
 		tree->GetEntry(i);
-
+		if( (i%10000)==0 ) cout << "#Events = " i << endl;
 		double pzlep = event->pzlep;
 		double pztarg = event->pztarg;
 		double pznucl = event->pznucl;
