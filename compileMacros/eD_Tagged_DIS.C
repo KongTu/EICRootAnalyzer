@@ -194,10 +194,10 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		double PdPlus = MASS_DEUTERON / sqrt(2);
 		double alpha_spec = 2*Pplus / PdPlus;
 
-		if(alpha_spec < 0.9){
+		if(alpha_spec < 1.0){
 			h_HERA_Q2_10_14_alpha_1->Fill( trueX, event_weight );
 		}
-		if(alpha_spec > 1.1 ){
+		if(alpha_spec > 1.0 ){
 			h_HERA_Q2_10_14_alpha_2->Fill( trueX, event_weight );
 		}
 		// double pt2 = pxf*pxf+pyf*pyf;
