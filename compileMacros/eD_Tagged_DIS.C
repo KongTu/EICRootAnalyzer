@@ -195,6 +195,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 			const erhic::ParticleMC* particle = event->GetTrack(j);
 			int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
 			double pt = particle->GetPt();
+			int status = particle->GetStatus();
 			double eta = particle->GetEta();
 			double phi = particle->GetPhi();
 			int pdg = particle->GetPdgCode();
@@ -202,6 +203,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 				// e_scattered = ppart;
 			}
+			if( status!= 1 ) continue;
 			if(pdg!=2112 && pdg!=2212) continue;
 			cout << "index = " << index << endl;
 			cout << "pdg = " << particle->GetPdgCode() << endl;
