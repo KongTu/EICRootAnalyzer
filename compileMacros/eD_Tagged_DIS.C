@@ -60,7 +60,7 @@ using namespace erhic;
 #define MASS_MUON  0.1056
 
 
-void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_temp_91"){
+void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_temp_9*"){
 
 
 	//input from BeAGLE root files
@@ -77,7 +77,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	// double totalXSection   = .0000488952173751; //mb
 	// double nEventsTotal        = 500428.0;
 	 double totalXSection   = .00056513721286648133; //mb
-	double nEventsTotal        = 249971.0;
+	double nEventsTotal        = 2499710.0;
 	double Lint = nEventsTotal/totalXSection; // mb^{-1}
 	double alpha2 = TMath::Power((1./137),2);
 	double twopi = 2*PI;
