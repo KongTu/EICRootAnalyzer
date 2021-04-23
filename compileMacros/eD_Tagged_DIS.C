@@ -178,6 +178,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 				// e_scattered = ppart;
 			}
+			cout << "index = " << index << endl;
+			cout << "parent = " << particle->GetParentIndex() << endl;
 		}
 		TLorentzVector qbeam = e_beam - e_scattered;
 
