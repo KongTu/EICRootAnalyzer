@@ -162,10 +162,10 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		}
 		TLorentzVector qbeam = e_beam - e_scattered;
 
-		double xd = trueQ2 / (2*d_beam.Dot(qbeam));
-		double gamma2 = (4.*TMath::Power(MASS_DEUTERON,2)*TMath::Power(xd,2)) / trueQ2;
-		double epsilon = (1. - trueY - gamma2*TMath::Power(trueY/2.,2)) / (1. - trueY + TMath::Power(trueY,2)/2. + gamma2*TMath::Power(trueY/2.,2) );
-		double compare = TMath::Power( trueY, 2) / (1. - epsilon);
+		// double xd = trueQ2 / (2*d_beam.Dot(qbeam));
+		// double gamma2 = (4.*TMath::Power(MASS_DEUTERON,2)*TMath::Power(xd,2)) / trueQ2;
+		// double epsilon = (1. - trueY - gamma2*TMath::Power(trueY/2.,2)) / (1. - trueY + TMath::Power(trueY,2)/2. + gamma2*TMath::Power(trueY/2.,2) );
+		// double compare = TMath::Power( trueY, 2) / (1. - epsilon);
 		//test for two different flux factor
 		// cout << "compare ~ " << compare << "   Yc ~ " << Yc << endl;
 
@@ -175,28 +175,29 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		h_HERA_Q2_10_14->Fill( trueX, event_weight );
 		//x bin [0.007,0.009]
 		//alpha below is wrong.
-		double Pplus = (spectator_4vect_irf.E() + spectator_4vect_irf.Pz()) / sqrt(2);
-		double PdPlus = MASS_DEUTERON / sqrt(2);
-		double alpha_spec = 2*Pplus / PdPlus;
-		double pt2 = pxf*pxf+pyf*pyf;
-		double alpha_spec_binwidth = -1; // will have to be rewritten by 20 alpha bins
-		double xbinwidth = (0.003-0.002);
-		double pt2binwidth = h_HERA_Q2_10_14_x007_009_alpha[0]->GetBinWidth(1);
-		h_alpha_spec->Fill( alpha_spec );
-		if( trueX > 0.003 || trueX < 0.002 ) continue;
 		
-		int alpha_bin_index = 0;
-		for(int ibin=0;ibin<160;ibin++){
-			if( alpha_spec>alpha_binning[ibin] && alpha_spec<alpha_binning[ibin+1] ){
-				alpha_bin_index = ibin;
-				alpha_spec_binwidth = alpha_binning[ibin+1] - alpha_binning[ibin];
-			}
-		}
-		double event_weight_alphaPt2 = alpha_spec*(16.*TMath::Power(PI,1)*(TMath::Power(trueQ2,2)*trueX)) / (alpha2*Yc);
-		event_weight_alphaPt2 = event_weight_alphaPt2 * (mbToGeV_m2/(Lint*Q2binwidth*xbinwidth*pt2binwidth*alpha_spec_binwidth));
-		//filling all alpha bins
-		h_HERA_Q2_10_14_x007_009_alpha[alpha_bin_index]->Fill(pt2, event_weight_alphaPt2 );
-		h_alpha_spec_everybin[alpha_bin_index]->Fill( alpha_spec );
+		// double Pplus = (spectator_4vect_irf.E() + spectator_4vect_irf.Pz()) / sqrt(2);
+		// double PdPlus = MASS_DEUTERON / sqrt(2);
+		// double alpha_spec = 2*Pplus / PdPlus;
+		// double pt2 = pxf*pxf+pyf*pyf;
+		// double alpha_spec_binwidth = -1; // will have to be rewritten by 20 alpha bins
+		// double xbinwidth = (0.003-0.002);
+		// double pt2binwidth = h_HERA_Q2_10_14_x007_009_alpha[0]->GetBinWidth(1);
+		// h_alpha_spec->Fill( alpha_spec );
+		// if( trueX > 0.003 || trueX < 0.002 ) continue;
+		
+		// int alpha_bin_index = 0;
+		// for(int ibin=0;ibin<160;ibin++){
+		// 	if( alpha_spec>alpha_binning[ibin] && alpha_spec<alpha_binning[ibin+1] ){
+		// 		alpha_bin_index = ibin;
+		// 		alpha_spec_binwidth = alpha_binning[ibin+1] - alpha_binning[ibin];
+		// 	}
+		// }
+		// double event_weight_alphaPt2 = alpha_spec*(16.*TMath::Power(PI,1)*(TMath::Power(trueQ2,2)*trueX)) / (alpha2*Yc);
+		// event_weight_alphaPt2 = event_weight_alphaPt2 * (mbToGeV_m2/(Lint*Q2binwidth*xbinwidth*pt2binwidth*alpha_spec_binwidth));
+		// //filling all alpha bins
+		// h_HERA_Q2_10_14_x007_009_alpha[alpha_bin_index]->Fill(pt2, event_weight_alphaPt2 );
+		// h_alpha_spec_everybin[alpha_bin_index]->Fill( alpha_spec );
 
 	}
 
