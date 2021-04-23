@@ -122,7 +122,10 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	double mbToGeV_m2 = 2.56819;
 	double Q2binwidth = 3.0-2.0;
 
-	TH1D* h_HERA_Q2_10_14 = new TH1D("h_HERA_Q2_10_14","h_HERA_Q2_10_14",100,0.00001,0.1);
+	//alex
+	double xBinsArray[13] = {0.0001, 0.0002, 0.0004, 0.0007, 0.001, 0.002, 0.004, 0.007, 0.01, 0.02, 0.04, 0.07, 0.1};
+
+	TH1D* h_HERA_Q2_10_14 = new TH1D("h_HERA_Q2_10_14","h_HERA_Q2_10_14",12,xBinsArray);
 	TH1D* h_HERA_Q2_10_14_alpha_1 = new TH1D("h_HERA_Q2_10_14_alpha_1","h_HERA_Q2_10_14_alpha_1",100,0.00001,0.1);
 	TH1D* h_HERA_Q2_10_14_alpha_2 = new TH1D("h_HERA_Q2_10_14_alpha_2","h_HERA_Q2_10_14_alpha_2",100,0.00001,0.1);
 	TH1D* h_alpha_spec = new TH1D("h_alpha_spec","h_alpha_spec",100,0,2);
