@@ -113,7 +113,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
       
 		// Read the next entry from the tree.
 		tree->GetEntry(i);
-		if( (i%10000)==0 ) cout << "#Events = " i << endl;
+		if( (i%10000)==0 ) cout << "#Events = "<< i << endl;
 		double pzlep = event->pzlep;
 		double pztarg = event->pztarg;
 		double pznucl = event->pznucl;
