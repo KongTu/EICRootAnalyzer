@@ -125,7 +125,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	//alex
 	double xBinsArray[] = {0., 0.0001, 0.0002, 0.0004, 0.0007, 0.001, 0.002, 0.004, 0.007, 0.01, 0.02, 0.04, 0.07, 0.1};
 	double xBinsWidth[13];
-	for(int bin=0;bin<14;bin++){
+	for(int bin=0;bin<13;bin++){
 		xBinsWidth[bin] = xBinsArray[bin+1]-xBinsArray[bin];
 	}
 
