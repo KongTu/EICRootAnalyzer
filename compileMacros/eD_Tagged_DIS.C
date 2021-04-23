@@ -73,27 +73,27 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	tree->SetBranchAddress("event", &event);
 
 	//all constants
-	double totalXSection   = .0000450463252; //mb
-	double nEventsTotal        = 500257.0;
+	double totalXSection   = .0000488952173751; //mb
+	double nEventsTotal        = 500428.0;
 	double Lint = nEventsTotal/totalXSection; // mb^{-1}
 	double alpha2 = TMath::Power((1./137),2);
 	double twopi = 2*PI;
 	double mbToGeV_m2 = 2.56819;
-	double Q2binwidth = 13.0-10.0;
+	double Q2binwidth = 14.0-10.0;
 
-	TH1D* h_HERA_Q2_10_13 = new TH1D("h_HERA_Q2_10_13","h_HERA_Q2_10_13",100,0.00001,0.1);
+	TH1D* h_HERA_Q2_10_14 = new TH1D("h_HERA_Q2_10_14","h_HERA_Q2_10_14",100,0.00001,0.1);
 	TH1D* h_alpha_spec = new TH1D("h_alpha_spec","h_alpha_spec",100,0,2);
 	TH1D* h_nk = new TH1D("h_nk","h_nk",100,0,2);
-	double bin_width = h_HERA_Q2_10_13->GetBinWidth(1);
+	double bin_width = h_HERA_Q2_10_14->GetBinWidth(1);
 	
 	double alpha_binning[161];
 	for(int ibin=0;ibin<161;ibin++){
 		alpha_binning[ibin] = 0.4+ibin*0.01;
 	}	
-	TH1D* h_HERA_Q2_10_13_x007_009_alpha[160];
+	TH1D* h_HERA_Q2_10_14_x007_009_alpha[160];
 	TH1D* h_alpha_spec_everybin[160];
 	for(int ibin=0;ibin<160;ibin++){
-	 	h_HERA_Q2_10_13_x007_009_alpha[ibin] = new TH1D(Form("h_HERA_Q2_10_13_x007_009_alpha_%d",ibin),Form("h_HERA_Q2_10_13_x007_009_alpha_%d",ibin),100,0,0.15);
+	 	h_HERA_Q2_10_14_x007_009_alpha[ibin] = new TH1D(Form("h_HERA_Q2_10_14_x007_009_alpha_%d",ibin),Form("h_HERA_Q2_10_14_x007_009_alpha_%d",ibin),100,0,0.15);
 		h_alpha_spec_everybin[ibin] = new TH1D(Form("h_alpha_spec_everybin_%d",ibin),Form("h_alpha_spec_everybin_%d",ibin),100,0,2);
 	}
 
@@ -141,9 +141,9 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		spectator_4vect_irf.SetPxPyPzE(-pxf,-pyf,-pzf,Espec);
 
 		//event process and kinematic phase space
-		// if( struck_nucleon != 2212 ) continue; //proton only
+		if( struck_nucleon != 2212 ) continue; //proton only
 		if( event_process != 99 ) continue;
-		if( trueQ2 < 10.  || trueQ2 > 13. ) continue;
+		if( trueQ2 < 10.  || trueQ2 > 14. ) continue;
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
 
 		//HERA inclusive cross section
@@ -172,15 +172,16 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		event_weight = (TMath::Power(trueQ2,2)*trueX) / (twopi*alpha2*Yc);
 		event_weight = event_weight * (mbToGeV_m2)/(Lint*bin_width*Q2binwidth);
 		//fill HERA inclusive cross section for Q2(10,13) GeV**2:
-		h_HERA_Q2_10_13->Fill( trueX, event_weight );
+		h_HERA_Q2_10_14->Fill( trueX, event_weight );
 		//x bin [0.007,0.009]
+		//alpha below is wrong.
 		double Pplus = (spectator_4vect_irf.E() + spectator_4vect_irf.Pz()) / sqrt(2);
 		double PdPlus = MASS_DEUTERON / sqrt(2);
 		double alpha_spec = 2*Pplus / PdPlus;
 		double pt2 = pxf*pxf+pyf*pyf;
 		double alpha_spec_binwidth = -1; // will have to be rewritten by 20 alpha bins
 		double xbinwidth = (0.003-0.002);
-		double pt2binwidth = h_HERA_Q2_10_13_x007_009_alpha[0]->GetBinWidth(1);
+		double pt2binwidth = h_HERA_Q2_10_14_x007_009_alpha[0]->GetBinWidth(1);
 		h_alpha_spec->Fill( alpha_spec );
 		if( trueX > 0.003 || trueX < 0.002 ) continue;
 		
@@ -194,7 +195,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		double event_weight_alphaPt2 = alpha_spec*(16.*TMath::Power(PI,1)*(TMath::Power(trueQ2,2)*trueX)) / (alpha2*Yc);
 		event_weight_alphaPt2 = event_weight_alphaPt2 * (mbToGeV_m2/(Lint*Q2binwidth*xbinwidth*pt2binwidth*alpha_spec_binwidth));
 		//filling all alpha bins
-		h_HERA_Q2_10_13_x007_009_alpha[alpha_bin_index]->Fill(pt2, event_weight_alphaPt2 );
+		h_HERA_Q2_10_14_x007_009_alpha[alpha_bin_index]->Fill(pt2, event_weight_alphaPt2 );
 		h_alpha_spec_everybin[alpha_bin_index]->Fill( alpha_spec );
 
 	}
