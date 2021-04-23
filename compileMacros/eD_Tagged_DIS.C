@@ -161,6 +161,9 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
 
 		cout << "Event #"<<i<< "with xbj = " << trueX << endl;
+		cout << "Event #"<<i<< "with Q2 = " << trueQ2 << endl;
+		cout << "Event #"<<i<< "with y = " << trueY << endl;
+		cout << "Event #"<<i<< "with struck_nucleon = " << struck_nucleon << endl;
 
 		//HERA inclusive cross section
 		double event_weight = 1.;
