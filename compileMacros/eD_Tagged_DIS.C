@@ -78,7 +78,36 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_97.root" );
 	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_98.root" );
 	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_99.root" );
-	
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_80.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_81.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_82.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_83.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_84.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_85.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_86.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_87.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_88.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_89.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_70.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_71.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_72.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_73.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_74.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_75.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_76.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_77.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_78.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_79.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_60.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_61.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_62.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_63.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_64.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_65.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_66.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_67.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_68.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_69.root" );	
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
 
@@ -86,7 +115,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	// double totalXSection   = .0000488952173751; //mb
 	// double nEventsTotal        = 500428.0;
 	double totalXSection   = .00056513721286648133; //mb
-	double nEventsTotal        = 2500840.0;
+	double nEventsTotal        = 2500840.0*4;
 	double Lint = nEventsTotal/totalXSection; // mb^{-1}
 	double alpha2 = TMath::Power((1./137),2);
 	double twopi = 2*PI;
@@ -194,10 +223,10 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		double PdPlus = MASS_DEUTERON / sqrt(2);
 		double alpha_spec = 2*Pplus / PdPlus;
 
-		if(alpha_spec < 1.0){
+		if(alpha_spec < 0.9){
 			h_HERA_Q2_10_14_alpha_1->Fill( trueX, event_weight );
 		}
-		if(alpha_spec > 1.0 ){
+		if(alpha_spec > 1.1 ){
 			h_HERA_Q2_10_14_alpha_2->Fill( trueX, event_weight );
 		}
 		// double pt2 = pxf*pxf+pyf*pyf;
