@@ -123,9 +123,9 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	double Q2binwidth = 3.0-2.0;
 
 	//alex
-	double xBinsArray[] = {0., 0.0001, 0.0002, 0.0004, 0.0007, 0.001, 0.002, 0.004, 0.007, 0.01, 0.02, 0.04, 0.07, 0.1};
-	double xBinsWidth[13];
-	for(int bin=0;bin<13;bin++){
+	double xBinsArray[] = {0.0001, 0.0002, 0.0004, 0.0007, 0.001, 0.002, 0.004, 0.007, 0.01, 0.02, 0.04, 0.07, 0.1};
+	double xBinsWidth[12];
+	for(int bin=0;bin<12;bin++){
 		xBinsWidth[bin] = xBinsArray[bin+1]-xBinsArray[bin];
 	}
 
@@ -219,7 +219,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		// double compare = TMath::Power( trueY, 2) / (1. - epsilon);
 		//test for two different flux factor
 		// cout << "compare ~ " << compare << "   Yc ~ " << Yc << endl;
-		for(int bin=0;bin<13;bin++){
+		for(int bin=0;bin<12;bin++){
 			if(trueX>xBinsArray[bin]&&trueX<xBinsArray[bin+1]){
 				bin_width=xBinsWidth[bin];
 			}
