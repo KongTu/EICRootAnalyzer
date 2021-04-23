@@ -59,7 +59,25 @@ using namespace erhic;
 
 #define MASS_MUON  0.1056
 
+TLorentzRotation RotateToLab(TLorentzVector const &eBeam_lab,
+                            TLorentzVector const &pBeam_lab,
+                            TLorentzVector const &eScat_lab) {
+	
+	TLorentzVector q_lab=eBeam_lab - eScat_lab;
+	TLorentzVector q_irf=q_lab;
+	TLorentzVector eScat_irf=eScat_lab;
+	TVector3 pBoost=pBeam_lab.BoostVector();
+	q_irf.Boost(-pBoost);
+	eScat_irf.Boost(-pBoost);
 
+	TLorentzRotation l;
+	double angleTheta = q_irf.Theta();
+	double anglePhi = eScat_irf.Phi();
+	l.RotateY( angleTheta );
+	l.RotateZ( anglePhi );
+
+	return l;
+}
 void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_temp_91"){
 
 
@@ -153,6 +171,9 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 			Espec = sqrt(nk_event*nk_event+MASS_PROTON*MASS_PROTON);
 		}
 		spectator_4vect_irf.SetPxPyPzE(-pxf,-pyf,-pzf,Espec);
+		TLorentzRotation rotateVector=RotateToLab(e_beam, d_beam, e_scattered);
+		TLorentzVector trueSpect_lab = rotateVector*spectator_4vect_irf;//rotation only
+		trueSpect_lab.Boost(b);//longitudinal boost without rotation
 
 		//event process and kinematic phase space
 		if( struck_nucleon != 2212 ) continue; //proton only
@@ -165,7 +186,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		cout << "Event #"<<i<< "with y = " << trueY << endl;
 		cout << "Event #"<<i<< "with struck_nucleon = " << struck_nucleon << endl;
 		cout << "Spectator mass = " << spectator_4vect_irf.M() << endl;
-
+		cout << "Spectator pt = " << trueSpect_lab.Pt() << " eta = " << trueSpect_lab.Eta() << " phi = " << trueSpect_lab.Phi() << endl;
 		//HERA inclusive cross section
 		double event_weight = 1.;
 		double Yc = 1. + TMath::Power((1-trueY),2);
