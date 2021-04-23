@@ -197,8 +197,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 				// e_scattered = ppart;
 			}
-			if( status!= 1 ) continue;
-			if(pdg!=2112 && pdg!=2212) continue;
+			// if( status!= 1 ) continue;
+			// if(pdg!=2112 && pdg!=2212) continue;
 			cout << "index = " << index << endl;
 			cout << "pdg = " << particle->GetPdgCode() << endl;
 			cout << "parent index = " << particle->GetParentIndex() << endl;
