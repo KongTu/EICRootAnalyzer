@@ -160,6 +160,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		if( trueQ2 < 2.  || trueQ2 > 3. ) continue;
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
 
+		cout << "xbj = " << trueX << endl;
+
 		//HERA inclusive cross section
 		double event_weight = 1.;
 		double Yc = 1. + TMath::Power((1-trueY),2);
