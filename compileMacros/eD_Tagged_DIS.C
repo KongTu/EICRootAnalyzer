@@ -90,7 +90,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	}
 	TH1D* h_xbj[12];
 	for(int bin=0;bin<12;bin++){
-		h_xbj[bin] = new TH1D(Form("h_xbj_%d"),Form("h_xbj_%d"),1,0,1);
+		h_xbj[bin] = new TH1D(Form("h_xbj_%d",bin),Form("h_xbj_%d",bin),1,0,1);
 	}
 	//
 	TH1D* h_HERA_Q2_10_14 = new TH1D("h_HERA_Q2_10_14","h_HERA_Q2_10_14",12,xBinsArray);
