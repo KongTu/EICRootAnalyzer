@@ -124,7 +124,12 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 
 	//alex
 	double xBinsArray[13] = {0.0001, 0.0002, 0.0004, 0.0007, 0.001, 0.002, 0.004, 0.007, 0.01, 0.02, 0.04, 0.07, 0.1};
+	double xBinsWidth[12];
+	for(int bin=0;bin<13;bin++){
+		xBinsWidth[bin] = xBinsArray[bin+1]-xBinsArray[bin];
+	}
 
+	//
 	TH1D* h_HERA_Q2_10_14 = new TH1D("h_HERA_Q2_10_14","h_HERA_Q2_10_14",12,xBinsArray);
 	TH1D* h_HERA_Q2_10_14_alpha_1 = new TH1D("h_HERA_Q2_10_14_alpha_1","h_HERA_Q2_10_14_alpha_1",100,0.00001,0.1);
 	TH1D* h_HERA_Q2_10_14_alpha_2 = new TH1D("h_HERA_Q2_10_14_alpha_2","h_HERA_Q2_10_14_alpha_2",100,0.00001,0.1);
@@ -214,7 +219,11 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		// double compare = TMath::Power( trueY, 2) / (1. - epsilon);
 		//test for two different flux factor
 		// cout << "compare ~ " << compare << "   Yc ~ " << Yc << endl;
-
+		for(int bin=0;bin<12;bin++){
+			if(trueX>xBinsArray[bin]&&trueX<xBinsArray[bin+1]){
+				bin_width=xBinsWidth[bin];
+			}
+		}
 		event_weight = (TMath::Power(trueQ2,2)*trueX) / (twopi*alpha2*Yc);
 		event_weight = event_weight * (mbToGeV_m2)/(Lint*bin_width*Q2binwidth);
 		//fill HERA inclusive cross section for Q2(10,13) GeV**2:
