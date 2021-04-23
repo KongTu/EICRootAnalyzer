@@ -67,19 +67,22 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	TFile * output = new TFile("../rootfiles/eD_Tagged_DIS_Beagle.root","recreate");
 	
 	TChain *tree = new TChain("EICTree");
-	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_10_100/eD_Tagged_DIS_100M_batch_1/"+filename+".root" );
+	// tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_10_100/eD_Tagged_DIS_100M_batch_1/"+filename+".root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_6/"+filename+".root" );
 	
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
 
 	//all constants
-	double totalXSection   = .0000488952173751; //mb
-	double nEventsTotal        = 500428.0;
+	// double totalXSection   = .0000488952173751; //mb
+	// double nEventsTotal        = 500428.0;
+	 double totalXSection   = .00056513721286648133; //mb
+	double nEventsTotal        = 249971.0;
 	double Lint = nEventsTotal/totalXSection; // mb^{-1}
 	double alpha2 = TMath::Power((1./137),2);
 	double twopi = 2*PI;
 	double mbToGeV_m2 = 2.56819;
-	double Q2binwidth = 14.0-10.0;
+	double Q2binwidth = 2.0-1.0;
 
 	TH1D* h_HERA_Q2_10_14 = new TH1D("h_HERA_Q2_10_14","h_HERA_Q2_10_14",100,0.00001,0.1);
 	TH1D* h_alpha_spec = new TH1D("h_alpha_spec","h_alpha_spec",100,0,2);
@@ -143,7 +146,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		//event process and kinematic phase space
 		if( struck_nucleon != 2212 ) continue; //proton only
 		if( event_process != 99 ) continue;
-		if( trueQ2 < 10.  || trueQ2 > 14. ) continue;
+		if( trueQ2 < 1.  || trueQ2 > 2. ) continue;
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
 
 		//HERA inclusive cross section
