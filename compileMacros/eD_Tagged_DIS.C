@@ -227,7 +227,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		TLorentzRotation rotateVector=RotateToLab(e_beam, d_beam, e_scattered);
 		TLorentzVector trueSpect_lab = rotateVector*spectator_4vect_irf;//rotation only
 		trueSpect_lab.Boost(b);//longitudinal boost without rotation
-		if(counter_spectator=0){
+		if(counter_spectator==0){
 			cout << "#Events = " << i << endl;
 			cout << "Spectator mass = " << spectator_4vect_irf.M() << endl;
 			cout << "Spectator pt = " << trueSpect_lab.Pt() << " eta = " << trueSpect_lab.Eta() << " phi = " << trueSpect_lab.Phi() << endl;
