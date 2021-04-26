@@ -87,8 +87,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	
 	TChain *tree = new TChain("EICTree");
 	// tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_10_100/eD_Tagged_DIS_100M_batch_1/"+filename+".root" );
-	// tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/"+filename+".root" );
-	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_10_100_noINC/eD_Tagged_DIS_1M_batch_1/"+filename+".root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/"+filename+".root" );
+	// tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_10_100_noINC/eD_Tagged_DIS_1M_batch_1/"+filename+".root" );
 
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
@@ -137,8 +137,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
       
 		// Read the next entry from the tree.
 		tree->GetEntry(i);
-		// if( (i%10000)==0 ) cout << "#Events = "<< i << endl;
-		cout << "#Events = "<< i << endl;
+		if( (i%10000)==0 ) cout << "#Events = "<< i << endl;
+		// cout << "#Events = "<< i << endl;
 		double pzlep = event->pzlep;
 		double pztarg = event->pztarg;
 		double pznucl = event->pznucl;
@@ -183,8 +183,9 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		//HERA inclusive cross section
 		double event_weight = 1.;
 		double Yc = 1. + TMath::Power((1-trueY),2);
-		// int counter_spectator=0;	
-		// vector< vector< double> > event_save;
+		int counter_spectator=0;
+		
+		vector< vector< double> > event_save;
 		for(int j(0); j < nParticles; ++j ) {
 			const erhic::ParticleMC* particle = event->GetTrack(j);
 			int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
@@ -200,45 +201,45 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 			}
 			if( status!= 1 ) continue;
 			if(pdg!=2112 && pdg!=2212) continue;
-			// if( struck_nucleon==2212 && pdg == 2112 ){
-			// 	if(orig>5&&orig<9) counter_spectator++;
-			// }
-			// if( struck_nucleon==2112 && pdg == 2212 ){
-			// 	if(orig>5&&orig<9) counter_spectator++;
-			// }
-			// vector< double> temp_save;
-			// temp_save.push_back( index );
-			// temp_save.push_back( struck_nucleon );
-			// temp_save.push_back( pdg );
-			// temp_save.push_back( orig );
-			// temp_save.push_back( pt );
-			// temp_save.push_back( eta );
-			// temp_save.push_back( phi );
-			// event_save.push_back( temp_save );
-			
-			cout << "index = " << index << endl;
-			cout << "struck_nucleon = " << struck_nucleon << endl;
-			cout << "pdg = " << particle->GetPdgCode() << endl;
-			cout << "parent index = " << orig << endl;
-			cout << "pt = " << pt << " eta = " << eta << " phi = " << phi << endl;
-			
+			if( struck_nucleon==2212 && pdg == 2112 ){
+				if(orig>5&&orig<9) counter_spectator++;
+			}
+			if( struck_nucleon==2112 && pdg == 2212 ){
+				if(orig>5&&orig<9) counter_spectator++;
+			}
+			vector< double> temp_save;
+			temp_save.push_back( index );
+			temp_save.push_back( struck_nucleon );
+			temp_save.push_back( pdg );
+			temp_save.push_back( orig );
+			temp_save.push_back( pt );
+			temp_save.push_back( eta );
+			temp_save.push_back( phi );
+			event_save.push_back( temp_save );
+			if( counter_spectator=0 ){
+				cout << "index = " << index << endl;
+				cout << "struck_nucleon = " << struck_nucleon << endl;
+				cout << "pdg = " << particle->GetPdgCode() << endl;
+				cout << "parent index = " << orig << endl;
+				cout << "pt = " << pt << " eta = " << eta << " phi = " << phi << endl;
+			}
 		}
 		TLorentzVector qbeam = e_beam - e_scattered;
 		spectator_4vect_irf.SetPxPyPzE(-pxf,-pyf,-pzf,Espec);
 		TLorentzRotation rotateVector=RotateToLab(e_beam, d_beam, e_scattered);
 		TLorentzVector trueSpect_lab = rotateVector*spectator_4vect_irf;//rotation only
 		trueSpect_lab.Boost(b);//longitudinal boost without rotation
-		// if(counter_spectator=0){
-		// 	cout << "Spectator mass = " << spectator_4vect_irf.M() << endl;
-		// 	cout << "Spectator pt = " << trueSpect_lab.Pt() << " eta = " << trueSpect_lab.Eta() << " phi = " << trueSpect_lab.Phi() << endl;
-		// 	for(unsigned k=0;k<event_save.size();k++){
-		// 		cout << "index = " << event_save[k][0] << endl;
-		// 		cout << "struck_nucleon = " << event_save[k][1] << endl;
-		// 		cout << "pdg = " << event_save[k][2] << endl;
-		// 		cout << "parent index = " << event_save[k][3] << endl;
-		// 		cout << "pt = " << event_save[k][4] << " eta = " << event_save[k][5] << " phi = " << event_save[k][6] << endl;
-		// 	}
-		// }
+		if(counter_spectator=0){
+			cout << "Spectator mass = " << spectator_4vect_irf.M() << endl;
+			cout << "Spectator pt = " << trueSpect_lab.Pt() << " eta = " << trueSpect_lab.Eta() << " phi = " << trueSpect_lab.Phi() << endl;
+			for(unsigned k=0;k<event_save.size();k++){
+				cout << "index = " << event_save[k][0] << endl;
+				cout << "struck_nucleon = " << event_save[k][1] << endl;
+				cout << "pdg = " << event_save[k][2] << endl;
+				cout << "parent index = " << event_save[k][3] << endl;
+				cout << "pt = " << event_save[k][4] << " eta = " << event_save[k][5] << " phi = " << event_save[k][6] << endl;
+			}
+		}
 		
 		for(int bin=0;bin<12;bin++){
 			if(trueX>xBinsArray[bin]&&trueX<xBinsArray[bin+1]){
