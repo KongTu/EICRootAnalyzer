@@ -138,7 +138,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		// Read the next entry from the tree.
 		tree->GetEntry(i);
 		// if( (i%10000)==0 ) cout << "#Events = "<< i << endl;
-		cout << "#Events = "<< i << endl;
+		// cout << "#Events = "<< i << endl;
 		double pzlep = event->pzlep;
 		double pztarg = event->pztarg;
 		double pznucl = event->pznucl;
@@ -228,6 +228,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		TLorentzVector trueSpect_lab = rotateVector*spectator_4vect_irf;//rotation only
 		trueSpect_lab.Boost(b);//longitudinal boost without rotation
 		// if(counter_spectator=0){
+			cout << "#Events = " << i << endl;
 			cout << "Spectator mass = " << spectator_4vect_irf.M() << endl;
 			cout << "Spectator pt = " << trueSpect_lab.Pt() << " eta = " << trueSpect_lab.Eta() << " phi = " << trueSpect_lab.Phi() << endl;
 			cout << "counter_spectator = " << counter_spectator << endl;
