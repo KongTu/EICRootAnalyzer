@@ -185,7 +185,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		double Yc = 1. + TMath::Power((1-trueY),2);
 		int counter_spectator=0;
 		
-		vector< vector<double>> event_save;
+		vector< vector< double> > event_save;
 		for(int j(0); j < nParticles; ++j ) {
 			const erhic::ParticleMC* particle = event->GetTrack(j);
 			int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
