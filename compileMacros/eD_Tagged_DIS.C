@@ -94,10 +94,10 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	tree->SetBranchAddress("event", &event);
 
 	//all constants
-	// double totalXSection   = 0.00056464908244711964;; //mb
-	// double nEventsTotal        = 250084.0;
-	double totalXSection   = 0.000048919452899819915;; //mb
-	double nEventsTotal        = 4992.0;
+	double totalXSection   = 0.00056464908244711964;; //mb
+	double nEventsTotal        = 250084.0;
+	// double totalXSection   = 0.000048919452899819915;; //mb
+	// double nEventsTotal        = 4992.0;
 	double Lint = nEventsTotal/totalXSection; // mb^{-1}
 	double alpha2 = TMath::Power((1./137),2);
 	double twopi = 2*PI;
@@ -175,7 +175,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		}
 		
 		//event process and kinematic phase space
-		// if( struck_nucleon != 2212 ) continue; //proton only
+		if( struck_nucleon != 2212 ) continue; //proton only
 		if( event_process != 99 ) continue;
 		if( trueQ2 < 2.  || trueQ2 > 3. ) continue;
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
