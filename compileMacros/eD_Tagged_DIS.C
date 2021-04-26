@@ -87,8 +87,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	
 	TChain *tree = new TChain("EICTree");
 	// tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_10_100/eD_Tagged_DIS_100M_batch_1/"+filename+".root" );
-	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/"+filename+".root" );
-	// tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_10_100_noINC/eD_Tagged_DIS_1M_batch_1/"+filename+".root" );
+	// tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/"+filename+".root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_10_100_noINC/eD_Tagged_DIS_1M_batch_1/"+filename+".root" );
 
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
@@ -102,7 +102,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	double alpha2 = TMath::Power((1./137),2);
 	double twopi = 2*PI;
 	double mbToGeV_m2 = 2.56819;
-	double Q2binwidth = 3.0-2.0;
+	double Q2binwidth = 14.0-10.0;
 
 	//alex's xbj binning
 	double xBinsArray[] = {0.0001, 0.0002, 0.0004, 0.0007, 0.001, 0.002, 0.004, 0.007, 0.01, 0.02, 0.04, 0.07, 0.1};
@@ -177,7 +177,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		//event process and kinematic phase space
 		if( struck_nucleon != 2212 ) continue; //proton only
 		if( event_process != 99 ) continue;
-		if( trueQ2 < 2.  || trueQ2 > 3. ) continue;
+		if( trueQ2 < 10.  || trueQ2 > 14. ) continue;
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
 
 		//HERA inclusive cross section
