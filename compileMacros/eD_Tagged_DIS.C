@@ -79,7 +79,7 @@ TLorentzRotation RotateToLab(TLorentzVector const &eBeam_lab,
 
 	return l;
 }
-void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_temp_91"){
+void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_temp_*"){
 
 
 	//input from BeAGLE root files
@@ -137,8 +137,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
       
 		// Read the next entry from the tree.
 		tree->GetEntry(i);
-		// if( (i%10000)==0 ) cout << "#Events = "<< i << endl;
-		cout << "#Events = "<< i << endl;
+		if( (i%10000)==0 ) cout << "#Events = "<< i << endl;
+		// cout << "#Events = "<< i << endl;
 		double pzlep = event->pzlep;
 		double pztarg = event->pztarg;
 		double pznucl = event->pznucl;
