@@ -230,6 +230,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		// if(counter_spectator=0){
 			cout << "Spectator mass = " << spectator_4vect_irf.M() << endl;
 			cout << "Spectator pt = " << trueSpect_lab.Pt() << " eta = " << trueSpect_lab.Eta() << " phi = " << trueSpect_lab.Phi() << endl;
+			cout << "counter_spectator = " << counter_spectator << endl;
 			for(unsigned k=0;k<event_save.size();k++){
 				cout << "index = " << event_save[k][0] << endl;
 				cout << "struck_nucleon = " << event_save[k][1] << endl;
