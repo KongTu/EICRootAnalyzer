@@ -215,13 +215,12 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 			temp_save.push_back( eta );
 			temp_save.push_back( phi );
 			event_save.push_back( temp_save );
-			// if( counter_spectator=0 ){
-				cout << "index = " << index << endl;
-				cout << "struck_nucleon = " << struck_nucleon << endl;
-				cout << "pdg = " << particle->GetPdgCode() << endl;
-				cout << "parent index = " << orig << endl;
-				cout << "pt = " << pt << " eta = " << eta << " phi = " << phi << endl;
-			// }
+			// cout << "index = " << index << endl;
+			// cout << "struck_nucleon = " << struck_nucleon << endl;
+			// cout << "pdg = " << particle->GetPdgCode() << endl;
+			// cout << "parent index = " << orig << endl;
+			// cout << "pt = " << pt << " eta = " << eta << " phi = " << phi << endl;
+			
 		}
 		TLorentzVector qbeam = e_beam - e_scattered;
 		spectator_4vect_irf.SetPxPyPzE(-pxf,-pyf,-pzf,Espec);
