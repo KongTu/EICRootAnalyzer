@@ -200,12 +200,12 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 			}
 			if( status!= 1 ) continue;
 			if(pdg!=2112 && pdg!=2212) continue;
-			if( struck_nucleon==2212 && pdg == 2112 ){
-				if(orig>5&&orig<9) counter_spectator++;
-			}
-			if( struck_nucleon==2112 && pdg == 2212 ){
-				if(orig>5&&orig<9) counter_spectator++;
-			}
+			// if( struck_nucleon==2212 && pdg == 2112 ){
+			// 	if(orig>5&&orig<9) counter_spectator++;
+			// }
+			// if( struck_nucleon==2112 && pdg == 2212 ){
+			// 	if(orig>5&&orig<9) counter_spectator++;
+			// }
 			// vector< double> temp_save;
 			// temp_save.push_back( index );
 			// temp_save.push_back( struck_nucleon );
