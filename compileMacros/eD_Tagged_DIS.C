@@ -222,6 +222,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 			// cout << "pt = " << pt << " eta = " << eta << " phi = " << phi << endl;
 			
 		}
+
+		cout << "counter_spectator = "  << counter_spectator << endl;
 		TLorentzVector qbeam = e_beam - e_scattered;
 		spectator_4vect_irf.SetPxPyPzE(-pxf,-pyf,-pzf,Espec);
 		TLorentzRotation rotateVector=RotateToLab(e_beam, d_beam, e_scattered);
