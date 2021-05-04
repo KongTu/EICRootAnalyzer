@@ -154,7 +154,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	for(int bin=0;bin<12;bin++){
 		h_xbj[bin] = new TH1D(Form("h_xbj_%d",bin),Form("h_xbj_%d",bin),1,0,1);
 		for(int ipt=0;ipt<100;ipt++){
-			h_pt2[bin][ipt] = new TH1D(Form("h_pt2_%d_%d",bin,ipt),Form("h_pt2_%d_%d",bin,ipt),1,0,1)
+			h_pt2[bin][ipt] = new TH1D(Form("h_pt2_%d_%d",bin,ipt),Form("h_pt2_%d_%d",bin,ipt),1,0,1);
 		}
 	}
 	//
