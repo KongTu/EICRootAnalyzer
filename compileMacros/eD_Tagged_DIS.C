@@ -150,8 +150,12 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		xBinsWidth[bin] = xBinsArray[bin+1]-xBinsArray[bin];
 	}
 	TH1D* h_xbj[12];
+	TH1D* h_pt2[12][100];
 	for(int bin=0;bin<12;bin++){
 		h_xbj[bin] = new TH1D(Form("h_xbj_%d",bin),Form("h_xbj_%d",bin),1,0,1);
+		for(int ipt=0;ipt<100;ipt++){
+			h_pt2[bin][ipt] = new TH1D(Form("h_pt2_%d_%d",bin,ipt),Form("h_pt2_%d_%d",bin,ipt),1,0,1)
+		}
 	}
 	//
 	TH1D* h_HERA_Q2_2_3 = new TH1D("h_HERA_Q2_2_3","h_HERA_Q2_2_3",12,xBinsArray);
@@ -161,7 +165,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	
 	double alpha_binning[81];
 	for(int ibin=0;ibin<81;ibin++){
-		alpha_binning[ibin] = 0.39+ibin*0.020125000;
+		alpha_binning[ibin] = 0.39+ibin*0.02;
 	}	
 	TH1D* h_HERA_Q2_2_3_x_alpha[12][80];
 	TH1D* h_alpha_spec_everybin[80];
@@ -280,9 +284,14 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 				alpha_spec_binwidth = alpha_binning[ibin+1] - alpha_binning[ibin];
 			}
 		}
+		for(int ipt=0;ipt<100;ipt++){
+			if(pt2 > ipt*0.0015 && pt2 <(ipt+1)*0.0015){
+				h_pt2[x_bin_index][ipt]->Fill(pt2);
+			}
+		}
 		//8*PI is correct, NOT 16*PI.
 		double event_weight_alphaPt2 = alpha_spec*(8.*TMath::Power(PI,1)*(TMath::Power(trueQ2,2)*trueX)) / (alpha2*Yc);
-		event_weight_alphaPt2 = event_weight_alphaPt2 * (mbToGeV_m2/(Lint*Q2binwidth*xBinsWidth[x_bin_index]*pt2binwidth*alpha_spec_binwidth));
+		event_weight_alphaPt2 = event_weight_alphaPt2 * (mbToGeV_m2/(Lint*Q2binwidth*bin_width*pt2binwidth*alpha_spec_binwidth));
 		//filling all alpha bins
 		h_HERA_Q2_2_3_x_alpha[x_bin_index][alpha_bin_index]->Fill(pt2, event_weight_alphaPt2 );
 		h_alpha_spec_everybin[alpha_bin_index]->Fill( alpha_spec );
