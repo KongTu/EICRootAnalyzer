@@ -41,8 +41,8 @@
 #define PI            3.1415926
 
 #define MASS_JPSI 	  3.09688
-#define MASS_PROTON   0.93827
-#define MASS_NEUTRON  0.93957
+#define MASS_PROTON   0.93827208816
+#define MASS_NEUTRON  0.93956542052
 #define MASS_DEUTERON 1.8756129 // 1.8756134 (most precise so far)
 // #define MASS_DEUTERON 1.8751019071673038 (not precise enough)!
 #define MASS_TRITON   2.7937167208086358
@@ -168,7 +168,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	for(int ibin=0;ibin<80;ibin++){
 		h_alpha_spec_everybin[ibin] = new TH1D(Form("h_alpha_spec_everybin_%d",ibin),Form("h_alpha_spec_everybin_%d",ibin),100,0,2);
 		for(int jbin=0;jbin<12;jbin++){
-		 	h_HERA_Q2_2_3_x_alpha[jbin][ibin] = new TH1D(Form("h_HERA_Q2_2_3_x_alpha_%d_%d",jbin,ibin),Form("h_HERA_Q2_2_3_x_alpha_%d_%d",jbin,ibin),200,0,0.15);
+		 	h_HERA_Q2_2_3_x_alpha[jbin][ibin] = new TH1D(Form("h_HERA_Q2_2_3_x_alpha_%d_%d",jbin,ibin),Form("h_HERA_Q2_2_3_x_alpha_%d_%d",jbin,ibin),100,0,0.15);
 		}
 	}
 
