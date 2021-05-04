@@ -79,14 +79,23 @@ TLorentzRotation RotateToLab(TLorentzVector const &eBeam_lab,
 
 	return l;
 }
-void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_temp_*"){
+void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_temp_91"){
 
 
 	//input from BeAGLE root files
 	TFile * output = new TFile("../rootfiles/eD_Tagged_DIS_Beagle.root","recreate");
 	
 	TChain *tree = new TChain("EICTree");
-	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/"+filename+".root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_1.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_2.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_3.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_4.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_5.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_6.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_7.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_8.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_9.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/Output_input_temp_10.root" );
 
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
@@ -238,7 +247,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 				alpha_spec_binwidth = alpha_binning[ibin+1] - alpha_binning[ibin];
 			}
 		}
-		//8pi is more correct.
+		//8*PI is correct, NOT 16*PI.
 		double event_weight_alphaPt2 = alpha_spec*(8.*TMath::Power(PI,1)*(TMath::Power(trueQ2,2)*trueX)) / (alpha2*Yc);
 		event_weight_alphaPt2 = event_weight_alphaPt2 * (mbToGeV_m2/(Lint*Q2binwidth*xBinsWidth[x_bin_index]*pt2binwidth*alpha_spec_binwidth));
 		//filling all alpha bins
