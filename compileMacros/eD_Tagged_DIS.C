@@ -150,7 +150,6 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		xBinsWidth[bin] = xBinsArray[bin+1]-xBinsArray[bin];
 	}
 	const int nPt2=200; 
-	double pt2binwidth
 	TH1D* h_xbj[12];
 	TH1D* h_pt2[12][nPt2];
 	for(int bin=0;bin<12;bin++){
