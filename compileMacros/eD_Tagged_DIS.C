@@ -79,7 +79,7 @@ TLorentzRotation RotateToLab(TLorentzVector const &eBeam_lab,
 
 	return l;
 }
-void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_temp_91"){
+void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_temp_*"){
 
 
 	//input from BeAGLE root files
@@ -92,8 +92,9 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	tree->SetBranchAddress("event", &event);
 
 	//all constants
+	double factorInLumi = nEvents / 500000 ;
 	double totalXSection   = 0.00056464908244711964;; //mb
-	double nEventsTotal        = 250084.0;
+	double nEventsTotal        = 250084.0*factorInLumi;
 	double Lint = nEventsTotal/totalXSection; // mb^{-1}
 	double alpha2 = TMath::Power((1./137),2);
 	double twopi = 2*PI;
