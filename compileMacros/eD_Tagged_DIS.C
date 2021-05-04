@@ -124,7 +124,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	TH1D* h_HERA_Q2_2_3_x0004_0007_alpha[80];
 	TH1D* h_alpha_spec_everybin[80];
 	for(int ibin=0;ibin<80;ibin++){
-	 	h_HERA_Q2_2_3_x0004_0007_alpha[ibin] = new TH1D(Form("h_HERA_Q2_2_3_x0004_0007_alpha_%d",ibin),Form("h_HERA_Q2_2_3_x0004_0007_alpha_%d",ibin),100,0,0.15);
+	 	h_HERA_Q2_2_3_x0004_0007_alpha[ibin] = new TH1D(Form("h_HERA_Q2_2_3_x0004_0007_alpha_%d",ibin),Form("h_HERA_Q2_2_3_x0004_0007_alpha_%d",ibin),200,0,0.15);
 		h_alpha_spec_everybin[ibin] = new TH1D(Form("h_alpha_spec_everybin_%d",ibin),Form("h_alpha_spec_everybin_%d",ibin),100,0,2);
 	}
 
@@ -231,7 +231,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 				alpha_spec_binwidth = alpha_binning[ibin+1] - alpha_binning[ibin];
 			}
 		}
-		double event_weight_alphaPt2 = alpha_spec*(16.*TMath::Power(PI,1)*(TMath::Power(trueQ2,2)*trueX)) / (alpha2*Yc);
+		//8pi is more correct.
+		double event_weight_alphaPt2 = alpha_spec*(8.*TMath::Power(PI,1)*(TMath::Power(trueQ2,2)*trueX)) / (alpha2*Yc);
 		event_weight_alphaPt2 = event_weight_alphaPt2 * (mbToGeV_m2/(Lint*Q2binwidth*xbinwidth*pt2binwidth*alpha_spec_binwidth));
 		//filling all alpha bins
 		h_HERA_Q2_2_3_x0004_0007_alpha[alpha_bin_index]->Fill(pt2, event_weight_alphaPt2 );
