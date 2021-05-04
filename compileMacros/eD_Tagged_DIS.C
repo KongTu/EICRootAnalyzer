@@ -86,9 +86,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	TFile * output = new TFile("../rootfiles/eD_Tagged_DIS_Beagle.root","recreate");
 	
 	TChain *tree = new TChain("EICTree");
-	// tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_10_100/eD_Tagged_DIS_100M_batch_1/"+filename+".root" );
-	// tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/"+filename+".root" );
-	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_10_100_noINC/eD_Tagged_DIS_1M_batch_1/"+filename+".root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_1_10/eD_Tagged_DIS_100M_batch_5/"+filename+".root" );
 
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
@@ -96,13 +94,11 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	//all constants
 	double totalXSection   = 0.00056464908244711964;; //mb
 	double nEventsTotal        = 250084.0;
-	// double totalXSection   = 0.000048919452899819915;; //mb
-	// double nEventsTotal        = 4992.0;
 	double Lint = nEventsTotal/totalXSection; // mb^{-1}
 	double alpha2 = TMath::Power((1./137),2);
 	double twopi = 2*PI;
 	double mbToGeV_m2 = 2.56819;
-	double Q2binwidth = 14.0-10.0;
+	double Q2binwidth = 3.0-2.0;
 
 	//alex's xbj binning
 	double xBinsArray[] = {0.0001, 0.0002, 0.0004, 0.0007, 0.001, 0.002, 0.004, 0.007, 0.01, 0.02, 0.04, 0.07, 0.1};
@@ -116,20 +112,18 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	}
 	//
 	TH1D* h_HERA_Q2_2_3 = new TH1D("h_HERA_Q2_2_3","h_HERA_Q2_2_3",12,xBinsArray);
-	TH1D* h_HERA_Q2_2_3_alpha_1 = new TH1D("h_HERA_Q2_2_3_alpha_1","h_HERA_Q2_2_3_alpha_1",100,0.00001,0.1);
-	TH1D* h_HERA_Q2_2_3_alpha_2 = new TH1D("h_HERA_Q2_2_3_alpha_2","h_HERA_Q2_2_3_alpha_2",100,0.00001,0.1);
 	TH1D* h_alpha_spec = new TH1D("h_alpha_spec","h_alpha_spec",100,0,2);
 	TH1D* h_nk = new TH1D("h_nk","h_nk",100,0,2);
 	double bin_width = h_HERA_Q2_2_3->GetBinWidth(1);
 	
-	double alpha_binning[161];
-	for(int ibin=0;ibin<161;ibin++){
-		alpha_binning[ibin] = 0.4+ibin*0.01;
+	double alpha_binning[81];
+	for(int ibin=0;ibin<81;ibin++){
+		alpha_binning[ibin] = 0.39+ibin*0.020125000;
 	}	
-	TH1D* h_HERA_Q2_2_3_x007_009_alpha[160];
-	TH1D* h_alpha_spec_everybin[160];
-	for(int ibin=0;ibin<160;ibin++){
-	 	h_HERA_Q2_2_3_x007_009_alpha[ibin] = new TH1D(Form("h_HERA_Q2_2_3_x007_009_alpha_%d",ibin),Form("h_HERA_Q2_2_3_x007_009_alpha_%d",ibin),100,0,0.15);
+	TH1D* h_HERA_Q2_2_3_x0004_0007_alpha[80];
+	TH1D* h_alpha_spec_everybin[80];
+	for(int ibin=0;ibin<80;ibin++){
+	 	h_HERA_Q2_2_3_x0004_0007_alpha[ibin] = new TH1D(Form("h_HERA_Q2_2_3_x0004_0007_alpha_%d",ibin),Form("h_HERA_Q2_2_3_x0004_0007_alpha_%d",ibin),100,0,0.15);
 		h_alpha_spec_everybin[ibin] = new TH1D(Form("h_alpha_spec_everybin_%d",ibin),Form("h_alpha_spec_everybin_%d",ibin),100,0,2);
 	}
 
@@ -137,7 +131,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
       
 		// Read the next entry from the tree.
 		tree->GetEntry(i);
-		// if( (i%10000)==0 ) cout << "#Events = "<< i << endl;
+		if( (i%10000)==0 ) cout << "#Events = "<< i << endl;
 		// cout << "#Events = "<< i << endl;
 		double pzlep = event->pzlep;
 		double pztarg = event->pztarg;
@@ -167,17 +161,13 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		h_nk->Fill( nk_event );//sanity check for my wavefunction;
 		TLorentzVector spectator_4vect_irf;
 		double Espec = 0.;
-		if( struck_nucleon == 2212 ){
-			Espec = sqrt(nk_event*nk_event+MASS_NEUTRON*MASS_NEUTRON);
-		}
-		else{
-			Espec = sqrt(nk_event*nk_event+MASS_PROTON*MASS_PROTON);
-		}
+		if( struck_nucleon == 2212 ){Espec = sqrt(nk_event*nk_event+MASS_NEUTRON*MASS_NEUTRON);}
+		else{Espec = sqrt(nk_event*nk_event+MASS_PROTON*MASS_PROTON);}
 		
 		//event process and kinematic phase space
-		// if( struck_nucleon != 2212 ) continue; //proton only
+		if( struck_nucleon != 2212 ) continue; //proton only
 		if( event_process != 99 ) continue;
-		if( trueQ2 < 10.  || trueQ2 > 14. ) continue;
+		if( trueQ2 < 2.  || trueQ2 > 3. ) continue;
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
 
 		//HERA inclusive cross section
@@ -199,51 +189,14 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 				// e_scattered = ppart;
 			}
 			if( status!= 1 ) continue;
-			if(pdg!=2112 && pdg!=2212) continue;
-			if( struck_nucleon==2212 && pdg == 2112 ){
-				if(orig>5&&orig<9) counter_spectator++;
-			}
-			if( struck_nucleon==2112 && pdg == 2212 ){
-				if(orig>5&&orig<9) counter_spectator++;
-			}
-			vector< double> temp_save;
-			temp_save.push_back( index );
-			temp_save.push_back( struck_nucleon );
-			temp_save.push_back( pdg );
-			temp_save.push_back( orig );
-			temp_save.push_back( pt );
-			temp_save.push_back( eta );
-			temp_save.push_back( phi );
-			event_save.push_back( temp_save );
-			cout << "index = " << index << endl;
-			cout << "struck_nucleon = " << struck_nucleon << endl;
-			cout << "pdg = " << particle->GetPdgCode() << endl;
-			cout << "parent index = " << orig << endl;
-			cout << "pt = " << pt << " eta = " << eta << " phi = " << phi << endl;
-			
 		}
 
 		TLorentzVector qbeam = e_beam - e_scattered;
 		spectator_4vect_irf.SetPxPyPzE(-pxf,-pyf,-pzf,Espec);
-		TLorentzRotation rotateVector=RotateToLab(e_beam, d_beam, e_scattered);
-		TLorentzVector trueSpect_lab = rotateVector*spectator_4vect_irf;//rotation only
-		trueSpect_lab.Boost(b);//longitudinal boost without rotation
-		cout << "Spectator mass = " << spectator_4vect_irf.M() << endl;
-		cout << "Spectator pt = " << trueSpect_lab.Pt() << " eta = " << trueSpect_lab.Eta() << " phi = " << trueSpect_lab.Phi() << endl;
-		if(counter_spectator==0){
-			cout << "#Events = " << i << endl;
-			cout << "Spectator mass = " << spectator_4vect_irf.M() << endl;
-			cout << "Spectator pt = " << trueSpect_lab.Pt() << " eta = " << trueSpect_lab.Eta() << " phi = " << trueSpect_lab.Phi() << endl;
-			cout << "counter_spectator = " << counter_spectator << endl;
-			for(unsigned k=0;k<event_save.size();k++){
-				cout << "index = " << event_save[k][0] << endl;
-				cout << "struck_nucleon = " << event_save[k][1] << endl;
-				cout << "pdg = " << event_save[k][2] << endl;
-				cout << "parent index = " << event_save[k][3] << endl;
-				cout << "pt = " << event_save[k][4] << " eta = " << event_save[k][5] << " phi = " << event_save[k][6] << endl;
-			}
-		}
-		
+		TLorentzVector trueSpect_lab = spectator_4vect_irf;
+		// TLorentzRotation rotateVector=RotateToLab(e_beam, d_beam, e_scattered);
+		// TLorentzVector trueSpect_lab = rotateVector*spectator_4vect_irf;//rotation only
+		// trueSpect_lab.Boost(b);//longitudinal boost without rotation
 		for(int bin=0;bin<12;bin++){
 			if(trueX>xBinsArray[bin]&&trueX<xBinsArray[bin+1]){
 				bin_width=xBinsWidth[bin];
@@ -252,33 +205,36 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		}
 		event_weight = (TMath::Power(trueQ2,2)*trueX) / (twopi*alpha2*Yc);
 		event_weight = event_weight * (mbToGeV_m2)/(Lint*bin_width*Q2binwidth);
-		//fill HERA inclusive cross section for Q2(10,13) GeV**2:
+		//fill HERA inclusive cross section for Q2(2,3) GeV**2:
 		h_HERA_Q2_2_3->Fill( trueX, event_weight );
-		//x bin [0.007,0.009]
-		//alpha below is wrong.
-		// double Pplus = (spectator_4vect_irf.E() + spectator_4vect_irf.Pz()) / sqrt(2);
-		// double PdPlus = MASS_DEUTERON / sqrt(2);
-		// double alpha_spec = 2*Pplus / PdPlus;
-
-		// double pt2 = pxf*pxf+pyf*pyf;
-		// double alpha_spec_binwidth = -1; // will have to be rewritten by 20 alpha bins
-		// double xbinwidth = (0.003-0.002);
-		// double pt2binwidth = h_HERA_Q2_2_3_x007_009_alpha[0]->GetBinWidth(1);
-		// h_alpha_spec->Fill( alpha_spec );
-		// if( trueX > 0.003 || trueX < 0.002 ) continue;
 		
-		// int alpha_bin_index = 0;
-		// for(int ibin=0;ibin<160;ibin++){
-		// 	if( alpha_spec>alpha_binning[ibin] && alpha_spec<alpha_binning[ibin+1] ){
-		// 		alpha_bin_index = ibin;
-		// 		alpha_spec_binwidth = alpha_binning[ibin+1] - alpha_binning[ibin];
-		// 	}
-		// }
-		// double event_weight_alphaPt2 = alpha_spec*(16.*TMath::Power(PI,1)*(TMath::Power(trueQ2,2)*trueX)) / (alpha2*Yc);
-		// event_weight_alphaPt2 = event_weight_alphaPt2 * (mbToGeV_m2/(Lint*Q2binwidth*xbinwidth*pt2binwidth*alpha_spec_binwidth));
-		// //filling all alpha bins
-		// h_HERA_Q2_2_3_x007_009_alpha[alpha_bin_index]->Fill(pt2, event_weight_alphaPt2 );
-		// h_alpha_spec_everybin[alpha_bin_index]->Fill( alpha_spec );
+		//below a test for one xbj bin
+		double Mass_Nucleon = (MASS_NEUTRON+MASS_PROTON) / 2.;
+		//x bin [0.007,0.009]
+		trueSpect_lab.SetPtEtaPhiM(trueSpect_lab.Pt(),trueSpect_lab.Eta(), trueSpect_lab.Phi(),Mass_Nucleon);
+		double Pplus = (trueSpect_lab.E() + trueSpect_lab.Pz()) / sqrt(2);
+		double PdPlus = MASS_DEUTERON / sqrt(2);
+		double alpha_spec = 2*Pplus / PdPlus;
+
+		double pt2 = pxf*pxf+pyf*pyf;
+		double alpha_spec_binwidth = -1; // will have to be rewritten by alpha defined bins
+		double xbinwidth = 0.0007 - 0.0004;
+		double pt2binwidth = h_HERA_Q2_2_3_x0004_0007_alpha[0]->GetBinWidth(1);
+		h_alpha_spec->Fill( alpha_spec );
+		if( trueX > 0.0007 || trueX < 0.0004 ) continue;
+		
+		int alpha_bin_index = 0;
+		for(int ibin=0;ibin<80;ibin++){
+			if( alpha_spec>alpha_binning[ibin] && alpha_spec<alpha_binning[ibin+1] ){
+				alpha_bin_index = ibin;
+				alpha_spec_binwidth = alpha_binning[ibin+1] - alpha_binning[ibin];
+			}
+		}
+		double event_weight_alphaPt2 = alpha_spec*(16.*TMath::Power(PI,1)*(TMath::Power(trueQ2,2)*trueX)) / (alpha2*Yc);
+		event_weight_alphaPt2 = event_weight_alphaPt2 * (mbToGeV_m2/(Lint*Q2binwidth*xbinwidth*pt2binwidth*alpha_spec_binwidth));
+		//filling all alpha bins
+		h_HERA_Q2_2_3_x0004_0007_alpha[alpha_bin_index]->Fill(pt2, event_weight_alphaPt2 );
+		h_alpha_spec_everybin[alpha_bin_index]->Fill( alpha_spec );
 
 	}
 
