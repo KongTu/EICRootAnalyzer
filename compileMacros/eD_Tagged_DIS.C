@@ -43,8 +43,8 @@
 #define MASS_JPSI 	  3.09688
 #define MASS_PROTON   0.93827
 #define MASS_NEUTRON  0.93957
-#define MASS_DEUTERON 1.8756129
-// #define MASS_DEUTERON 1.8751019071673038
+#define MASS_DEUTERON 1.8756129 // 1.8756134 (most precise so far)
+// #define MASS_DEUTERON 1.8751019071673038 (not precise enough)!
 #define MASS_TRITON   2.7937167208086358
 #define MASS_HE3      2.7937167208086358
 #define MASS_ALPHA    3.7249556277448477
@@ -221,7 +221,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 
 		double pt2 = pxf*pxf+pyf*pyf;
 		double alpha_spec_binwidth = -1; // will have to be rewritten by alpha defined bins
-		double xbinwidth = 0.0007 - 0.0004;
+		// double xbinwidth = 0.0007 - 0.0004;
 		double pt2binwidth = h_HERA_Q2_2_3_x_alpha[0][0]->GetBinWidth(1);
 		h_alpha_spec->Fill( alpha_spec );
 		int x_bin_index = -1;
@@ -240,7 +240,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		}
 		//8pi is more correct.
 		double event_weight_alphaPt2 = alpha_spec*(8.*TMath::Power(PI,1)*(TMath::Power(trueQ2,2)*trueX)) / (alpha2*Yc);
-		event_weight_alphaPt2 = event_weight_alphaPt2 * (mbToGeV_m2/(Lint*Q2binwidth*xbinwidth*pt2binwidth*alpha_spec_binwidth));
+		event_weight_alphaPt2 = event_weight_alphaPt2 * (mbToGeV_m2/(Lint*Q2binwidth*xBinsWidth[x_bin_index]*pt2binwidth*alpha_spec_binwidth));
 		//filling all alpha bins
 		h_HERA_Q2_2_3_x_alpha[x_bin_index][alpha_bin_index]->Fill(pt2, event_weight_alphaPt2 );
 		h_alpha_spec_everybin[alpha_bin_index]->Fill( alpha_spec );
