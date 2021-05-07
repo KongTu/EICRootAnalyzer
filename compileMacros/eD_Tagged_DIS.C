@@ -285,7 +285,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		
 		//event process and kinematic phase space
 		if( struck_nucleon != 2212 ) continue; //proton only
-		if( event_process != 99 ) continue;
+		if( event_process == 92 || event_process == 94 || event_process == 95) continue;
 		if( trueQ2 < 2.  || trueQ2 > 3. ) continue;
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
 
