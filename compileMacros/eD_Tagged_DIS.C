@@ -335,8 +335,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		double PdPlus = MASS_DEUTERON / sqrt(2);
 		double alpha_spec = 2*Pplus / PdPlus;
 
-		TF1* reweightPt2 = new TF1("reweightPt2","[0]*x[0]+1.05",0.,0.05,1);
-		reweightPt2->SetParameter(0,-1);
+		TF1* reweightPt2 = new TF1("reweightPt2","-1*x[0]+1.05",0.,0.05);
 		double pt2 = pxf*pxf+pyf*pyf;
 		double pt2weight = reweightPt2->Eval(pt2);
 		double alpha_spec_binwidth = -1; // will have to be rewritten by alpha defined bins
