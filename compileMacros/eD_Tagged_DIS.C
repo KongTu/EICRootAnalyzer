@@ -338,7 +338,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		TF1* reweightPt2 = new TF1("reweightPt2","[0]*x[0]+1.05",0.,0.05,1);
 		reweightPt2->SetParameter(0,-1);
 		double pt2 = pxf*pxf+pyf*pyf;
-		doouble pt2weight = reweightPt2->Eval(pt2);
+		double pt2weight = reweightPt2->Eval(pt2);
 		double alpha_spec_binwidth = -1; // will have to be rewritten by alpha defined bins
 		// double xbinwidth = 0.0007 - 0.0004;
 		double pt2binwidth = h_HERA_Q2_2_3_x_alpha[0][0]->GetBinWidth(1);
