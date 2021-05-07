@@ -222,6 +222,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		h_xbj[bin] = new TH1D(Form("h_xbj_%d",bin),Form("h_xbj_%d",bin),1,0,1);
 		for(int ipt=0;ipt<nPt2;ipt++){
 			h_pt2[bin][ipt] = new TH1D(Form("h_pt2_%d_%d",bin,ipt),Form("h_pt2_%d_%d",bin,ipt),1,0,1);
+			h_pt2[bin][ipt]->Sumw2();
 		}
 	}
 	//
@@ -334,7 +335,10 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		double PdPlus = MASS_DEUTERON / sqrt(2);
 		double alpha_spec = 2*Pplus / PdPlus;
 
+		TF1* reweightPt2 = new TF1("reweightPt2","[0]*x[0]+1.05",0.,0.05,1);
+		reweightPt2->SetParameter(0,-1);
 		double pt2 = pxf*pxf+pyf*pyf;
+		doouble pt2weight = reweightPt2->Eval(pt2);
 		double alpha_spec_binwidth = -1; // will have to be rewritten by alpha defined bins
 		// double xbinwidth = 0.0007 - 0.0004;
 		double pt2binwidth = h_HERA_Q2_2_3_x_alpha[0][0]->GetBinWidth(1);
@@ -355,14 +359,14 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		}
 		for(int ipt=0;ipt<nPt2;ipt++){
 			if(pt2 > ipt*pt2binwidth && pt2 <(ipt+1)*pt2binwidth){
-				h_pt2[x_bin_index][ipt]->Fill(pt2);
+				h_pt2[x_bin_index][ipt]->Fill(pt2,pt2weight);
 			}
 		}
 		//8*PI is correct, NOT 16*PI.
 		double event_weight_alphaPt2 = alpha_spec*(8.*TMath::Power(PI,1)*(TMath::Power(trueQ2,2)*trueX)) / (alpha2*Yc);
 		event_weight_alphaPt2 = event_weight_alphaPt2 * (mbToGeV_m2/(Lint*Q2binwidth*bin_width*pt2binwidth*alpha_spec_binwidth));
 		//filling all alpha bins
-		h_HERA_Q2_2_3_x_alpha[x_bin_index][alpha_bin_index]->Fill(pt2, event_weight_alphaPt2 );
+		h_HERA_Q2_2_3_x_alpha[x_bin_index][alpha_bin_index]->Fill(pt2, event_weight_alphaPt2*pt2weight );
 		h_alpha_spec_everybin[alpha_bin_index]->Fill( alpha_spec );
 
 	}
