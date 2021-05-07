@@ -79,6 +79,26 @@ TLorentzRotation RotateToLab(TLorentzVector const &eBeam_lab,
 
 	return l;
 }
+// Deuteron dn(k)/dk distribution
+Double_t getdNdkDeut(Double_t *x, Double_t *par){
+
+	double A0 = 157.4;
+	double B0 = 1.24;
+	double C0 = 18.3;
+	double A1 = 0.234;
+	double B1 = 1.27;
+	double C1 = 0.0;
+	double A2 = 0.00623;
+	double B2 = 0.220;
+	double C2 = 0.0;
+	double Z0 = A0 * (TMath::Exp(-B0*x[0]*x[0])/((1+C0*x[0]*x[0])*(1+C0*x[0]*x[0])));
+    double Z1 = A1 * (TMath::Exp(-B1*x[0]*x[0])/((1+C1*x[0]*x[0])*(1+C1*x[0]*x[0])));
+    double Z2 = A2 * (TMath::Exp(-B2*x[0]*x[0])/((1+C2*x[0]*x[0])*(1+C2*x[0]*x[0])));
+	double total = (Z0+Z1+Z2)*x[0]*x[0]*(4*PI);
+
+	return total;
+}
+
 void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_temp_91"){
 
 
