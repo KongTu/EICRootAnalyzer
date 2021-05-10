@@ -369,25 +369,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		double alpha_spec = 2*Pplus / PdPlus;
 
 		TF1* reweightPt2 = new TF1("reweightPt2","-1*x[0]+1.05",0.,0.05);
-		//after-after-burner;
-		double k1 = deutNk->GetRandom();
-		double theta=TMath::ACos(cthetaFlat->GetRandom());
-		double phi = phiFlat->GetRandom();
-		// k1 = k1*0.197;
-		double px=k1*TMath::Sin(theta)*TMath::Cos(phi);
-		double py=k1*TMath::Sin(theta)*TMath::Sin(phi);
-		double pz=k1*TMath::Cos(theta);
-		double alpha_new = 2. * ( (sqrt(px*px+py*py+pz*pz+Mass_Nucleon*Mass_Nucleon) + pz) / MASS_DEUTERON );
-		double E_new = (alpha_new*MASS_DEUTERON / 4.) + (px*px+py*py+MASS_NEUTRON*MASS_NEUTRON) / (alpha_new*MASS_DEUTERON);
-		double pz_new = - (alpha_new*MASS_DEUTERON / 4.) + (px*px+py*py+MASS_NEUTRON*MASS_NEUTRON) / (alpha_new*MASS_DEUTERON);
-		// TLorentzVector spectator_new; 
-		// spectator_new.SetPxPyPzE(px,py,pz_new,E_new);
-
-		// double pt2 = pxf*pxf+pyf*pyf;
-		// double pt2weight = reweightPt2->Eval(pt2);
-		double pt2weight = 1.0;
-		double pt2 = px*px+py*py;
-		alpha_spec = alpha_new;
+		double pt2 = pxf*pxf+pyf*pyf;
+		double pt2weight = reweightPt2->Eval(pt2);
 		double alpha_spec_binwidth = -1; // will have to be rewritten by alpha defined bins
 		// double xbinwidth = 0.0007 - 0.0004;
 		double pt2binwidth = h_HERA_Q2_2_3_x_alpha[0][0]->GetBinWidth(1);
