@@ -315,8 +315,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		h_nk->Fill( nk_event );//sanity check for my wavefunction;
 		TLorentzVector spectator_4vect_irf;
 		double Espec = 0.;
-		if( struck_nucleon == 2212 ){Espec = sqrt(nk_event*nk_event+MASS_NUCLEON*MASS_NUCLEON);}
-		else{Espec = sqrt(nk_event*nk_event+MASS_NUCLEON*MASS_NUCLEON);}
+		if( struck_nucleon == 2212 ){Espec = sqrt(nk_event*nk_event+MASS_NEUTRON*MASS_NEUTRON);}
+		else{Espec = sqrt(nk_event*nk_event+MASS_PROTON*MASS_PROTON);}
 		
 		//event process and kinematic phase space
 		if( struck_nucleon != 2212 ) continue; //proton only
@@ -366,7 +366,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		double Pplus = (trueSpect_lab.E() + trueSpect_lab.Pz()) / sqrt(2);
 		double PdPlus = MASS_DEUTERON / sqrt(2);
 		double alpha_spec = 2*Pplus / PdPlus;
-		if( alpha_spec > 2.*(1.0-trueX) ) continue;
+		// if( alpha_spec > 2.*(1.0-trueX) ) continue;
 
 		//fill inclusive.
 		h_HERA_Q2_2_3->Fill( trueX, event_weight );
@@ -376,7 +376,6 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		// double pt2weight = reweightPt2->Eval(pt2);
 		double pt2weight = 1.0;
 		double alpha_spec_binwidth = -1; // will have to be rewritten by alpha defined bins
-		// double xbinwidth = 0.0007 - 0.0004;
 		double pt2binwidth = h_HERA_Q2_2_3_x_alpha[0][0]->GetBinWidth(1);
 		h_alpha_spec->Fill( alpha_spec );
 		int x_bin_index = -1;
