@@ -43,6 +43,7 @@
 #define MASS_JPSI 	  3.09688
 #define MASS_PROTON   0.93827208816
 #define MASS_NEUTRON  0.93956542052
+#define MASS_NUCLEON  0.93891875 //.93891875
 #define MASS_DEUTERON 1.8756129 // 1.8756134 (most precise so far)
 // #define MASS_DEUTERON 1.8751019071673038 (not precise enough)!
 #define MASS_TRITON   2.7937167208086358
@@ -314,8 +315,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		h_nk->Fill( nk_event );//sanity check for my wavefunction;
 		TLorentzVector spectator_4vect_irf;
 		double Espec = 0.;
-		if( struck_nucleon == 2212 ){Espec = sqrt(nk_event*nk_event+MASS_NEUTRON*MASS_NEUTRON);}
-		else{Espec = sqrt(nk_event*nk_event+MASS_PROTON*MASS_PROTON);}
+		if( struck_nucleon == 2212 ){Espec = sqrt(nk_event*nk_event+MASS_NUCLEON*MASS_NUCLEON);}
+		else{Espec = sqrt(nk_event*nk_event+MASS_NUCLEON*MASS_NUCLEON);}
 		
 		//event process and kinematic phase space
 		if( struck_nucleon != 2212 ) continue; //proton only
@@ -361,12 +362,11 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		//fill HERA inclusive cross section for Q2(2,3) GeV**2:
 		
 		//below a test for one xbj bin
-		double Mass_Nucleon = (MASS_NEUTRON+MASS_PROTON) / 2.;
-		trueSpect_lab.SetPtEtaPhiM(trueSpect_lab.Pt(),trueSpect_lab.Eta(), trueSpect_lab.Phi(),Mass_Nucleon);
+		trueSpect_lab.SetPtEtaPhiM(trueSpect_lab.Pt(),trueSpect_lab.Eta(), trueSpect_lab.Phi(),MASS_NUCLEON);
 		double Pplus = (trueSpect_lab.E() + trueSpect_lab.Pz()) / sqrt(2);
 		double PdPlus = MASS_DEUTERON / sqrt(2);
 		double alpha_spec = 2*Pplus / PdPlus;
-		// if( alpha_spec > 2.*(1.0-trueX) ) continue;
+		if( alpha_spec > 2.*(1.0-trueX) ) continue;
 
 		//fill inclusive.
 		h_HERA_Q2_2_3->Fill( trueX, event_weight );
