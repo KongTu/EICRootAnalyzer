@@ -240,9 +240,9 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	double twopi = 2*PI;
 	double mbToGeV_m2 = 2.56819;
 	double Q2binwidth = 3.0-2.0;
-	// TF1* cthetaFlat= new TF1("cthetaFlat","0.5",-1.,1.);
-	// TF1* phiFlat= new TF1("phiFlat","1",-PI,PI);
-	// TF1 *deutNk = new TF1("Deuteron n(k) in fm^{-1}",getdNdkstrikmanWeiss,0,1,0);
+	TF1* cthetaFlat= new TF1("cthetaFlat","0.5",-1.,1.);
+	TF1* phiFlat= new TF1("phiFlat","1",-PI,PI);
+	TF1 *deutNk = new TF1("Deuteron n(k) in fm^{-1}",getdNdkstrikmanWeiss,0,1,0);
 	//alex's xbj binning
 	double xBinsArray[] = {0.0001, 0.0002, 0.0004, 0.0007, 0.001, 0.002, 0.004, 0.007, 0.01, 0.02, 0.04, 0.07, 0.1};
 	double xBinsWidth[12];
@@ -366,13 +366,22 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		double Pplus = (trueSpect_lab.E() + trueSpect_lab.Pz()) / sqrt(2);
 		double PdPlus = MASS_DEUTERON / sqrt(2);
 		double alpha_spec = 2*Pplus / PdPlus;
-		// if( alpha_spec > 2.*(1.0-trueX) ) continue;
-
+		
+		double k1 = deutNk->GetRandom();
+		double theta1=TMath::ACos(cthetaFlat->GetRandom());
+		double phi1 = phiFlat->GetRandom();
+		double px1=k1*TMath::Sin(theta1)*TMath::Cos(phi1);
+		double py1=k1*TMath::Sin(theta1)*TMath::Sin(phi1);
+		double pz1=k1*TMath::Cos(theta1);
+		double alpha_new1 = 2. * ( (sqrt(px1*px1+py1*py1+pz1*pz1+MASS_NUCLEON*MASS_NUCLEON) + pz1) / MASS_DEUTERON );
+		alpha_spec = alpha_new1;
+		double pt2 = px1*px1+py1*py1;
+		if( alpha_spec > 2.*(1.0-trueX) ) continue;
 		//fill inclusive.
 		h_HERA_Q2_2_3->Fill( trueX, event_weight );
 
 		// TF1* reweightPt2 = new TF1("reweightPt2","-1*x[0]+1.05",0.,0.05);
-		double pt2 = pxf*pxf+pyf*pyf;
+		// double pt2 = pxf*pxf+pyf*pyf;
 		// double pt2weight = reweightPt2->Eval(pt2);
 		double pt2weight = 1.0;
 		double alpha_spec_binwidth = -1; // will have to be rewritten by alpha defined bins
