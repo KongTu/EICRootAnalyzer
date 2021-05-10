@@ -98,6 +98,16 @@ Double_t getdNdkDeut(Double_t *x, Double_t *par){
 
 	return total;
 }
+// Deuteron dn(k)/dk distribution from Strikman & Weiss paper;
+Double_t getdNdkstrikmanWeiss(Double_t *x, Double_t *par){
+
+	double a = 0.0456;
+	double b = 0.2719;
+	double c = (PI*PI*(a-b)*(a-b)) / (a*b*(a+b));
+	double total = 1./sqrt(c) * ( 1./(x[0]*x[0]+a*a) - 1./(x[0]*x[0]+b*b) );
+	total = total*total;
+	return total*x[0]*x[0]*(4*PI);
+}
 
 
 void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_temp_91"){
@@ -231,7 +241,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	double Q2binwidth = 3.0-2.0;
 	TF1* cthetaFlat= new TF1("cthetaFlat","0.5",-1.,1.);
 	TF1* phiFlat= new TF1("phiFlat","1",-PI,PI);
-	TF1 *deutNk = new TF1("Deuteron n(k) in fm^{-1}",getdNdkDeut,0,10,0);
+	TF1 *deutNk = new TF1("Deuteron n(k) in fm^{-1}",getdNdkstrikmanWeiss,0,1,0);
 	//alex's xbj binning
 	double xBinsArray[] = {0.0001, 0.0002, 0.0004, 0.0007, 0.001, 0.002, 0.004, 0.007, 0.01, 0.02, 0.04, 0.07, 0.1};
 	double xBinsWidth[12];
@@ -363,14 +373,15 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		double k1 = deutNk->GetRandom();
 		double theta=TMath::ACos(cthetaFlat->GetRandom());
 		double phi = phiFlat->GetRandom();
-		k1 = k1*0.197;
+		// k1 = k1*0.197;
 		double px=k1*TMath::Sin(theta)*TMath::Cos(phi);
 		double py=k1*TMath::Sin(theta)*TMath::Sin(phi);
 		double pz=k1*TMath::Cos(theta);
 		double alpha_new = 2. * ( (sqrt(px*px+py*py+pz*pz+Mass_Nucleon*Mass_Nucleon) + pz) / MASS_DEUTERON );
 		double E_new = (alpha_new*MASS_DEUTERON / 4.) + (px*px+py*py+Mass_Nucleon*Mass_Nucleon) / (alpha_new*MASS_DEUTERON);
 		double pz_new = - (alpha_new*MASS_DEUTERON / 4.) + (px*px+py*py+Mass_Nucleon*Mass_Nucleon) / (alpha_new*MASS_DEUTERON);
-		TLorentzVector spectator_new; spectator_new.SetPxPyPzE(px,py,pz_new,E_new);
+		// TLorentzVector spectator_new; 
+		// spectator_new.SetPxPyPzE(px,py,pz_new,E_new);
 
 		// double pt2 = pxf*pxf+pyf*pyf;
 		// double pt2weight = reweightPt2->Eval(pt2);
