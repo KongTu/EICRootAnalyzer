@@ -378,8 +378,8 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		double py=k1*TMath::Sin(theta)*TMath::Sin(phi);
 		double pz=k1*TMath::Cos(theta);
 		double alpha_new = 2. * ( (sqrt(px*px+py*py+pz*pz+Mass_Nucleon*Mass_Nucleon) + pz) / MASS_DEUTERON );
-		double E_new = (alpha_new*MASS_DEUTERON / 4.) + (px*px+py*py+Mass_Nucleon*Mass_Nucleon) / (alpha_new*MASS_DEUTERON);
-		double pz_new = - (alpha_new*MASS_DEUTERON / 4.) + (px*px+py*py+Mass_Nucleon*Mass_Nucleon) / (alpha_new*MASS_DEUTERON);
+		double E_new = (alpha_new*MASS_DEUTERON / 4.) + (px*px+py*py+MASS_NEUTRON*MASS_NEUTRON) / (alpha_new*MASS_DEUTERON);
+		double pz_new = - (alpha_new*MASS_DEUTERON / 4.) + (px*px+py*py+MASS_NEUTRON*MASS_NEUTRON) / (alpha_new*MASS_DEUTERON);
 		// TLorentzVector spectator_new; 
 		// spectator_new.SetPxPyPzE(px,py,pz_new,E_new);
 
