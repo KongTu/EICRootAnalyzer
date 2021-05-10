@@ -359,7 +359,6 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		event_weight = (TMath::Power(trueQ2,2)*trueX) / (twopi*alpha2*Yc);
 		event_weight = event_weight * (mbToGeV_m2)/(Lint*bin_width*Q2binwidth);
 		//fill HERA inclusive cross section for Q2(2,3) GeV**2:
-		h_HERA_Q2_2_3->Fill( trueX, event_weight );
 		
 		//below a test for one xbj bin
 		double Mass_Nucleon = (MASS_NEUTRON+MASS_PROTON) / 2.;
@@ -367,6 +366,10 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		double Pplus = (trueSpect_lab.E() + trueSpect_lab.Pz()) / sqrt(2);
 		double PdPlus = MASS_DEUTERON / sqrt(2);
 		double alpha_spec = 2*Pplus / PdPlus;
+		if( alpha_spec > 2.*(1.0-trueX) ) continue;
+
+		//fill inclusive.
+		h_HERA_Q2_2_3->Fill( trueX, event_weight );
 
 		TF1* reweightPt2 = new TF1("reweightPt2","-1*x[0]+1.05",0.,0.05);
 		double pt2 = pxf*pxf+pyf*pyf;
