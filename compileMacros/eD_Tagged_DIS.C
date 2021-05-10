@@ -366,7 +366,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		double Pplus = (trueSpect_lab.E() + trueSpect_lab.Pz()) / sqrt(2);
 		double PdPlus = MASS_DEUTERON / sqrt(2);
 		double alpha_spec = 2*Pplus / PdPlus;
-		if( alpha_spec > 2.*(1.0-trueX) ) continue;
+		// if( alpha_spec > 2.*(1.0-trueX) ) continue;
 
 		//fill inclusive.
 		h_HERA_Q2_2_3->Fill( trueX, event_weight );
