@@ -242,7 +242,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 	double Q2binwidth = 3.0-2.0;
 	TF1* cthetaFlat= new TF1("cthetaFlat","0.5",-1.,1.);
 	TF1* phiFlat= new TF1("phiFlat","1",-PI,PI);
-	TF1 *deutNk = new TF1("Deuteron n(k) in fm^{-1}",getdNdkstrikmanWeiss,0,1,0);
+	TF1 *deutNk = new TF1("Deuteron n(k) in fm^{-1}",getdNdkDeut,0,10,0);
 	//alex's xbj binning
 	double xBinsArray[] = {0.0001, 0.0002, 0.0004, 0.0007, 0.001, 0.002, 0.004, 0.007, 0.01, 0.02, 0.04, 0.07, 0.1};
 	double xBinsWidth[12];
@@ -368,6 +368,7 @@ void eD_Tagged_DIS(const int nEvents = 40000, TString filename="Output_input_tem
 		double alpha_spec = 2*Pplus / PdPlus;
 		
 		double k1 = deutNk->GetRandom();
+		k1 = k1*0.197;
 		double theta1=TMath::ACos(cthetaFlat->GetRandom());
 		double phi1 = phiFlat->GetRandom();
 		double px1=k1*TMath::Sin(theta1)*TMath::Cos(phi1);
