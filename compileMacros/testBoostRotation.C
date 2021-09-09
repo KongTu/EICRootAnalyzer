@@ -81,7 +81,7 @@ TLorentzRotation RotateToLab(TLorentzVector const &eBeam_lab,
 	return l;
 }
 
-void testBoostRotation(const int nEvents = 40000, double HFSaccept=4.0, bool cutPtBal_=false, TString filename="Output_input_temp_91"){
+void testBoostRotation(const int nEvents = 40000){
 
 
 	//input from BeAGLE root files
@@ -152,10 +152,6 @@ void testBoostRotation(const int nEvents = 40000, double HFSaccept=4.0, bool cut
 			}
 			if( status!=1 ) continue;
 		}
-
-		TLorentzRotation rotateVector=RotateToLab(e_beam, d_beam, e_scattered);
-		TLorentzVector trueSpect_lab = rotateVector*trueSpect;//rotation only
-		trueSpect_lab.Boost(b);//longitudinal boost without rotation
 		
 	}
 
