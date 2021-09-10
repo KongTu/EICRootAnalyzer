@@ -201,7 +201,7 @@ void testBoostRotation(const int nEvents = 40000){
 		TLorentzRotation boost_HCM_base = BoostToHCM_base(e_beam,d_beam,e_scattered);
 
 		TLorentzVector hstar_photon =  boost_HCM*(e_beam- e_scattered);
-		TLorentzVector hstar_proton =  boost_HCM*(pBeam_lab);
+		TLorentzVector hstar_proton =  boost_HCM*(d_beam);
 
 		cout << "gamma+P system Pz " << (hstar_photon+hstar_proton).Pz() << endl;
 		cout << "gamma+P system Px " << (hstar_photon+hstar_proton).Px() << endl;
@@ -209,7 +209,7 @@ void testBoostRotation(const int nEvents = 40000){
 		cout << "gamma+P system Phi " << (hstar_photon+hstar_proton).Phi() << endl;
 
 		TLorentzVector hstar2_photon =  boost_HCM_base*(e_beam- e_scattered);
-		TLorentzVector hstar2_proton =  boost_HCM_base*(pBeam_lab);
+		TLorentzVector hstar2_proton =  boost_HCM_base*(d_beam);
 
 		cout << "gamma+P system base Pz " << (hstar2_photon+hstar2_proton).Pz() << endl;
 		cout << "gamma+P system base Px " << (hstar2_photon+hstar2_proton).Px() << endl;
