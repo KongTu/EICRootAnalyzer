@@ -170,7 +170,7 @@ void testBoostRotation(const int nEvents = 40000){
 		
 		//event process and kinematic phase space
 		if( event_process != 99 ) continue;
-		if( trueQ2 < 1.||trueQ2 > 2. ) continue;
+		if( trueQ2 < 5.||trueQ2 > 10. ) continue;
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
 				
 		//HERA inclusive cross section
