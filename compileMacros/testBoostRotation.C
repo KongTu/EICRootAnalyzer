@@ -120,7 +120,7 @@ void testBoostRotation(const int nEvents = 40000){
 		double pzf = event->pzf;
 
 		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep+0.00051*0.00051));
-		TLorentzVector d_beam(0.,0.,pztarg,sqrt(pztarg*pztarg+MASS_NUCLEON*MASS_NUCLEON));
+		TLorentzVector d_beam(0.,0.,pztarg,sqrt(pztarg*pztarg+0.93891*0.93891));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
 
 		//event information:
