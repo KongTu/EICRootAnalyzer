@@ -135,7 +135,7 @@ void testBoostRotation(const int nEvents = 40000){
 	TH2D* h_phiStar2D = new TH2D("h_phiStar2D",";phiStar;phiStar_new",100,-PI,PI,100,-PI,PI);
 
 
-	for(int i(0); i < nEvents; ++i ) {
+	for(int i(0); i < 10; ++i ) {
       
 		// Read the next entry from the tree.
 		tree->GetEntry(i);
@@ -207,6 +207,7 @@ void testBoostRotation(const int nEvents = 40000){
 		cout << "gamma+P system Px " << (hstar_photon+hstar_proton).Px() << endl;
 		cout << "gamma+P system Py " << (hstar_photon+hstar_proton).Py() << endl;
 		cout << "gamma+P system Phi " << (hstar_photon+hstar_proton).Phi() << endl;
+		cout << "gamma+P system BoostVector pt " << (hstar_photon+hstar_proton).BoostVector().Pt() << endl;
 
 		TLorentzVector hstar2_photon =  boost_HCM_base*(e_beam- e_scattered);
 		TLorentzVector hstar2_proton =  boost_HCM_base*(d_beam);
@@ -215,6 +216,7 @@ void testBoostRotation(const int nEvents = 40000){
 		cout << "gamma+P system base Px " << (hstar2_photon+hstar2_proton).Px() << endl;
 		cout << "gamma+P system base Py " << (hstar2_photon+hstar2_proton).Py() << endl;
 		cout << "gamma+P system base Phi " << (hstar2_photon+hstar2_proton).Phi() << endl;
+		cout << "gamma+P system base BoostVector pt " << (hstar2_photon+hstar2_proton).BoostVector().Pt() << endl;
 
 		for(unsigned j=0;j<list_of_particles.size();j++){
 			
