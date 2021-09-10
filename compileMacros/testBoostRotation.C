@@ -221,13 +221,16 @@ void testBoostRotation(const int nEvents = 40000){
 			TLorentzVector hstar =  boost_HCM*list_of_particles[j];
 			TLorentzVector hstar2 =  boost_HCM_base*list_of_particles[j];
 			
-			if(j==list_of_particles.size()-1){
-				cout << "e' pt = " << list_of_particles[j].Pt() << endl;
-				cout << "e' eta = " << list_of_particles[j].Eta() << endl;
-				cout << "e' phi = " << list_of_particles[j].Phi() << endl;
-				cout << "e' ptStar = " << hstar.Pt() << endl;
-				cout << "e' etaStar = " << hstar.Eta() << endl;
-				cout << "e' phiStar = " << hstar.Phi() << endl;
+			if(j<=list_of_particles.size()-1){
+				cout << "particle #" << j << " pt = " << list_of_particles[j].Pt() << endl;
+				cout << "particle #" << j << " eta = " << list_of_particles[j].Eta() << endl;
+				cout << "particle #" << j << " phi = " << list_of_particles[j].Phi() << endl;
+				cout << "particle #" << j << " ptStar = " << hstar.Pt() << endl;
+				cout << "particle #" << j << " etaStar = " << hstar.Eta() << endl;
+				cout << "particle #" << j << " phiStar = " << hstar.Phi() << endl;
+				cout << "particle #" << j << " ptStar2 = " << hstar2.Pt() << endl;
+				cout << "particle #" << j << " etaStar2 = " << hstar2.Eta() << endl;
+				cout << "particle #" << j << " phiStar2 = " << hstar2.Phi() << endl;
 			}
 			else{
 
