@@ -92,6 +92,7 @@ void testBoostRotation(const int nEvents = 40000){
 	TH1D* h_nk = new TH1D("h_nk",";nk",100,0,1);
 	
 	TH1D* h_ptStar = new TH1D("h_ptStar",";ptStar",100,0,20);
+	TH1D* h_ptStar_after = new TH1D("h_ptStar_after",";ptStar",100,0,20);
 	TH1D* h_pt = new TH1D("h_pt",";pt",100,0,20);
 	
 	TH1D* h_etaStar = new TH1D("h_etaStar",";etaStar",100,-10,10);
@@ -99,6 +100,8 @@ void testBoostRotation(const int nEvents = 40000){
 	
 	TH1D* h_phiStar = new TH1D("h_phiStar",";phiStar",100,-PI,PI);
 	TH1D* h_phi = new TH1D("h_phi",";phi",100,-PI,PI);
+
+	TH1D* h_zhad = new TH1D("h_zhad",";z",100,0,1);
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -155,6 +158,8 @@ void testBoostRotation(const int nEvents = 40000){
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 			}
 			if( status!=1 ) continue;
+			if(pt<0.15||fabs(eta)>1.6) continue;
+
 			list_of_particles.push_back(particle->Get4Vector());
 		}
 		list_of_particles.push_back(e_scattered);
@@ -162,9 +167,15 @@ void testBoostRotation(const int nEvents = 40000){
 		TLorentzRotation boost_HCM = BoostToHCM(e_beam,d_beam,e_scattered);
 		for(unsigned j=0;j<list_of_particles.size();j++){
 			TLorentzVector hstar =  boost_HCM*list_of_particles[j];
+
+			double zhad_value = d_beam.Dot(list_of_particles[j]) / d_beam.Dot(e_beam-e_scattered);
+			h_zhad->Fill(zhad_value);
+
 			h_ptStar->Fill(hstar.Pt());
 			h_etaStar->Fill(hstar.Eta());
 			h_phiStar->Fill(hstar.Phi());
+
+			if( zhad_value > 0.2 ) h_ptStar_after->Fill(hstar.Pt());
 
 			h_pt->Fill(list_of_particles[j].Pt());
 			h_eta->Fill(list_of_particles[j].Eta());
