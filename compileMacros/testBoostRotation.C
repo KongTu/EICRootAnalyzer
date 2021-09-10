@@ -78,6 +78,29 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
    TVector3 axis_escat=pBoost_escat.BoostVector();
 
    // rotate away y-coordinate
+   boost.RotateZ(-axis.Phi());
+   
+
+   return boost;
+}
+
+TLorentzRotation BoostToHCM_new(TLorentzVector const &eBeam_lab,
+                            TLorentzVector const &pBeam_lab,
+                            TLorentzVector const &eScat_lab) {
+   TLorentzVector q_lab=eBeam_lab - eScat_lab;
+   TLorentzVector p_plus_q=pBeam_lab + q_lab;
+   // boost to HCM
+   TLorentzRotation boost=TLorentzRotation(-1.0*p_plus_q.BoostVector());
+   TLorentzVector pBoost=boost*pBeam_lab;
+   TVector3 axis=pBoost.BoostVector();
+
+   // rotate away x-coordinate
+   boost.RotateY(M_PI-axis.Theta());
+
+   TLorentzVector pBoost_escat=boost*eScat_lab;
+   TVector3 axis_escat=pBoost_escat.BoostVector();
+
+   // rotate away y-coordinate
    boost.RotateZ(-axis_escat.Phi());
    
 
@@ -100,17 +123,22 @@ void testBoostRotation(const int nEvents = 40000){
 	TH1D* h_nk = new TH1D("h_nk",";nk",100,0,1);
 	
 	TH1D* h_ptStar = new TH1D("h_ptStar",";ptStar",100,0,20);
+	TH1D* h_ptStar2 = new TH1D("h_ptStar2",";ptStar",100,0,20);
 	TH1D* h_ptStar_after = new TH1D("h_ptStar_after",";ptStar",100,0,20);
 	TH1D* h_pt = new TH1D("h_pt",";pt",100,0,20);
 	
 	TH1D* h_etaStar = new TH1D("h_etaStar",";etaStar",100,-10,10);
+	TH1D* h_etaStar2 = new TH1D("h_etaStar2",";etaStar",100,-10,10);
 	TH1D* h_eta = new TH1D("h_eta",";eta",100,-10,10);
 	
 	TH1D* h_phiStar = new TH1D("h_phiStar",";phiStar",100,-PI,PI);
+	TH1D* h_phiStar2 = new TH1D("h_phiStar2",";phiStar",100,-PI,PI);
 	TH1D* h_phi = new TH1D("h_phi",";phi",100,-PI,PI);
 
 	TH1D* h_zhad = new TH1D("h_zhad",";z",100,0,1);
 	TH2D* h_zhadVsPtStar = new TH2D("h_zhadVsPtStar",";z;ptStar",100,0,1,100,0,20);
+	TH2D* h_phiStar2D = new TH2D("h_phiStar2D",";phiStar;phiStar_new",100,-PI,PI,100,-PI,PI);
+
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -175,9 +203,12 @@ void testBoostRotation(const int nEvents = 40000){
 		list_of_particles.push_back(e_scattered);
 
 		TLorentzRotation boost_HCM = BoostToHCM(e_beam,d_beam,e_scattered);
+		TLorentzRotation boost_HCM_new = BoostToHCM_new(e_beam,d_beam,e_scattered);
+
 		for(unsigned j=0;j<list_of_particles.size();j++){
 			
 			TLorentzVector hstar =  boost_HCM*list_of_particles[j];
+			TLorentzVector hstar2 =  boost_HCM_new*list_of_particles[j];
 			
 			if(j==list_of_particles.size()-1){
 				cout << "e' pt = " << list_of_particles[j].Pt() << endl;
@@ -198,6 +229,13 @@ void testBoostRotation(const int nEvents = 40000){
 				h_ptStar->Fill(hstar.Pt());
 				h_etaStar->Fill(hstar.Eta());
 				h_phiStar->Fill(hstar.Phi());
+
+				h_ptStar2->Fill(hstar2.Pt());
+				h_etaStar2->Fill(hstar2.Eta());
+				h_phiStar2->Fill(hstar2.Phi());
+
+				h_phiStar2D->Fill(hstar.Phi(),hstar2.Phi());
+
 
 				h_zhadVsPtStar->Fill(zhad_value,hstar.Pt());
 				if( zhad_value > 0.2 ) h_ptStar_after->Fill(hstar.Pt());
