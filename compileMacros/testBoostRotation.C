@@ -71,14 +71,16 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
    TLorentzVector pBoost=boost*pBeam_lab;
    TVector3 axis=pBoost.BoostVector();
    
-   // rotate away x-coordinate
-   boost.RotateY(M_PI-axis.Theta());
-
-   // TLorentzVector pBoost_escat=boost*eScat_lab;
-   // TVector3 axis_escat=pBoost_escat.BoostVector();
    // rotate away y-coordinate
    boost.RotateZ(-axis.Phi());
+   // rotate away x-coordinate
+   boost.RotateY(M_PI-axis.Theta());
+  
+   TLorentzVector pBoost_escat=boost*eScat_lab;
+   TVector3 axis_escat=pBoost_escat.BoostVector();
 
+   // rotate away y-coordinate
+   boost.RotateZ(-axis_escat.Phi());
 
    return boost;
 }
