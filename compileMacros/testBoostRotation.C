@@ -61,24 +61,20 @@ using namespace erhic;
 #define MASS_MUON  0.1056
 
 
-TLorentzRotation RotateToLab(TLorentzVector const &eBeam_lab,
+TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
                             TLorentzVector const &pBeam_lab,
                             TLorentzVector const &eScat_lab) {
-	
-	TLorentzVector q_lab=eBeam_lab - eScat_lab;
-	TLorentzVector q_irf=q_lab;
-	TLorentzVector eScat_irf=eScat_lab;
-	TVector3 pBoost=pBeam_lab.BoostVector();
-	q_irf.Boost(-pBoost);
-	eScat_irf.Boost(-pBoost);
-
-	TLorentzRotation l;
-	double angleTheta = q_irf.Theta();
-	double anglePhi = eScat_irf.Phi();
-	l.RotateY( angleTheta );
-	l.RotateZ( anglePhi );
-
-	return l;
+   TLorentzVector q_lab=eBeam_lab - eScat_lab;
+   TLorentzVector p_plus_q=pBeam_lab + q_lab;
+   // boost to HCM
+   TLorentzRotation boost=TLorentzRotation(-1.0*p_plus_q.BoostVector());
+   TLorentzVector pBoost=boost*pBeam_lab;
+   TVector3 axis=pBoost.BoostVector();
+   // rotate away y-coordinate
+   boost.RotateZ(-axis.Phi());
+   // rotate away x-coordinate
+   boost.RotateY(M_PI-axis.Theta());
+   return boost;
 }
 
 void testBoostRotation(const int nEvents = 40000){
@@ -94,6 +90,16 @@ void testBoostRotation(const int nEvents = 40000){
 	tree->SetBranchAddress("event", &event);
 
 	TH1D* h_nk = new TH1D("h_nk",";nk",100,0,1);
+	
+	TH1D* h_ptStar = new TH1D("h_ptStar",";ptStar",100,0,20);
+	TH1D* h_pt = new TH1D("h_pt",";pt",100,0,20);
+	
+	TH1D* h_etaStar = new TH1D("h_etaStar",";etaStar",100,-10,10);
+	TH1D* h_eta = new TH1D("h_eta",";eta",100,-10,10);
+	
+	TH1D* h_phiStar = new TH1D("h_phiStar",";phiStar",100,-PI,PI);
+	TH1D* h_phi = new TH1D("h_phi",";phi",100,,-PI,PI);
+
 	for(int i(0); i < nEvents; ++i ) {
       
 		// Read the next entry from the tree.
@@ -114,9 +120,6 @@ void testBoostRotation(const int nEvents = 40000){
 		TLorentzVector d_beam(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_DEUTERON*MASS_DEUTERON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
 
-		//boost vector for lab <--> d rest frame
-		TVector3 b = d_beam.BoostVector();
-
 		//event information:
 		double trueQ2 = event->GetTrueQ2();
 		double trueW2 = event->GetTrueW2();
@@ -135,6 +138,7 @@ void testBoostRotation(const int nEvents = 40000){
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
 				
 		//HERA inclusive cross section
+		vector<TLorentzVector> list_of_particles;
 		for(int j(0); j < nParticles; ++j ) {
 			const erhic::ParticleMC* particle = event->GetTrack(j);
 			int pdg = particle->GetPdgCode();
@@ -151,6 +155,29 @@ void testBoostRotation(const int nEvents = 40000){
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 			}
 			if( status!=1 ) continue;
+			list_of_particles.push_back(particle->Get4Vector());
+		}
+		list_of_particles.push_back(e_scattered);
+
+		TLorentzVector boost_HCM = BoostToHCM(e_beam,d_beam,e_scattered);
+		for(unsigned j=0;j<list_of_particles.size();j++){
+			TLorentzVector hstar =  boost_HCM*list_of_particles[j];
+			h_ptStar->Fill(hstar.Pt());
+			h_etaStar->Fill(hstar.Eta());
+			h_phiStar->Fill(hstar.Phi());
+
+			h_pt->Fill(list_of_particles[j].Pt());
+			h_eta->Fill(list_of_particles[j].Eta());
+			h_phi->Fill(list_of_particles[j].Phi());
+
+			if(j==list_of_particles.size()-1){
+				cout << "e' pt = " << list_of_particles[j].Pt() << endl;
+				cout << "e' eta = " << list_of_particles[j].Eta() << endl;
+				cout << "e' phi = " << list_of_particles[j].Phi() << endl;
+				cout << "e' ptStar = " << hstar.Pt() << endl;
+				cout << "e' etaStar = " << hstar.Eta() << endl;
+				cout << "e' phiStar = " << hstar.Phi() << endl;
+			}
 		}
 		
 	}
