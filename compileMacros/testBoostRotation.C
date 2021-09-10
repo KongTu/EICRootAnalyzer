@@ -71,18 +71,20 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
    TLorentzVector pBoost=boost*pBeam_lab;
    TVector3 axis=pBoost.BoostVector();
 
+   // rotate away x-coordinate
+   boost.RotateY(M_PI-axis.Theta());
+
    TLorentzVector pBoost_escat=boost*eScat_lab;
    TVector3 axis_escat=pBoost_escat.BoostVector();
 
    // rotate away y-coordinate
-   boost.RotateZ(-axis.Phi());
-    // rotate away x-coordinate
-   boost.RotateY(M_PI-axis.Theta());
+   boost.RotateZ(-axis_escat.Phi());
+   
 
    return boost;
 }
 
-TLorentzRotation BoostToHCM_new(TLorentzVector const &eBeam_lab,
+TLorentzRotation BoostToHCM_base(TLorentzVector const &eBeam_lab,
                             TLorentzVector const &pBeam_lab,
                             TLorentzVector const &eScat_lab) {
    TLorentzVector q_lab=eBeam_lab - eScat_lab;
@@ -92,15 +94,11 @@ TLorentzRotation BoostToHCM_new(TLorentzVector const &eBeam_lab,
    TLorentzVector pBoost=boost*pBeam_lab;
    TVector3 axis=pBoost.BoostVector();
 
+	// rotate away y-coordinate
+   boost.RotateZ(-axis.Phi());
+
    // rotate away x-coordinate
    boost.RotateY(M_PI-axis.Theta());
-
-   TLorentzVector pBoost_escat=boost*eScat_lab;
-   TVector3 axis_escat=pBoost_escat.BoostVector();
-
-   // rotate away y-coordinate
-   boost.RotateZ(-axis.Phi());
-   
 
    return boost;
 }
@@ -201,12 +199,12 @@ void testBoostRotation(const int nEvents = 40000){
 		list_of_particles.push_back(e_scattered);
 
 		TLorentzRotation boost_HCM = BoostToHCM(e_beam,d_beam,e_scattered);
-		TLorentzRotation boost_HCM_new = BoostToHCM_new(e_beam,d_beam,e_scattered);
+		TLorentzRotation boost_HCM_base = BoostToHCM_base(e_beam,d_beam,e_scattered);
 
 		for(unsigned j=0;j<list_of_particles.size();j++){
 			
 			TLorentzVector hstar =  boost_HCM*list_of_particles[j];
-			TLorentzVector hstar2 =  boost_HCM_new*list_of_particles[j];
+			TLorentzVector hstar2 =  boost_HCM_base*list_of_particles[j];
 			
 			if(j==list_of_particles.size()-1){
 				cout << "e' pt = " << list_of_particles[j].Pt() << endl;
@@ -233,7 +231,6 @@ void testBoostRotation(const int nEvents = 40000){
 				h_phiStar2->Fill(hstar2.Phi());
 
 				h_phiStar2D->Fill(hstar.Phi(),hstar2.Phi());
-
 
 				h_zhadVsPtStar->Fill(zhad_value,hstar.Pt());
 				if( zhad_value > 0.2 ) h_ptStar_after->Fill(hstar.Pt());
