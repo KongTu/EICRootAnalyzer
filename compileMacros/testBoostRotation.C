@@ -199,6 +199,9 @@ void testBoostRotation(const int nEvents = 40000){
 		}
 		list_of_particles.push_back(e_scattered);
 
+		TLorentzRotation boost_HCM = BoostToHCM(e_beam,d_beam,e_scattered);
+		TLorentzRotation boost_HCM_base = BoostToHCM_base(e_beam,d_beam,e_scattered);
+
 		for(unsigned j=0;j<list_of_particles.size();j++){
 			
 			TLorentzVector hstar =  boost_HCM*list_of_particles[j];
