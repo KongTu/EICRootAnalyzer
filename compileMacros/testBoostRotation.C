@@ -158,7 +158,7 @@ void testBoostRotation(const int nEvents = 40000){
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 			}
 			if( status!=1 ) continue;
-			if(pt<0.15||fabs(eta)>1.6) continue;
+			if(pt<0.15||fabs(eta)>1.6||charge==0) continue;
 
 			list_of_particles.push_back(particle->Get4Vector());
 		}
@@ -166,21 +166,9 @@ void testBoostRotation(const int nEvents = 40000){
 
 		TLorentzRotation boost_HCM = BoostToHCM(e_beam,d_beam,e_scattered);
 		for(unsigned j=0;j<list_of_particles.size();j++){
+			
 			TLorentzVector hstar =  boost_HCM*list_of_particles[j];
-
-			double zhad_value = d_beam.Dot(list_of_particles[j]) / d_beam.Dot(e_beam-e_scattered);
-			h_zhad->Fill(zhad_value);
-
-			h_ptStar->Fill(hstar.Pt());
-			h_etaStar->Fill(hstar.Eta());
-			h_phiStar->Fill(hstar.Phi());
-
-			if( zhad_value > 0.2 ) h_ptStar_after->Fill(hstar.Pt());
-
-			h_pt->Fill(list_of_particles[j].Pt());
-			h_eta->Fill(list_of_particles[j].Eta());
-			h_phi->Fill(list_of_particles[j].Phi());
-
+			
 			if(j==list_of_particles.size()-1){
 				cout << "e' pt = " << list_of_particles[j].Pt() << endl;
 				cout << "e' eta = " << list_of_particles[j].Eta() << endl;
@@ -188,6 +176,20 @@ void testBoostRotation(const int nEvents = 40000){
 				cout << "e' ptStar = " << hstar.Pt() << endl;
 				cout << "e' etaStar = " << hstar.Eta() << endl;
 				cout << "e' phiStar = " << hstar.Phi() << endl;
+			}
+			else{
+				double zhad_value = d_beam.Dot(list_of_particles[j]) / d_beam.Dot(e_beam-e_scattered);
+				h_zhad->Fill(zhad_value);
+
+				h_ptStar->Fill(hstar.Pt());
+				h_etaStar->Fill(hstar.Eta());
+				h_phiStar->Fill(hstar.Phi());
+
+				if( zhad_value > 0.2 ) h_ptStar_after->Fill(hstar.Pt());
+
+				h_pt->Fill(list_of_particles[j].Pt());
+				h_eta->Fill(list_of_particles[j].Eta());
+				h_phi->Fill(list_of_particles[j].Phi());
 			}
 		}
 		
