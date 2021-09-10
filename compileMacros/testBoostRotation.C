@@ -110,8 +110,8 @@ void testBoostRotation(const int nEvents = 40000){
 	TFile * output = new TFile("../rootfiles/test_boostRotation.root","recreate");
 	
 	TChain *tree = new TChain("EICTree");
-	// tree->Add("/gpfs02/eic/DATA/BeAGLE/eAu/DIS/18x110_Q2_1_100/EICTree/18x110_Q2_1_100_batch_1_10M/*.root" );
-	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_10_100_noINC/eD_Tagged_DIS_100M_batch_2/*.root" );
+	tree->Add("/gpfs02/eic/DATA/BeAGLE/eAu/DIS/18x110_Q2_1_100/EICTree/18x110_Q2_1_100_batch_1_10M/*.root" );
+	// tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/18x110_Q2_10_100_noINC/eD_Tagged_DIS_100M_batch_2/*.root" );
 	
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
@@ -170,7 +170,7 @@ void testBoostRotation(const int nEvents = 40000){
 		
 		//event process and kinematic phase space
 		if( event_process != 99 ) continue;
-		if( trueQ2 < 1. ) continue;
+		if( trueQ2 < 1.||trueQ2 > 2. ) continue;
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
 				
 		//HERA inclusive cross section
