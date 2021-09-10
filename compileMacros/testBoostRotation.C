@@ -98,7 +98,7 @@ void testBoostRotation(const int nEvents = 40000){
 	TH1D* h_eta = new TH1D("h_eta",";eta",100,-10,10);
 	
 	TH1D* h_phiStar = new TH1D("h_phiStar",";phiStar",100,-PI,PI);
-	TH1D* h_phi = new TH1D("h_phi",";phi",100,,-PI,PI);
+	TH1D* h_phi = new TH1D("h_phi",";phi",100,-PI,PI);
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -159,7 +159,7 @@ void testBoostRotation(const int nEvents = 40000){
 		}
 		list_of_particles.push_back(e_scattered);
 
-		TLorentzVector boost_HCM = BoostToHCM(e_beam,d_beam,e_scattered);
+		TLorentzRotation boost_HCM = BoostToHCM(e_beam,d_beam,e_scattered);
 		for(unsigned j=0;j<list_of_particles.size();j++){
 			TLorentzVector hstar =  boost_HCM*list_of_particles[j];
 			h_ptStar->Fill(hstar.Pt());
