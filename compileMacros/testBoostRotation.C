@@ -135,7 +135,7 @@ void testBoostRotation(const int nEvents = 40000){
 	TH2D* h_phiStar2D = new TH2D("h_phiStar2D",";phiStar;phiStar_new",100,-PI,PI,100,-PI,PI);
 
 
-	for(int i(0); i < 10; ++i ) {
+	for(int i(0); i < nEvents; ++i ) {
       
 		// Read the next entry from the tree.
 		tree->GetEntry(i);
