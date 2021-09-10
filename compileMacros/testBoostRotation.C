@@ -71,16 +71,15 @@ TLorentzRotation BoostToHCM(TLorentzVector const &eBeam_lab,
    TLorentzVector pBoost=boost*pBeam_lab;
    TVector3 axis=pBoost.BoostVector();
 
- 
+   // rotate away x-coordinate
+   boost.RotateY(M_PI-axis.Theta());
+
    TLorentzVector pBoost_escat=boost*eScat_lab;
    TVector3 axis_escat=pBoost_escat.BoostVector();
 
-    // rotate away x-coordinate
-    boost.RotateY(M_PI-axis.Theta());
    // rotate away y-coordinate
-   boost.RotateZ(-axis.Phi());
+   boost.RotateZ(-axis_escat.Phi());
    
-  
 
    return boost;
 }
@@ -111,6 +110,7 @@ void testBoostRotation(const int nEvents = 40000){
 	TH1D* h_phi = new TH1D("h_phi",";phi",100,-PI,PI);
 
 	TH1D* h_zhad = new TH1D("h_zhad",";z",100,0,1);
+	TH2D* h_zhadVsPtStar = new TH2D("h_zhadVsPtStar",";z;ptStar",100,0,1,100,0,20);
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -195,6 +195,7 @@ void testBoostRotation(const int nEvents = 40000){
 				h_etaStar->Fill(hstar.Eta());
 				h_phiStar->Fill(hstar.Phi());
 
+				h_zhadVsPtStar->Fill(zhad_value,hstar.Pt());
 				if( zhad_value > 0.2 ) h_ptStar_after->Fill(hstar.Pt());
 
 				h_pt->Fill(list_of_particles[j].Pt());
