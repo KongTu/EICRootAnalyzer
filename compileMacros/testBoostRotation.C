@@ -189,6 +189,10 @@ void testBoostRotation(const int nEvents = 40000){
 			}
 			else{
 				double zhad_value = d_beam.Dot(list_of_particles[j]) / d_beam.Dot(e_beam-e_scattered);
+				TLorentzVector part_new;
+				part_new.SetPtEtaPhiM(list_of_particles[j].Pt(),list_of_particles[j].Eta(),list_of_particles[j].Phi(),0.13957);
+				zhad_value = d_beam.Dot(part_new) / d_beam.Dot(e_beam-e_scattered);
+
 				h_zhad->Fill(zhad_value);
 
 				h_ptStar->Fill(hstar.Pt());
