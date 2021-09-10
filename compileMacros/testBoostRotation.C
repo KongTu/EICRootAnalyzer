@@ -199,33 +199,12 @@ void testBoostRotation(const int nEvents = 40000){
 		}
 		list_of_particles.push_back(e_scattered);
 
-		TLorentzRotation boost_HCM = BoostToHCM(e_beam,d_beam,e_scattered);
-		TLorentzRotation boost_HCM_base = BoostToHCM_base(e_beam,d_beam,e_scattered);
-
-		TLorentzVector hstar_photon =  boost_HCM*(e_beam- e_scattered);
-		TLorentzVector hstar_proton =  boost_HCM*(d_beam);
-
-		cout << "gamma+P system Pz " << (hstar_photon+hstar_proton).Pz() << endl;
-		cout << "gamma+P system Px " << (hstar_photon+hstar_proton).Px() << endl;
-		cout << "gamma+P system Py " << (hstar_photon+hstar_proton).Py() << endl;
-		cout << "gamma+P system Phi " << (hstar_photon+hstar_proton).Phi() << endl;
-		cout << "gamma+P system BoostVector pt " << (hstar_photon+hstar_proton).BoostVector().Pt() << endl;
-
-		TLorentzVector hstar2_photon =  boost_HCM_base*(e_beam- e_scattered);
-		TLorentzVector hstar2_proton =  boost_HCM_base*(d_beam);
-
-		cout << "gamma+P system base Pz " << (hstar2_photon+hstar2_proton).Pz() << endl;
-		cout << "gamma+P system base Px " << (hstar2_photon+hstar2_proton).Px() << endl;
-		cout << "gamma+P system base Py " << (hstar2_photon+hstar2_proton).Py() << endl;
-		cout << "gamma+P system base Phi " << (hstar2_photon+hstar2_proton).Phi() << endl;
-		cout << "gamma+P system base BoostVector pt " << (hstar2_photon+hstar2_proton).BoostVector().Pt() << endl;
-
 		for(unsigned j=0;j<list_of_particles.size();j++){
 			
 			TLorentzVector hstar =  boost_HCM*list_of_particles[j];
 			TLorentzVector hstar2 =  boost_HCM_base*list_of_particles[j];
 			
-			if(j<=list_of_particles.size()-1){
+			if(j==list_of_particles.size()-1){
 				cout << "particle #" << j << " pt = " << list_of_particles[j].Pt() << endl;
 				cout << "particle #" << j << " eta = " << list_of_particles[j].Eta() << endl;
 				cout << "particle #" << j << " phi = " << list_of_particles[j].Phi() << endl;
