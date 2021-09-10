@@ -165,6 +165,7 @@ void testBoostRotation(const int nEvents = 40000){
 				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
 			}
 			if( status!=1 ) continue;
+			if( particle->GetParentIndex()==3 )continue;
 			if(pt<0.15||fabs(eta)>1.6||charge==0) continue;
 
 			list_of_particles.push_back(particle->Get4Vector());
