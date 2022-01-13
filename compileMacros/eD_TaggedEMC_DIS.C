@@ -96,19 +96,24 @@ void eD_TaggedEMC_DIS( const int nEvents = 1e6 ){
 	//
 	TH1D* h_HERA_Q2_10_15 = new TH1D("h_HERA_Q2_10_15","h_HERA_Q2_10_15",6,xBinsArray);
 	h_HERA_Q2_10_15->Sumw2();
-	
+	TH1D* h_HERA_Q2_10_15_EMC = new TH1D("h_HERA_Q2_10_15_EMC","h_HERA_Q2_10_15_EMC",6,xBinsArray);
+	h_HERA_Q2_10_15_EMC->Sumw2();
+
 	TH1D* h_alpha_spec = new TH1D("h_alpha_spec","h_alpha_spec",100,0,2);
 	TH1D* h_nk = new TH1D("h_nk","h_nk",100,0,2);
 	double bin_width = h_HERA_Q2_10_15->GetBinWidth(1);
 	
 	double alpha_binning[]={0.75,0.85,0.95,1.05,1.15,1.25};
 	TH1D* h_HERA_Q2_10_15_x_alpha[6][5];
+	TH1D* h_HERA_Q2_10_15_x_alpha_EMC[6][5];
 	TH1D* h_alpha_spec_everybin[5];
 	for(int ibin=0;ibin<5;ibin++){
 		h_alpha_spec_everybin[ibin] = new TH1D(Form("h_alpha_spec_everybin_%d",ibin),Form("h_alpha_spec_everybin_%d",ibin),100,0,2);
 		for(int jbin=0;jbin<6;jbin++){
 		 	h_HERA_Q2_10_15_x_alpha[jbin][ibin] = new TH1D(Form("h_HERA_Q2_10_15_x_alpha_%d_%d",jbin,ibin),Form("h_HERA_Q2_10_15_x_alpha_%d_%d",jbin,ibin),nPt2,0,0.15);
 			h_HERA_Q2_10_15_x_alpha[jbin][ibin]->Sumw2();
+			h_HERA_Q2_10_15_x_alpha_EMC[jbin][ibin] = new TH1D(Form("h_HERA_Q2_10_15_x_alpha_EMC_%d_%d",jbin,ibin),Form("h_HERA_Q2_10_15_x_alpha_EMC_%d_%d",jbin,ibin),nPt2,0,0.15);
+			h_HERA_Q2_10_15_x_alpha_EMC[jbin][ibin]->Sumw2();
 		}
 	}
 
@@ -195,6 +200,7 @@ void eD_TaggedEMC_DIS( const int nEvents = 1e6 ){
 		
 		//fill inclusive.
 		h_HERA_Q2_10_15->Fill( trueX, event_weight );
+		h_HERA_Q2_10_15_EMC->Fill( trueX, event_weight*EMC_weight );
 
 		double alpha_spec_binwidth = -1; // will have to be rewritten by alpha defined bins
 		double pt2binwidth = h_HERA_Q2_10_15_x_alpha[0][0]->GetBinWidth(1);
@@ -219,6 +225,7 @@ void eD_TaggedEMC_DIS( const int nEvents = 1e6 ){
 		event_weight_alphaPt2 = event_weight_alphaPt2 * (mbToGeV_m2/(Lint*Q2binwidth*bin_width*pt2binwidth*alpha_spec_binwidth));
 		//filling all alpha bins
 		h_HERA_Q2_10_15_x_alpha[x_bin_index][alpha_bin_index]->Fill(pt2, event_weight_alphaPt2 );
+		h_HERA_Q2_10_15_x_alpha_EMC[x_bin_index][alpha_bin_index]->Fill(pt2, event_weight_alphaPt2*EMC_weight );
 		h_alpha_spec_everybin[alpha_bin_index]->Fill( alpha_spec );
 
 	}
