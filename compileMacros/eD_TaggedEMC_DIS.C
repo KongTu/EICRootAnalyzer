@@ -88,7 +88,7 @@ void eD_TaggedEMC_DIS( const int nEvents = 1e6 ){
 	for(int bin=0;bin<6;bin++){
 		xBinsWidth[bin] = xBinsArray[bin+1]-xBinsArray[bin];
 	}
-	const int nPt2=100; 
+	const int nPt2=20; 
 	TH1D* h_xbj[6];
 	for(int bin=0;bin<6;bin++){
 		h_xbj[bin] = new TH1D(Form("h_xbj_%d",bin),Form("h_xbj_%d",bin),1,0,1);
