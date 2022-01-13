@@ -76,7 +76,7 @@ void eD_TaggedEMC_DIS( const int nEvents = 1e6 ){
 	//all constants
 	double factorInLumi = nEvents / 1e6 ;
 	double totalXSection   = 1.8501226230870374E-002;; //mb
-	double nEventsTotal    = nEvents*factorInLumi;
+	double nEventsTotal    = 49988*factorInLumi;
 	double Lint = nEventsTotal/totalXSection; // mb^{-1}
 	double alpha2 = TMath::Power((1./137),2);
 	double twopi = 2*PI;
