@@ -93,6 +93,7 @@ void eD_TaggedEMC_DIS( const int nEvents = 1e6 ){
 	for(int bin=0;bin<6;bin++){
 		h_xbj[bin] = new TH1D(Form("h_xbj_%d",bin),Form("h_xbj_%d",bin),1,0,1);
 	}
+	TH2D* h_Q2vsXbj = new TH2D("h_Q2vsXbj",";xbj;Q^{2}",100,0.01,1,100,1,500);
 	//
 	TH1D* h_HERA_Q2_10_15 = new TH1D("h_HERA_Q2_10_15","h_HERA_Q2_10_15",6,xBinsArray);
 	h_HERA_Q2_10_15->Sumw2();
@@ -157,6 +158,7 @@ void eD_TaggedEMC_DIS( const int nEvents = 1e6 ){
 		
 		//event process and kinematic phase space
 		if( struck_nucleon != 2212 ) continue; //proton only
+		h_Q2vsXbj->Fill(trueX, trueQ2);
 		if( trueQ2 < 10.  || trueQ2 > 15. ) continue;
 		if( trueY > 0.95  || trueY < 0.01 ) continue;
 
