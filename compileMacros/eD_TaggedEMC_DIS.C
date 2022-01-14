@@ -68,13 +68,14 @@ void eD_TaggedEMC_DIS( const int nEvents = 1e6 ){
 	TFile * output = new TFile("../rootfiles/eD_TaggedEMC_DIS_Beagle.root","recreate");
 	
 	TChain *tree = new TChain("EICTree");
-	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/5x41_Q2_10/batch_1_output/Output_eD_5x41_DIS_1M.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/5x41_Q2_10/batch_2_output/Output_input_temp_*.root" );
 
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
 
+	cout << "total number of events = " << tree->GetEntries() << endl;
 	//all constants
-	double factorInLumi = nEvents / 1e5 ;
+	double factorInLumi = nEvents / 5e5 ;
 	double totalXSection   = 1.8501226230870374E-005;; //mb
 	double nEventsTotal    = 49988*factorInLumi;
 	double Lint = nEventsTotal/totalXSection; // mb^{-1}
