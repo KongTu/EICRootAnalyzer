@@ -202,6 +202,7 @@ void runPythia6Kinematics(const int nEvents = 1e5){
       
 		// Read the next entry from the tree.
 		tree->GetEntry(i);
+		if( (i%10000)==0 ) cout << "#Events = "<< i << endl;
 		
 		double pzlep = event->pzlep;
 		double pztarg = event->pztarg;
