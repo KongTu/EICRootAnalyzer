@@ -177,6 +177,7 @@ TLorentzVector smearParticle( TLorentzVector part){
 
 	double phi = part.Phi();
 	double dE = gRandom->Gaus(0,resolution);
+	dE=0.;
 	double E_new = part.E()*(1.+dE);
 	double angular_res = 0.001;
 	double dTheta = gRandom->Gaus(0,angular_res);
