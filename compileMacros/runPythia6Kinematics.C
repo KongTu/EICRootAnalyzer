@@ -180,6 +180,7 @@ TLorentzVector smearParticle( TLorentzVector part){
 	double E_new = part.E()*(1.+dE);
 	double angular_res = 0.001;
 	double dTheta = gRandom->Gaus(0,angular_res);
+	dTheta=0.;
 	double theta_new = part.Theta()*(1.+dTheta);
 
 	part.SetE(E_new);
