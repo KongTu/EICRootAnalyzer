@@ -41,6 +41,7 @@
 #define PI            3.1415926
 
 #define MASS_MUON     0.1056
+#define MASS_PION     0.13957
 #define MASS_ELECTRON 0.000511
 #define MASS_JPSI 	  3.09688
 #define MASS_PROTON   0.93827
@@ -161,6 +162,36 @@ TLorentzRotation BoostToHCM_da(TLorentzVector const &eBeam_lab,
 
 }
 
+void smearParticle( TLorentzVector part){
+
+	bool isElectron=false;
+	if( TMath::Abs(part.M()-ME) < 1e-5 ) isElectron=true;
+
+	double resolution= 0.5/sqrt(part.E());
+	resolution = sqrt(resolution*resolution + 0.02*0.02);//hadron
+	if(isElectron){
+		resolution = 0.12/sqrt(part.E());
+		resolution = sqrt(resolution*resolution + 0.01*0.01);//electron
+	}
+
+	double phi = part.Phi();
+	double dE = gRandom->Gaus(0,resolution);
+	double E_new = part.E()*(1.+dE);
+	double angular_res = 0.001;
+	double dTheta = gRandom->Gaus(0,angular_res);
+	double theta_new = part.Theta()*(1.+dTheta);
+
+	part.SetE(E_new);
+	// if(!isElectron) {
+	// 	part.SetM(MASS_PION);
+	// }
+	double P_new = sqrt(part.E()*part.E() - part.M()*part.M());
+	double Pz_new = P_new*TMath::Cos(theta_new);
+	double Px_new = P_new*TMath::Sin(theta_new)*TMath::Cos(phi);
+	double Py_new = P_new*TMath::Sin(theta_new)*TMath::Sin(phi);
+
+}
+
 
 void runPythia6Kinematics(const int nEvents = 1e5){
 
@@ -176,14 +207,17 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 	 // Histograms.
     TH1D* h_Epz = new TH1D("h_Epz","E-p_{z} (GeV)",100,0,70);
 
+    TH1D* h_Q2_truth = new TH1D("h_Q2_truth",";Q^{2}_{truth}",200,5,1e4);
     TH1D* h_Q2_e = new TH1D("h_Q2_e",";Q^{2}_{electron}",200,5,1e4);
     TH1D* h_Q2_es = new TH1D("h_Q2_es",";Q^{2}_{e-#Sigma}",200,5,1e4);
     TH1D* h_Q2_da = new TH1D("h_Q2_da",";Q^{2}_{DA}",200,5,1e4);
 
+    TH1D* h_y_truth = new TH1D("h_y_truth",";y_{truth}",200,0,1);
     TH1D* h_y_e = new TH1D("h_y_e",";y_{electron}",200,0,1);
     TH1D* h_y_es = new TH1D("h_y_es",";y_{e-#Sigma}",200,0,1);
     TH1D* h_y_da = new TH1D("h_y_da",";y_{DA}",200,0,1);
 
+    TH1D* h_x_truth = new TH1D("h_x_truth",";x_{truth}",1000,0,1);
     TH1D* h_x_e = new TH1D("h_x_e",";x_{electron}",1000,0,1);
     TH1D* h_x_es = new TH1D("h_x_es",";x_{e-#Sigma}",1000,0,1);
     TH1D* h_x_da = new TH1D("h_x_da",";x_{DA}",1000,0,1);
@@ -226,6 +260,10 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 		if( trueQ2 < 180. || trueQ2 > 7000. ) continue;
 		if( trueY > 0.8 || trueY < 0.2 ) continue;
 
+		h_Q2_truth->Fill( trueQ2 );
+		h_y_truth->Fill( trueY );
+		h_x_truth->Fill( trueX );
+
 		//particle loop
 
 		/*
@@ -247,10 +285,12 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 
 			if( index == 3 ) {
 				scat_e=particle->Get4Vector();
+				smearParticle(scat_e);
 			}
 			if( status!= 1 ) continue;
 			if( (part4v-scat_e).P()<1e-4 ) continue;
-			if( theta > 154 || theta < 4) continue;//LAr acceptance at H1.
+			if( theta > 174 || theta < 4) continue;//LAr+SpaCal acceptance at H1.
+			smearParticle( part4v );
 			hfs += part4v;
 		} // end of particle loop
 		TLorentzVector q_beam = e_beam-scat_e;
@@ -327,6 +367,7 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 			double mass = particle->GetM();
 			part4v = particle->Get4Vector();
 			if(status!=1) continue;
+			smearParticle( part4v );
         	if( (part4v-scat_e).P() < 1e-4 ) continue; //skip e'
             if(part4v.Pt() < 0.15 || TMath::Abs(part4v.Eta())>1.75) continue;
             double zhad = p_beam.Dot(part4v) / p_beam.Dot(q_beam);
