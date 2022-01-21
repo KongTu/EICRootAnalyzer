@@ -191,6 +191,8 @@ void smearParticle( TLorentzVector part){
 	double Px_new = P_new*TMath::Sin(theta_new)*TMath::Cos(phi);
 	double Py_new = P_new*TMath::Sin(theta_new)*TMath::Sin(phi);
 
+	part.SetPxPyPzE(Px_new,Py_new,Pz_new,E_new);
+
 }
 
 
