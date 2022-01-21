@@ -328,7 +328,9 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 			part4v = particle->Get4Vector();
 			if(status!=1) continue;
         	if( (part4v-scat_e).P() < 1e-4 ) continue; //skip e'
-            // if(part4v.Pt() < 0.15 || TMath::Abs(part4v.Eta())>1.6) continue;
+            if(part4v.Pt() < 0.15 || TMath::Abs(part4v.Eta())>1.75) continue;
+            double zhad = p_beam.Dot(part4v) / p_beam.Dot(q_beam);
+            if(zhad < 0.2) continue;
 
             use_e_to_rotate = BoostToHCM(e_beam,p_beam,scat_e);
             use_es_to_rotate = BoostToHCM_es(e_beam,p_beam,scat_e,Q2_es,y_es);
