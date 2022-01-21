@@ -168,10 +168,10 @@ TLorentzVector smearParticle( TLorentzVector part){
 	bool isElectron=false;
 	if( TMath::Abs(part.M()-ME) < 1e-5 ) isElectron=true;
 
-	double resolution= 0.5/sqrt(part.E());
+	double resolution= 0.05/sqrt(part.E());
 	resolution = sqrt(resolution*resolution + 0.02*0.02);//hadron
 	if(isElectron){
-		resolution = 0.12/sqrt(part.E());
+		resolution = 0.012/sqrt(part.E());
 		resolution = sqrt(resolution*resolution + 0.01*0.01);//electron
 	}
 
@@ -180,7 +180,7 @@ TLorentzVector smearParticle( TLorentzVector part){
 	double E_new = part.E()*(1.+dE);
 	double angular_res = 0.001;
 	double dTheta = gRandom->Gaus(0,angular_res);
-	dTheta=0.;
+	dTheta=0.;//no angular smearing yet.
 	double theta_new = part.Theta()*(1.+dTheta);
 
 	part.SetE(E_new);
@@ -230,11 +230,13 @@ void runPythia6Kinematics(const int nEvents = 1e5){
     TH1D* h_phiStar_es = new TH1D("h_phiStar_es",";phiStar_{e-#Sigma}",100,-3.14,3.14);
     TH1D* h_phiStar_da = new TH1D("h_phiStar_da",";phiStar_{DA}",100,-3.14,3.14);
 
-    TH1D* h_Q2_es_res = new TH1D("h_Q2_es_res",";Q^{2}_{e} - Q^{2}_{es} / Q^{2}_{e}",100,-1,1);
-    TH1D* h_Q2_da_res = new TH1D("h_Q2_da_res",";Q^{2}_{e} - Q^{2}_{da} / Q^{2}_{e}",100,-1,1);
+    TH1D* h_Q2_e_res = new TH1D("h_Q2_e_res",";Q^{2}_{truth} - Q^{2}_{e} / Q^{2}_{truth}",100,-1,1);
+    TH1D* h_Q2_es_res = new TH1D("h_Q2_es_res",";Q^{2}_{truth} - Q^{2}_{es} / Q^{2}_{truth}",100,-1,1);
+    TH1D* h_Q2_da_res = new TH1D("h_Q2_da_res",";Q^{2}_{truth} - Q^{2}_{da} / Q^{2}_{truth}",100,-1,1);
 
-    TH1D* h_y_es_res = new TH1D("h_y_es_res",";y^{2}_{e} - y^{2}_{es} / y^{2}_{e}",100,-1,1);
-    TH1D* h_y_da_res = new TH1D("h_y_da_res",";y^{2}_{e} - y^{2}_{da} / y^{2}_{e}",100,-1,1);
+    TH1D* h_y_e_res = new TH1D("h_y_e_res",";y_{truth} - y_{e} / y_{truth}",100,-1,1);
+    TH1D* h_y_es_res = new TH1D("h_y_es_res",";y_{truth} - y_{es} / y_{truth}",100,-1,1);
+    TH1D* h_y_da_res = new TH1D("h_y_da_res",";y_{truth} - y_{da} / y_{truth}",100,-1,1);
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -346,11 +348,13 @@ void runPythia6Kinematics(const int nEvents = 1e5){
         h_y_da->Fill( y_da );
         h_x_da->Fill( x_da );
 
-        h_Q2_es_res->Fill( (Q2_e - Q2_es)/Q2_e );
-        h_Q2_da_res->Fill( (Q2_e - Q2_da)/Q2_e );
+        h_Q2_e_res->Fill( (Q2_truth - Q2_e)/Q2_truth );
+        h_Q2_es_res->Fill( (Q2_truth - Q2_es)/Q2_truth );
+        h_Q2_da_res->Fill( (Q2_truth - Q2_da)/Q2_truth );
 
-        h_y_es_res->Fill( (y_e - y_es)/y_e );
-        h_y_da_res->Fill( (y_e - y_da)/y_e );
+        h_y_e_res->Fill( (y_truth - y_e)/y_truth );
+        h_y_es_res->Fill( (y_truth - y_es)/y_truth );
+        h_y_da_res->Fill( (y_truth - y_da)/y_truth );
 
         /*
         Boost to HCM frame for phiStar
