@@ -203,7 +203,7 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 		// Read the next entry from the tree.
 		tree->GetEntry(i);
 		if( (i%10000)==0 ) cout << "#Events = "<< i << endl;
-		
+
 		double pzlep = event->pzlep;
 		double pztarg = event->pztarg;
 		int struck_nucleon = event->nucleon;
@@ -233,6 +233,7 @@ void runPythia6Kinematics(const int nEvents = 1e5){
         Sigma e and Sigma h
         */
 		TLorentzVector hfs(0,0,0,0);
+		TLorentzVector part4v(0,0,0,0);
 		for(int j(0); j < nParticles; ++j ) {
 			const erhic::ParticleMC* particle = event->GetTrack(j);
 			int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
@@ -246,7 +247,6 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 				scat_e=particle->Get4Vector();
 			}
 			if( status!= 1 ) continue;
-			TLorentzVector part4v(0,0,0,0);
 			part4v = particle->Get4Vector();
 			hfs += part4v;
 		} // end of particle loop
@@ -312,7 +312,7 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 			double eta = particle->GetEta();
 			double phi = particle->GetPhi();
 			double mass = particle->GetM();
-			TLorentzVector part4v = particle->Get4Vector();
+			part4v = particle->Get4Vector();
 			if(status!=1) continue;
         	if( (part4v-scat_e).P() < 1e-4 ) continue; //skip e'
             // if(part4v.Pt() < 0.15 || TMath::Abs(part4v.Eta())>1.6) continue;
@@ -333,7 +333,8 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 
 	}
 
-	
+	output->Write();
+	output->Close();
 
 
 }
