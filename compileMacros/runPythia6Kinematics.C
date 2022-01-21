@@ -250,7 +250,7 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 			}
 			if( status!= 1 ) continue;
 			if( (part4v-scat_e).P()<1e-4 ) continue;
-			if( theta > 154 || theta < 4) continue;//LAr acceptance at H1.
+			// if( theta > 154 || theta < 4) continue;//LAr acceptance at H1.
 			hfs += part4v;
 		} // end of particle loop
 		TLorentzVector q_beam = e_beam-scat_e;
@@ -260,7 +260,7 @@ void runPythia6Kinematics(const int nEvents = 1e5){
         double EPz = sigma_e + sigma_h;
         h_Epz->Fill( EPz );
 
-		 /*
+		/*
         electron method
         */
 
