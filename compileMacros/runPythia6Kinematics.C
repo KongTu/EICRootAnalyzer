@@ -212,7 +212,6 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep+MASS_ELECTRON*MASS_ELECTRON));
 		TLorentzVector p_beam(0.,0.,pztarg,sqrt(pztarg*pztarg+MASS_NUCLEON*MASS_NUCLEON));
 		TLorentzVector scat_e(0.,0.,0.,0.);
-		TLorentzVector q_beam = e_beam-scat_e;
 		double s = (e_beam+p_beam).Mag2();
 
 		//event information:
@@ -250,6 +249,7 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 			part4v = particle->Get4Vector();
 			hfs += part4v;
 		} // end of particle loop
+		TLorentzVector q_beam = e_beam-scat_e;
 
 		hfs = hfs - scat_e;
 		double sigma_e = scat_e.E() - scat_e.Pz();
@@ -261,7 +261,7 @@ void runPythia6Kinematics(const int nEvents = 1e5){
         electron method
         */
 
-        double Q2_e    = q_beam.Mag2();
+        double Q2_e    = -q_beam.Mag2();
         double x_e     = Q2_e / (2. * p_beam * q_beam);
         double y_e     = (p_beam * q_beam) / (p_beam * e_beam);
       
