@@ -242,12 +242,13 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 			double phi = particle->GetPhi();
 			int pdg = particle->GetPdgCode();
 			int orig = particle->GetParentIndex();
+			part4v = particle->Get4Vector();
+
 			if( index == 3 ) {
 				scat_e=particle->Get4Vector();
 			}
 			if( status!= 1 ) continue;
 			if( (part4v-scat_e).P()<1e-4 ) continue;
-			part4v = particle->Get4Vector();
 			// if( TMath::Abs(eta) > 2.0 || pt<0.15) continue;
 			hfs += part4v;
 		} // end of particle loop
