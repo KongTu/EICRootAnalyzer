@@ -274,6 +274,7 @@ void runPythia6Kinematics(const int nEvents = 1e5){
         */
 		TLorentzVector hfs(0,0,0,0);
 		TLorentzVector part4v(0,0,0,0);
+		TLorentzVector scat_e_unsmear(0,0,0,0);
 		for(int j(0); j < nParticles; ++j ) {
 			const erhic::ParticleMC* particle = event->GetTrack(j);
 			int index = particle->GetIndex();//index 1 and 2 are incoming particle electron and proton.
@@ -288,10 +289,11 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 
 			if( index == 3 ) {
 				scat_e=particle->Get4Vector();
+				scat_e_unsmear=particle->Get4Vector();
 				scat_e = smearParticle(scat_e);
 			}
 			if( status!= 1 ) continue;
-			if( (part4v-scat_e).P()<1e-4 ) continue;
+			if( (part4v-scat_e_unsmear).P()<1e-4 ) continue; 
 			if( theta > 174 || theta < 4) continue;//LAr+SpaCal acceptance at H1.
 			part4v = smearParticle( part4v );
 			hfs += part4v;
@@ -370,8 +372,8 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 			double mass = particle->GetM();
 			part4v = particle->Get4Vector();
 			if(status!=1) continue;
+        	if( (part4v-scat_e_unsmear).P()<1e-4 ) continue;  //skip e'
 			part4v = smearParticle( part4v );
-        	if( (part4v-scat_e).P() < 1e-4 ) continue; //skip e'
             if(part4v.Pt() < 0.15 || TMath::Abs(part4v.Eta())>1.75) continue;
             double zhad = p_beam.Dot(part4v) / p_beam.Dot(q_beam);
             if(zhad < 0.2) continue;
