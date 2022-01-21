@@ -163,7 +163,7 @@ TLorentzRotation BoostToHCM_da(TLorentzVector const &eBeam_lab,
 
 }
 
-void smearParticle( TLorentzVector part){
+TLorentzVector smearParticle( TLorentzVector part){
 
 	bool isElectron=false;
 	if( TMath::Abs(part.M()-ME) < 1e-5 ) isElectron=true;
@@ -183,15 +183,15 @@ void smearParticle( TLorentzVector part){
 	double theta_new = part.Theta()*(1.+dTheta);
 
 	part.SetE(E_new);
-	// if(!isElectron) {
-	// 	part.SetM(MASS_PION);
-	// }
 	double P_new = sqrt(part.E()*part.E() - part.M()*part.M());
 	double Pz_new = P_new*TMath::Cos(theta_new);
 	double Px_new = P_new*TMath::Sin(theta_new)*TMath::Cos(phi);
 	double Py_new = P_new*TMath::Sin(theta_new)*TMath::Sin(phi);
 
-	part.SetPxPyPzE(Px_new,Py_new,Pz_new,E_new);
+	TLorentzVector part_new;
+	part_new.SetPxPyPzE(Px_new,Py_new,Pz_new,E_new);
+
+	return part_new;
 
 }
 
@@ -288,12 +288,12 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 
 			if( index == 3 ) {
 				scat_e=particle->Get4Vector();
-				smearParticle(scat_e);
+				scat_e = smearParticle(scat_e);
 			}
 			if( status!= 1 ) continue;
 			if( (part4v-scat_e).P()<1e-4 ) continue;
 			if( theta > 174 || theta < 4) continue;//LAr+SpaCal acceptance at H1.
-			smearParticle( part4v );
+			part4v = smearParticle( part4v );
 			hfs += part4v;
 		} // end of particle loop
 		TLorentzVector q_beam = e_beam-scat_e;
@@ -370,7 +370,7 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 			double mass = particle->GetM();
 			part4v = particle->Get4Vector();
 			if(status!=1) continue;
-			smearParticle( part4v );
+			part4v = smearParticle( part4v );
         	if( (part4v-scat_e).P() < 1e-4 ) continue; //skip e'
             if(part4v.Pt() < 0.15 || TMath::Abs(part4v.Eta())>1.75) continue;
             double zhad = p_beam.Dot(part4v) / p_beam.Dot(q_beam);
