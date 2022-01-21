@@ -240,6 +240,7 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 			int status = particle->GetStatus();
 			double eta = particle->GetEta();
 			double phi = particle->GetPhi();
+			double theta = particle->GetTheta()*TMath::RadToDeg();
 			int pdg = particle->GetPdgCode();
 			int orig = particle->GetParentIndex();
 			part4v = particle->Get4Vector();
@@ -249,7 +250,7 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 			}
 			if( status!= 1 ) continue;
 			if( (part4v-scat_e).P()<1e-4 ) continue;
-			if( TMath::Abs(eta) > 2.0 || pt<0.15) continue;
+			if( theta > 154 || theta < 4) continue;//LAr acceptance at H1.
 			hfs += part4v;
 		} // end of particle loop
 		TLorentzVector q_beam = e_beam-scat_e;
