@@ -249,7 +249,7 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 			}
 			if( status!= 1 ) continue;
 			if( (part4v-scat_e).P()<1e-4 ) continue;
-			// if( TMath::Abs(eta) > 2.0 || pt<0.15) continue;
+			if( TMath::Abs(eta) > 2.0 || pt<0.15) continue;
 			hfs += part4v;
 		} // end of particle loop
 		TLorentzVector q_beam = e_beam-scat_e;
