@@ -305,6 +305,14 @@ void runPythia6Kinematics(const int nEvents = 1e5){
         Boost to HCM frame for phiStar
         */
         // Loop over final particles in the event.
+        TLorentzRotation use_e_to_rotate;
+        TLorentzRotation use_es_to_rotate;
+        TLorentzRotation use_da_to_rotate;
+
+        TLorentzVector part_e;
+        TLorentzVector part_es;
+        TLorentzVector part_da;
+
         for(int i(0); i < nParticles; ++i ) {
 			const erhic::ParticleMC* particle = event->GetTrack(i);
 			double pt = particle->GetPt();
@@ -317,13 +325,13 @@ void runPythia6Kinematics(const int nEvents = 1e5){
         	if( (part4v-scat_e).P() < 1e-4 ) continue; //skip e'
             // if(part4v.Pt() < 0.15 || TMath::Abs(part4v.Eta())>1.6) continue;
 
-            TLorentzRotation use_e_to_rotate = BoostToHCM(e_beam,p_beam,scat_e);
-            TLorentzRotation use_es_to_rotate = BoostToHCM_es(e_beam,p_beam,scat_e,Q2_es,y_es);
-            TLorentzRotation use_da_to_rotate = BoostToHCM_da(e_beam,p_beam,scat_e,Q2_da);
+            use_e_to_rotate = BoostToHCM(e_beam,p_beam,scat_e);
+            use_es_to_rotate = BoostToHCM_es(e_beam,p_beam,scat_e,Q2_es,y_es);
+            use_da_to_rotate = BoostToHCM_da(e_beam,p_beam,scat_e,Q2_da);
 
-            TLorentzVector part_e = use_e_to_rotate*part4v;
-            TLorentzVector part_es = use_es_to_rotate*part4v;
-            TLorentzVector part_da = use_da_to_rotate*part4v;
+            part_e = use_e_to_rotate*part4v;
+            part_es = use_es_to_rotate*part4v;
+            part_da = use_da_to_rotate*part4v;
 
             h_phiStar_e->Fill( part_e.Phi() );
             h_phiStar_es->Fill( part_es.Phi() );
