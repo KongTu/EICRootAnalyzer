@@ -348,13 +348,13 @@ void runPythia6Kinematics(const int nEvents = 1e5){
         h_y_da->Fill( y_da );
         h_x_da->Fill( x_da );
 
-        h_Q2_e_res->Fill( (Q2_truth - Q2_e)/Q2_truth );
-        h_Q2_es_res->Fill( (Q2_truth - Q2_es)/Q2_truth );
-        h_Q2_da_res->Fill( (Q2_truth - Q2_da)/Q2_truth );
+        h_Q2_e_res->Fill( (trueQ2 - Q2_e)/trueQ2 );
+        h_Q2_es_res->Fill( (trueQ2 - Q2_es)/trueQ2 );
+        h_Q2_da_res->Fill( (trueQ2 - Q2_da)/trueQ2 );
 
-        h_y_e_res->Fill( (y_truth - y_e)/y_truth );
-        h_y_es_res->Fill( (y_truth - y_es)/y_truth );
-        h_y_da_res->Fill( (y_truth - y_da)/y_truth );
+        h_y_e_res->Fill( (trueY - y_e)/trueY );
+        h_y_es_res->Fill( (trueY - y_es)/trueY );
+        h_y_da_res->Fill( (trueY - y_da)/trueY );
 
         /*
         Boost to HCM frame for phiStar
