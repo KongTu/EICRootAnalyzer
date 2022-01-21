@@ -250,7 +250,7 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 			}
 			if( status!= 1 ) continue;
 			if( (part4v-scat_e).P()<1e-4 ) continue;
-			// if( theta > 154 || theta < 4) continue;//LAr acceptance at H1.
+			if( theta > 154 || theta < 4) continue;//LAr acceptance at H1.
 			hfs += part4v;
 		} // end of particle loop
 		TLorentzVector q_beam = e_beam-scat_e;
@@ -272,6 +272,8 @@ void runPythia6Kinematics(const int nEvents = 1e5){
         h_Q2_e->Fill( Q2_e );
         h_y_e->Fill( y_e );
         h_x_e->Fill( x_e );
+
+        if( EPz < 35 ) continue;
         /*
         e-sigma method
         */
