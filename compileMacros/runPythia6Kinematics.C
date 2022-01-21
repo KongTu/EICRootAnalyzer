@@ -261,7 +261,7 @@ void runPythia6Kinematics(const int nEvents = 1e5){
         electron method
         */
 
-        double Q2_e    = -q_beam.Mag2();
+        double Q2_e    = q_beam.Mag2();
         double x_e     = Q2_e / (2. * p_beam * q_beam);
         double y_e     = (p_beam * q_beam) / (p_beam * e_beam);
       
