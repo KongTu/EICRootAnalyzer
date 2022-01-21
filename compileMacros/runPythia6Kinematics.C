@@ -247,7 +247,7 @@ void runPythia6Kinematics(const int nEvents = 1e5){
 			if( status!= 1 ) continue;
 			TLorentzVector part4v(0,0,0,0);
 			part4v = particle->Get4Vector();
-			hfs += part4v
+			hfs += part4v;
 		} // end of particle loop
 
 		hfs = hfs - scat_e;
@@ -287,7 +287,7 @@ void runPythia6Kinematics(const int nEvents = 1e5){
         */
         double theta_h = TMath::ATan( sigma_h / hfs.Pt() )*2.;
         double y_da = TMath::Tan( theta_h / 2.) / (TMath::Tan(scat_e.Theta()/2.) + TMath::Tan( theta_h / 2.));
-        double Q2_da = 4.*TMath::Power(ebeam.E(),2)* (1./TMath::Tan(scat_e.Theta()/2.) ) / (TMath::Tan(scat_e.Theta()/2.) + TMath::Tan( theta_h / 2.));
+        double Q2_da = 4.*TMath::Power(e_beam.E(),2)* (1./TMath::Tan(scat_e.Theta()/2.) ) / (TMath::Tan(scat_e.Theta()/2.) + TMath::Tan( theta_h / 2.));
         double x_da = Q2_da / (s*y_da);
 
         h_Q2_da->Fill( Q2_da );
