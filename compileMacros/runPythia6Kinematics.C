@@ -168,10 +168,10 @@ TLorentzVector smearParticle( TLorentzVector part){
 	bool isElectron=false;
 	if( TMath::Abs(part.M()-ME) < 1e-5 ) isElectron=true;
 
-	double resolution= 0.1/sqrt(part.E());
+	double resolution= 0.5/sqrt(part.E());
 	resolution = sqrt(resolution*resolution + 0.02*0.02);//hadron
 	if(isElectron){
-		resolution = 0.03/sqrt(part.E());
+		resolution = 0.12/sqrt(part.E());
 		resolution = sqrt(resolution*resolution + 0.01*0.01);//electron
 	}
 
