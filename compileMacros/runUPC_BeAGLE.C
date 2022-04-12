@@ -77,6 +77,8 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 	*h_charged_eta[2],*h_charged_pt[2],
 	*h_all_eta[2],*h_all_pt[2];
 
+	TH1D* h_measQ2[2],*h_measW[2];
+
 	TH2D* h_trueWvsNevap[2];
 
 	for(int j=0;j<2;j++){
@@ -94,7 +96,9 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 
 		h_all_eta[j] = new TH1D(Form("h_all_eta_%d",j),";#eta",100,-3,10);
 		h_all_pt[j] = new TH1D(Form("h_all_pt_%d",j),";p_{T}",100,0,10);
-	
+		
+		h_measQ2[j] = new TH1D(Form("h_measQ2_%d",j),";Q^{2} (GeV^{2})",100,1e-4,1);
+		h_measW[j] = new TH1D(Form("h_measW_%d",j),";W (GeV)",100,1e-2,100);
 		h_trueWvsNevap[j] = new TH2D(Form("h_trueWvsNevap_%d",j),";trueW;Nevap",100,1e-2,100,60,-0.5,59.5);
 	}
 	
@@ -159,6 +163,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		h_d[1]->Fill(distance, weight);
 		h_trueWvsNevap[1]->Fill(sqrt(trueW2),N_nevap,weight);
 
+		TLorentzVector hfs(0,0,0,0);
 		//particle loop
 		for(int j(0); j < nParticles; ++j ) {
 
@@ -176,12 +181,15 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 			theta = theta*1000.0; //change to mrad;
 			double mom = particle->GetP();
 			int charge= particle->eA->charge;
+			hfs+=particle->Get4Vector();
+
 			if( status!= 1) continue;
 			h_all_pt[0]->Fill(pt, 1.);
 			h_all_eta[0]->Fill(eta, 1.);
 			h_all_pt[1]->Fill(pt, weight);
 			h_all_eta[1]->Fill(eta, weight);
-			
+			hfs+=particle->Get4Vector();
+		
 			if( charge==0 ) continue;
 			//charged particles
 			h_charged_pt[0]->Fill(pt, 1.);
@@ -190,6 +198,15 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 			h_charged_eta[1]->Fill(eta, weight);
 
 		} // end of particle loop
+
+		double measQ2=hfs.Pt()*hfs.Pt();
+		double sigma_had=hfs.E()-hfs.Pz();
+		double measW=sqrt(2*100*197*sigma_had - measQ2 - MASS_AU197*MASS_AU197);
+		h_measQ2[0]->Fill(measQ2, 1);
+		h_measW[0]->Fill(measW, 1);
+
+		h_measQ2[1]->Fill(measQ2, weight);
+		h_measW[1]->Fill(measW, weight);
 	}
 
 	output->Write();
