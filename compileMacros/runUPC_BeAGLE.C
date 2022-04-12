@@ -134,8 +134,8 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000){
 		//fill histograms
 	}
 
-	output->Write();
-	output->Close();
+	// output->Write();
+	// output->Close();
 	
 
 
