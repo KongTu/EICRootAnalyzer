@@ -186,9 +186,9 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 			double mom = particle->GetP();
 			int charge= particle->eA->charge;
 			if( status!= 1) continue;
-			if((eta>-1.5&&eta<1.5) || (eta>2.5&&eta<4.0)){
+			// if((eta>-1.5&&eta<1.5) || (eta>2.5&&eta<4.0)){
 				hfs+=particle->Get4Vector();
-			}
+			// }
 			
 			h_all_pt[0]->Fill(pt, 1.);
 			h_all_eta[0]->Fill(eta, 1.);
