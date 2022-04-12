@@ -187,7 +187,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 			int charge= particle->eA->charge;
 			if( status!= 1) continue;
 			if(TMath::Abs(particle->Get4Vector().E()-e_scattered.E())<1e-1) continue;//no scat e
-			if((eta>-1.5&&eta<4)){
+			if((eta>-1.5&&eta<1.5)||(eta>2.5&&eta<4.0)){
 				hfs+=particle->Get4Vector();
 			}
 			
