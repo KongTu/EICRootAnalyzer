@@ -59,7 +59,7 @@ using namespace std;
 using namespace erhic;
 
 
-void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000){
+void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, bool reweight_=false){
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add( filename+".root" );
@@ -69,6 +69,17 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000){
 
 	TFile* input = new TFile("eicToUPC.root","READ");
 	TH1D* eicToUPC=(TH1D*) input->Get("h_photonWeight");
+
+	TFile* output=new TFile("../rootfiles/UPC_BeAGLE_AuAu200.root","RECREATE");
+	TH1D* h_trueQ2 = new TH1D("h_trueQ2",";Q^{2} (GeV^{2})",100,1e-4,1);
+	TH1D* h_trueW = new TH1D("h_trueW",";W (GeV)",100,1e-2,100);
+	TH1D* h_charged_eta = new TH1D("h_charged_eta",";#eta",100,-3,7);
+	TH1D* h_charged_pt = new TH1D("h_charged_pt",";p_{T}",100,0,10);
+	TH1D* h_Nevap = new TH1D("h_Nevap",";N_{neutron}",60,-0.5,59.5);
+	TH1D* h_Tb = new TH1D("h_Tb",";T_{b}",60,0,16);
+	TH1D* h_b = new TH1D("h_b",";b",60,0,10);
+	TH1D* h_d = new TH1D("h_d",";d",60,0,16);
+
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -109,9 +120,14 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000){
 		TLorentzVector q=(e_beam-e_scattered);
 		double phot_energy=q.E();
 		double weight=eicToUPC->GetBinContent(eicToUPC->FindBin(phot_energy));
-		cout << "True Q2 " << trueQ2 << endl;
-		cout << "Q2 meas " << -q.Mag2() << endl;
-		cout << "Event Weight " << weight << endl;
+		if(!reweight_) weight=1.0;
+		//Event histograms
+		h_trueQ2->Fill( trueQ2, weight);
+		h_trueW->Fill(sqrt(trueW2), weight);
+		h_Nevap->Fill(N_nevap, weight);
+		h_Tb->Fill(Tb, weight);
+		h_b->Fill(impact_parameter, weight);
+		h_d->Fill(distance, weight);
 
 		//particle loop
 		for(int j(0); j < nParticles; ++j ) {
@@ -129,13 +145,19 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000){
 			double theta = particle->GetTheta(); 
 			theta = theta*1000.0; //change to mrad;
 			double mom = particle->GetP();
-			//do analysis track-by-track
+			int charge= particle->eA->charge;
+			if( status!= 1) continue;
+			if( charge==0 ) continue;
+
+			//charged particles
+			h_charged_pt->Fill(pt, weight);
+			h_charged_eta->Fill(eta, weight);
+
 		} // end of particle loop
-		//fill histograms
 	}
 
-	// output->Write();
-	// output->Close();
+	output->Write();
+	output->Close();
 	
 
 
