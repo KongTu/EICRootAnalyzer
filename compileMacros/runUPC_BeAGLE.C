@@ -145,7 +145,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		double phot_energy=q.E();
 		double weight=eicToUPC->GetBinContent(eicToUPC->FindBin(phot_energy));
 		if(!reweight_) weight=1.0;
-		if(phot_energy>8.0) weight=0.;
+		if(phot_energy>11.) weight=0.;
 		//Event histograms
 		h_trueQ2[0]->Fill( trueQ2, 1);
 		h_trueW[0]->Fill(sqrt(trueW2), 1);
