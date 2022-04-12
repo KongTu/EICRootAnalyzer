@@ -147,7 +147,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		h_Tb[0]->Fill(Tb, 1);
 		h_b[0]->Fill(impact_parameter, 1);
 		h_d[0]->Fill(distance, 1);
-		h_trueWvsNevap[0]->Fill(N_nevap,sqrt(trueW2),1);
+		h_trueWvsNevap[0]->Fill(sqrt(trueW2),N_nevap,1);
 
 		h_trueQ2[1]->Fill( trueQ2, weight);
 		h_trueW[1]->Fill(sqrt(trueW2), weight);
@@ -156,7 +156,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		h_Tb[1]->Fill(Tb, weight);
 		h_b[1]->Fill(impact_parameter, weight);
 		h_d[1]->Fill(distance, weight);
-		h_trueWvsNevap[1]->Fill(N_nevap,sqrt(trueW2),weight);
+		h_trueWvsNevap[1]->Fill(sqrt(trueW2),N_nevap,weight);
 
 		//particle loop
 		for(int j(0); j < nParticles; ++j ) {
