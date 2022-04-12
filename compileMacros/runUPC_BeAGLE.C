@@ -76,10 +76,8 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 	*h_Nevap[2],*h_Tb[2],*h_b[2],*h_d[2],
 	*h_charged_eta[2],*h_charged_pt[2],
 	*h_all_eta[2],*h_all_pt[2];
-
 	TH1D* h_measQ2[2],*h_measW[2];
-
-	TH2D* h_trueWvsNevap[2];
+	TH2D* h_trueWvsNevap[2], *h_Wsmear[2];
 
 	for(int j=0;j<2;j++){
 		h_trueQ2[j] = new TH1D(Form("h_trueQ2_%d",j),";Q^{2} (GeV^{2})",100,1e-4,1);
@@ -100,6 +98,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		h_measQ2[j] = new TH1D(Form("h_measQ2_%d",j),";Q^{2} (GeV^{2})",100,1e-4,1);
 		h_measW[j] = new TH1D(Form("h_measW_%d",j),";W (GeV)",100,1e-2,100);
 		h_trueWvsNevap[j] = new TH2D(Form("h_trueWvsNevap_%d",j),";trueW;Nevap",100,1e-2,100,60,-0.5,59.5);
+		h_Wsmear[j] = new TH2D(Form("h_Wsmear_%d",j),";trueW;measW",100,1e-2,100,100,1e-2,100);
 	}
 	
 
@@ -216,6 +215,10 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 
 		h_measQ2[1]->Fill(measQ2, weight);
 		h_measW[1]->Fill(measW, weight);
+
+		h_Wsmear[0]->Fill(sqrt(trueW2),measW,1);
+		h_Wsmear[1]->Fill(sqrt(trueW2),measW,weight);
+
 	}
 
 	output->Write();
