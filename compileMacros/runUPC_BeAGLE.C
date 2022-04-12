@@ -207,11 +207,10 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		
 		//Hadron only method.
 		double sigma_had=hfs.E()-hfs.Pz();
-		// sigma_had=2*sigma_had;
 		cout << "sigma_had="<<sigma_had<<endl;
-		double measY=sigma_had/(2*e_beam.E());
+		double measY=sigma_had/(2*Au_beam_1.E());
 		double measQ2=hfs.Pt()*hfs.Pt()/(1-measY);
-		double s=(e_beam+p_beam).Mag2();
+		double s=(Au_beam_2+p_beam).Mag2();
 		double measW=sqrt(s*measY - measQ2 - MASS_NUCLEON*MASS_NUCLEON);
 		cout << "W = " << measW << endl; 
 		cout << "Q2 = " << measQ2 << endl; 
