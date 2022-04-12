@@ -187,7 +187,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 			int charge= particle->eA->charge;
 			if( status!= 1) continue;
 			if(TMath::Abs(particle->Get4Vector().E()-e_scattered.E())<1e-1) continue;//no scat e
-			if((eta>-1.5&&eta<10&&charge<=0)){
+			if((eta>-1.5&&eta<10)){
 				hfs+=particle->Get4Vector();
 			}
 			
@@ -207,7 +207,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		
 		//Hadron only method.
 		double sigma_had=hfs.E()-hfs.Pz();
-		sigma_had=2*sigma_had;
+		// sigma_had=2*sigma_had;
 		cout << "sigma_had="<<sigma_had<<endl;
 		double measY=sigma_had/(2*e_beam.E());
 		double measQ2=hfs.Pt()*hfs.Pt()/(1-measY);
