@@ -185,9 +185,9 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 			theta = theta*1000.0; //change to mrad;
 			double mom = particle->GetP();
 			int charge= particle->eA->charge;
+			if( status!= 1) continue;
 			hfs+=particle->Get4Vector();
 
-			if( status!= 1) continue;
 			h_all_pt[0]->Fill(pt, 1.);
 			h_all_eta[0]->Fill(eta, 1.);
 			h_all_pt[1]->Fill(pt, weight);
