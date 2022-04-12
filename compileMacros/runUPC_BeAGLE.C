@@ -67,9 +67,8 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000){
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
 
-	TFile* output = new TFile("output.root","RECREATE");
-	TH1D* h_y_eA = new TH1D("h_y_eA",";y",300,0,1);
-	TH1D* h_nu_eA = new TH1D("h_nu_eA",";nu",180,0,18);
+	TFile* intput = new TFile("eicToUPC.root","READ");
+	TFile* eicToUPC=(TH1D*) input->Get("h_photonWeight");
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -105,9 +104,14 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000){
 		int N_nevap = event->Nnevap;
 		int N_pevap = event->Npevap;
 
-		h_y_eA->Fill( trueY );
-		//event cuts
-		// if( event_process != 99 ) continue;
+		const erhic::ParticleMC* particle_escat = event->GetTrack(2);
+		e_scattered=particle_escat->Get4Vector();
+		TLorentzVector q=(e_beam-e_scattered);
+		double phot_energy=q.E();
+		double weight=eicToUPC->GetBinContent(eicToUPC->FindBin(phot_energy));
+		cout << "True Q2 " << trueQ2 << endl;
+		cout << "Q2 meas " << -q.Mag2() << endl;
+		cout << "Event Weight " << weight << endl;
 
 		//particle loop
 		for(int j(0); j < nParticles; ++j ) {
@@ -125,18 +129,8 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000){
 			double theta = particle->GetTheta(); 
 			theta = theta*1000.0; //change to mrad;
 			double mom = particle->GetP();
-			if( index == 3 ) {
-				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
-				// e_scattered = ppart;
-			}
-
 			//do analysis track-by-track
-
 		} // end of particle loop
-
-		TLorentzVector q=(e_beam-e_scattered);
-		h_nu_eA->Fill( q.E() );
-
 		//fill histograms
 	}
 
