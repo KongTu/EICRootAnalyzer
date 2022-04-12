@@ -107,7 +107,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000){
 
 		h_y_eA->Fill( trueY );
 		//event cuts
-		if( event_process != 99 ) continue;
+		// if( event_process != 99 ) continue;
 
 		//particle loop
 		for(int j(0); j < nParticles; ++j ) {
