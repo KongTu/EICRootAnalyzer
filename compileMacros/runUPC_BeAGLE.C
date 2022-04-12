@@ -67,7 +67,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000){
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
 
-	TFile* intput = new TFile("eicToUPC.root","READ");
+	TFile* input = new TFile("eicToUPC.root","READ");
 	TH1D* eicToUPC=(TH1D*) input->Get("h_photonWeight");
 
 	for(int i(0); i < nEvents; ++i ) {
