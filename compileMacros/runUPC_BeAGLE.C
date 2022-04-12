@@ -206,6 +206,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		} // end of particle loop
 		
 		//Hadron only method.
+		hfs=hfs-e_scattered;//true hfs.
 		double sigma_had=hfs.E()-hfs.Pz();
 		cout << "sigma_had="<<sigma_had<<endl;
 		double measY=sigma_had/(2*e_beam.E());
