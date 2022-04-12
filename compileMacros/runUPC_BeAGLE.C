@@ -59,7 +59,7 @@ using namespace std;
 using namespace erhic;
 
 
-void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, bool reweight_=false){
+void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, bool reweight_=true){
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add( filename+".root" );
@@ -71,15 +71,19 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 	TH1D* eicToUPC=(TH1D*) input->Get("h_photonWeight");
 
 	TFile* output=new TFile("../rootfiles/UPC_BeAGLE_AuAu200.root","RECREATE");
-	TH1D* h_trueQ2 = new TH1D("h_trueQ2",";Q^{2} (GeV^{2})",100,1e-4,1);
-	TH1D* h_trueW = new TH1D("h_trueW",";W (GeV)",100,1e-2,100);
-	TH1D* h_charged_eta = new TH1D("h_charged_eta",";#eta",100,-3,7);
-	TH1D* h_charged_pt = new TH1D("h_charged_pt",";p_{T}",100,0,10);
-	TH1D* h_Nevap = new TH1D("h_Nevap",";N_{neutron}",60,-0.5,59.5);
-	TH1D* h_Tb = new TH1D("h_Tb",";T_{b}",60,0,16);
-	TH1D* h_b = new TH1D("h_b",";b",60,0,10);
-	TH1D* h_d = new TH1D("h_d",";d",60,0,16);
-
+	TH1D* h_trueQ2[2],h_trueW[2],h_charged_eta[2],h_charged_pt[2],
+	h_Nevap[2],h_Tb[2],h_b[2],h_d[2];
+	for(int j=0;j<2;j++){
+		h_trueQ2[j] = new TH1D(Form("h_trueQ2_%d",j),";Q^{2} (GeV^{2})",100,1e-4,1);
+		h_trueW[j] = new TH1D(Form("h_trueW_%d",j),";W (GeV)",100,1e-2,100);
+		h_charged_eta[j] = new TH1D(Form("h_charged_eta_%d",j),";#eta",100,-3,7);
+		h_charged_pt[j] = new TH1D(Form("h_charged_pt_%d",j),";p_{T}",100,0,10);
+		h_Nevap[j] = new TH1D(Form("h_Nevap_%d",j),";N_{neutron}",60,-0.5,59.5);
+		h_Tb[j] = new TH1D(Form("h_Tb_%d",j),";T_{b}",60,0,16);
+		h_b[j] = new TH1D(Form("h_b_%d",j),";b",60,0,10);
+		h_d[j] = new TH1D(Form("h_d_%d",j),";d",60,0,16);
+	}
+	
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -122,12 +126,21 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		double weight=eicToUPC->GetBinContent(eicToUPC->FindBin(phot_energy));
 		if(!reweight_) weight=1.0;
 		//Event histograms
-		h_trueQ2->Fill( trueQ2, weight);
-		h_trueW->Fill(sqrt(trueW2), weight);
-		h_Nevap->Fill(N_nevap, weight);
-		h_Tb->Fill(Tb, weight);
-		h_b->Fill(impact_parameter, weight);
-		h_d->Fill(distance, weight);
+		h_trueQ2[0]->Fill( trueQ2, 1);
+		h_trueW[0]->Fill(sqrt(trueW2), 1);
+		h_Nevap[0]->Fill(N_nevap, 1);
+		h_Tb[0]->Fill(Tb, 1);
+		h_b[0]->Fill(impact_parameter, 1);
+		h_d[0]->Fill(distance, 1);
+
+		h_trueQ2[1]->Fill( trueQ2, weight);
+		h_trueW[1]->Fill(sqrt(trueW2), weight);
+		h_Nevap[1]->Fill(N_nevap, weight);
+		h_Tb[1]->Fill(Tb, weight);
+		h_b[1]->Fill(impact_parameter, weight);
+		h_d[1]->Fill(distance, weight);
+
+
 
 		//particle loop
 		for(int j(0); j < nParticles; ++j ) {
@@ -150,8 +163,11 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 			if( charge==0 ) continue;
 
 			//charged particles
-			h_charged_pt->Fill(pt, weight);
-			h_charged_eta->Fill(eta, weight);
+			h_charged_pt[0]->Fill(pt, 1.);
+			h_charged_eta[0]->Fill(eta, 1.);
+
+			h_charged_pt[1]->Fill(pt, weight);
+			h_charged_eta[1]->Fill(eta, weight);
 
 		} // end of particle loop
 	}
