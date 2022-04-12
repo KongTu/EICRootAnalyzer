@@ -72,8 +72,11 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 
 	TFile* output=new TFile("../rootfiles/UPC_BeAGLE_AuAu200.root","RECREATE");
 	
-	TH1D* h_trueQ2[2],*h_trueNu[2],*h_trueW[2],*h_charged_eta[2],*h_charged_pt[2],
-	*h_Nevap[2],*h_Tb[2],*h_b[2],*h_d[2];
+	TH1D* h_trueQ2[2],*h_trueNu[2],*h_trueW[2],
+	*h_Nevap[2],*h_Tb[2],*h_b[2],*h_d[2],
+	*h_charged_eta[2],*h_charged_pt[2],
+	*h_all_eta[2],*h_all_pt[2];
+
 	for(int j=0;j<2;j++){
 		h_trueQ2[j] = new TH1D(Form("h_trueQ2_%d",j),";Q^{2} (GeV^{2})",100,1e-4,1);
 		h_trueW[j] = new TH1D(Form("h_trueW_%d",j),";W (GeV)",100,1e-2,100);
