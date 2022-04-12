@@ -119,8 +119,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep+MASS_ELECTRON*MASS_ELECTRON));
 		TLorentzVector p_beam(0.,0.,pztarg,sqrt(pztarg*pztarg+MASS_NUCLEON*MASS_NUCLEON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
-		TLorentzVector Au_beam_1(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_AU197*MASS_AU197));
-		TLorentzVector Au_beam_2(0.,0.,-pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_AU197*MASS_AU197));
+		TLorentzVector Au_beam(0.,0.,-pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_AU197*MASS_AU197));
 
 		//event information:
 		double trueQ2 = event->GetTrueQ2();
@@ -207,13 +206,11 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		
 		//Hadron only method.
 		double sigma_had=hfs.E()-hfs.Pz();
-		cout << "sigma_had="<<sigma_had<<endl;
-		double measY=sigma_had/(2*Au_beam_1.E());
+		double measY=sigma_had/(2*Au_beam.E());
 		double measQ2=hfs.Pt()*hfs.Pt()/(1-measY);
-		double s=(Au_beam_2+p_beam).Mag2();
+		double s=(Au_beam+p_beam).Mag2();
 		double measW=sqrt(s*measY - measQ2 - MASS_NUCLEON*MASS_NUCLEON);
-		cout << "W = " << measW << endl; 
-		cout << "Q2 = " << measQ2 << endl; 
+	
 		h_measQ2[0]->Fill(measQ2, 1);
 		h_measW[0]->Fill(measW, 1);
 
