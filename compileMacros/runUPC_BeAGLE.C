@@ -110,6 +110,8 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		
 		double pzlep = event->pzlep;
 		double pztarg = event->pztarg;
+		double Atarg = event->Atarg;
+		double pztarg_total = pztarg*Atarg;
 		int struck_nucleon = event->nucleon;
 		double MASS_NUCLEON = MASS_PROTON;
 		if( struck_nucleon==2112 ) MASS_NUCLEON = MASS_NEUTRON;
@@ -117,6 +119,8 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep+MASS_ELECTRON*MASS_ELECTRON));
 		TLorentzVector p_beam(0.,0.,pztarg,sqrt(pztarg*pztarg+MASS_NUCLEON*MASS_NUCLEON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
+		TLorentzVector Au_beam_1(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_AU197*MASS_AU197))
+		TLorentzVector Au_beam_2(0.,0.,-pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_AU197*MASS_AU197))
 
 		//event information:
 		double trueQ2 = event->GetTrueQ2();
@@ -198,10 +202,13 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 			h_charged_eta[1]->Fill(eta, weight);
 
 		} // end of particle loop
-
-		double measQ2=hfs.Pt()*hfs.Pt();
+		
+		//Hadron only method.
 		double sigma_had=hfs.E()-hfs.Pz();
-		double measW=sqrt(2*100*197*sigma_had - measQ2 - MASS_AU197*MASS_AU197);
+		double measY=sigma_had/(2*Au_beam_1.E());
+		double measQ2=hfs.Pt()*hfs.Pt()/(1-measY);
+		double s=(Au_beam_1+Au_beam_2).Mag2();
+		double measW=sqrt(s*measY - measQ2 - MASS_AU197*MASS_AU197);
 		h_measQ2[0]->Fill(measQ2, 1);
 		h_measW[0]->Fill(measW, 1);
 
