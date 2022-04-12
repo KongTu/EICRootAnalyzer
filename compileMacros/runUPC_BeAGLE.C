@@ -69,7 +69,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000){
 
 	TFile* output = new TFile("output.root","RECREATE");
 	TH1D* h_y_eA = new TH1D("h_y_eA",";y",300,0,1);
-	TH1D* h_nu_eA = new TH1D("h_nu_eA",";nu",300,0,18);
+	TH1D* h_nu_eA = new TH1D("h_nu_eA",";nu",180,0,18);
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -106,7 +106,6 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000){
 		int N_pevap = event->Npevap;
 
 		h_y_eA->Fill( trueY );
-		h_nu_eA->Fill( trueNu );
 		//event cuts
 		if( event_process != 99 ) continue;
 
@@ -126,10 +125,17 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000){
 			double theta = particle->GetTheta(); 
 			theta = theta*1000.0; //change to mrad;
 			double mom = particle->GetP();
+			if( index == 3 ) {
+				e_scattered.SetPtEtaPhiM(pt,eta,phi,0.00051);
+				// e_scattered = ppart;
+			}
 
 			//do analysis track-by-track
 
 		} // end of particle loop
+
+		TLorentzVector q=(e_beam-e_scattered);
+		h_nu_eA->Fill( q.E() );
 
 		//fill histograms
 	}
