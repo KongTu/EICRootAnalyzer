@@ -119,8 +119,8 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep+MASS_ELECTRON*MASS_ELECTRON));
 		TLorentzVector p_beam(0.,0.,pztarg,sqrt(pztarg*pztarg+MASS_NUCLEON*MASS_NUCLEON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
-		TLorentzVector Au_beam_1(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_AU197*MASS_AU197))
-		TLorentzVector Au_beam_2(0.,0.,-pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_AU197*MASS_AU197))
+		TLorentzVector Au_beam_1(0.,0.,pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_AU197*MASS_AU197));
+		TLorentzVector Au_beam_2(0.,0.,-pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_AU197*MASS_AU197));
 
 		//event information:
 		double trueQ2 = event->GetTrueQ2();
