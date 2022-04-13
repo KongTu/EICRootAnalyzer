@@ -81,7 +81,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 
 	for(int j=0;j<2;j++){
 		h_trueQ2[j] = new TH1D(Form("h_trueQ2_%d",j),";Q^{2} (GeV^{2})",100,1e-4,1);
-		h_trueW[j] = new TH1D(Form("h_trueW_%d",j),";W (GeV)",100,1e-2,100);
+		h_trueW[j] = new TH1D(Form("h_trueW_%d",j),";W (GeV)",1000,1e-2,1000);
 		h_trueNu[j] = new TH1D(Form("h_trueNu_%d",j),";#nu (GeV)",180,0,18);
 
 		h_Nevap[j] = new TH1D(Form("h_Nevap_%d",j),";N_{neutron}",60,-0.5,59.5);
@@ -96,9 +96,9 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		h_all_pt[j] = new TH1D(Form("h_all_pt_%d",j),";p_{T}",100,0,10);
 		
 		h_measQ2[j] = new TH1D(Form("h_measQ2_%d",j),";Q^{2} (GeV^{2})",100,1e-4,1);
-		h_measW[j] = new TH1D(Form("h_measW_%d",j),";W (GeV)",100,1e-2,100);
-		h_trueWvsNevap[j] = new TH2D(Form("h_trueWvsNevap_%d",j),";trueW;Nevap",100,1e-2,100,60,-0.5,59.5);
-		h_Wsmear[j] = new TH2D(Form("h_Wsmear_%d",j),";trueW;measW",100,1e-2,100,100,1e-2,100);
+		h_measW[j] = new TH1D(Form("h_measW_%d",j),";W (GeV)",1000,1e-2,1000);
+		h_trueWvsNevap[j] = new TH2D(Form("h_trueWvsNevap_%d",j),";trueW;Nevap",1000,1e-2,1000,60,-0.5,59.5);
+		h_Wsmear[j] = new TH2D(Form("h_Wsmear_%d",j),";trueW;measW",1000,1e-2,1000,1000,1e-2,1000);
 	}
 	
 
@@ -145,7 +145,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		double phot_energy=q.E();
 		double weight=eicToUPC->GetBinContent(eicToUPC->FindBin(phot_energy));
 		if(!reweight_) weight=1.0;
-		// if(phot_energy>11.) weight=0.;
+		if(phot_energy>11.&&collider=="RHIC") weight=0.;
 		//Event histograms
 		h_trueQ2[0]->Fill( trueQ2, 1);
 		h_trueW[0]->Fill(sqrt(trueW2), 1);
