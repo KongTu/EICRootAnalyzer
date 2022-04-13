@@ -59,7 +59,7 @@ using namespace std;
 using namespace erhic;
 
 
-void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, bool reweight_=true){
+void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, bool reweight_=true, const TString collider="RHIC"){
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add( filename+".root" );
@@ -67,10 +67,10 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
 
-	TFile* input = new TFile("eicToUPC.root","READ");
+	TFile* input = new TFile("eicToUPC_"+collider+".root","READ");
 	TH1D* eicToUPC=(TH1D*) input->Get("h_photonWeight");
 
-	TFile* output=new TFile("../rootfiles/UPC_BeAGLE_AuAu200.root","RECREATE");
+	TFile* output=new TFile("../rootfiles/UPC_BeAGLE_"+collider+".root","RECREATE");
 	
 	TH1D* h_trueQ2[2],*h_trueNu[2],*h_trueW[2],
 	*h_Nevap[2],*h_Tb[2],*h_b[2],*h_d[2],
@@ -145,7 +145,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		double phot_energy=q.E();
 		double weight=eicToUPC->GetBinContent(eicToUPC->FindBin(phot_energy));
 		if(!reweight_) weight=1.0;
-		if(phot_energy>11.) weight=0.;
+		// if(phot_energy>11.) weight=0.;
 		//Event histograms
 		h_trueQ2[0]->Fill( trueQ2, 1);
 		h_trueW[0]->Fill(sqrt(trueW2), 1);
@@ -166,7 +166,6 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		h_trueWvsNevap[1]->Fill(sqrt(trueW2),N_nevap,weight);
 
 		TLorentzVector hfs(0,0,0,0);
-		int Ntrkoffline=0;
 		//particle loop
 		for(int j(0); j < nParticles; ++j ) {
 
@@ -188,7 +187,6 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 			if(TMath::Abs(particle->Get4Vector().E()-e_scattered.E())<1e-1) continue;//no scat e
 			if((eta>-1.5&&eta<1.5)||(eta>2.5&&eta<4.0)){
 				hfs+=particle->Get4Vector();
-				if(mom>0.1) {Ntrkoffline++;}
 			}
 			
 			h_all_pt[0]->Fill(pt, 1.);
@@ -205,7 +203,6 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 
 		} // end of particle loop
 		
-		if(Ntrkoffline<4) continue;
 		//Hadron only method.
 		double sigma_had=hfs.E()-hfs.Pz();
 		double measY=sigma_had/(2*Au_beam.E());
