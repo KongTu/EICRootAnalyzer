@@ -189,7 +189,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 			int charge= particle->eA->charge;
 			if( status!= 1) continue;
 			if(TMath::Abs(particle->Get4Vector().E()-e_scattered.E())<1e-1) continue;//no scat e
-			if((eta>-1.5&&eta<1.5)){//STAR forward upgrade acceptance
+			if((eta>-1.5&&eta<1.5)||(eta>2.5&&eta<4.0)){//STAR forward upgrade acceptance
 				hfs+=particle->Get4Vector();
 			}
 			
@@ -211,6 +211,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		double sigma_had=hfs.E()-hfs.Pz();
 		double measY=sigma_had/(2*Au_beam.E());
 		double measQ2=hfs.Pt()*hfs.Pt()/(1-measY);
+		measQ2=0.0009;
 		double s=(Au_beam+p_beam).Mag2();
 		double measX=measQ2/(s*measY);
 		double measW=sqrt(s*measY - measQ2 - MASS_NUCLEON*MASS_NUCLEON);
