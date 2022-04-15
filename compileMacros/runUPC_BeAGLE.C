@@ -213,7 +213,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		double measQ2=hfs.Pt()*hfs.Pt()/(1-measY);
 		double s=(Au_beam+p_beam).Mag2();
 		double measW=sqrt(s*measY - measQ2 - MASS_NUCLEON*MASS_NUCLEON);
-		measQ2 = TMath::Power(0.075,2);
+		measQ2 = TMath::Power(0.06,2);
 		double measX=measQ2/(s*measY);
 	
 		h_measQ2[0]->Fill(measQ2, 1);
