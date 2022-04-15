@@ -72,17 +72,18 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 
 	TFile* output=new TFile("../rootfiles/UPC_BeAGLE_"+collider+".root","RECREATE");
 	
-	TH1D* h_trueQ2[2],*h_trueNu[2],*h_trueW[2],
+	TH1D* h_trueQ2[2],*h_trueNu[2],*h_trueW[2],*h_trueX[2],
 	*h_Nevap[2],*h_Tb[2],*h_b[2],*h_d[2],
 	*h_charged_eta[2],*h_charged_pt[2],
 	*h_all_eta[2],*h_all_pt[2];
-	TH1D* h_measQ2[2],*h_measW[2];
+	TH1D* h_measQ2[2],*h_measW[2], *h_measX[2];
 	TH2D* h_trueWvsNevap[2], *h_Wsmear[2];
 
 	for(int j=0;j<2;j++){
 		h_trueQ2[j] = new TH1D(Form("h_trueQ2_%d",j),";Q^{2} (GeV^{2})",100,1e-4,1);
-		h_trueW[j] = new TH1D(Form("h_trueW_%d",j),";W (GeV)",500,0,500);
 		h_trueNu[j] = new TH1D(Form("h_trueNu_%d",j),";#nu (GeV)",180,0,18);
+		h_trueW[j] = new TH1D(Form("h_trueW_%d",j),";W (GeV)",500,0,500);
+		h_trueX[j] = new TH1D(Form("h_trueX_%d",j),";x",500,1e-5,1e-1);
 
 		h_Nevap[j] = new TH1D(Form("h_Nevap_%d",j),";N_{neutron}",60,-0.5,59.5);
 		h_Tb[j] = new TH1D(Form("h_Tb_%d",j),";T_{b}",60,0,16);
@@ -97,6 +98,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		
 		h_measQ2[j] = new TH1D(Form("h_measQ2_%d",j),";Q^{2} (GeV^{2})",100,1e-4,1);
 		h_measW[j] = new TH1D(Form("h_measW_%d",j),";W (GeV)",500,0,500);
+		h_measX[j] = new TH1D(Form("h_measX_%d",j),";x",500,1e-5,1e-1);
 		h_trueWvsNevap[j] = new TH2D(Form("h_trueWvsNevap_%d",j),";trueW;Nevap",500,0,500,60,-0.5,59.5);
 		h_Wsmear[j] = new TH2D(Form("h_Wsmear_%d",j),";trueW;measW",500,0,500,500,0,500);
 	}
@@ -150,6 +152,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		h_trueQ2[0]->Fill( trueQ2, 1);
 		h_trueW[0]->Fill(sqrt(trueW2), 1);
 		h_trueNu[0]->Fill( q.E(), 1); 
+		h_trueX[0]->Fill( trueX, 1); 
 		h_Nevap[0]->Fill(N_nevap, 1);
 		h_Tb[0]->Fill(Tb, 1);
 		h_b[0]->Fill(impact_parameter, 1);
@@ -159,6 +162,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		h_trueQ2[1]->Fill( trueQ2, weight);
 		h_trueW[1]->Fill(sqrt(trueW2), weight);
 		h_trueNu[1]->Fill( q.E(), weight);
+		h_trueX[1]->Fill( trueX, weight); 
 		h_Nevap[1]->Fill(N_nevap, weight);
 		h_Tb[1]->Fill(Tb, weight);
 		h_b[1]->Fill(impact_parameter, weight);
@@ -185,7 +189,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 			int charge= particle->eA->charge;
 			if( status!= 1) continue;
 			if(TMath::Abs(particle->Get4Vector().E()-e_scattered.E())<1e-1) continue;//no scat e
-			if((eta>-1.5&&eta<1.5)){//STAR forward upgrade acceptance
+			if((eta>-1.5&&eta<1.5)||(eta>2.5&&eta<4.0)){//STAR forward upgrade acceptance
 				hfs+=particle->Get4Vector();
 			}
 			
@@ -208,13 +212,16 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		double measY=sigma_had/(2*Au_beam.E());
 		double measQ2=hfs.Pt()*hfs.Pt()/(1-measY);
 		double s=(Au_beam+p_beam).Mag2();
+		double measX=measQ2/(s*measY);
 		double measW=sqrt(s*measY - measQ2 - MASS_NUCLEON*MASS_NUCLEON);
 	
 		h_measQ2[0]->Fill(measQ2, 1);
 		h_measW[0]->Fill(measW, 1);
+		h_measX[0]->Fill(measX, 1);
 
 		h_measQ2[1]->Fill(measQ2, weight);
 		h_measW[1]->Fill(measW, weight);
+		h_measX[1]->Fill(measX, weight);
 
 		h_Wsmear[0]->Fill(sqrt(trueW2),measW,1);
 		h_Wsmear[1]->Fill(sqrt(trueW2),measW,weight);
