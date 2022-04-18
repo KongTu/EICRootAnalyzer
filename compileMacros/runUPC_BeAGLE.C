@@ -77,7 +77,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 	*h_charged_eta[2],*h_charged_pt[2],
 	*h_all_eta[2],*h_all_pt[2];
 	TH1D* h_measQ2[2],*h_measW[2], *h_measX[2];
-	TH2D* h_trueWvsNevap[2], *h_Wsmear[2];
+	TH2D* h_photonFluxVsNu[2],*h_trueWvsNevap[2], *h_Wsmear[2];
 
 	for(int j=0;j<2;j++){
 		h_trueQ2[j] = new TH1D(Form("h_trueQ2_%d",j),";Q^{2} (GeV^{2})",100,1e-4,1);
@@ -99,6 +99,8 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		h_measQ2[j] = new TH1D(Form("h_measQ2_%d",j),";Q^{2} (GeV^{2})",100,1e-4,1);
 		h_measW[j] = new TH1D(Form("h_measW_%d",j),";W (GeV)",500,0,500);
 		h_measX[j] = new TH1D(Form("h_measX_%d",j),";x",500,1e-5,1e-1);
+
+		h_photonFluxVsNu = new TH2D(Form("h_photonFluxVsNu_%d",j),";#nu (GeV);flux",180,0,18,100,0,0.3);
 		h_trueWvsNevap[j] = new TH2D(Form("h_trueWvsNevap_%d",j),";trueW;Nevap",500,0,500,60,-0.5,59.5);
 		h_Wsmear[j] = new TH2D(Form("h_Wsmear_%d",j),";trueW;measW",500,0,500,500,0,500);
 	}
@@ -157,6 +159,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		h_Tb[0]->Fill(Tb, 1);
 		h_b[0]->Fill(impact_parameter, 1);
 		h_d[0]->Fill(distance, 1);
+		h_photonFluxVsNu[0]->Fill(q.E(), photon_flux,1);
 		h_trueWvsNevap[0]->Fill(sqrt(trueW2),N_nevap,1);
 
 		h_trueQ2[1]->Fill( trueQ2, weight);
