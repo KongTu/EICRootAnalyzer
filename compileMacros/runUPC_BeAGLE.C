@@ -100,7 +100,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		h_measW[j] = new TH1D(Form("h_measW_%d",j),";W (GeV)",500,0,500);
 		h_measX[j] = new TH1D(Form("h_measX_%d",j),";x",500,1e-5,1e-1);
 
-		h_photonFluxVsNu = new TH2D(Form("h_photonFluxVsNu_%d",j),";#nu (GeV);flux",180,0,18,100,0,0.3);
+		h_photonFluxVsNu[j] = new TH2D(Form("h_photonFluxVsNu_%d",j),";#nu (GeV);flux",180,0,18,100,0,0.3);
 		h_trueWvsNevap[j] = new TH2D(Form("h_trueWvsNevap_%d",j),";trueW;Nevap",500,0,500,60,-0.5,59.5);
 		h_Wsmear[j] = new TH2D(Form("h_Wsmear_%d",j),";trueW;measW",500,0,500,500,0,500);
 	}
