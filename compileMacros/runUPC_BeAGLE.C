@@ -231,7 +231,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 
 	}
 
-	TH1D* h_photonFlux_nu = new TH1D("h_photonFlux_nu",";#nu (GeV)",180,1e-3,180);
+	TH1D* h_photonFlux_nu = new TH1D("h_photonFlux_nu",";#nu (GeV)",180,1e-3,18);
 	for(int ibin=0;ibin<h_photonFlux_nu->GetNbinsX();ibin++){
 		TH1D* TEMP=new TH1D(Form("temp_%d",ibin),";",100,0,0.3);
 		double flux=h_photonFluxVsNu[0]->ProjectionY(Form("temp_%d",ibin),ibin+1,ibin+1)->GetMean();
