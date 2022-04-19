@@ -59,7 +59,7 @@ using namespace std;
 using namespace erhic;
 
 
-void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, bool reweight_=true, const TString collider="RHIC"){
+void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, bool reweight_=true, const TString collider="RHIC", bool ep_=false){
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add( filename+".root" );
@@ -123,6 +123,9 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		TLorentzVector p_beam(0.,0.,pztarg,sqrt(pztarg*pztarg+MASS_NUCLEON*MASS_NUCLEON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
 		TLorentzVector Au_beam(0.,0.,-pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_AU197*MASS_AU197));
+		TLorentzVector photon_emitter=Au_beam;
+		if(ep_) photon_emitter.SetPxPyPzE(0.,0.,-pztarg,sqrt(pztarg*pztarg+MASS_NUCLEON*MASS_NUCLEON))
+
 
 		//event information:
 		double trueQ2 = event->GetTrueQ2();
@@ -192,7 +195,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 			int charge= particle->eA->charge;
 			if( status!= 1) continue;
 			if(TMath::Abs(particle->Get4Vector().E()-e_scattered.E())<1e-1) continue;//no scat e
-			if((eta>-2.4&&eta<2.4)){//STAR forward upgrade acceptance
+			if((eta>-1.5&&eta<1.5)||(eta>2.5&&eta<4.0)){//STAR forward upgrade acceptance
 				hfs+=particle->Get4Vector();
 			}
 			
@@ -212,9 +215,9 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		
 		//Hadron only method.
 		double sigma_had=hfs.E()-hfs.Pz();
-		double measY=sigma_had/(2*Au_beam.E());
+		double measY=sigma_had/(2*photon_emitter.E());
 		double measQ2=hfs.Pt()*hfs.Pt()/(1-measY);
-		double s=(Au_beam+p_beam).Mag2();
+		double s=(photon_emitter+p_beam).Mag2();
 		double measW=sqrt(s*measY - measQ2 - MASS_NUCLEON*MASS_NUCLEON);
 		double measX=measQ2/(s*measY);
 	
