@@ -59,7 +59,7 @@ using namespace std;
 using namespace erhic;
 
 
-void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, bool reweight_=true, const TString collider="RHIC", bool ep_=false){
+void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, bool reweight_=true, const TString collider="RHIC", TString system="eA"){
 
 	TChain *tree = new TChain("EICTree");
 	tree->Add( filename+".root" );
@@ -70,7 +70,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 	TFile* input = new TFile("eicToUPC_"+collider+".root","READ");
 	TH1D* eicToUPC=(TH1D*) input->Get("h_photonWeight");
 
-	TFile* output=new TFile("../rootfiles/UPC_BeAGLE_"+collider+".root","RECREATE");
+	TFile* output=new TFile("../rootfiles/UPC_BeAGLE_"+collider+"_"+system+".root","RECREATE");
 	
 	TH1D* h_trueQ2[2],*h_trueNu[2],*h_trueW[2],*h_trueX[2],
 	*h_Nevap[2],*h_Tb[2],*h_b[2],*h_d[2],
@@ -124,7 +124,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		TLorentzVector e_scattered(0.,0.,0.,0.);
 		TLorentzVector Au_beam(0.,0.,-pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_AU197*MASS_AU197));
 		TLorentzVector photon_emitter=Au_beam;
-		if(ep_) photon_emitter.SetPxPyPzE(0.,0.,-pztarg,sqrt(pztarg*pztarg+MASS_NUCLEON*MASS_NUCLEON))
+		if(system=="ep") photon_emitter.SetPxPyPzE(0.,0.,-pztarg,sqrt(pztarg*pztarg+MASS_NUCLEON*MASS_NUCLEON));
 
 
 		//event information:
