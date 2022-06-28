@@ -87,9 +87,6 @@ void runInclusJpsi_BeAGLE(const TString filename="eA_TEST", const int nEvents = 
 		TLorentzVector e_beam(0.,0.,pzlep,sqrt(pzlep*pzlep+MASS_ELECTRON*MASS_ELECTRON));
 		TLorentzVector p_beam(0.,0.,pztarg,sqrt(pztarg*pztarg+MASS_NUCLEON*MASS_NUCLEON));
 		TLorentzVector e_scattered(0.,0.,0.,0.);
-		TLorentzVector Au_beam(0.,0.,-pztarg_total,sqrt(pztarg_total*pztarg_total+MASS_AU197*MASS_AU197));
-		TLorentzVector photon_emitter=Au_beam;
-		if(system=="ep") photon_emitter.SetPxPyPzE(0.,0.,-pztarg,sqrt(pztarg*pztarg+MASS_NUCLEON*MASS_NUCLEON));
 
 		//event information:
 		double trueQ2 = event->GetTrueQ2();
@@ -103,7 +100,7 @@ void runInclusJpsi_BeAGLE(const TString filename="eA_TEST", const int nEvents = 
 		double photon_flux = event->GetPhotonFlux();
 		int event_process = event->GetProcess();
 		int nParticles = event->GetNTracks();
-		if(event_process==91 || event_process==93) continue;
+		// if(event_process==91 || event_process==93) continue;
 		
 		// const erhic::ParticleMC* particle_escat = event->GetTrack(2);
 		// e_scattered=particle_escat->Get4Vector();	
