@@ -69,7 +69,7 @@ void runInclusJpsi_BeAGLE(const TString filename="eA_TEST", const int nEvents = 
 
 	TFile* output=new TFile("../rootfiles/InclusJpsi_BeAGLE_"+system+".root","RECREATE");
 	//histograms
-	TH1D* h_W = new TH1D("h_W",";W (GeV)",3000,0,3000)
+	TH1D* h_W = new TH1D("h_W",";W (GeV)",3000,0,3000);
 	TH1D* h_Jpsi_rapidity = new TH1D("h_Jpsi_rapidity",";y",100,-4,4);
 	TH1D* h_Jpsi_pt = new TH1D("h_Jpsi_pt",";pt",100,0,10);
 	TH1D* h_Jpsi_process = new TH1D("h_Jpsi_process",";process",1000,0,1000);
