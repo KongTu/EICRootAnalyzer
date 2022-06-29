@@ -69,7 +69,11 @@ void runInclusJpsi_BeAGLE(const TString filename="eA_TEST", const int nEvents = 
 
 	TFile* output=new TFile("../rootfiles/InclusJpsi_BeAGLE_"+system+".root","RECREATE");
 	//histograms
+	TH1D* h_W = new TH1D("h_W",";W (GeV)",3000,0,3000)
 	TH1D* h_Jpsi_rapidity = new TH1D("h_Jpsi_rapidity",";y",100,-4,4);
+	TH1D* h_Jpsi_pt = new TH1D("h_Jpsi_pt",";pt",100,0,10);
+	TH1D* h_Jpsi_process = new TH1D("h_Jpsi_process",";process",1000,0,1000);
+	TH1D* h_Jpsi_status = new TH1D("h_Jpsi_status",";status",100,0,100);
 
 	for(int i(0); i < nEvents; ++i ) {
       
@@ -100,7 +104,9 @@ void runInclusJpsi_BeAGLE(const TString filename="eA_TEST", const int nEvents = 
 		double photon_flux = event->GetPhotonFlux();
 		int event_process = event->GetProcess();
 		int nParticles = event->GetNTracks();
-		// if(event_process==91 || event_process==93) continue;
+		if(event_process==91 || event_process==93) continue;
+
+		h_W->Fill( sqrt(trueW2) );
 		
 		// const erhic::ParticleMC* particle_escat = event->GetTrack(2);
 		// e_scattered=particle_escat->Get4Vector();	
@@ -123,6 +129,9 @@ void runInclusJpsi_BeAGLE(const TString filename="eA_TEST", const int nEvents = 
 			int charge= particle->eA->charge;
 			if( pdg == 443 ) {
 				h_Jpsi_rapidity->Fill( rap );
+				h_Jpsi_pt->Fill( pt );
+				h_Jpsi_process->Fill( event_process );
+				h_Jpsi_status->Fill( status );
 			}
 			// if( status!= 1) continue;
 			// if(TMath::Abs(particle->Get4Vector().E()-e_scattered.E())<1e-1) continue;//no scat e
