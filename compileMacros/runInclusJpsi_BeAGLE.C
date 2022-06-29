@@ -67,7 +67,7 @@ void runInclusJpsi_BeAGLE(const TString filename="eA_TEST", const int nEvents = 
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
 
-	TFile* output=new TFile("../rootfiles/ExclusJpsi_BeAGLE_"+system+".root","RECREATE");
+	TFile* output=new TFile("../rootfiles/InclusJpsi_BeAGLE_"+system+".root","RECREATE");
 	//histograms
 	TH1D* h_W = new TH1D("h_W",";W (GeV)",3000,0,3000);
 	TH1D* h_Jpsi_rapidity = new TH1D("h_Jpsi_rapidity",";y",100,-4,4);
@@ -108,8 +108,8 @@ void runInclusJpsi_BeAGLE(const TString filename="eA_TEST", const int nEvents = 
 		double photon_flux = event->GetPhotonFlux();
 		int event_process = event->GetProcess();
 		int nParticles = event->GetNTracks();
-		// if(event_process>90 && event_process<96) continue;
-		if( event_process!=91 && event_process!=93 ) continue;
+		if(event_process>90 && event_process<96) continue;
+		// if( event_process!=91 && event_process!=93 ) continue;
 
 		h_W->Fill( sqrt(trueW2) );
 		
