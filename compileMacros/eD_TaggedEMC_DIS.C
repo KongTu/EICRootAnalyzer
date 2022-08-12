@@ -68,7 +68,7 @@ void eD_TaggedEMC_DIS( const int nEvents = 1e6 ){
 	TFile * output = new TFile("../rootfiles/eD_TaggedEMC_DIS_Beagle.root","recreate");
 	
 	TChain *tree = new TChain("EICTree");
-	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/5x41_Q2_10/batch_2_output/Output_input_temp_*.root" );
+	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/5x41_Q2_10/batch_3_output/Output_input_temp_*.root" );
 
 	EventBeagle* event(NULL);
 	tree->SetBranchAddress("event", &event);
