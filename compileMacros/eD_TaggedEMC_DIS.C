@@ -65,7 +65,7 @@ void eD_TaggedEMC_DIS( const int nEvents = 1e6 ){
 
 
 	//input from BeAGLE root files
-	TFile * output = new TFile("../rootfiles/eD_TaggedEMC_DIS_Beagle.root","recreate");
+	TFile * output = new TFile("../rootfiles/eD_TaggedEMC_DIS_Beagle_Linear.root","recreate");
 	
 	TChain *tree = new TChain("EICTree");
 	tree->Add("/gpfs02/eic/ztu/Analysis/BeAGLE/eD_Tagged_DIS/5x41_Q2_10/batch_3_output/Output_input_temp_*.root" );
