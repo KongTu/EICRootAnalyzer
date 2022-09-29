@@ -72,7 +72,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 
 	TFile* output=new TFile("../rootfiles/UPC_BeAGLE_"+collider+"_"+system+".root","RECREATE");
 	
-	TH1D* h_trueQ2[2],*h_trueNu[2],*h_trueW[2],*h_trueX[2], *h_Ntrk[2]
+	TH1D* h_trueQ2[2],*h_trueNu[2],*h_trueW[2],*h_trueX[2], *h_Ntrk[2],
 	*h_Nevap[2],*h_Tb[2],*h_b[2],*h_d[2],
 	*h_charged_eta[2],*h_charged_pt[2],
 	*h_all_eta[2],*h_all_pt[2];
