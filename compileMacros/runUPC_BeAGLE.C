@@ -72,7 +72,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 
 	TFile* output=new TFile("../rootfiles/UPC_BeAGLE_"+collider+"_"+system+".root","RECREATE");
 	
-	TH1D* h_trueQ2[2],*h_trueNu[2],*h_trueW[2],*h_trueX[2],
+	TH1D* h_trueQ2[2],*h_trueNu[2],*h_trueW[2],*h_trueX[2], *h_Ntrk[2]
 	*h_Nevap[2],*h_Tb[2],*h_b[2],*h_d[2],
 	*h_charged_eta[2],*h_charged_pt[2],
 	*h_all_eta[2],*h_all_pt[2];
@@ -84,6 +84,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		h_trueNu[j] = new TH1D(Form("h_trueNu_%d",j),";#nu (GeV)",180,1e-3,18);
 		h_trueW[j] = new TH1D(Form("h_trueW_%d",j),";W (GeV)",500,0,500);
 		h_trueX[j] = new TH1D(Form("h_trueX_%d",j),";x",500,1e-5,1e-1);
+		h_Ntrk[j] = new TH1D(Form("h_Ntrk_%d",j),";N",100,-0.5,99.5);
 
 		h_Nevap[j] = new TH1D(Form("h_Nevap_%d",j),";N_{neutron}",60,-0.5,59.5);
 		h_Tb[j] = new TH1D(Form("h_Tb_%d",j),";T_{b}",60,0,16);
@@ -177,6 +178,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 
 		TLorentzVector hfs(0,0,0,0);
 		//particle loop
+		int Ntrk=0;
 		for(int j(0); j < nParticles; ++j ) {
 
 			const erhic::ParticleMC* particle = event->GetTrack(j);
@@ -195,10 +197,11 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 			int charge= particle->eA->charge;
 			if( status!= 1) continue;
 			if(TMath::Abs(particle->Get4Vector().E()-e_scattered.E())<1e-1) continue;//no scat e
-			if((eta>-1.5&&eta<1.5)||(eta>2.5&&eta<4.0)){//STAR forward upgrade acceptance
+			if((eta>-1.5&&eta<1.5&&pt>0.2)){//||(eta>2.5&&eta<4.0)){//STAR forward upgrade acceptance
 				hfs+=particle->Get4Vector();
+				if(charge!=0)Ntrk++;
 			}
-			
+			if(pt<0.2) continue;
 			h_all_pt[0]->Fill(pt, 1.);
 			h_all_eta[0]->Fill(eta, 1.);
 			h_all_pt[1]->Fill(pt, weight);
@@ -213,6 +216,9 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 
 		} // end of particle loop
 		
+		h_Ntrk[0]->Fill(Ntrk, 1);
+		h_Ntrk[1]->Fill(Ntrk, weight);
+
 		//Hadron only method.
 		double sigma_had=hfs.E()-hfs.Pz();
 		double measY=sigma_had/(2*photon_emitter.E());
