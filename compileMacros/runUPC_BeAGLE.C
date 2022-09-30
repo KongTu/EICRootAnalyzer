@@ -176,6 +176,9 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
 		h_d[1]->Fill(distance, weight);
 		h_trueWvsNevap[1]->Fill(sqrt(trueW2),N_nevap,weight);
 
+		//cut on energy
+		if(trueNu<2.5) continue;
+
 		TLorentzVector hfs(0,0,0,0);
 		//particle loop
 		int Ntrk=0;
