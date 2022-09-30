@@ -111,6 +111,7 @@ void runUPC_BeAGLE(const TString filename="eA_TEST", const int nEvents = 40000, 
       
 		// Read the next entry from the tree.
 		tree->GetEntry(i);
+		if( i%10000 == 0 ) cout << "Number of events = " << i << endl;
 		
 		double pzlep = event->pzlep;
 		double pztarg = event->pztarg;
